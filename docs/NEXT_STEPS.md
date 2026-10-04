@@ -1,134 +1,148 @@
-# Bước tiếp theo — sau khi EDA train-only đã PASS
+# Bước tiếp theo — chạy experiment, review candidate, chưa mở test
 
-Gate B (data) và Gate C (web/backend skeleton) đã có log chạy thật và được phép đánh dấu PASS. EDA train-only cũng đã chạy thành công với 264 dòng train và 11 pytest PASS.
+Foundation, data pipeline, web/backend skeleton và EDA train-only đã PASS. Protocol K-Means đã được đóng băng trước test. Code experiment/review/profile đã có trên `main`, nhưng **chưa có log local thật cho giai đoạn mới nhất**.
 
-## Trạng thái đã khóa
-
-- Dataset raw: 440 dòng, 8 cột.
-- Split: train 264 / validation 88 / test 88, seed 42.
-- EDA chỉ dùng train.
-- 6 feature chính: `Fresh`, `Milk`, `Grocery`, `Frozen`, `Detergents_Paper`, `Delicassen`.
-- `Channel`/`Region`: profiling only.
-- Chưa fit `StandardScaler` trên full data.
-- Chưa chạy/chọn K-Means.
-- Test vẫn khóa cho đánh giá cuối.
-
-## Bước 1 — đọc artifact EDA thật
-
-Trên máy local, kiểm tra:
-
-```text
-reports/data/eda/train_skewness.csv
-reports/data/eda/train_iqr_outliers.csv
-reports/data/eda/preprocessing_comparison.csv
-reports/data/eda/train_summary_raw.csv
-reports/data/eda/train_summary_log1p.csv
-
-reports/figures/eda/train_distributions_raw.png
-reports/figures/eda/train_distributions_log1p.png
-reports/figures/eda/train_boxplots_raw.png
-reports/figures/eda/train_boxplots_log1p.png
-reports/figures/eda/train_correlation_raw.png
-reports/figures/eda/train_correlation_log1p.png
-```
-
-Mục tiêu:
-
-- ghi skewness raw và sau `log1p` cho từng feature;
-- ghi median/IQR trên train;
-- mô tả outlier theo IQR nhưng chưa tự động loại;
-- quan sát correlation để hiểu cấu trúc dữ liệu, không dùng correlation để tạo ground truth;
-- kết luận bằng bằng chứng xem `log1p` có giảm lệch đáng kể hay không.
-
-## Bước 2 — đóng băng protocol thí nghiệm trước K-Means
-
-Phải ghi rõ trước khi nhìn test:
-
-### Baseline A
-
-Không clustering — thống kê toàn bộ train để làm mốc mô tả.
-
-### Baseline B
-
-K-Means `K=2` với cấu hình seed/n_init được ghi rõ.
-
-### Thí nghiệm preprocessing bắt buộc
-
-```text
-Nhánh A: Raw -> K-Means
-Nhánh B: log1p -> StandardScaler -> K-Means
-```
-
-`StandardScaler` phải fit trong phạm vi train của nhánh thí nghiệm, không fit trên full dataset.
-
-### Candidate K
-
-```text
-K = 2, 3, 4, 5, 6, 7, 8
-```
-
-### Stability
-
-Ít nhất 10 seed khác nhau cho mỗi candidate cần đánh giá độ ổn định.
-
-### Metric / evidence
-
-- inertia;
-- silhouette;
-- silhouette mean/std qua seed;
-- inertia mean/std qua seed;
-- cluster sizes;
-- độ ổn định gán cụm nếu triển khai metric phù hợp;
-- khả năng diễn giải profile;
-- median profile của 6 feature;
-- `Channel`/`Region` chỉ ghép lại sau clustering để profiling.
-
-## Bước 3 — triển khai code baseline/experiment
-
-Dự kiến thêm:
-
-```text
-ml/src/features.py
-ml/src/baseline.py
-ml/src/experiment.py
-ml/src/stability.py
-ml/src/profile_clusters.py
-ml/tests/test_features.py
-ml/tests/test_experiment.py
-```
-
-Artifact dự kiến:
-
-```text
-reports/data/experiments/
-reports/figures/experiments/
-```
-
-## Bước 4 — validation rồi mới freeze
-
-Sau khi candidate được chạy trên đúng protocol:
-
-1. dùng evidence train/validation để chọn preprocessing + K;
-2. ghi lý do chọn K, không dựa vào một metric duy nhất;
-3. freeze preprocessing/K/config;
-4. chỉ sau khi freeze mới mở test đúng một lần cho báo cáo cuối.
-
-## Không được làm ở bước kế tiếp
-
-- Không nhìn test để chọn K.
-- Không dùng `Channel`/`Region` làm nhãn hoặc target.
-- Không tự động xóa outlier chỉ vì IQR flag.
-- Không chọn K chỉ vì silhouette cao nhất.
-- Không train model trong Node.js request.
-
-## Lệnh nền tảng đã PASS
+## 1. Pull code mới nhất
 
 ```powershell
-python ml/src/prepare_data.py
-python ml/src/eda.py
-python -m pytest ml/tests -q
-npm run test:backend
-npm run build
+git pull origin main
 ```
 
-Bước kế tiếp thực tế: **đọc số liệu EDA thật rồi mới commit protocol thí nghiệm và code baseline/K-Means.**
+## 2. Chạy toàn bộ pytest sau khi thêm experiment/review/profile
+
+```powershell
+python -m pytest ml/tests -q
+```
+
+Chỉ ghi số test PASS khi có output thật.
+
+## 3. Chạy 140 K-Means runs
+
+```powershell
+python ml/src/experiments.py
+```
+
+hoặc:
+
+```powershell
+npm run ml:experiment
+```
+
+Terminal phải xác nhận:
+
+```text
+TRAIN=264
+VALIDATION=88
+TEST=NOT TOUCHED
+Preprocessing: raw, log1p_scale
+K: 2..8
+Seeds: 10 (0..9)
+Runs: 140
+Chưa chọn K
+```
+
+Artifact chính:
+
+```text
+reports/data/experiments/selection_evidence.csv
+reports/data/experiments/experiment_metadata.json
+reports/figures/experiments/elbow_train.png
+reports/figures/experiments/validation_silhouette.png
+reports/figures/experiments/stability_ari.png
+reports/figures/experiments/min_cluster_share.png
+```
+
+## 4. Review evidence đa tiêu chí
+
+```powershell
+python ml/src/review_experiments.py
+```
+
+hoặc:
+
+```powershell
+npm run ml:review
+```
+
+Script phải kiểm tra:
+
+- đủ 14 candidate rows = 2 preprocessing x 7 K;
+- mỗi candidate >=10 runs;
+- metric hữu hạn;
+- `test_used=false`;
+- `selection_status=NOT_SELECTED`.
+
+Artifact:
+
+```text
+reports/data/experiments/review_table.csv
+reports/EXPERIMENT_REVIEW.md
+```
+
+Review chỉ tạo rank riêng theo từng tiêu chí. **Không có total score và không auto-select K.**
+
+## 5. Shortlist rồi mới profile
+
+Từ evidence, chọn shortlist nhỏ 1–3 candidate để profile. Ví dụ cú pháp:
+
+```powershell
+python ml/src/profile_candidate.py --preprocessing log1p_scale --k 3 --seed 0
+```
+
+hoặc:
+
+```powershell
+npm run ml:profile -- --preprocessing log1p_scale --k 3 --seed 0
+```
+
+`K=3` chỉ là ví dụ cú pháp, không phải quyết định trước khi đọc evidence.
+
+Candidate profile tạo:
+
+- median chi tiêu train/validation theo cluster, đơn vị gốc;
+- Channel/Region profile sau clustering;
+- distance-to-centroid summary;
+- centroid back-transform để tham chiếu;
+- median ratio plot;
+- cluster size plot;
+- metadata xác nhận test chưa dùng.
+
+## 6. Khi nào mới được freeze preprocessing + K?
+
+Chỉ sau khi xem đồng thời:
+
+1. elbow/inertia;
+2. validation silhouette + độ lệch train↔validation;
+3. ARI stability qua seed;
+4. cluster size/share;
+5. median profile có ý nghĩa và không bị outlier dẫn dắt;
+6. Channel/Region chỉ hỗ trợ mô tả, không làm ground truth.
+
+Sau đó ghi quyết định vào `docs/DECISIONS.md` và cập nhật metadata selection.
+
+## 7. Test vẫn khóa
+
+Không được đọc `data/processed/test.csv` để:
+
+- chọn preprocessing;
+- chọn K;
+- chọn seed;
+- chọn cách xử lý outlier;
+- sửa protocol sau khi thấy kết quả test.
+
+Chỉ sau freeze mới mở final test đúng một lần.
+
+## 8. Trạng thái chưa làm
+
+- experiment local chưa PASS;
+- chưa có selection evidence thật;
+- chưa shortlist;
+- chưa profile candidate thật;
+- chưa freeze preprocessing/K;
+- chưa final test;
+- chưa export serving artifact;
+- chưa triển khai `POST /api/segment`;
+- dashboard/model card chưa hoàn chỉnh.
+
+Chi tiết protocol: `docs/EXPERIMENT_PROTOCOL.md`.  
+Chi tiết review/profile: `docs/CANDIDATE_REVIEW.md`.
