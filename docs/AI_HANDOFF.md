@@ -2,11 +2,11 @@
 
 > Cập nhật: 2026-10-04  
 > Branch: `main`  
-> Code baseline đã xác minh trước khi tạo bộ tài liệu continuity: `ed41b6a97a38b4f44cfe5ea61218831a6db0fac5`
+> Repo HEAD trước khi ghi nhận Gate B: `9054074729ecfbba5722077c50515482e2a183be`
 
 ## 1. Mục tiêu hiện tại
 
-Hoàn tất **skeleton project + pipeline dữ liệu**, chạy kiểm tra local qua các gate, sau đó mới làm **EDA trên train**. Chưa bắt đầu K-Means cho đến khi data pipeline và skeleton web/backend được xác nhận chạy ổn.
+Skeleton project + pipeline dữ liệu đã được dựng. **Gate B — dữ liệu đã PASS bằng log chạy thật trên Windows 10.** Tiếp theo cần hoàn tất Gate C cho Node/React, sau đó làm **EDA chỉ trên train**. Chưa bắt đầu K-Means.
 
 ## 2. Stack đã chốt
 
@@ -28,26 +28,69 @@ Hoàn tất **skeleton project + pipeline dữ liệu**, chạy kiểm tra local
 - Data README + data dictionary.
 - Kiểm tra schema/domain, missing, finite, negative values và outlier report.
 - Split mặc định 60/20/20, seed 42, trước preprocessing học từ dữ liệu.
-- Unit tests cho data validation/split đã được viết.
+- Unit tests cho data validation/split.
 - Raw/processed data sinh tự động không commit; `reports/` và `models/` được phép track artifact cuối.
 
-## 4. Trạng thái kiểm chứng
+## 4. Kiểm chứng local đã có bằng chứng thật
 
-Các test/command dưới đây **được yêu cầu chạy trên máy local nhưng chưa có log PASS được ghi vào handoff này**:
+### Gate B — DATA: PASS
+
+Máy chạy: Windows 10 (`10.0.19045.6456`).
+
+Lệnh đã chạy:
+
+```powershell
+python ml/src/prepare_data.py
+python -m pytest ml/tests -q
+```
+
+Kết quả `prepare_data.py`:
+
+```text
+[download] Đã tải dữ liệu UCI thành công
+SHA256: c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef
+[audit] PASS: 440 dòng, 8 cột
+[audit] Missing: 0
+[audit] Duplicate rows: 0
+[split] PASS: train=264, validation=88, test=88, seed=42
+[split] Chưa fit scaler/log transform/model ở bước này.
+[data pipeline] HOÀN TẤT
+```
+
+Kết quả pytest:
+
+```text
+....... [100%]
+7 passed in 0.59s
+```
+
+Kết luận được phép ghi:
+
+- raw dataset đúng 440 dòng, 8 cột;
+- missing = 0;
+- duplicate rows = 0;
+- split đúng 264/88/88, seed 42;
+- data pipeline chưa fit `log1p`, `StandardScaler` hoặc K-Means;
+- 7 ML/data tests PASS.
+
+Không suy diễn thêm các kết quả chưa xuất hiện trong log người dùng.
+
+### Gate A — môi trường
+
+- Python đủ khả năng chạy pipeline và pytest thực tế.
+- Log cài venv/requirements không được lưu trong handoff hiện tại, nên không tuyên bố toàn Gate A PASS chỉ từ bằng chứng trên.
+
+### Gate C — web/backend skeleton: CHƯA KIỂM CHỨNG
+
+Cần chạy:
 
 ```powershell
 npm install
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r ml/requirements.txt
-python ml/src/prepare_data.py
-python -m pytest ml/tests -q
 npm run test:backend
 npm run build
 ```
 
-Không được ghi PASS cho các gate này cho đến khi có output thật.
+Sau đó chạy backend/frontend và kiểm tra `/api/health`.
 
 ## 5. Gate cần đạt trước K-Means
 
@@ -56,23 +99,14 @@ Không được ghi PASS cho các gate này cho đến khi có output thật.
 - Node/npm install thành công.
 - Python venv và requirements cài thành công.
 
-### Gate B — dữ liệu
+### Gate B — dữ liệu ✅ PASS
 
-Cần xác nhận:
-
-- raw đúng 440 dòng;
-- đúng 8 cột kỳ vọng;
-- không missing/NaN/inf;
-- không chi tiêu âm;
-- `Channel ∈ {1,2}`;
-- `Region ∈ {1,2,3}`;
-- train/validation/test không overlap;
-- kích thước 264/88/88;
-- manifest có seed/checksum;
-- chưa fit scaler/K-Means trên full data.
+Đã có log thật xác nhận pipeline + pytest như mục 4.
 
 ### Gate C — web/backend skeleton
 
+- Backend test PASS.
+- Frontend/backend build PASS.
 - Backend chạy local.
 - Frontend chạy local.
 - `/api/health` trả `status=ok`, `modelReady=false`.
@@ -102,13 +136,14 @@ Cần xác nhận:
 
 ## 8. Bước tiếp theo
 
-1. Pull `main` về máy local.
-2. Chạy đầy đủ Gate A/B/C và lưu output thật.
-3. Nếu lỗi, ghi nguyên nhân/cách sửa vào `TROUBLESHOOTING.md` và history.
-4. Nếu PASS, cập nhật handoff + history với kết quả test.
-5. Xây EDA **chỉ trên `train.csv`**: distribution, skewness, median/IQR, outlier description, trước/sau `log1p`.
-6. Đóng băng kế hoạch thí nghiệm trước khi nhìn test.
-7. Sau đó mới bắt đầu baseline và K-Means.
+1. Chạy `npm install`.
+2. Chạy `npm run test:backend`.
+3. Chạy `npm run build`.
+4. Chạy backend + frontend, kiểm tra `/api/health` và giao diện skeleton.
+5. Nếu Gate C PASS, cập nhật handoff/history bằng log thật.
+6. Xây EDA **chỉ trên `data/processed/train.csv`**: distribution, skewness, median/IQR, outlier description, trước/sau `log1p`.
+7. Đóng băng kế hoạch thí nghiệm trước khi nhìn test.
+8. Sau đó mới bắt đầu baseline và K-Means.
 
 ## 9. File nên đọc tiếp
 
