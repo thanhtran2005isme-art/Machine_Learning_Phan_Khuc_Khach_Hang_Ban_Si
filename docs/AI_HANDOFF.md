@@ -1,14 +1,14 @@
 # AI HANDOFF — trạng thái hiện tại
 
-> Cập nhật: 2026-10-04  
+> Cập nhật: 2026-10-05  
 > Branch: `main`  
 > EDA implementation commit: `5a64acb075b065c61bb547f02a88e599a452e1a6`
 
 ## 1. Mục tiêu hiện tại
 
-Skeleton + data pipeline đã hoạt động. Gate B đã PASS bằng log chạy thật. Backend/frontend runtime đã chạy local đúng thiết kế nhưng Gate C còn thiếu log `npm run test:backend` và `npm run build`.
+Skeleton project, data pipeline, web/backend skeleton và EDA train-only đã được dựng và kiểm chứng bằng log chạy thật trên Windows 10. **Gate B PASS, Gate C PASS, EDA runtime PASS. K-Means chưa bắt đầu.**
 
-**Pipeline EDA train-only đã được dựng trong code, nhưng chưa được phép ghi PASS cho đến khi người dùng pull và chạy thật.** K-Means chưa bắt đầu.
+Bước tiếp theo là đọc các artifact EDA thật, ghi nhận kết luận preprocessing dựa trên train, rồi đóng băng protocol thí nghiệm baseline + K-Means trước khi dùng validation/test.
 
 ## 2. Stack đã chốt
 
@@ -32,9 +32,9 @@ Skeleton + data pipeline đã hoạt động. Gate B đã PASS bằng log chạy
 - Split 60/20/20, seed 42, trước preprocessing học từ dữ liệu.
 - Unit tests data validation/split.
 
-### EDA train-only — đã dựng, chờ chạy local
+### EDA train-only
 
-Commit: `5a64acb075b065c61bb547f02a88e599a452e1a6` (`feat(ml): add train-only EDA pipeline`).
+Commit code: `5a64acb075b065c61bb547f02a88e599a452e1a6` (`feat(ml): add train-only EDA pipeline`).
 
 File chính:
 
@@ -44,39 +44,18 @@ File chính:
 - `docs/EDA.md`
 - `package.json` có script `eda:train`.
 
-EDA chỉ dùng 6 biến chi tiêu và mặc định chỉ đọc:
-
-```text
-data/processed/train.csv
-```
-
-Artifact dự kiến:
+EDA mặc định chỉ đọc `data/processed/train.csv`, chỉ dùng 6 biến chi tiêu và sinh artifact dưới:
 
 ```text
 reports/data/eda/
-  train_summary_raw.csv
-  train_summary_log1p.csv
-  train_skewness.csv
-  train_iqr_outliers.csv
-  preprocessing_comparison.csv
-  eda_metadata.json
-
 reports/figures/eda/
-  train_distributions_raw.png
-  train_distributions_log1p.png
-  train_boxplots_raw.png
-  train_boxplots_log1p.png
-  train_correlation_raw.png
-  train_correlation_log1p.png
 ```
 
-EDA hiện chỉ so sánh raw với `log1p`, báo cáo skewness/median/IQR/outlier/correlation. **Chưa fit StandardScaler và chưa chạy K-Means.**
+EDA hiện so sánh raw với `log1p`, báo cáo skewness/median/IQR/outlier/correlation. **Chưa fit StandardScaler và chưa chạy K-Means.**
 
 ## 4. Kiểm chứng local đã có bằng chứng thật
 
 ### Gate B — DATA ✅ PASS
-
-Windows 10 `10.0.19045.6456`.
 
 ```text
 python ml/src/prepare_data.py
@@ -90,33 +69,50 @@ python -m pytest ml/tests -q
 7 passed in 0.59s
 ```
 
-### Gate C — runtime skeleton ✅ một phần
-
-Đã có log thật:
+Raw SHA256:
 
 ```text
-GET /api/health -> status=ok, modelReady=false
-GET /api/model-info -> status=not_ready
+c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef
+```
+
+### Gate C — web/backend skeleton ✅ PASS
+
+Runtime đã xác nhận:
+
+```text
+GET /api/health -> 200, status=ok, modelReady=false
+GET /api/model-info -> 503, status=not_ready
 npm run dev:frontend -> Vite ready at http://localhost:5173/
 ```
 
-Còn thiếu log thật:
+Test/build đã xác nhận ngày 2026-10-05:
 
-```powershell
+```text
 npm run test:backend
+Test Files  1 passed (1)
+Tests       2 passed (2)
+
 npm run build
+frontend: tsc --noEmit && vite build -> PASS
+backend: tsc -p tsconfig.json -> PASS
 ```
 
-### EDA — ⏳ code đã dựng, chưa kiểm chứng local
+Kết luận: Gate C PASS đầy đủ.
 
-Chưa có output thật cho:
+### EDA train-only ✅ PASS runtime
 
-```powershell
+```text
 python ml/src/eda.py
+[eda] Scope: TRAIN ONLY — 264 dòng
+[eda] Features: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen
+[eda] Chưa fit StandardScaler, chưa chạy K-Means, không dùng validation/test để ra quyết định.
+
 python -m pytest ml/tests -q
+........... [100%]
+11 passed in 7.72s
 ```
 
-Do đó chưa được ghi EDA PASS và chưa được kết luận dữ liệu có mức skewness nào.
+EDA đã sinh bảng/hình local. **Chưa được ghi kết luận định lượng về skewness, outlier hay correlation vào handoff cho đến khi đọc artifact EDA thật.**
 
 ## 5. Ràng buộc học thuật phải giữ
 
@@ -126,14 +122,16 @@ Do đó chưa được ghi EDA PASS và chưa được kết luận dữ liệu 
 - Test giữ độc lập, không dùng chọn K/tham số.
 - Outlier chỉ báo cáo, chưa tự động xóa/winsorize.
 - EDA ra quyết định trên train; validation/test không dùng ở bước này.
-- `log1p` được mô tả trên train; `StandardScaler` chỉ fit trong bước thí nghiệm đúng phạm vi train.
+- `StandardScaler` chỉ fit trong pipeline thí nghiệm đúng phạm vi train.
 - Không chọn K từ EDA.
+- Backend không train model ở request time.
 
 ## 6. Chưa làm
 
-- Chạy/kiểm chứng EDA thật trên 264 dòng train.
-- Đóng băng thiết kế baseline/thí nghiệm.
-- Baseline không clustering và K=2.
+- Chưa đọc/ghi kết luận định lượng từ artifact EDA thật.
+- Chưa đóng băng protocol baseline/thí nghiệm.
+- Baseline không clustering.
+- Baseline K=2.
 - Raw vs `log1p + StandardScaler` trong thí nghiệm K-Means.
 - K=2..8, stability >=10 seed.
 - Chọn K bằng validation.
@@ -144,13 +142,12 @@ Do đó chưa được ghi EDA PASS và chưa được kết luận dữ liệu 
 
 ## 7. Bước tiếp theo
 
-1. `git pull origin main`.
-2. Chạy `npm run test:backend` và `npm run build`; lưu output thật.
-3. Chạy `python ml/src/eda.py` hoặc `npm run eda:train`.
-4. Chạy `python -m pytest ml/tests -q` và lưu số test PASS thật.
-5. Kiểm tra các bảng/hình trong `reports/data/eda` và `reports/figures/eda`.
-6. Chỉ sau khi EDA PASS mới diễn giải skewness/raw-vs-log1p và đóng băng kế hoạch thí nghiệm.
-7. Sau đó mới làm baseline và K-Means.
+1. Đọc `reports/data/eda/train_skewness.csv`, `train_iqr_outliers.csv`, `preprocessing_comparison.csv` và các figure EDA.
+2. Ghi kết luận EDA dựa trên train, không nhìn validation/test để quyết định preprocessing.
+3. Nếu bằng chứng ủng hộ, chốt nhánh chính `log1p + StandardScaler`; vẫn giữ nhánh raw để thí nghiệm bắt buộc.
+4. Đóng băng protocol: baseline A, baseline K=2, K=2..8, >=10 seed, inertia/silhouette/stability/cluster size/profile.
+5. Viết code baseline/experiment.
+6. Sau đó mới dùng validation để so sánh candidate; test tiếp tục khóa.
 
 ## 8. File nên đọc tiếp
 
@@ -161,4 +158,4 @@ Do đó chưa được ghi EDA PASS và chưa được kết luận dữ liệu 
 - `data/README.md`
 - `docs/history/2026-10.md`
 
-Nếu handoff khác code/git, tin code + git và sửa lại handoff.
+Nếu handoff khác code/git, tin code + test + git và sửa lại handoff.
