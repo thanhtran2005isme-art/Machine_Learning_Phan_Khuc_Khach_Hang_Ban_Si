@@ -15,6 +15,8 @@
     "data:split": "python ml/src/split_data.py",
     "eda:train": "python ml/src/eda.py",
     "ml:experiment": "python ml/src/experiments.py",
+    "ml:review": "python ml/src/review_experiments.py",
+    "ml:profile": "python ml/src/profile_candidate.py",
     "test:ml": "python -m pytest ml/tests -q"
   },
   "engines": {
