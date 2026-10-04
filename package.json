@@ -14,6 +14,7 @@
     "data:audit": "python ml/src/audit_data.py",
     "data:split": "python ml/src/split_data.py",
     "eda:train": "python ml/src/eda.py",
+    "ml:experiment": "python ml/src/experiments.py",
     "test:ml": "python -m pytest ml/tests -q"
   },
   "engines": {
