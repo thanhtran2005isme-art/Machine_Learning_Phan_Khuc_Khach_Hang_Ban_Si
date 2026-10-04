@@ -1,14 +1,13 @@
 # AI HANDOFF — trạng thái hiện tại
 
 > Cập nhật: 2026-10-05  
-> Branch: `main`  
-> EDA implementation commit: `5a64acb075b065c61bb547f02a88e599a452e1a6`
+> Branch: `main`
 
 ## 1. Mục tiêu hiện tại
 
-Skeleton project, data pipeline, web/backend skeleton và EDA train-only đã được dựng và kiểm chứng bằng log chạy thật trên Windows 10. **Gate B PASS, Gate C PASS, EDA runtime PASS. K-Means chưa bắt đầu.**
+Foundation, data pipeline, web/backend skeleton và EDA train-only đã PASS bằng log thật. EDA định lượng đã được đọc và ghi nhận. **Experiment protocol baseline + K-Means đã được đóng băng và experiment harness đã được code, nhưng chưa được chạy local sau commit mới.**
 
-Bước tiếp theo là đọc các artifact EDA thật, ghi nhận kết luận preprocessing dựa trên train, rồi đóng băng protocol thí nghiệm baseline + K-Means trước khi dùng validation/test.
+Test cuối vẫn đang khóa; chưa chọn K cuối.
 
 ## 2. Stack đã chốt
 
@@ -16,146 +15,141 @@ Bước tiếp theo là đọc các artifact EDA thật, ghi nhận kết luận
 - Backend: Node.js + TypeScript + Fastify + Zod.
 - ML: Python + pandas + NumPy + scikit-learn + matplotlib.
 - Test: Vitest cho backend, pytest cho ML/data.
-- Node yêu cầu `>=20` theo `package.json`.
 
-## 3. Đã hoàn thành trong code
-
-### Foundation / data
-
-- Root npm workspace cho `frontend` và `backend`.
-- React/Vite skeleton.
-- Fastify backend skeleton.
-- `GET /api/health` trả `modelReady: false`.
-- `GET /api/model-info` trả 503 `not_ready` trước khi model được đóng băng.
-- Python download/audit/split/prepare data.
-- Data README + data dictionary.
-- Split 60/20/20, seed 42, trước preprocessing học từ dữ liệu.
-- Unit tests data validation/split.
-
-### EDA train-only
-
-Commit code: `5a64acb075b065c61bb547f02a88e599a452e1a6` (`feat(ml): add train-only EDA pipeline`).
-
-File chính:
-
-- `ml/src/eda.py`
-- `ml/tests/test_eda.py`
-- `ml/src/data_paths.py`
-- `docs/EDA.md`
-- `package.json` có script `eda:train`.
-
-EDA mặc định chỉ đọc `data/processed/train.csv`, chỉ dùng 6 biến chi tiêu và sinh artifact dưới:
-
-```text
-reports/data/eda/
-reports/figures/eda/
-```
-
-EDA hiện so sánh raw với `log1p`, báo cáo skewness/median/IQR/outlier/correlation. **Chưa fit StandardScaler và chưa chạy K-Means.**
-
-## 4. Kiểm chứng local đã có bằng chứng thật
+## 3. Trạng thái đã kiểm chứng
 
 ### Gate B — DATA ✅ PASS
 
-```text
-python ml/src/prepare_data.py
-[audit] PASS: 440 dòng, 8 cột
-[audit] Missing: 0
-[audit] Duplicate rows: 0
-[split] PASS: train=264, validation=88, test=88, seed=42
+- raw: 440 dòng, 8 cột;
+- missing 0;
+- duplicate 0;
+- split: train 264 / validation 88 / test 88, seed 42;
+- raw SHA256: `c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef`;
+- data tests ban đầu: `7 passed in 0.59s`.
 
-python -m pytest ml/tests -q
-....... [100%]
-7 passed in 0.59s
+### Gate C — web/backend ✅ PASS
+
+- `/api/health` -> 200, `modelReady=false`;
+- `/api/model-info` -> 503, `not_ready` đúng thiết kế;
+- frontend Vite chạy local;
+- backend tests: `2 passed`;
+- frontend/backend build PASS.
+
+### EDA train-only ✅ PASS
+
+- `python ml/src/eda.py` chạy trên 264 dòng train;
+- ML/data tests sau EDA: `11 passed in 7.72s`;
+- chưa fit StandardScaler trong EDA;
+- chưa dùng validation/test để ra quyết định EDA.
+
+## 4. Kết luận EDA định lượng
+
+Raw skewness đều dương và lớn:
+
+- Fresh `2.5483` -> log1p `-1.7618`;
+- Milk `4.2825` -> `-0.1716`;
+- Grocery `2.7562` -> `-0.9354`;
+- Frozen `3.5343` -> `-0.4632`;
+- Detergents_Paper `2.9365` -> `-0.1562`;
+- Delicassen `12.1154` -> `-0.8954`.
+
+`log1p` giảm absolute skewness ở cả 6 biến. `Fresh` vẫn lệch đáng kể sau log1p nên không được tuyên bố dữ liệu đã trở thành normal.
+
+IQR outlier trên train:
+
+- Fresh 10 (3.79%);
+- Milk 21 (7.95%);
+- Grocery 20 (7.58%);
+- Frozen 23 (8.71%);
+- Detergents_Paper 19 (7.20%);
+- Delicassen 14 (5.30%).
+
+Chính sách giữ nguyên: **không tự động xóa/clip/winsorize outlier**.
+
+## 5. Protocol thí nghiệm đã đóng băng
+
+Tài liệu: `docs/EXPERIMENT_PROTOCOL.md`.
+
+Hai nhánh:
+
+1. `raw` — 6 biến chi tiêu gốc -> K-Means.
+2. `log1p_scale` — `log1p` -> `StandardScaler.fit(train)` -> transform train/validation -> K-Means.
+
+Candidate:
+
+- K = 2..8;
+- seeds = 0..9 (10 seed);
+- `n_init=20`;
+- `max_iter=300`;
+- stability = pairwise Adjusted Rand Index trên train assignments;
+- train/validation inertia;
+- train/validation silhouette;
+- cluster-size evidence;
+- không auto-select K từ một metric.
+
+Test không được đọc ở giai đoạn này.
+
+## 6. Experiment harness đã code — CHỜ CHẠY LOCAL
+
+File chính:
+
+- `ml/src/experiments.py`;
+- `ml/tests/test_experiments.py`;
+- `ml/src/data_paths.py`;
+- `docs/EXPERIMENT_PROTOCOL.md`;
+- `package.json` có `ml:experiment`.
+
+Experiment chỉ import/use train + validation, không dùng `test.csv`.
+
+Artifact dự kiến:
+
+```text
+reports/data/experiments/
+  baseline_descriptive.csv
+  baseline_k2.csv
+  runs.csv
+  aggregate.csv
+  stability.csv
+  selection_evidence.csv
+  experiment_metadata.json
+
+reports/figures/experiments/
+  elbow_train.png
+  validation_silhouette.png
+  stability_ari.png
+  min_cluster_share.png
 ```
 
-Raw SHA256:
+`experiment_metadata.json` phải ghi `test_used=false` và `selection_status=NOT_SELECTED`.
 
-```text
-c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef
-```
+## 7. Chưa làm
 
-### Gate C — web/backend skeleton ✅ PASS
+- Chưa chạy harness mới trên máy local.
+- Chưa biết kết quả inertia/silhouette/stability thực tế.
+- Chưa profile candidate K.
+- Chưa chọn/freeze preprocessing + K cuối.
+- Chưa mở final test.
+- Chưa export model/serving artifact.
+- Chưa có `POST /api/segment`.
+- Dashboard/model card chưa hoàn chỉnh.
 
-Runtime đã xác nhận:
+## 8. Bước tiếp theo
 
-```text
-GET /api/health -> 200, status=ok, modelReady=false
-GET /api/model-info -> 503, status=not_ready
-npm run dev:frontend -> Vite ready at http://localhost:5173/
-```
+1. `git pull origin main`.
+2. `python -m pytest ml/tests -q`.
+3. `python ml/src/experiments.py` hoặc `npm run ml:experiment`.
+4. Kiểm tra terminal phải nói `TEST=NOT TOUCHED` và `Chưa chọn K`.
+5. Đọc `reports/data/experiments/selection_evidence.csv`.
+6. Chỉ dựa trên train/validation để so raw vs log1p_scale và K=2..8.
+7. Profile 1–2 candidate K tốt nhất bằng median + Channel/Region.
+8. Freeze quyết định trước khi mở test.
 
-Test/build đã xác nhận ngày 2026-10-05:
+## 9. File nên đọc tiếp
 
-```text
-npm run test:backend
-Test Files  1 passed (1)
-Tests       2 passed (2)
-
-npm run build
-frontend: tsc --noEmit && vite build -> PASS
-backend: tsc -p tsconfig.json -> PASS
-```
-
-Kết luận: Gate C PASS đầy đủ.
-
-### EDA train-only ✅ PASS runtime
-
-```text
-python ml/src/eda.py
-[eda] Scope: TRAIN ONLY — 264 dòng
-[eda] Features: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen
-[eda] Chưa fit StandardScaler, chưa chạy K-Means, không dùng validation/test để ra quyết định.
-
-python -m pytest ml/tests -q
-........... [100%]
-11 passed in 7.72s
-```
-
-EDA đã sinh bảng/hình local. **Chưa được ghi kết luận định lượng về skewness, outlier hay correlation vào handoff cho đến khi đọc artifact EDA thật.**
-
-## 5. Ràng buộc học thuật phải giữ
-
-- Feature chính: 6 biến chi tiêu.
-- `Channel`/`Region`: profiling only.
-- Split trước preprocessing.
-- Test giữ độc lập, không dùng chọn K/tham số.
-- Outlier chỉ báo cáo, chưa tự động xóa/winsorize.
-- EDA ra quyết định trên train; validation/test không dùng ở bước này.
-- `StandardScaler` chỉ fit trong pipeline thí nghiệm đúng phạm vi train.
-- Không chọn K từ EDA.
-- Backend không train model ở request time.
-
-## 6. Chưa làm
-
-- Chưa đọc/ghi kết luận định lượng từ artifact EDA thật.
-- Chưa đóng băng protocol baseline/thí nghiệm.
-- Baseline không clustering.
-- Baseline K=2.
-- Raw vs `log1p + StandardScaler` trong thí nghiệm K-Means.
-- K=2..8, stability >=10 seed.
-- Chọn K bằng validation.
-- Final independent test.
-- Export serving artifact.
-- `POST /api/segment`.
-- Dashboard/model card hoàn chỉnh.
-
-## 7. Bước tiếp theo
-
-1. Đọc `reports/data/eda/train_skewness.csv`, `train_iqr_outliers.csv`, `preprocessing_comparison.csv` và các figure EDA.
-2. Ghi kết luận EDA dựa trên train, không nhìn validation/test để quyết định preprocessing.
-3. Nếu bằng chứng ủng hộ, chốt nhánh chính `log1p + StandardScaler`; vẫn giữ nhánh raw để thí nghiệm bắt buộc.
-4. Đóng băng protocol: baseline A, baseline K=2, K=2..8, >=10 seed, inertia/silhouette/stability/cluster size/profile.
-5. Viết code baseline/experiment.
-6. Sau đó mới dùng validation để so sánh candidate; test tiếp tục khóa.
-
-## 8. File nên đọc tiếp
-
+- `docs/EXPERIMENT_PROTOCOL.md`
 - `docs/EDA.md`
 - `docs/NEXT_STEPS.md`
-- `docs/ARCHITECTURE.md`
 - `docs/DECISIONS.md`
-- `data/README.md`
 - `docs/history/2026-10.md`
 
-Nếu handoff khác code/git, tin code + test + git và sửa lại handoff.
+Nếu handoff khác code/test/git, tin code + test + git và sửa handoff.
