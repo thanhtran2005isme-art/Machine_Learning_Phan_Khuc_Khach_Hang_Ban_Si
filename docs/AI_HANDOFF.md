@@ -2,11 +2,11 @@
 
 > Cập nhật: 2026-10-04  
 > Branch: `main`  
-> Repo HEAD trước khi ghi nhận Gate B: `9054074729ecfbba5722077c50515482e2a183be`
+> Trạng thái gần nhất: Gate B PASS; Gate C runtime đã được kiểm chứng một phần bằng log thật.
 
 ## 1. Mục tiêu hiện tại
 
-Skeleton project + pipeline dữ liệu đã được dựng. **Gate B — dữ liệu đã PASS bằng log chạy thật trên Windows 10.** Tiếp theo cần hoàn tất Gate C cho Node/React, sau đó làm **EDA chỉ trên train**. Chưa bắt đầu K-Means.
+Skeleton project + pipeline dữ liệu đã được dựng. **Gate B — dữ liệu đã PASS bằng log chạy thật trên Windows 10.** Backend và frontend skeleton cũng đã chạy local thành công; API health/model-info phản hồi đúng thiết kế. Còn thiếu bằng chứng `npm run test:backend` và `npm run build` trước khi đánh dấu toàn bộ Gate C PASS. Sau đó làm **EDA chỉ trên train**. Chưa bắt đầu K-Means.
 
 ## 2. Stack đã chốt
 
@@ -44,7 +44,7 @@ python ml/src/prepare_data.py
 python -m pytest ml/tests -q
 ```
 
-Kết quả `prepare_data.py`:
+Kết quả:
 
 ```text
 [download] Đã tải dữ liệu UCI thành công
@@ -55,62 +55,71 @@ SHA256: c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef
 [split] PASS: train=264, validation=88, test=88, seed=42
 [split] Chưa fit scaler/log transform/model ở bước này.
 [data pipeline] HOÀN TẤT
-```
-
-Kết quả pytest:
-
-```text
 ....... [100%]
 7 passed in 0.59s
 ```
 
-Kết luận được phép ghi:
+Kết luận: Gate B PASS; chưa fit `log1p`, `StandardScaler` hoặc K-Means.
 
-- raw dataset đúng 440 dòng, 8 cột;
-- missing = 0;
-- duplicate rows = 0;
-- split đúng 264/88/88, seed 42;
-- data pipeline chưa fit `log1p`, `StandardScaler` hoặc K-Means;
-- 7 ML/data tests PASS.
+### Gate C — runtime skeleton: PASS một phần
 
-Không suy diễn thêm các kết quả chưa xuất hiện trong log người dùng.
+Bằng chứng terminal người dùng:
 
-### Gate A — môi trường
+```text
+curl http://127.0.0.1:3001/api/health
+{"status":"ok","service":"wholesale-customer-segmentation-api","modelReady":false}
 
-- Python đủ khả năng chạy pipeline và pytest thực tế.
-- Log cài venv/requirements không được lưu trong handoff hiện tại, nên không tuyên bố toàn Gate A PASS chỉ từ bằng chứng trên.
+curl http://127.0.0.1:3001/api/model-info
+{"status":"not_ready","message":"Mô hình chưa được huấn luyện. Hoàn tất pipeline dữ liệu và thí nghiệm K-Means trước."}
 
-### Gate C — web/backend skeleton: CHƯA KIỂM CHỨNG
+npm run dev:frontend
+VITE v6.4.3 ready
+Local: http://localhost:5173/
+```
 
-Cần chạy:
+Được phép kết luận:
+
+- backend đang chạy local và `/api/health` phản hồi đúng;
+- `modelReady=false` đúng thiết kế;
+- `/api/model-info` chưa sẵn sàng đúng thiết kế trước khi huấn luyện model;
+- frontend Vite đã khởi động thành công tại `http://localhost:5173/`.
+
+**Chưa được đánh dấu toàn bộ Gate C PASS** vì chưa có log thật cho:
 
 ```powershell
-npm install
 npm run test:backend
 npm run build
 ```
 
-Sau đó chạy backend/frontend và kiểm tra `/api/health`.
+### Gate A — môi trường
+
+- Python đủ khả năng chạy pipeline và pytest thực tế.
+- Node/Vite/Fastify đủ khả năng chạy runtime local thực tế.
+- Không suy diễn thêm các bước cài môi trường không có log lưu lại.
 
 ## 5. Gate cần đạt trước K-Means
 
 ### Gate A — môi trường
 
-- Node/npm install thành công.
-- Python venv và requirements cài thành công.
+Môi trường Python/Node đã đủ để chạy pipeline và runtime; lưu log cài đặt chỉ khi cần audit chi tiết.
 
 ### Gate B — dữ liệu ✅ PASS
 
-Đã có log thật xác nhận pipeline + pytest như mục 4.
+Đã có log thật xác nhận pipeline + pytest.
 
-### Gate C — web/backend skeleton
+### Gate C — web/backend skeleton ⏳ CÒN 2 KIỂM TRA
 
-- Backend test PASS.
-- Frontend/backend build PASS.
-- Backend chạy local.
-- Frontend chạy local.
-- `/api/health` trả `status=ok`, `modelReady=false`.
-- `/api/model-info` chưa khả dụng là hành vi đúng ở giai đoạn này.
+Đã xác nhận:
+
+- backend chạy local ✅
+- frontend chạy local ✅
+- `/api/health` đúng ✅
+- `/api/model-info` đúng trạng thái chưa có model ✅
+
+Còn cần:
+
+- `npm run test:backend` PASS;
+- `npm run build` PASS.
 
 ## 6. Quyết định học thuật phải giữ
 
@@ -136,14 +145,12 @@ Sau đó chạy backend/frontend và kiểm tra `/api/health`.
 
 ## 8. Bước tiếp theo
 
-1. Chạy `npm install`.
-2. Chạy `npm run test:backend`.
-3. Chạy `npm run build`.
-4. Chạy backend + frontend, kiểm tra `/api/health` và giao diện skeleton.
-5. Nếu Gate C PASS, cập nhật handoff/history bằng log thật.
-6. Xây EDA **chỉ trên `data/processed/train.csv`**: distribution, skewness, median/IQR, outlier description, trước/sau `log1p`.
-7. Đóng băng kế hoạch thí nghiệm trước khi nhìn test.
-8. Sau đó mới bắt đầu baseline và K-Means.
+1. Chạy `npm run test:backend`.
+2. Chạy `npm run build`.
+3. Nếu cả hai PASS, đánh dấu Gate C hoàn tất.
+4. Xây EDA **chỉ trên `data/processed/train.csv`**: distribution, skewness, median/IQR, outlier description, trước/sau `log1p`.
+5. Đóng băng kế hoạch thí nghiệm trước khi nhìn test.
+6. Sau đó mới bắt đầu baseline và K-Means.
 
 ## 9. File nên đọc tiếp
 
