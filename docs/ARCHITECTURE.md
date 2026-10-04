@@ -1,13 +1,14 @@
 # Kiến trúc Project 22
 
-## Stack đã chốt
+## 1. Stack đã chốt
 
 - **Frontend:** React + TypeScript + Vite
 - **Backend:** Node.js + TypeScript + Fastify
+- **Validation:** Zod
 - **Machine Learning:** Python + pandas + NumPy + scikit-learn
-- **Serving model:** Backend Node.js sẽ chỉ nạp artifact đã đóng băng; không huấn luyện lại ở mỗi request.
+- **Serving model:** Backend Node.js chỉ nạp artifact đã đóng băng; không huấn luyện lại ở mỗi request.
 
-## Phân tách trách nhiệm
+## 2. Phân tách trách nhiệm
 
 ```text
 frontend/
@@ -29,30 +30,102 @@ models/
   artifact mô hình sau khi chọn K và đóng băng
 
 reports/
-  bảng, metric, figure sinh từ pipeline
+  bảng, metric, figure và bằng chứng tái lập
+
+docs/
+  handoff / kiến trúc / quyết định / troubleshooting / history
 ```
 
-## Trạng thái hiện tại
+## 3. Luồng dữ liệu và ML mục tiêu
+
+```text
+UCI Wholesale Customers
+        ↓
+download + checksum
+        ↓
+audit schema / quality
+        ↓
+split train / validation / test
+        ↓
+EDA trên train
+        ↓
+raw vs log1p + StandardScaler
+        ↓
+KMeans K=2..8 + nhiều seed
+        ↓
+validation evidence
+        ↓
+freeze K / preprocessing / config
+        ↓
+final test độc lập một lần
+        ↓
+export artifact
+        ↓
+Node.js API serving
+        ↓
+React UI/dashboard
+```
+
+## 4. Ranh giới leakage
+
+- Split xảy ra trước mọi preprocessing học tham số từ dữ liệu.
+- Scaler/model chỉ fit trên phần được phép của từng giai đoạn.
+- Test không được dùng để chọn K, scaler, seed hay policy.
+- `Channel` và `Region` không đi vào fit K-Means chính; chỉ ghép lại sau clustering để profiling.
+
+## 5. Kiến trúc serving dự kiến
+
+Python là nguồn huấn luyện/đánh giá chính. Sau khi mô hình được chọn và đóng băng:
+
+```text
+Python training
+   ├── pipeline/joblib phục vụ tái lập học thuật
+   └── serving artifact JSON/metadata
+                         ↓
+                   Node.js backend
+                         ↓
+                  POST /api/segment
+                         ↓
+                      React UI
+```
+
+Node.js không được tự ý train K-Means mỗi request.
+
+## 6. Trạng thái hiện tại
 
 ### Đã dựng
 
 - React skeleton.
-- Node/Fastify skeleton với `GET /api/health`.
-- Python data download.
-- Schema/domain validation.
-- Data quality audit.
-- Train/validation/test split cố định và có manifest.
-- Unit test cho validation/split.
+- Node/Fastify skeleton với `GET /api/health` và placeholder `GET /api/model-info`.
+- Python data download/audit/split/prepare.
+- Data quality validation.
+- Train/validation/test split cố định + manifest.
+- Unit tests cho data split/validation và backend skeleton.
 
 ### Chưa làm có chủ đích
 
-- `log1p` / `StandardScaler`.
-- EDA kết luận trên validation/test.
+- EDA hoàn chỉnh trên train.
+- `log1p` / `StandardScaler` trong pipeline mô hình.
 - Baseline clustering.
-- K-Means.
-- Chọn K.
+- K-Means / chọn K.
 - Model artifact.
 - `POST /api/segment`.
-- Dashboard thực nghiệm.
+- Dashboard thực nghiệm/model card.
 
-Các phần trên chỉ bắt đầu sau khi pipeline dữ liệu được chạy và kiểm tra PASS.
+## 7. Kiến trúc tài liệu để tiếp tục qua nhiều phiên AI
+
+```text
+AGENTS.md
+   ↓
+docs/AI_HANDOFF.md
+   ├── ARCHITECTURE.md
+   ├── DECISIONS.md
+   ├── NEXT_STEPS.md
+   └── TROUBLESHOOTING.md
+          ↓
+   docs/history/YYYY-MM.md
+          ↓
+       Git history
+```
+
+Nguyên tắc: handoff giữ hiện tại; history giữ quá khứ; Git giữ diff tuyệt đối.
