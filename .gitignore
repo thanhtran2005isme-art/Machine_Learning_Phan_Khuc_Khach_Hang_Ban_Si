@@ -1,0 +1,38 @@
+# Node / React / TypeScript
+node_modules/
+frontend/dist/
+backend/dist/
+*.tsbuildinfo
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment / editors
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Raw and generated data
+/data/raw/*
+!/data/raw/.gitkeep
+/data/processed/*
+!/data/processed/.gitkeep
+
+# Generated reports/artifacts
+/reports/data/*
+!/reports/data/.gitkeep
+/models/*
+!/models/.gitkeep
+
+# Logs
+*.log

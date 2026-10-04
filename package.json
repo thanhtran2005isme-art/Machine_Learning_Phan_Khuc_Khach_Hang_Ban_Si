@@ -1,0 +1,21 @@
+{
+  "name": "wholesale-customer-segmentation",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm --workspace frontend run dev",
+    "dev:backend": "npm --workspace backend run dev",
+    "build": "npm run build --workspaces",
+    "test:backend": "npm --workspace backend run test",
+    "data:prepare": "python ml/src/prepare_data.py",
+    "data:audit": "python ml/src/audit_data.py",
+    "data:split": "python ml/src/split_data.py",
+    "test:ml": "python -m pytest ml/tests -q"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
