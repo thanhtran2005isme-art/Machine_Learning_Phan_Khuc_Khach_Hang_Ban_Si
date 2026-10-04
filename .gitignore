@@ -22,17 +22,14 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Raw and generated data
+# Raw and split data are reproducible and are not committed.
 /data/raw/*
 !/data/raw/.gitkeep
 /data/processed/*
 !/data/processed/.gitkeep
 
-# Generated reports/artifacts
-/reports/data/*
-!/reports/data/.gitkeep
-/models/*
-!/models/.gitkeep
+# reports/ and models/ are intentionally trackable because the assignment
+# requires reproducible evidence, model/data artifacts and handoff materials.
 
 # Logs
 *.log
