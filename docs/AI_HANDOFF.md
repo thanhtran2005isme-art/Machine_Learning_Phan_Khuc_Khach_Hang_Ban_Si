@@ -2,168 +2,163 @@
 
 > Cập nhật: 2026-10-04  
 > Branch: `main`  
-> Trạng thái gần nhất: Gate B PASS; Gate C runtime đã được kiểm chứng một phần bằng log thật.
+> EDA implementation commit: `5a64acb075b065c61bb547f02a88e599a452e1a6`
 
 ## 1. Mục tiêu hiện tại
 
-Skeleton project + pipeline dữ liệu đã được dựng. **Gate B — dữ liệu đã PASS bằng log chạy thật trên Windows 10.** Backend và frontend skeleton cũng đã chạy local thành công; API health/model-info phản hồi đúng thiết kế. Còn thiếu bằng chứng `npm run test:backend` và `npm run build` trước khi đánh dấu toàn bộ Gate C PASS. Sau đó làm **EDA chỉ trên train**. Chưa bắt đầu K-Means.
+Skeleton + data pipeline đã hoạt động. Gate B đã PASS bằng log chạy thật. Backend/frontend runtime đã chạy local đúng thiết kế nhưng Gate C còn thiếu log `npm run test:backend` và `npm run build`.
+
+**Pipeline EDA train-only đã được dựng trong code, nhưng chưa được phép ghi PASS cho đến khi người dùng pull và chạy thật.** K-Means chưa bắt đầu.
 
 ## 2. Stack đã chốt
 
 - Frontend: React + TypeScript + Vite.
 - Backend: Node.js + TypeScript + Fastify + Zod.
-- ML: Python + pandas + NumPy + scikit-learn.
+- ML: Python + pandas + NumPy + scikit-learn + matplotlib.
 - Test: Vitest cho backend, pytest cho ML/data.
 - Node yêu cầu `>=20` theo `package.json`.
 
 ## 3. Đã hoàn thành trong code
+
+### Foundation / data
 
 - Root npm workspace cho `frontend` và `backend`.
 - React/Vite skeleton.
 - Fastify backend skeleton.
 - `GET /api/health` trả `modelReady: false`.
 - `GET /api/model-info` trả 503 `not_ready` trước khi model được đóng băng.
-- Backend skeleton tests đã được viết.
-- Python scripts cho download/audit/split/prepare data.
+- Python download/audit/split/prepare data.
 - Data README + data dictionary.
-- Kiểm tra schema/domain, missing, finite, negative values và outlier report.
-- Split mặc định 60/20/20, seed 42, trước preprocessing học từ dữ liệu.
-- Unit tests cho data validation/split.
-- Raw/processed data sinh tự động không commit; `reports/` và `models/` được phép track artifact cuối.
+- Split 60/20/20, seed 42, trước preprocessing học từ dữ liệu.
+- Unit tests data validation/split.
+
+### EDA train-only — đã dựng, chờ chạy local
+
+Commit: `5a64acb075b065c61bb547f02a88e599a452e1a6` (`feat(ml): add train-only EDA pipeline`).
+
+File chính:
+
+- `ml/src/eda.py`
+- `ml/tests/test_eda.py`
+- `ml/src/data_paths.py`
+- `docs/EDA.md`
+- `package.json` có script `eda:train`.
+
+EDA chỉ dùng 6 biến chi tiêu và mặc định chỉ đọc:
+
+```text
+data/processed/train.csv
+```
+
+Artifact dự kiến:
+
+```text
+reports/data/eda/
+  train_summary_raw.csv
+  train_summary_log1p.csv
+  train_skewness.csv
+  train_iqr_outliers.csv
+  preprocessing_comparison.csv
+  eda_metadata.json
+
+reports/figures/eda/
+  train_distributions_raw.png
+  train_distributions_log1p.png
+  train_boxplots_raw.png
+  train_boxplots_log1p.png
+  train_correlation_raw.png
+  train_correlation_log1p.png
+```
+
+EDA hiện chỉ so sánh raw với `log1p`, báo cáo skewness/median/IQR/outlier/correlation. **Chưa fit StandardScaler và chưa chạy K-Means.**
 
 ## 4. Kiểm chứng local đã có bằng chứng thật
 
-### Gate B — DATA: PASS
+### Gate B — DATA ✅ PASS
 
-Máy chạy: Windows 10 (`10.0.19045.6456`).
-
-Lệnh đã chạy:
-
-```powershell
-python ml/src/prepare_data.py
-python -m pytest ml/tests -q
-```
-
-Kết quả:
+Windows 10 `10.0.19045.6456`.
 
 ```text
-[download] Đã tải dữ liệu UCI thành công
-SHA256: c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef
+python ml/src/prepare_data.py
 [audit] PASS: 440 dòng, 8 cột
 [audit] Missing: 0
 [audit] Duplicate rows: 0
 [split] PASS: train=264, validation=88, test=88, seed=42
-[split] Chưa fit scaler/log transform/model ở bước này.
-[data pipeline] HOÀN TẤT
+
+python -m pytest ml/tests -q
 ....... [100%]
 7 passed in 0.59s
 ```
 
-Kết luận: Gate B PASS; chưa fit `log1p`, `StandardScaler` hoặc K-Means.
+### Gate C — runtime skeleton ✅ một phần
 
-### Gate C — runtime skeleton: PASS một phần
-
-Bằng chứng terminal người dùng:
+Đã có log thật:
 
 ```text
-curl http://127.0.0.1:3001/api/health
-{"status":"ok","service":"wholesale-customer-segmentation-api","modelReady":false}
-
-curl http://127.0.0.1:3001/api/model-info
-{"status":"not_ready","message":"Mô hình chưa được huấn luyện. Hoàn tất pipeline dữ liệu và thí nghiệm K-Means trước."}
-
-npm run dev:frontend
-VITE v6.4.3 ready
-Local: http://localhost:5173/
+GET /api/health -> status=ok, modelReady=false
+GET /api/model-info -> status=not_ready
+npm run dev:frontend -> Vite ready at http://localhost:5173/
 ```
 
-Được phép kết luận:
-
-- backend đang chạy local và `/api/health` phản hồi đúng;
-- `modelReady=false` đúng thiết kế;
-- `/api/model-info` chưa sẵn sàng đúng thiết kế trước khi huấn luyện model;
-- frontend Vite đã khởi động thành công tại `http://localhost:5173/`.
-
-**Chưa được đánh dấu toàn bộ Gate C PASS** vì chưa có log thật cho:
+Còn thiếu log thật:
 
 ```powershell
 npm run test:backend
 npm run build
 ```
 
-### Gate A — môi trường
+### EDA — ⏳ code đã dựng, chưa kiểm chứng local
 
-- Python đủ khả năng chạy pipeline và pytest thực tế.
-- Node/Vite/Fastify đủ khả năng chạy runtime local thực tế.
-- Không suy diễn thêm các bước cài môi trường không có log lưu lại.
+Chưa có output thật cho:
 
-## 5. Gate cần đạt trước K-Means
+```powershell
+python ml/src/eda.py
+python -m pytest ml/tests -q
+```
 
-### Gate A — môi trường
+Do đó chưa được ghi EDA PASS và chưa được kết luận dữ liệu có mức skewness nào.
 
-Môi trường Python/Node đã đủ để chạy pipeline và runtime; lưu log cài đặt chỉ khi cần audit chi tiết.
-
-### Gate B — dữ liệu ✅ PASS
-
-Đã có log thật xác nhận pipeline + pytest.
-
-### Gate C — web/backend skeleton ⏳ CÒN 2 KIỂM TRA
-
-Đã xác nhận:
-
-- backend chạy local ✅
-- frontend chạy local ✅
-- `/api/health` đúng ✅
-- `/api/model-info` đúng trạng thái chưa có model ✅
-
-Còn cần:
-
-- `npm run test:backend` PASS;
-- `npm run build` PASS.
-
-## 6. Quyết định học thuật phải giữ
+## 5. Ràng buộc học thuật phải giữ
 
 - Feature chính: 6 biến chi tiêu.
 - `Channel`/`Region`: profiling only.
 - Split trước preprocessing.
-- Test giữ độc lập, chỉ dùng kết luận cuối.
-- Outlier hiện chỉ báo cáo, chưa tự động xóa/winsorize.
-- Tỷ lệ 60/20/20 là quyết định triển khai, không phải yêu cầu bắt buộc nguyên văn của đề.
+- Test giữ độc lập, không dùng chọn K/tham số.
+- Outlier chỉ báo cáo, chưa tự động xóa/winsorize.
+- EDA ra quyết định trên train; validation/test không dùng ở bước này.
+- `log1p` được mô tả trên train; `StandardScaler` chỉ fit trong bước thí nghiệm đúng phạm vi train.
+- Không chọn K từ EDA.
 
-## 7. Chưa làm có chủ đích
+## 6. Chưa làm
 
-- EDA hoàn chỉnh trên train.
-- Baseline thống kê/K=2.
-- Thí nghiệm raw vs `log1p + StandardScaler`.
-- K-Means K=2..8.
-- Stability >=10 seed.
-- Chọn K.
+- Chạy/kiểm chứng EDA thật trên 264 dòng train.
+- Đóng băng thiết kế baseline/thí nghiệm.
+- Baseline không clustering và K=2.
+- Raw vs `log1p + StandardScaler` trong thí nghiệm K-Means.
+- K=2..8, stability >=10 seed.
+- Chọn K bằng validation.
 - Final independent test.
 - Export serving artifact.
 - `POST /api/segment`.
-- Dashboard thực nghiệm/model card hoàn chỉnh.
+- Dashboard/model card hoàn chỉnh.
 
-## 8. Bước tiếp theo
+## 7. Bước tiếp theo
 
-1. Chạy `npm run test:backend`.
-2. Chạy `npm run build`.
-3. Nếu cả hai PASS, đánh dấu Gate C hoàn tất.
-4. Xây EDA **chỉ trên `data/processed/train.csv`**: distribution, skewness, median/IQR, outlier description, trước/sau `log1p`.
-5. Đóng băng kế hoạch thí nghiệm trước khi nhìn test.
-6. Sau đó mới bắt đầu baseline và K-Means.
+1. `git pull origin main`.
+2. Chạy `npm run test:backend` và `npm run build`; lưu output thật.
+3. Chạy `python ml/src/eda.py` hoặc `npm run eda:train`.
+4. Chạy `python -m pytest ml/tests -q` và lưu số test PASS thật.
+5. Kiểm tra các bảng/hình trong `reports/data/eda` và `reports/figures/eda`.
+6. Chỉ sau khi EDA PASS mới diễn giải skewness/raw-vs-log1p và đóng băng kế hoạch thí nghiệm.
+7. Sau đó mới làm baseline và K-Means.
 
-## 9. File nên đọc tiếp
+## 8. File nên đọc tiếp
 
+- `docs/EDA.md`
 - `docs/NEXT_STEPS.md`
 - `docs/ARCHITECTURE.md`
 - `docs/DECISIONS.md`
 - `data/README.md`
 - `docs/history/2026-10.md`
 
-## 10. Lệnh xem lịch sử gần nhất
-
-```bash
-git log --oneline -20
-```
-
-Nếu handoff khác với code/git, tin code + git và sửa lại handoff.
+Nếu handoff khác code/git, tin code + git và sửa lại handoff.

@@ -1,60 +1,105 @@
-# Bước tiếp theo sau skeleton + data pipeline
+# Bước tiếp theo — kiểm chứng EDA train-only
 
-Không chạy K-Means ngay cho đến khi các cổng dưới đây PASS.
+EDA đã được dựng trong code tại commit `5a64acb075b065c61bb547f02a88e599a452e1a6`, nhưng chưa được đánh dấu PASS cho đến khi chạy thật trên máy local.
 
-## Gate A — môi trường
+## 1. Pull bản mới nhất
 
 ```powershell
-npm install
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r ml/requirements.txt
+git pull origin main
 ```
 
-## Gate B — dữ liệu
+## 2. Khóa nốt Gate C
+
+Hai kiểm tra còn thiếu bằng chứng:
 
 ```powershell
-python ml/src/prepare_data.py
+npm run test:backend
+npm run build
+```
+
+Backend/frontend runtime đã được xác nhận chạy local; hai lệnh trên cần PASS để đánh dấu Gate C hoàn chỉnh.
+
+## 3. Chạy EDA chỉ trên train
+
+```powershell
+python ml/src/eda.py
+```
+
+hoặc:
+
+```powershell
+npm run eda:train
+```
+
+Script phải in rõ:
+
+```text
+[eda] Scope: TRAIN ONLY — 264 dòng
+```
+
+và xác nhận chưa fit StandardScaler/K-Means.
+
+## 4. Chạy test ML/data sau khi thêm EDA
+
+```powershell
 python -m pytest ml/tests -q
 ```
 
-Cần xác nhận:
+Không ghi số test PASS trước khi có output thật.
 
-- raw có đúng 440 dòng;
-- đúng 8 cột kỳ vọng;
-- không missing/NaN/inf;
-- không giá trị chi tiêu âm;
-- Channel chỉ thuộc {1,2};
-- Region chỉ thuộc {1,2,3};
-- train/validation/test không chồng lấn;
-- số dòng 264/88/88;
-- manifest ghi seed và checksum;
-- chưa có preprocessing học từ full data.
+## 5. Artifact cần xuất hiện
 
-## Gate C — skeleton web/backend
+### Bảng
 
-Terminal 1:
-
-```powershell
-npm run dev:backend
+```text
+reports/data/eda/train_summary_raw.csv
+reports/data/eda/train_summary_log1p.csv
+reports/data/eda/train_skewness.csv
+reports/data/eda/train_iqr_outliers.csv
+reports/data/eda/preprocessing_comparison.csv
+reports/data/eda/eda_metadata.json
 ```
 
-Terminal 2:
+### Hình
 
-```powershell
-npm run dev:frontend
+```text
+reports/figures/eda/train_distributions_raw.png
+reports/figures/eda/train_distributions_log1p.png
+reports/figures/eda/train_boxplots_raw.png
+reports/figures/eda/train_boxplots_log1p.png
+reports/figures/eda/train_correlation_raw.png
+reports/figures/eda/train_correlation_log1p.png
 ```
 
-Mở `http://localhost:5173` và xác nhận backend báo `status=ok`, `modelReady=false`.
+## 6. Những gì được phép kết luận sau EDA
 
-## Sau khi A/B/C PASS
+Chỉ dựa trên train:
 
-Bước kế tiếp là **EDA chỉ trên train**:
+- phân phối 6 biến chi tiêu;
+- skewness raw và sau `log1p`;
+- median/IQR;
+- outlier IQR để mô tả;
+- correlation;
+- mức thay đổi hình dạng phân phối sau `log1p`.
 
-1. Phân bố 6 biến chi tiêu.
-2. Skewness và biểu đồ trước/sau `log1p` (chỉ fit/quyết định trên train).
-3. Median/IQR của train.
-4. Kiểm tra outlier để mô tả, chưa tự động loại.
-5. Đóng băng kế hoạch baseline và thí nghiệm trước khi dùng test.
+Không được:
 
-Sau EDA mới bắt đầu baseline và K-Means K=2..8.
+- đọc test để chọn preprocessing;
+- dùng Channel/Region làm feature K-Means;
+- tự động xóa outlier;
+- fit scaler trên full dataset;
+- chọn K trong EDA.
+
+## 7. Sau khi EDA PASS
+
+Đóng băng thiết kế thí nghiệm trước K-Means:
+
+1. baseline thống kê không clustering;
+2. baseline K=2;
+3. raw vs `log1p + StandardScaler`;
+4. K=2..8;
+5. ít nhất 10 seed;
+6. validation evidence để chọn K;
+7. final test chỉ sau khi quyết định đã freeze.
+
+Chi tiết EDA: `docs/EDA.md`.
