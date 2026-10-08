@@ -1,6 +1,6 @@
 # Gate 9.3 — Read-only verified final development profiles API
 
-**Trạng thái:** Core CI Gate 6 run `37810418640` PASS (15 Node-native tests, 11 Fastify tests, both builds and production smoke). Browser/Windows CI pending at time of writing; update this document only after receiving final results.
+**Trạng thái: COMPLETE — CI VERIFIED.** Gate 6 run `37810673033`, Gate 7 run `37810673011` và Windows Gate 8 run `37810672975` đều **SUCCESS** trên mã Gate 9.3.
 
 ## Endpoint
 
@@ -84,3 +84,11 @@ npm run test:smoke
 Bộ core Gate 9.3 gồm 10 native tests mới, 2 Fastify integration tests mới và browser E2E bổ sung. Trường hợp kiểm tra: happy path, semantics frozen, corrupt/rehashed tampering, missing CSV, wrong header, path traversal, metadata SHA mismatch, hot mutation và LF/CRLF. Chạy Gate6/7/8 CI để kiểm tra hồi quy.
 
 **Tiếp theo Gate 9.4:** FE sử dụng trực tiếp `final_profile` cho chart median ratio, cluster sizes, Channel/Region và khoảng cách. Không cho UI lựa chọn K thay đổi frozen serving model.
+
+## Biên bản nghiệm thu cuối (2026-10-08)
+
+- [Gate 6 run 37810673033](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37810673033): **15/15 Node-native**, **11/11 Fastify**, Backend/Frontend builds và compiled production HTTP smoke **PASS**.
+- [Gate 7 run 37810673011](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37810673011): **22/22 Playwright tests PASS** trên Chromium desktop/mobile emulation; sklearn↔Node parity và dependency audit PASS.
+- [Windows run 37810672975](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37810672975): clean checkout, `npm ci`, `npm audit` **0 vulnerabilities**, parity, **22/22 browser tests**, `run.bat --ci` trả FE HTTP 200, modelReady=true, K2 prediction cluster 0 hợp lệ.
+- Sáu CSV của Gate 9.2 + metadata được giữ nguyên. **Không thay đổi model, selection, joblib hoặc final evaluation của Gate 5**.
+- Gate 9.3 là phần **Backend API**; Frontend hiện vẫn hiển thị giao diện Gate 8/9.2 và chưa có các biểu đồ profile mới. Đây là phạm vi **Gate 9.4**, không được đánh dấu hoàn thành UI từ việc API có dữ liệu.

@@ -47,3 +47,9 @@
 - `GET /api/dashboard` now includes checksum-verified `final_profile`: cluster summary, sizes, six-variable median ratios, Channel/Region distribution, centroid distance/outlier metrics and provenance.
 - Core Gate6 CI `37810418640` PASS (15 Node / 11 API tests / builds / smoke); see `docs/GATE9_3_API.md`.
 - Next Gate9.4 UI: read these real arrays to build profile chart, cluster sizes, candidate K explorer and model card, plus desktop/mobile E2E.
+
+## Gate 9.3 — COMPLETE, Windows CI verified
+
+- New `final_profile` in `GET /api/dashboard`, backward-compatible; six CSV SHA256 checks on every read plus D011 provenance and semantic validation. 503 if missing/corrupt, segment endpoint independent.
+- CI: Gate6 `37810673033` SUCCESS, Gate7 `37810673011` SUCCESS (22 Playwright), Windows `37810672975` SUCCESS (clean install, 22 E2E, real batch smoke).
+- **Next: Gate 9.4 Frontend** — median/size/categorical/distance visualizations and candidate K explorer, consuming verified API only. No ML retrain.

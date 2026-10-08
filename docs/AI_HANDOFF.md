@@ -55,5 +55,5 @@
 ## Gate 9.3 — Backend verified final profile
 - `backend/final-profile.mjs`: validate model D011 + selected metadata, SHA256 per CSV including LF/CRLF compatibility, CSV shape, summary/size/Channel/Region/ratio/distance consistency against frozen artifacts. Every dashboard request verifies files, no fit/train/test access.
 - `GET /api/dashboard` backwards compatible with Gate 6, adds `final_profile`. Invalid files → 503; health/segment stay operational. See `docs/GATE9_3_API.md`.
-- Gate6 CI run 37810418640: 15/15 Node tests, 11/11 Fastify tests, builds and HTTP smoke PASS. Gate7/8/browser regression separate runs; verify before declaring full closure.
+- Gate9.3 final verification: Gate6 CI `37810673033` (15 Node / 11 API / build / smoke), Gate7 CI `37810673011` (22 Playwright), Windows CI `37810672975` (clean install, audit 0, parity, 22 E2E, batch HTTP) all SUCCESS.
 - Next: Gate9.4 FE charts/table candidate explorer sourced only from verified API.
