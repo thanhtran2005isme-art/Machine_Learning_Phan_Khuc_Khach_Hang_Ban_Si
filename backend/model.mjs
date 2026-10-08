@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { loadVerifiedFinalProfile } from './final-profile.mjs';
 
 export const FEATURES = Object.freeze(['Fresh', 'Milk', 'Grocery', 'Frozen', 'Detergents_Paper', 'Delicassen']);
 const artifact = (name) => fileURLToPath(new URL('../' + name, import.meta.url));
@@ -90,7 +91,7 @@ export function modelInfo(loaded) {
     limitations: 'Phân cụm không có nhãn thật hay xác suất dự đoán; khoảng cách không phải độ tin cậy và không chứng minh giá trị khách hàng.',
   };
 }
-export function dashboard(loaded) {
+export function dashboard(loaded, { profileDir } = {}) {
   const source = readFileSync(artifact('reports/data/experiments/selection_evidence.csv'), 'utf8').trim().split(/\r?\n/);
   const columns = source[0].split(',');
   const required = ['preprocessing', 'k', 'train_inertia_mean', 'validation_silhouette_mean', 'ari_mean', 'min_cluster_share_mean'];
@@ -112,6 +113,7 @@ export function dashboard(loaded) {
     training: loaded.evaluation.training,
     final_test: loaded.evaluation.final_test,
     profiles: modelInfo(loaded).profiles,
+    final_profile: loadVerifiedFinalProfile(loaded, { profileDir }),
     metric_note: 'Elbow/inertia chỉ so sánh trong cùng không gian preprocessing. Test đã đánh giá một lần, không sử dụng để chọn K.',
   };
 }

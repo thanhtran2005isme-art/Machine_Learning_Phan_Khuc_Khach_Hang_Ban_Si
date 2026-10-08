@@ -34,6 +34,10 @@ try {
   const dashboard = await request('/api/dashboard');
   assert.equal(dashboard.code, 200);
   assert.equal(dashboard.body.experiments.length, 14);
+  assert.equal(dashboard.body.final_profile.development_count, 352);
+  assert.deepEqual(dashboard.body.final_profile.cluster_sizes.map(r => r.count), [162, 190]);
+  assert.equal(dashboard.body.final_profile.channel_profile.reduce((n,r) => n + r.count,0),352);
+  assert.equal(dashboard.body.final_profile.region_profile.reduce((n,r) => n + r.count,0),352);
   const example = { Fresh: 6410.5, Milk: 7226, Grocery: 10842.5, Frozen: 1153, Detergents_Paper: 4084.5, Delicassen: 1508.5 };
   const predicted = await request('/api/segment', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(example) });
   assert.equal(predicted.code, 200);

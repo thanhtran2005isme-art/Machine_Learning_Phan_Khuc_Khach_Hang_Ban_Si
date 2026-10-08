@@ -11,7 +11,7 @@ const spending = z.object({
   Delicassen: z.number().finite().nonnegative(),
 }).strict();
 
-export function buildApp(options: { modelPath?: string } = {}) {
+export function buildApp(options: { modelPath?: string; profileDir?: string } = {}) {
   const app = Fastify({ logger: false, bodyLimit: 16 * 1024 });
   let loaded: LoadedModel | null = null;
   let loadError: string | null = null;
@@ -29,8 +29,8 @@ export function buildApp(options: { modelPath?: string } = {}) {
   });
   app.get('/api/dashboard', async (_request, reply) => {
     if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });
-    try { return dashboard(loaded); }
-    catch { return reply.code(503).send({ status: 'not_ready', message: 'Experiment evidence unavailable' }); }
+    try { return dashboard(loaded, { profileDir: options.profileDir }); }
+    catch { return reply.code(503).send({ status: 'not_ready', message: 'Dashboard evidence unavailable or failed integrity validation' }); }
   });
   app.post('/api/segment', async (request, reply) => {
     if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });

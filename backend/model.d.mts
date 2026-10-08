@@ -9,4 +9,4 @@ export function segment(loaded: LoadedModel, spending: Spending): {
   warnings: string[]; distance_space: string;
 };
 export function modelInfo(loaded: LoadedModel): Record<string, unknown>;
-export function dashboard(loaded: LoadedModel): Record<string, unknown>;
+export function dashboard(loaded: LoadedModel, options?: { profileDir?: string }): Record<string, unknown>;
