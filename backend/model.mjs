@@ -41,8 +41,14 @@ function readRanges() {
 export function loadModel({ modelPath = artifact('models/model.json') } = {}) {
   const raw = readFileSync(modelPath);
   const evaluation = readJson(artifact('models/final_evaluation.json'));
-  const checksum = createHash('sha256').update(raw).digest('hex');
-  if (checksum !== evaluation.model_json_sha256) throw new Error('Frozen model checksum mismatch');
+  const bytesSha = createHash('sha256').update(raw).digest('hex');
+  // Gate 5 computed the checksum on Windows CRLF bytes; Git may check out LF on Linux.
+  // Accept only a byte-identical file or the exact same content with canonical CRLF line endings.
+  const crlfSha = createHash('sha256').update(raw.toString('utf8').replace(/\r?\n/g, '\r\n')).digest('hex');
+  if (bytesSha !== evaluation.model_json_sha256 && crlfSha !== evaluation.model_json_sha256) {
+    throw new Error('Frozen model checksum mismatch');
+  }
+  const checksum = evaluation.model_json_sha256;
   const model = JSON.parse(raw.toString('utf8'));
   const selection = readJson(artifact('models/selection.json'));
   verifyModel(model, selection, evaluation);
