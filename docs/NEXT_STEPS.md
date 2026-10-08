@@ -53,3 +53,9 @@
 - New `final_profile` in `GET /api/dashboard`, backward-compatible; six CSV SHA256 checks on every read plus D011 provenance and semantic validation. 503 if missing/corrupt, segment endpoint independent.
 - CI: Gate6 `37810673033` SUCCESS, Gate7 `37810673011` SUCCESS (22 Playwright), Windows `37810672975` SUCCESS (clean install, 22 E2E, real batch smoke).
 - **Next: Gate 9.4 Frontend** — median/size/categorical/distance visualizations and candidate K explorer, consuming verified API only. No ML retrain.
+
+## Gate 9.4 — COMPLETE / Frontend Dashboard
+
+- Candidate K2–8/Raw vs Log1p explorer read-only; verified final K2 cluster-size, median ratio and exact raw median, Channel/Region distribution, centroid distances/outliers rendered from `GET /api/dashboard.final_profile`.
+- Browser E2E **34/34 PASS** on Linux `37812066044` and Windows `37812066198`. Backend build/regression `37812065997` PASS. See `docs/GATE9_4_FRONTEND.md`.
+- **Next Gate 9.5**: interpretation of monetary units/time of prediction, model/data card, complete API response example, limits and final outlier interpretation. Then **Gate 9.6**: requirement matrix re-audit and final cold reproducibility without using held-out final test.

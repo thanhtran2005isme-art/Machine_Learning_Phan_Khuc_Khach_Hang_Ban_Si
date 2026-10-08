@@ -180,3 +180,8 @@ Trước khi thay source: xác minh đầu vào 352 development hiện có hoặ
 - Đã bổ sung bằng chứng **final 352 development** tại [profile_metadata.json](../reports/data/final_profile/profile_metadata.json) cùng 6 CSV, nguồn [Gate9.2 CI](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37797274530).
 - Liên quan R4-08/R5-19/R7-05: đã xử lý thiếu dữ liệu final distance/outlier, median/Channel/Region; **vẫn giữ PARTIAL** cho các mục yêu cầu hiển thị/giải thích trên web cho tới Gate 9.3–9.5 có API và UI thực cùng test.
 - Bảng đếm 88 mục là snapshot **tại Gate 9.1**; khi thực hiện Gate 9.6 sẽ tính lại trạng thái sau các gate mới, không tự chuyển PASS chỉ vì CSV đã có.
+
+## Gate 9.4 evidence update (post-audit, 2026-10-08)
+
+- R5-02 (candidate K explorer) và R5-03 (profile chart), R5-19 (final-profile web interpretation), R7-06 (Web/UI visualization) đã có implementation/API/E2E evidence: [Gate9.4](GATE9_4_FRONTEND.md), [Gate7 CI](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37812066044) 34/34, [Windows CI](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37812066198) 34/34.
+- Không sửa thống kê đếm của ma trận Gate 9.1 **snapshot** cho đến Gate9.6 re-audit theo từng ID; model/data cards, khả năng tái lập và hồ sơ học thuật vẫn còn task tương ứng.

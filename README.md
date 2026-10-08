@@ -1226,3 +1226,7 @@ Báo cáo và slide **chưa thực hiện**.
 ## Gate 9.2 — Final K=2 development profiling
 
 Đã tạo hồ sơ **352 khách hàng train+validation** từ frozen model D011 K=2 bằng predict-only, không train lại, không đọc final test. Kết quả: cụm 0 = 162, cụm 1 = 190. Channel/Region, median, khoảng cách, thống kê outlier và metadata checksum ở [reports/data/final_profile](reports/data/final_profile); kiểm thử chi tiết trong [docs/GATE9_2_FROZEN_PROFILE.md](docs/GATE9_2_FROZEN_PROFILE.md). Đây là đầu vào dữ liệu cho Gate 9.3 API và Gate 9.4 Dashboard.
+
+## Gate 9.4 — Dashboard đã hoàn thiện phần chức năng trực quan
+
+Dữ liệu thực từ `GET /api/dashboard.final_profile`: biểu đồ median sáu nhóm hàng, quy mô hai cụm K2, phân bố Channel/Region, khoảng cách và ngoại lệ IQR. Bộ khám phá thí nghiệm **Raw/Log1p, K2–8** chỉ chuyển dữ liệu xem, **không thay đổi K=2 phục vụ**. Có nhãn số liệu, bảng chi tiết và responsive 320px; CI Chromium Linux/Windows **34/34 PASS**. [Chi tiết nghiệm thu](docs/GATE9_4_FRONTEND.md). Báo cáo và slides chưa làm.

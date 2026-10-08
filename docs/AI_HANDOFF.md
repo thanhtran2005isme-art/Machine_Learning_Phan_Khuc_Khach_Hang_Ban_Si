@@ -57,3 +57,10 @@
 - `GET /api/dashboard` backwards compatible with Gate 6, adds `final_profile`. Invalid files → 503; health/segment stay operational. See `docs/GATE9_3_API.md`.
 - Gate9.3 final verification: Gate6 CI `37810673033` (15 Node / 11 API / build / smoke), Gate7 CI `37810673011` (22 Playwright), Windows CI `37810672975` (clean install, audit 0, parity, 22 E2E, batch HTTP) all SUCCESS.
 - Next: Gate9.4 FE charts/table candidate explorer sourced only from verified API.
+
+## Gate 9.4 — COMPLETE, verified on Linux + Windows
+- React Dashboard now shows final K2 352 development cluster sizes, six-feature median ratios (and frozen raw medians), Channel and Region composition, P95/max centroid distance and IQR outlier count, all from verified `GET /api/dashboard.final_profile`.
+- Experiment explorer browses K2–8 × Raw/Log1p, reveals train inertia/validation silhouette/ARI/min share **without changing frozen serving K2**.
+- UI fails closed when profile is missing/invalid; data labels/tables accessible, responsive 320px. New E2E covers chart accuracy against API, explorer isolation, outage, mobile overflow.
+- CI runs: Gate6 `37812065997` SUCCESS; Gate7 `37812066044` SUCCESS **34/34 E2E**; Windows Gate8 `37812066198` SUCCESS **34/34 E2E**, clean install, audit, batch smoke. No models/ or final_profile/ changes.
+- [Technical acceptance details](GATE9_4_FRONTEND.md). Next: Gate 9.5 explanations/data+model card and 9.6 final requirements closure, no re-fit/test.
