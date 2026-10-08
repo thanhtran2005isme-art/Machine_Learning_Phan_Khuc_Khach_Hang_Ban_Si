@@ -1,6 +1,6 @@
 # AI HANDOFF — Project 22
 
-> Cập nhật: 2026-10-08. Branch: main. Gate 4 đang được kiểm chứng; xem kết quả mới nhất ở cuối file.
+> Cập nhật: 2026-10-08. Branch: main. Gate 4 đã kiểm chứng PASS; xem `docs/GATE4_VERIFICATION.md`.
 
 ## Phạm vi và kiến trúc
 - Dataset UCI Wholesale Customers 440 dòng; split train=264, validation=88, final test=88.
@@ -16,7 +16,7 @@
 - Gate C backend/frontend skeleton và build PASS theo log 2026-10-05.
 - EDA train-only: cả sáu feature giảm absolute skewness sau log1p; vẫn giữ outlier.
 - Có hai script experiment lịch sử: `ml/src/experiment.py` (Gate D trước merge) và `ml/src/experiments.py` (Gate 4 review). D010 là protocol chung, dùng script `experiments.py` cho review mới.
-- Git HEAD trước Gate 4: `0aa99f9`. Các sửa Gate 4 đang ở working tree; không reset/pull đè thay đổi.
+- Gate 4 trước phiên nghiệm thu: commit `bffb471`. Không reset/pull đè thay đổi.
 
 ## Gate 4 — Stability, review và profiling
 - Experiment: 14 candidate × 10 seed = 140 runs; mỗi candidate có 45 cặp ARI, tổng 630.
@@ -25,11 +25,13 @@
 - `ml/src/profile_candidate.py` tính median đơn vị gốc, Channel/Region hậu phân cụm, centroid inverse-transform, distance/outlier IQR, train/validation share và CSV/JSON/2 PNG cho từng candidate.
 - Shortlist chỉ phục vụ nghiên cứu tiếp; chưa là quyết định lựa chọn cuối.
 
-## Kiểm chứng phiên hiện tại
-- Đã chuẩn hóa 4 unit tests dùng preprocessing cũ `log1p_scale`.
-- `python -m pytest ml/tests -q` → **30 passed in 20.90s** (trước các kiểm thử âm bổ sung).
-- Đã bổ sung một số ràng buộc input/evidence/metadata và đồng bộ docs D010.
-- Run experiment/review/profiling và negative tests: kiểm tra trạng thái thực tế ở báo cáo history mới nhất trước khi ghi PASS.
+## Kiểm chứng Gate 4 cuối cùng (2026-10-08)
+- `python -m pytest ml/tests -q` → **96 passed in 31.47s**.
+- 140 K-Means runs, 14 candidate, 630 ARI pairs đủ/không trùng; review và 3 profile chạy thành công.
+- Independent verification: median gốc, inverse centroid, Euclidean distance, IQR outliers, categorical shares, CSV/PNG pixel consistency, negative tests, metadata và leakage isolation.
+- Tái chạy 11 experiment/review artifacts + 42 profile artifacts → hash SHA-256 không đổi.
+- Shortlist nghiên cứu: raw K=2, log1p_standardscaler K=2 và K=3 (seed=42). Chưa chọn K cuối.
+- Báo cáo và các con số chi tiết: `docs/GATE4_VERIFICATION.md`.
 
 ## Những điều cần duy trì
 - Tuyệt đối không đọc `data/processed/test.csv` trong Gate 4.
@@ -38,9 +40,7 @@
 - Không freeze, không sửa backend/frontend trong Gate 4.
 
 ## Tiếp theo
-1. Hoàn tất pytest, đặc biệt negative tests.
-2. Xác nhận 140 runs, 630 cặp ARI bằng artifact thực tế; kiểm tra NaN/Inf và tính nhất quán.
-3. Chạy review đủ 14 candidate, kiểm tra rankings và gaps.
-4. Chọn shortlist 1–3 dựa trên train/validation evidence và profile từng candidate.
-5. Kiểm tra CSV/JSON/PNG, inverse transform, distance, cluster share/outlier.
-6. Ghi báo cáo Gate 4 và history; quyết định freeze chỉ ở gate tiếp theo.
+1. Người phụ trách đọc `docs/GATE4_VERIFICATION.md`, `reports/EXPERIMENT_REVIEW.md` và profile CSV/PNG của shortlist.
+2. Thảo luận tính diễn giải của ba candidate, quan sát ảnh hưởng outlier, stability và train/validation gap.
+3. Chỉ tại gate sau, cân nhắc và ghi quyết định chính thức chọn preprocessing/K/seed; freeze trước khi test độc lập.
+4. Giữ kín final test đến đúng giai đoạn chốt cấu hình; chưa triển khai serving, BE/FE trong Gate 4.

@@ -112,6 +112,8 @@ def validate_evidence(frame: pd.DataFrame) -> None:
     for metric in ("min_cluster_share_mean", "min_cluster_share_min"):
         if not numeric[metric].between(0, 1).all():
             raise ValueError(f"Metric {metric} ngoài [0, 1].")
+    if (numeric["min_cluster_share_min"] > numeric["min_cluster_share_mean"]).any():
+        raise ValueError("Cluster share min/mean không nhất quán.")
     if (numeric["ari_min"] > numeric["ari_mean"]).any() or (numeric["ari_mean"] > numeric["ari_max"]).any():
         raise ValueError("ARI min/mean/max không nhất quán.")
 
@@ -153,10 +155,19 @@ def load_metadata(path: Path = EXPERIMENT_METADATA_JSON) -> dict:
     if (metadata.get("k_values") != list(DEFAULT_K_VALUES)
             or metadata.get("seeds") != list(DEFAULT_SEEDS)
             or metadata.get("n_init") != DEFAULT_N_INIT
+            or metadata.get("max_iter") != 300
+            or metadata.get("seed_count") != len(DEFAULT_SEEDS)
             or metadata.get("runs_actual") != 140
             or metadata.get("ari_pair_count") != 630
+            or metadata.get("scope") != "train_and_validation_only"
             or not isinstance(metadata.get("preprocessing_modes"), dict)
             or set(metadata["preprocessing_modes"]) != set(PREPROCESSING_MODES)
+            or metadata.get("profiling_only_columns") != ["Channel", "Region"]
+            or not isinstance(metadata.get("scaler_metadata"), dict)
+            or set(metadata["scaler_metadata"]) != set(PREPROCESSING_MODES)
+            or metadata["scaler_metadata"].get("raw") is not None
+            or not isinstance(metadata["scaler_metadata"].get("log1p_standardscaler"), dict)
+            or metadata["scaler_metadata"]["log1p_standardscaler"].get("fit_scope") != "train_only_after_log1p"
             or metadata.get("stability_pairs_file") != "stability_pairs.csv"
             or metadata.get("feature_columns") != list(SPENDING_COLUMNS)):
         raise ValueError("Experiment metadata không khớp protocol D010 hoặc thiếu evidence.")

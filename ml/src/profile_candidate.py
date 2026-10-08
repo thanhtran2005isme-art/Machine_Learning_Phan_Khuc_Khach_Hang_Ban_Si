@@ -45,6 +45,18 @@ except ImportError:
 PROFILE_ONLY_COLUMNS = ("Channel", "Region")
 
 
+def validated_labels(labels: np.ndarray, sample_count: int, k: int | None = None) -> np.ndarray:
+    """Reject malformed cluster labels instead of silently truncating floats."""
+    array = np.asarray(labels)
+    if array.ndim != 1 or len(array) != sample_count or sample_count == 0:
+        raise ValueError("Nhãn cụm sai kích thước hoặc không phải vector.")
+    if array.dtype.kind not in "iu" or array.dtype.kind == "b":
+        raise ValueError("Nhãn cụm phải là số nguyên.")
+    if (array < 0).any() or (k is not None and (array >= k).any()):
+        raise ValueError("Nhãn cụm ngoài phạm vi centroid.")
+    return array.astype(int, copy=False)
+
+
 def fit_candidate(
     train_df: pd.DataFrame,
     validation_df: pd.DataFrame,
@@ -56,9 +68,10 @@ def fit_candidate(
 ) -> tuple[KMeans, np.ndarray, np.ndarray, StandardScaler | None, np.ndarray, np.ndarray]:
     if preprocessing not in PREPROCESSING_MODES:
         raise ValueError(f"preprocessing phải thuộc {PREPROCESSING_MODES}")
-    if k not in DEFAULT_K_VALUES:
+    if isinstance(k, (bool, np.bool_)) or not isinstance(k, (int, np.integer)) or k not in DEFAULT_K_VALUES:
         raise ValueError(f"k phải thuộc {DEFAULT_K_VALUES}")
-    if not isinstance(seed, (int, np.integer)) or seed < 0 or n_init < 1:
+    if (not isinstance(seed, (int, np.integer)) or isinstance(seed, (bool, np.bool_)) or seed < 0
+            or not isinstance(n_init, (int, np.integer)) or isinstance(n_init, (bool, np.bool_)) or n_init < 1):
         raise ValueError("Seed phải nguyên không âm và n_init >= 1.")
 
     train_values, validation_values, scaler = prepare_matrices(
@@ -77,8 +90,7 @@ def fit_candidate(
 
 
 def cluster_median_profile(df: pd.DataFrame, labels: np.ndarray) -> pd.DataFrame:
-    if len(df) != len(labels) or not np.isfinite(np.asarray(labels, dtype=float)).all():
-        raise ValueError("Nhãn cụm không hợp lệ hoặc sai số mẫu.")
+    labels = validated_labels(labels, len(df))
     labeled = df[list(SPENDING_COLUMNS)].copy()
     labeled.insert(0, "cluster", labels.astype(int))
     medians = labeled.groupby("cluster", as_index=False)[list(SPENDING_COLUMNS)].median()
@@ -90,8 +102,9 @@ def cluster_median_profile(df: pd.DataFrame, labels: np.ndarray) -> pd.DataFrame
 def categorical_profile(df: pd.DataFrame, labels: np.ndarray, column: str) -> pd.DataFrame:
     if column not in PROFILE_ONLY_COLUMNS:
         raise ValueError(f"Profiling categorical chỉ hỗ trợ {PROFILE_ONLY_COLUMNS}")
-    if len(df) != len(labels) or column not in df:
+    if column not in df:
         raise ValueError("Thiếu cột profiling hoặc labels sai kích thước.")
+    labels = validated_labels(labels, len(df))
     labeled = pd.DataFrame({"cluster": labels.astype(int), column: df[column].to_numpy()})
     counts = (
         labeled.groupby(["cluster", column], as_index=False)
@@ -104,8 +117,10 @@ def categorical_profile(df: pd.DataFrame, labels: np.ndarray, column: str) -> pd
 
 
 def distance_summary(values: np.ndarray, labels: np.ndarray, model: KMeans) -> pd.DataFrame:
-    if len(values) != len(labels) or len(values) == 0:
-        raise ValueError("Distance nhận labels không tương ứng số mẫu.")
+    values = np.asarray(values)
+    if values.ndim != 2 or not np.issubdtype(values.dtype, np.number) or not np.isfinite(values).all():
+        raise ValueError("Distance yêu cầu ma trận feature số hữu hạn.")
+    labels = validated_labels(labels, len(values), len(model.cluster_centers_))
     distances = model.transform(values)
     assigned = distances[np.arange(len(values)), labels]
     frame = pd.DataFrame({"cluster": labels.astype(int), "distance_to_centroid": assigned})
