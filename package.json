@@ -18,6 +18,8 @@
     "ml:experiment": "python ml/src/experiments.py",
     "ml:review": "python ml/src/review_experiments.py",
     "ml:profile": "python ml/src/profile_candidate.py",
+    "ml:freeze": "python -m ml.src.freeze_selection",
+    "ml:finalize": "python -m ml.src.finalize_model",
     "test:ml": "python -m pytest ml/tests -q"
   },
   "engines": {

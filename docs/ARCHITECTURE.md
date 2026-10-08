@@ -103,11 +103,14 @@ Node.js không được tự ý train K-Means mỗi request.
 - Unit tests cho data split/validation và backend skeleton.
 - EDA train-only cùng baseline A/B, 140 thí nghiệm K-Means train/validation, profiling và stability.
 
+### Gate 5 đã hoàn thành
+
+- D011 chọn `log1p_standardscaler`, K=2 sau so sánh train/validation và kiểm tra refit trên 352 dòng.
+- `models/selection.json` freeze trước final test; model fit train+validation; đánh giá final test 88 dòng đúng một lần (`status=COMPLETE`).
+- Artifact serving JSON và Python joblib đã xuất và kiểm tra checksum; portable inference khớp sklearn.
+
 ### Chưa làm có chủ đích
 
-- Chọn K/preprocessing từ bằng chứng validation và đóng băng cấu hình.
-- Final test độc lập sau khi đóng băng cấu hình.
-- Model artifact.
 - `POST /api/segment`.
 - Dashboard thực nghiệm/model card.
 

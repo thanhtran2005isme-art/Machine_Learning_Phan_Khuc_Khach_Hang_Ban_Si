@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "selection_decision": "D011",
+  "preprocessing": "log1p_standardscaler",
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "k": 2,
+  "random_state": 42,
+  "n_init": 10,
+  "max_iter": 300,
+  "algorithm": "lloyd",
+  "training_scope": "train_plus_validation",
+  "training_count": 352,
+  "transform": "(log1p(input) - scaler_mean) / scaler_scale",
+  "distance": "argmin squared Euclidean distance to cluster_centers; first index resolves ties",
+  "scaler_mean": [
+    8.752557468225378,
+    8.093307370942016,
+    8.410261678600692,
+    7.331540902567736,
+    6.750877073445857,
+    6.69058990613102
+  ],
+  "scaler_scale": [
+    1.5017913309571367,
+    1.097245129416515,
+    1.1164395742667397,
+    1.2598158557716845,
+    1.717259236445916,
+    1.2566692080004331
+  ],
+  "cluster_centers": [
+    [
+      -0.1665596151141639,
+      0.7967575594531549,
+      0.8079494521766837,
+      -0.20532316519822888,
+      0.8204611212257998,
+      0.35045566107483905
+    ],
+    [
+      0.14201398762365547,
+      -0.679340655954797,
+      -0.6888832171190664,
+      0.17506501453743747,
+      -0.6995510612556812,
+      -0.29880956365328404
+    ]
+  ],
+  "cluster_profiles": [
+    {
+      "cluster": 0,
+      "count": 162,
+      "share": 0.4602272727272727,
+      "median_spending": {
+        "Fresh": 6410.5,
+        "Milk": 7226.0,
+        "Grocery": 10842.5,
+        "Frozen": 1153.0,
+        "Detergents_Paper": 4084.5,
+        "Delicassen": 1508.5
+      },
+      "profile_name": "Tạp hóa / chất tẩy rửa"
+    },
+    {
+      "cluster": 1,
+      "count": 190,
+      "share": 0.5397727272727273,
+      "median_spending": {
+        "Fresh": 9727.5,
+        "Milk": 1626.0,
+        "Grocery": 2175.5,
+        "Frozen": 2194.5,
+        "Detergents_Paper": 279.5,
+        "Delicassen": 662.0
+      },
+      "profile_name": "Thiên về hàng tươi / đông lạnh"
+    }
+  ],
+  "test_used_for_training": false
+}

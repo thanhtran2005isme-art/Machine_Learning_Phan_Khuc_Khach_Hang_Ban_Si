@@ -1,0 +1,26 @@
+{
+  "status": "COMPLETE",
+  "selection_sha256": "f256dc6a04a5a8eddb0fc854e940bda25a4276b86b184d6155c4cee2a1ed8c64",
+  "test_used_for_selection": false,
+  "test_evaluated_once": true,
+  "model_json_sha256": "5057db0e290c93043abe4add3abf440e64864dc8d187a8d0b22d18621acd3b28",
+  "model_joblib_sha256": "f2f7874807456e6fdbade0be4c1eb124a8245e922dbf5ca6f070a9e040f2c816",
+  "test_sha256": "5a70ab4fc0d9ac49a137b09acd04cbaf32e05d1e7ec8a275aff3eebd533808f4",
+  "training": {
+    "rows": 352,
+    "scope": "train_plus_validation_after_freeze",
+    "silhouette": 0.28915821493432775,
+    "inertia_per_row": 4.163874729781235
+  },
+  "final_test": {
+    "rows": 88,
+    "silhouette": 0.2388899098931593,
+    "inertia_per_row": 4.505144427543876,
+    "cluster_counts": {
+      "0": 45,
+      "1": 43
+    },
+    "min_cluster_share": 0.48863636363636365
+  },
+  "selection_unchanged_after_test": true
+}

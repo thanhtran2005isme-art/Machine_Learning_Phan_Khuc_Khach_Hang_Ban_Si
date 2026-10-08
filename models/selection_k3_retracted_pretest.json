@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN",
+  "decision": "D011",
+  "date": "2026-10-08",
+  "preprocessing": "log1p_standardscaler",
+  "k": 3,
+  "random_state": 42,
+  "n_init": 10,
+  "max_iter": 300,
+  "algorithm": "lloyd",
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "fit_scope": "train_plus_validation_after_freeze",
+  "test_used_for_selection": false,
+  "evidence": {
+    "selection_evidence": {
+      "path": "reports/data/experiments/selection_evidence.csv",
+      "sha256": "1186ae027934a6840390aca1080bc2f53beb14f23cfde1220aca7712aad3bda8"
+    },
+    "review_table": {
+      "path": "reports/data/experiments/review_table.csv",
+      "sha256": "8c5b7480523f682a7f178a393ca217c3242fa76aba30873264050c8203822ce6"
+    },
+    "train": {
+      "path": "data/processed/train.csv",
+      "sha256": "35b039bd4a97a0b4209fb70d6969d0a4117976b20b812aa252c04a48995de01f"
+    },
+    "validation": {
+      "path": "data/processed/validation.csv",
+      "sha256": "2da358c10737747553c34db8e37531ed0b739abf09166c2b805f18328a990cf6"
+    },
+    "train_median_profile": {
+      "path": "reports/data/profiles/log1p_standardscaler_k3_seed42/train_median_profile.csv",
+      "sha256": "6da9fbdb9a6f4d137d765327f4b2363d4933f759c756490e38a0c3c3264a9ec9"
+    },
+    "validation_median_profile": {
+      "path": "reports/data/profiles/log1p_standardscaler_k3_seed42/validation_median_profile.csv",
+      "sha256": "56a9dfbad34635ff50d70031f965090be4cf2ecf888ce84977a7867ef6f55c89"
+    }
+  }
+}

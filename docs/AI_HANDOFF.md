@@ -1,46 +1,43 @@
 # AI HANDOFF — Project 22
 
-> Cập nhật: 2026-10-08. Branch: main. Gate 4 đã kiểm chứng PASS; xem `docs/GATE4_VERIFICATION.md`.
+> Cập nhật: 2026-10-08. Branch: `main`. **Gate 5 COMPLETE**; quyết định D011 và one-shot final test đã thực thi. Xem `docs/GATE5_MODEL_SELECTION.md`.
 
-## Phạm vi và kiến trúc
-- Dataset UCI Wholesale Customers 440 dòng; split train=264, validation=88, final test=88.
-- Chỉ sáu biến chi tiêu: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen được fit.
-- Channel và Region chỉ profiling sau fit; backend Fastify/TypeScript, frontend React/Vite chưa triển khai serving.
-- D010: raw hoặc log1p_standardscaler; K=2..8; seed=42..51; n_init=10; max_iter=300; algorithm=lloyd.
-- Baseline A thống kê train; baseline B raw K=2 seed=42.
-- Scaler và K-Means chỉ fit trên train; validation chỉ transform/predict; **final test giữ kín**.
-- Chưa freeze/ chọn model cuối, chưa export serving artifact hay làm BE/FE.
+## Phạm vi
+- UCI Wholesale Customers 440 dòng: train 264, validation 88, final test 88.
+- Sáu biến fit: Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen. Channel và Region chỉ profiling, không là feature hay ground truth.
+- ML Python/scikit-learn; backend Fastify và frontend React/Vite vẫn ở trạng thái skeleton, chưa tích hợp serving.
+- Gate 4: 14 candidates (raw/log1p+scaler × K=2..8), 10 seed/candidate, tổng 140 runs và 630 ARI pairs; đã kiểm chứng độc lập. Chi tiết `docs/GATE4_VERIFICATION.md`.
 
-## Giai đoạn trước có bằng chứng
-- Gate B data audit PASS: 440 dòng, 8 cột, missing 0, duplicate 0; split 264/88/88.
-- Gate C backend/frontend skeleton và build PASS theo log 2026-10-05.
-- EDA train-only: cả sáu feature giảm absolute skewness sau log1p; vẫn giữ outlier.
-- Có hai script experiment lịch sử: `ml/src/experiment.py` (Gate D trước merge) và `ml/src/experiments.py` (Gate 4 review). D010 là protocol chung, dùng script `experiments.py` cho review mới.
-- Gate 4 trước phiên nghiệm thu: commit `bffb471`. Không reset/pull đè thay đổi.
+## Quyết định cuối và bằng chứng
+- D011 chọn **log1p + StandardScaler, K=2**, random_state=42, n_init=10, max_iter=300, algorithm=lloyd.
+- Train/validation trước freeze: silhouette trung bình 0.2756/0.3066, seed ARI trung bình 0.9970, size train 118/146, validation 46/42.
+- K3 tạo ba nhóm rõ khi fit train nhưng refit 352 làm thay đổi phân hoạch: ARI train-fit vs refit K3=0.3343 so với K2=0.8893; K2 giữ hai nhóm thiên Grocery/Milk/Detergents và Fresh/Frozen.
+- `models/selection.json` đã **FROZEN trước khi mở test**, SHA-256 `f256dc6a04a5a8eddb0fc854e940bda25a4276b86b184d6155c4cee2a1ed8c64`.
+- Bản freeze K3 sơ bộ rút trước test: `models/selection_k3_retracted_pretest.json`, lưu để audit; không phải model cuối.
 
-## Gate 4 — Stability, review và profiling
-- Experiment: 14 candidate × 10 seed = 140 runs; mỗi candidate có 45 cặp ARI, tổng 630.
-- `ml/src/experiments.py` sinh `runs.csv`, `aggregate.csv`, `stability.csv`, `stability_pairs.csv`, `selection_evidence.csv`, metadata và 4 PNG.
-- `ml/src/review_experiments.py` xác minh evidence/metadata, tính ranking riêng theo silhouette, ARI, cluster share và train/validation gap; không gộp điểm/chọn K.
-- `ml/src/profile_candidate.py` tính median đơn vị gốc, Channel/Region hậu phân cụm, centroid inverse-transform, distance/outlier IQR, train/validation share và CSV/JSON/2 PNG cho từng candidate.
-- Shortlist chỉ phục vụ nghiên cứu tiếp; chưa là quyết định lựa chọn cuối.
+## Final test một lần — COMPLETE
+- Chạy `python -m ml.src.finalize_model` **một lần**, exit 0. `models/final_evaluation.json`: `status=COMPLETE`, `test_evaluated_once=true`, `test_used_for_selection=false`.
+- Mô hình cuối fit train+validation 352 dòng: silhouette **0.289158**, inertia/row **4.163875**; cụm 0/1 có **162/190** khách.
+- Final test 88 dòng: silhouette **0.238890**, inertia/row **4.505144**, cụm 0/1 **45/43** (nhỏ nhất 48.86%). Test không tham gia fit/chọn cấu hình.
+- `models/model.json` SHA-256 `5057db0e290c93043abe4add3abf440e64864dc8d187a8d0b22d18621acd3b28`.
+- `models/model.joblib` SHA-256 `f2f7874807456e6fdbade0be4c1eb124a8245e922dbf5ca6f070a9e040f2c816`.
+- Portable JSON prediction khớp sklearn trên development 352 và tại thời điểm đánh giá test. Checksum selection/model khớp biên bản. **Không chạy lại final evaluation**; trạng thái COMPLETE là kết quả cuối.
 
-## Kiểm chứng Gate 4 cuối cùng (2026-10-08)
-- `python -m pytest ml/tests -q` → **96 passed in 31.47s**.
-- 140 K-Means runs, 14 candidate, 630 ARI pairs đủ/không trùng; review và 3 profile chạy thành công.
-- Independent verification: median gốc, inverse centroid, Euclidean distance, IQR outliers, categorical shares, CSV/PNG pixel consistency, negative tests, metadata và leakage isolation.
-- Tái chạy 11 experiment/review artifacts + 42 profile artifacts → hash SHA-256 không đổi.
-- Shortlist nghiên cứu: raw K=2, log1p_standardscaler K=2 và K=3 (seed=42). Chưa chọn K cuối.
-- Báo cáo và các con số chi tiết: `docs/GATE4_VERIFICATION.md`.
+## Kiểm thử thực chạy (2026-10-08)
+- Preflight: 14/14 evidence rows và review hợp lệ, checksum freeze khớp, 352 dòng development không trùng, portable inference khớp; chưa mở test ở bước này.
+- `python -m pytest ml/tests -q` → **100 passed in 30.70s** (trước one-shot final test).
+- `npm run build` → frontend + backend PASS.
+- `npm run test:backend` → **2 passed**; backend `/api/model-info` vẫn là placeholder 503 như thiết kế.
+- Kiểm tra artifact sau final: PASS (checksum và suy luận trên development); lần in tên profile tiếng Việt từ script kiểm tra tạm bị `UnicodeEncodeError` do terminal cp1252, chạy lại dạng escaped ASCII PASS. Không phải lỗi model.
 
-## Những điều cần duy trì
-- Tuyệt đối không đọc `data/processed/test.csv` trong Gate 4.
-- Không chọn K theo riêng silhouette; không so inertia khác preprocessing vì khác scale.
-- Median chi tiêu đơn vị gốc là diễn giải chính; centroid chỉ tham khảo.
-- Không freeze, không sửa backend/frontend trong Gate 4.
+## Giới hạn và nguyên tắc bất biến
+- Test silhouette 0.2389 được báo cáo độc lập; không dùng để chọn lại K/seed, thay preprocessing hoặc điều chỉnh model.
+- KMeans không có ground-truth labels; silhouette/ARI chỉ mô tả cấu trúc và độ ổn định, chưa chứng minh tăng doanh thu.
+- Không so inertia giữa raw và log+scaled; không xóa outlier; không sử dụng Channel/Region để fit hay chọn K.
+- `selection.json`, `final_evaluation.json` và model artifacts là frozen evidence; không ghi đè, không re-run final test. Nếu gặp `CLAIMED`, điều tra trước bất kỳ hành động nào.
 
-## Tiếp theo
-1. Người phụ trách đọc `docs/GATE4_VERIFICATION.md`, `reports/EXPERIMENT_REVIEW.md` và profile CSV/PNG của shortlist.
-2. Thảo luận tính diễn giải của ba candidate, quan sát ảnh hưởng outlier, stability và train/validation gap.
-3. Chỉ tại gate sau, cân nhắc và ghi quyết định chính thức chọn preprocessing/K/seed; freeze trước khi test độc lập.
-4. Giữ kín final test đến đúng giai đoạn chốt cấu hình; chưa triển khai serving, BE/FE trong Gate 4.
+## 4 bước tiếp theo
+1. Giữ artifact Gate 5, không chạy lại `ml:freeze`/`ml:finalize`.
+2. Khi bắt đầu Gate 6, thiết kế contract JSON → Node.js inference cho đúng 6 biến, thứ tự log1p/scale/nearest center.
+3. Viết integration tests Node đối chiếu Python portable predictions trên synthetic/development examples, validation Zod và thông báo lỗi input.
+4. Chỉ sau khi Gate 6 được giao mới tích hợp API/UI và kiểm thử luồng sử dụng; chưa thực hiện trong Gate 5.
