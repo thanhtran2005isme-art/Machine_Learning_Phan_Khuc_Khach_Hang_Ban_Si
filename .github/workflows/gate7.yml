@@ -19,6 +19,8 @@ jobs:
           cache: pip
           cache-dependency-path: ml/requirements.txt
       - run: npm ci
+      - name: Dependency security gate (lockfile)
+        run: npm audit --audit-level=moderate
       - run: npm run build
       - name: Install Playwright runner without editing frozen npm lockfile
         run: npm install --no-save --package-lock=false @playwright/test@1.56.1
