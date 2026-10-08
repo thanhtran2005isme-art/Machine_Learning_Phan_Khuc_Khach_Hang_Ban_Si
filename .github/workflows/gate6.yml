@@ -14,6 +14,18 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Diagnose artifact checksum without modifying files
+        run: |
+          node --input-type=module - <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { createHash } from 'node:crypto';
+          const file=readFileSync('models/model.json');
+          const recorded=JSON.parse(readFileSync('models/final_evaluation.json','utf8')).model_json_sha256;
+          const digest=x=>createHash('sha256').update(x).digest('hex');
+          const lf=file.toString('utf8').replace(/\r\n/g,'\n');
+          const crlf=lf.replace(/\n/g,'\r\n');
+          console.log({ recorded, checked_out: digest(file), crlf: digest(crlf), lf: digest(lf), crlf_count: (file.toString('utf8').match(/\r\n/g)||[]).length });
+          NODE
       - run: npm run test:serving
       - run: npm run test:backend
       - run: npm run build
