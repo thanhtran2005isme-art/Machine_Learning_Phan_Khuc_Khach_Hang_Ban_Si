@@ -1,0 +1,100 @@
+{
+  "rows": 440,
+  "columns": 8,
+  "column_names": [
+    "Channel",
+    "Region",
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "missing_by_column": {
+    "Channel": 0,
+    "Region": 0,
+    "Fresh": 0,
+    "Milk": 0,
+    "Grocery": 0,
+    "Frozen": 0,
+    "Detergents_Paper": 0,
+    "Delicassen": 0
+  },
+  "duplicate_rows": 0,
+  "duplicate_row_indices": [],
+  "negative_counts": {
+    "Fresh": 0,
+    "Milk": 0,
+    "Grocery": 0,
+    "Frozen": 0,
+    "Detergents_Paper": 0,
+    "Delicassen": 0
+  },
+  "channel_counts": {
+    "1": 298,
+    "2": 142
+  },
+  "region_counts": {
+    "1": 77,
+    "2": 47,
+    "3": 316
+  },
+  "iqr_outliers": {
+    "Fresh": {
+      "q1": 3127.75,
+      "q3": 16933.75,
+      "iqr": 13806.0,
+      "lower_fence": -17581.25,
+      "upper_fence": 37642.75,
+      "outlier_count": 20
+    },
+    "Milk": {
+      "q1": 1533.0,
+      "q3": 7190.25,
+      "iqr": 5657.25,
+      "lower_fence": -6952.875,
+      "upper_fence": 15676.125,
+      "outlier_count": 28
+    },
+    "Grocery": {
+      "q1": 2153.0,
+      "q3": 10655.75,
+      "iqr": 8502.75,
+      "lower_fence": -10601.125,
+      "upper_fence": 23409.875,
+      "outlier_count": 24
+    },
+    "Frozen": {
+      "q1": 742.25,
+      "q3": 3554.25,
+      "iqr": 2812.0,
+      "lower_fence": -3475.75,
+      "upper_fence": 7772.25,
+      "outlier_count": 43
+    },
+    "Detergents_Paper": {
+      "q1": 256.75,
+      "q3": 3922.0,
+      "iqr": 3665.25,
+      "lower_fence": -5241.125,
+      "upper_fence": 9419.875,
+      "outlier_count": 30
+    },
+    "Delicassen": {
+      "q1": 408.25,
+      "q3": 1820.25,
+      "iqr": 1412.0,
+      "lower_fence": -1709.75,
+      "upper_fence": 3938.25,
+      "outlier_count": 27
+    }
+  },
+  "policy": {
+    "drop_outliers_automatically": false,
+    "reason": "Outlier được ghi nhận để phân tích; không tự động loại trước thí nghiệm.",
+    "channel_region_usage": "profiling_only"
+  },
+  "source_file": "Wholesale customers data.csv",
+  "source_sha256": "c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef"
+}

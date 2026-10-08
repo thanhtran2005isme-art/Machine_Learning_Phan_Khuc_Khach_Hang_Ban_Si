@@ -1,0 +1,47 @@
+{
+  "scope": "train_only",
+  "rows": 264,
+  "model_features": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "excluded_from_model_features": [
+    "Channel",
+    "Region"
+  ],
+  "comparison": [
+    "raw",
+    "log1p"
+  ],
+  "standard_scaler_fitted": false,
+  "kmeans_fitted": false,
+  "validation_used_for_decision": false,
+  "test_used_for_decision": false,
+  "outlier_policy": "report_only_no_automatic_removal",
+  "notes": [
+    "EDA chỉ mô tả train split.",
+    "log1p là biến đổi xác định; bước này chưa fit StandardScaler.",
+    "Không chọn K trong bước EDA."
+  ],
+  "tables": {
+    "summary_raw": "reports/data/eda/train_summary_raw.csv",
+    "summary_log1p": "reports/data/eda/train_summary_log1p.csv",
+    "skewness": "reports/data/eda/train_skewness.csv",
+    "iqr_outliers": "reports/data/eda/train_iqr_outliers.csv",
+    "preprocessing_comparison": "reports/data/eda/preprocessing_comparison.csv"
+  },
+  "figures": {
+    "distributions_raw": "reports/figures/eda/train_distributions_raw.png",
+    "distributions_log1p": "reports/figures/eda/train_distributions_log1p.png",
+    "boxplots_raw": "reports/figures/eda/train_boxplots_raw.png",
+    "boxplots_log1p": "reports/figures/eda/train_boxplots_log1p.png",
+    "correlation_raw": "reports/figures/eda/train_correlation_raw.png",
+    "correlation_log1p": "reports/figures/eda/train_correlation_log1p.png"
+  },
+  "source_file": "data/processed/train.csv",
+  "source_sha256": "35b039bd4a97a0b4209fb70d6969d0a4117976b20b812aa252c04a48995de01f"
+}
