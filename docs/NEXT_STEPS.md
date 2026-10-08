@@ -1,31 +1,20 @@
-<<<<<<< HEAD
-# Next Steps — Sau Gate 5 (2026-10-08)
+# Next Steps — Sau Gate 6 (2026-10-08)
 
-## Gate 5 đã đóng
+## Đã hoàn thành
 
-- D011: `log1p_standardscaler`, K=2, seed=42; quyết định tại `models/selection.json`.
-- Đã fit model trên train+validation (352 dòng), final test độc lập **một lần** 88 dòng; `models/final_evaluation.json` có `status=COMPLETE`.
-- Model cho Gate 6: `models/model.json` (portable) và `models/model.joblib` (Python reference). Checksum trong `docs/GATE5_MODEL_SELECTION.md`.
-- Đã PASS: ML 100 tests; frontend/backend build; backend 2 tests; artifact verification.
+- Gate 3/4: baseline, K-Means, stability, profiling và review.
+- Gate 5: D011 chọn `log1p_standardscaler`, K=2, seed42; `models/selection.json` là frozen config cuối. Refit development 352, test 88 đánh giá đúng một lần, `models/final_evaluation.json` COMPLETE; serving artifacts `models/model.json`/`model.joblib` bất biến.
+- Gate 6: Fastify API đọc frozen JSON, React 3 màn hình, production smoke và GitHub CI PASS; `run.bat` chạy cả hai app.
+- Lưu ý `models/selection_frozen.json` K3 là lịch sử chọn sơ bộ đã rút **trước final test**; không dùng cho serving.
 
-**Không chạy lại** `python -m ml.src.freeze_selection` hoặc `python -m ml.src.finalize_model`; kết quả đã frozen. Không chọn lại K hay tham số dựa trên final test.
+## Gate 7 (đang kiểm thử)
 
-## Gate 6 — Chỉ bắt đầu khi được giao
+1. Browser E2E Playwright desktop + mobile, navigation, form happy/negative, dashboard, API outage.
+2. Parity Python sklearn joblib ↔ Node JSON trên synthetic inputs, không đọc lại final test.
+3. Audit npm dependencies và cập nhật khi đủ bằng chứng, sau đó full regression & CI.
+4. Cập nhật Gate 7 evidence/handoff/history, bàn giao sau khi thực tế PASS.
 
-1. Xác định contract Node: 6 spending features đúng thứ tự, input hữu hạn, không âm.
-2. Đọc `models/model.json`; suy luận `log1p → (x-mean)/scale → argmin squared Euclidean distance`; không train khi request.
-3. Test Node vs Python portable trên development hoặc synthetic (không đánh giá lại final test), bao gồm input lỗi/biên và cấu hình mô hình.
-4. Tích hợp route inference/model-info, Zod validation, sau đó frontend demo/dashboard.
-5. Quality gates end-to-end; cập nhật kiến trúc, handoff và history khi triển khai.
+## Sau Gate 7
 
-Lý do lựa chọn Raw K2 / Log K2 / Log K3 và biên bản final test xem `docs/GATE5_MODEL_SELECTION.md`.
-=======
-# Next Steps — Sau Gate 5 Selection Freeze
-
-- Đã freeze D011: `log1p_standardscaler`, K=3, seed=42, `n_init=10`, `max_iter=300`, `algorithm=lloyd` trên sáu biến chi tiêu; xem `docs/GATE5_SELECTION.md` và `models/selection_frozen.json`.
-- Quyết định dựa trên train/validation; **final test chưa đọc**, fitted model chưa có. Gate 5 chưa thể xác nhận PASS end-to-end vì runtime local Codex đã hết hiệu lực.
-- Khi local hoạt động lại, kiểm tra `git status --short --branch`, `git pull --ff-only origin main` khi working tree sạch, `python -m pytest ml/tests -q`.
-- Validate config; refit **train+validation**; hoàn tất output và metadata. Chỉ **sau đó** mới đánh giá final test đúng một lần. Không dùng test để sửa config.
-- Xuất fitted model/pipeline và JSON provenance; test load/predict, đối chiếu centroid, cluster profiling gắn đúng cluster ID cuối.
-- Viết báo cáo final test, cập nhật `docs/AI_HANDOFF.md` và `docs/history/2026-10.md`, kiểm tra commit/push. BE/FE chỉ thực hiện tại gate sau.
->>>>>>> 7defe431a81af90ba3b971c30a771ee9a490052c
+- Gate 8 final code audit: clean install, deploy readiness và kiểm thử thủ công Chrome Windows; báo cáo/slide để giai đoạn sau.
+- Không chạy `ml:freeze`, `ml:finalize` hoặc thay D011 vì final test.

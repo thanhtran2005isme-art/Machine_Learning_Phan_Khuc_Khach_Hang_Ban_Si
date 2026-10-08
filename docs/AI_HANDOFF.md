@@ -34,3 +34,9 @@
 4. Đối chiếu đại diện dự đoán Node/Python từ development fixture, không mở final test.
 5. Nếu có lỗi phát hiện thì sửa và cập nhật handoff/history, không sửa frozen artifacts.
 
+
+## Gate 7 — Đang triển khai (chưa xác nhận PASS)
+- `e2e/customer-flow.spec.ts`: Playwright desktop/mobile web end-to-end.
+- `backend/parity.test.mjs`, `ml/tests/gate7_parity_reference.py`: so sánh sklearn joblib ↔ Node JSON với dữ liệu synthetic.
+- `.github/workflows/gate7.yml`: CI browser + parity + npm audit report; không train lại model, không đọc final test.
+- Xem `docs/GATE7_VERIFICATION.md` và CI Gate7 trước khi kết luận.
