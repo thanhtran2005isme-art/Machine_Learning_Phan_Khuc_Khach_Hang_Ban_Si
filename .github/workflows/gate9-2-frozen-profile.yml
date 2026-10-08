@@ -1,0 +1,74 @@
+name: Gate 9.2 Frozen Development Profiling
+on:
+  push:
+    branches: [main]
+    paths:
+      - ml/src/final_profile.py
+      - ml/src/prepare_development_only.py
+      - ml/tests/test_final_profile.py
+      - .github/workflows/gate9-2-frozen-profile.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  final-profile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: ml/requirements.txt
+      - run: python -m pip install -r ml/requirements.txt
+      - name: Download original official UCI dataset (checksum verified later)
+        run: python -m ml.src.download_data
+      - name: Prepare only train and validation (no held-out test split)
+        run: |
+          python -m ml.src.prepare_development_only
+          if test -e data/processed/test.csv; then
+            echo "ERROR: Gate 9.2 must not materialize held-out test"
+            exit 1
+          fi
+      - name: Run eight independent Gate 9.2 tests including 352-row frozen sklearn parity
+        run: python -m pytest ml/tests/test_final_profile.py -q
+      - name: Export frozen final development profiles (no fit)
+        run: |
+          python -m ml.src.final_profile
+          find reports/data/final_profile -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/profile-before.sha
+          python -m ml.src.final_profile
+          find reports/data/final_profile -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/profile-after.sha
+          cmp /tmp/profile-before.sha /tmp/profile-after.sha
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          output = Path("reports/data/final_profile")
+          meta = json.loads((output/"profile_metadata.json").read_text())
+          assert meta["cluster_counts"] == {"0":162,"1":190}
+          assert meta["model_fit_performed"] is False
+          assert meta["scaler_fit_performed"] is False
+          assert meta["test_used"] is False
+          assert len(meta["files"]) == 6
+          assert pd.read_csv(output/"channel_profile.csv")["count"].sum() == 352
+          assert pd.read_csv(output/"region_profile.csv")["count"].sum() == 352
+          print("PASS: frozen profile 352 / counts 162+190 / Channel+Region / no fit")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gate9-2-frozen-profiles
+          path: reports/data/final_profile/
+          retention-days: 30
+      - name: Commit verified data-only artifacts to main (no model mutation)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reports/data/final_profile/
+          if git diff --cached --quiet; then
+            echo "Final profile artifacts already committed."
+          else
+            git commit -m "data(gate9.2): commit verified frozen 352-development profiles [skip ci]"
+            git push origin HEAD:main
+          fi
