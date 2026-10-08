@@ -45,3 +45,10 @@ Response 200 gồm `cluster_id`, `distance_to_centroid`, `distances_to_centroids
 - `npm run test:smoke`: khởi động compiled backend HTTP và gọi health/model-info/dashboard/segment/bad input.
 - Manual E2E: nhập 6 số → API → cluster/profile; thử thiếu 1 số, âm, sai kiểu, cực lớn; thử tắt backend; xem dashboard chart/profile.
 - Không tuyên bố PASS cho môi trường nào chưa có log. Không được mở lại final test để phục vụ Gate 6.
+
+## Evidence GitHub CI
+
+- Run `37777234275`: 4/4 core Node tests PASS, 9/9 Fastify tests PASS, TypeScript backend/frontend + Vite build PASS, production HTTP smoke PASS.
+- Verifier SHA256 Gate 5 trên CRLF khớp chính xác sau Git Linux checkout LF; tampering thật vẫn bị từ chối. Không thay đổi Gate 5 artifact.
+- Chưa có browser E2E hoặc kiểm thử Windows thực tế; người tiếp theo cần chạy local UI.
+- `npm ci` ở CI đã cảnh báo 3 dependency advisories (1 moderate, 2 critical); chưa thực hiện nâng dependency/lockfile trong Gate 6, cần audit riêng trước public deployment.

@@ -27,3 +27,20 @@ test('no input mutation, no coercion, warning not clipping', () => {
 test('dashboard contains real fourteen experiment rows', () => {
   assert.equal(dashboard(loaded).experiments.length, 14);
 });
+
+test('rejects tampering of the frozen model despite valid JSON', async () => {
+  const { mkdtempSync, writeFileSync, rmSync, readFileSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const directory = mkdtempSync(join(tmpdir(), 'gate6-integrity-'));
+  try {
+    const path = join(directory, 'tampered.json');
+    const original = readFileSync(new URL('../models/model.json', import.meta.url), 'utf8');
+    const modified = JSON.parse(original);
+    modified.cluster_centers[0][0] += 0.000001;
+    writeFileSync(path, JSON.stringify(modified), 'utf8');
+    assert.throws(() => loadModel({ modelPath: path }), /checksum mismatch/);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});

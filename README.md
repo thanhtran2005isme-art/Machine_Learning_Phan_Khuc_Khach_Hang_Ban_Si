@@ -1179,3 +1179,24 @@ Report + Slides + Reproducibility Check
 Repository đang ở giai đoạn khởi tạo. README này là **đặc tả yêu cầu + roadmap triển khai** dựa trên đề Project 22.
 
 Khi bắt đầu code, mỗi hạng mục hoàn thành cần được cập nhật lại README để đảm bảo tài liệu luôn đúng với source thực tế.
+
+---
+
+## Chạy ứng dụng Gate 6 (KaitoKidShop — Project 22)
+
+Model đã được đóng băng tại `models/model.json` (D011, log1p + StandardScaler, K=2). Backend Fastify đọc artifact ở startup, **không train lại**.
+
+```powershell
+npm ci
+npm run test:gate6
+# Terminal 1
+npm run dev:backend
+# Terminal 2
+npm run dev:frontend
+```
+
+- Frontend: http://localhost:5173; Backend: http://127.0.0.1:3001.
+- UI: Giới thiệu, Phân khúc (nhập đúng sáu biến số), Dashboard.
+- API: `GET /api/health`, `GET /api/model-info`, `GET /api/dashboard`, `POST /api/segment`.
+- Hướng dẫn API và integrity: `docs/GATE6_SERVING.md`.
+- Không chạy lại `ml:freeze`, `ml:finalize` hoặc đánh giá final test. Báo cáo, slides và browser E2E chưa nằm trong Gate 6 code.

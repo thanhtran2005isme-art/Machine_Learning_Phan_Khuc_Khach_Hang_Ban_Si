@@ -1,6 +1,6 @@
 # AI HANDOFF — Project 22
 
-> Cập nhật: 2026-10-08. Branch: `main`. Gate 5 đã COMPLETE, Gate 6 đã triển khai source trên GitHub; CI đã PASS Node core 4 tests, Fastify 9 tests và TypeScript/Vite build tại GitHub Actions run 37777044973; production HTTP smoke mới thêm cần chờ CI kiểm chứng.
+> Cập nhật: 2026-10-08. Branch: `main`. Gate 5 đã COMPLETE, Gate 6 đã triển khai source trên GitHub; CI đã PASS Node core 4 tests, Fastify 9 tests và TypeScript/Vite build tại GitHub Actions run 37777044973; production HTTP smoke PASS tại GitHub Actions run 37777234275.
 
 ## Phạm vi và nguồn sự thật
 
@@ -23,7 +23,7 @@
 ## Bằng chứng trước Gate 6
 
 - Gate 5 local: Python tests 100 passed, backend tests 2 passed, frontend/backend build PASS (theo history trước).
-- Gate 6: CI run 37777044973 chứng minh Node test 4 PASS, Fastify 9 PASS, TypeScript/Vite build PASS. HTTP production smoke test chờ kết quả workflow mới.
+- Gate 6: CI run 37777044973 chứng minh Node test 4 PASS, Fastify 9 PASS, TypeScript/Vite build PASS. Production HTTP smoke PASS tại run 37777234275; checksum mismatch (LF/CRLF) đã được xử lý không thay frozen artifact. CI hiện 4 Node + 9 Fastify tests + build + HTTP smoke PASS; chạy lại CI sau test integrity bổ sung.
 - Current source ưu tiên hơn tài liệu nếu có mâu thuẫn; conflict merge K2/K3 trong AI_HANDOFF và DECISIONS đã được giải quyết ở Gate 6.
 
 ## Việc tiếp theo
