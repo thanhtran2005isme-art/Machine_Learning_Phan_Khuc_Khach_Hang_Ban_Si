@@ -200,7 +200,7 @@ test('Gate 9.4 chart values are grounded in the verified final API profile', asy
   expect(label).toContain('cụm 1 ' + profile.cluster_sizes[1].count + ' khách');
   const medians = await page.getByRole('img', { name: /^Tỷ lệ median theo cụm/ }).getAttribute('aria-label');
   expect(medians).toContain('Fresh cụm 0 ' + profile.median_ratio[0].values.Fresh.toFixed(3));
-  expect(medians).toContain('Detergents_Paper cụm 1 ' + profile.median_ratio[1].values.Detergents_Paper.toFixed(3));
+  expect(medians).toContain('Detergents_Paper cụm 0 ' + profile.median_ratio[0].values.Detergents_Paper.toFixed(3) + ', cụm 1 ' + profile.median_ratio[1].values.Detergents_Paper.toFixed(3));
   await expect(page.getByRole('heading', { name: 'Median chi tiêu gốc theo cụm' })).toBeVisible();
   await expect(page.getByRole('heading', { name: profile.cluster_summary[0].name })).toBeVisible();
   await expect(page.getByRole('heading', { name: profile.cluster_summary[1].name })).toBeVisible();
