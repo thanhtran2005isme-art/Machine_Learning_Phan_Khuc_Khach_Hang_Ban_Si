@@ -65,3 +65,10 @@
 - Data/model cards and complete sample API response, UCI m.u. monetary units, prediction timing and outlier/metric caveats in UI+API. See `docs/GATE9_5_INTERPRETATION.md`.
 - Source-grounded API/UI assertions and browser tests all passed: Gate6 `37813391195`, Gate7 `37813391072` 40/40, Windows `37813391303` 40/40, batch startup, audit 0.
 - Next Gate9.6: re-audit 88 requirement IDs, clean reproducibility without reading final test or replacing frozen artifacts; no report/slides yet.
+
+## Gate 9.6 — CODE FREEZE CI VERIFIED
+
+- 88 requirement snapshot updated (57/16/9/6): `docs/GATE9_6_REQUIREMENTS_MATRIX.md`.
+- Train/validation cold rerun on Linux/Windows: 140 runs + 630 ARI, match frozen evidence, no test use (CI `37816077339`). All source regression gates `37816077328`, `37816077510`, `37816077345` SUCCESS, Windows 40/40 browser.
+- 503 model path disclosure fixed. Model artifacts unchanged; release snapshot to be pinned after final docs commit.
+- Remaining outside feature build: manual Windows10 verification, journal/group attribution, report/slides, course slide bibliography. Follow `docs/GATE9_6_FINAL.md`.

@@ -70,3 +70,11 @@
 - `GET /api/model-info` backwards-compatibly adds `data_card`/`model_card` based on frozen D011 metadata, selection rationale, conditions and safe-use limits. Intro, segment and dashboard now reflect cards/units from API.
 - CI runs Gate6 `37813391195` SUCCESS (15 Node, 13 Fastify, TS/Vite build, HTTP smoke), Gate7 `37813391072` SUCCESS (40 E2E Linux), Windows `37813391303` SUCCESS (40 E2E Windows, clean install, npm audit 0, batch smoke). Frozen artifacts unchanged, no ML final test rerun.
 - Historical K3 proposal doc now prominently superseded pre-test; old candidate paths historical only. Next Gate9.6: full 88-ID requirement evidence re-audit and cold reproducibility with zero final-test reevaluation.
+
+## Gate 9.6 — FINAL CODE CI VERIFIED
+
+- Cold Linux/Windows `37816077339`: raw UCI SHA, train/val frozen 264/88 SHA, original 140-run grid & 630 ARI pairs + 14 candidate review reproduced in temp; no test.csv, no frozen model change. Fixed Python Windows cp1252 console via UTF-8 CI env.
+- Gate6 `37816077328`: 15 Node, 14 Fastify, build/smoke, audit0. Gate7 `37816077510`: 40 E2E Linux. Gate8 `37816077345`: 40 E2E Windows, clean install, batch smoke, audit0.
+- API 503 no longer leaks internal model-loading paths; added regression.
+- Gate9.6 matrix `docs/GATE9_6_REQUIREMENTS_MATRIX.csv` + MD = **57 PASS /16 PARTIAL /9 MISSING /6 NOT REQUIRED**, includes deferred report/slides/team evidence honestly. [Final acceptance](GATE9_6_FINAL.md).
+- Stop adding features; next manual Windows10 demonstration + real group evidence/reports, when user requests. NEVER rerun final holdout/refit D011.

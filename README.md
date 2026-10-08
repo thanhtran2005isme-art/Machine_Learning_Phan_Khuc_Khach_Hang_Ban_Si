@@ -1234,3 +1234,7 @@ Dữ liệu thực từ `GET /api/dashboard.final_profile`: biểu đồ median 
 ## Gate 9.5 — Data card / Model card / API sample
 
 Nguồn [UCI](https://archive.ics.uci.edu/dataset/292/wholesale%2Bcustomers) ghi sáu khoản chi tiêu **hằng năm**, đơn vị **monetary units (m.u.)**, **không mặc định VND**; model chỉ nhận sáu feature có sẵn, không dự báo cho khách chưa có dữ liệu chi tiêu. `GET /api/model-info` cung cấp `data_card` và `model_card` đọc tham số D011 đã đóng băng; giao diện ba màn hình hiển thị lý do chọn K2 và giới hạn (khoảng cách không phải confidence). Xem [Data card](docs/DATA_CARD.md), [Model card](docs/MODEL_CARD.md), [Ví dụ API JSON](docs/GATE9_5_API_EXAMPLES.md) và [biên bản Gate9.5](docs/GATE9_5_INTERPRETATION.md). Không thay đổi model/final test.
+
+## Gate 9.6 — Final requirement closure và code freeze
+
+Gates 6/7/8 regression + Gate9.6 cold replay Linux/Windows đều PASS, không chạy lại final test. Ma trận cập nhật **88 mục: 57 PASS, 16 PARTIAL, 9 MISSING, 6 NOT REQUIRED**; các mục còn lại chủ yếu về hồ sơ học thuật và minh chứng đóng góp, không bị coi optional. Chi tiết: [Gate9.6 Final](docs/GATE9_6_FINAL.md), [88 requirements](docs/GATE9_6_REQUIREMENTS_MATRIX.md). Model D011/K2 bất biến. Windows10 máy cá nhân cần nghiệm thu nhấp đúp cuối.
