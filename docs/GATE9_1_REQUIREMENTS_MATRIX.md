@@ -190,3 +190,9 @@ Trước khi thay source: xác minh đầu vào 352 development hiện có hoặ
 
 - R2-03/R3-02/R3-03/R4-01/R5-06/R5-07/R5-12/R6-13/R7-14: new source-based [Data card](DATA_CARD.md), [Model card](MODEL_CARD.md), [API example](GATE9_5_API_EXAMPLES.md) and [Gate9.5 technical notes](GATE9_5_INTERPRETATION.md). Includes original UCI m.u. annual spending, DOI/license, prediction timing, seed/n_init, selection tradeoffs, and output limitations. Course lecture references remain pending user-provided materials; do not invent.
 - **Snapshot statuses stay as originally audited** until Gate9.6 independently checks source/tests/CI and updates each ID. Group contribution/report/slides remain mandatory but deferred.
+
+## Gate 9.5 CI verified (snapshot counts remain unchanged)
+
+- [Gate6 success](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37813391195): 15 serving + 13 API, build/smoke. [Gate7 success](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37813391072) and [Windows success](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37813391303): **40/40 E2E** each.
+- Data/model cards and API full JSON sample are now covered by tests, K3 historical doc explicitly marked superseded; original candidate metadata still uses old absolute path and is not the final serving profile. Reassess `R3-12` at Gate9.6 on the basis of reproducibility without touching frozen provenance.
+- Full 88 requirement audit/status recalculation and final ML cold reproducibility **not yet performed**, reports/slides/group evidence still deferred and mandatory at submission.

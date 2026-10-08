@@ -60,8 +60,8 @@
 - Browser E2E **34/34 PASS** on Linux `37812066044` and Windows `37812066198`. Backend build/regression `37812065997` PASS. See `docs/GATE9_4_FRONTEND.md`.
 - **Next Gate 9.5**: interpretation of monetary units/time of prediction, model/data card, complete API response example, limits and final outlier interpretation. Then **Gate 9.6**: requirement matrix re-audit and final cold reproducibility without using held-out final test.
 
-## Gate 9.5 — source documentation and cards in progress
+## Gate 9.5 — COMPLETE, CI verified
 
 - Data/model cards and complete sample API response, UCI m.u. monetary units, prediction timing and outlier/metric caveats in UI+API. See `docs/GATE9_5_INTERPRETATION.md`.
-- New model-info Fastify assertions and desktop/mobile UI tests; **require CI PASS before closure**.
+- Source-grounded API/UI assertions and browser tests all passed: Gate6 `37813391195`, Gate7 `37813391072` 40/40, Windows `37813391303` 40/40, batch startup, audit 0.
 - Next Gate9.6: re-audit 88 requirement IDs, clean reproducibility without reading final test or replacing frozen artifacts; no report/slides yet.

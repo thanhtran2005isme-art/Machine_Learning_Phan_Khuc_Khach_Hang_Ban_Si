@@ -1,5 +1,7 @@
 # Gate 9.5 — Diễn giải, đơn vị, model/data card
 
+**Trạng thái: COMPLETE — CI VERIFIED, 2026-10-09.**
+
 **Phạm vi:** không có tính năng ML mới; chỉ công bố **nguồn, đơn vị, cấu hình, điều kiện đầu vào và giới hạn suy luận** cho API/UI, cùng tài liệu dữ liệu/mô hình. Không làm báo cáo hoặc slide.
 
 ## Audit nguồn gốc
@@ -34,3 +36,16 @@
 - scikit-learn KMeans: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html
 - scikit-learn clustering/metrics: https://scikit-learn.org/stable/modules/clustering.html
 - Frozen selection facts: `docs/GATE5_MODEL_SELECTION.md`
+
+## Bằng chứng CI đã nghiệm thu
+
+- [Gate 6 / BE, FE run 37813391195](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37813391195): SUCCESS, **15/15 Node native serving**, **13/13 Fastify API tests**, TS/Vite builds và compiled production HTTP smoke PASS.
+- [Gate 7 / Browser run 37813391072](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37813391072): SUCCESS, **40/40 E2E desktop/mobile Chromium Linux**, Python ↔ Node frozen sklearn parity PASS, dependency audit 0 vulnerabilities tại thời điểm chạy.
+- [Gate 8 / Windows run 37813391303](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37813391303): SUCCESS, Windows clean install, audit 0 vulnerabilities, 15 Node + 13 API, **40/40 browser tests**, `run.bat --ci` FE HTTP200, Backend modelReady true, K2 prediction 0.
+- Bằng chứng local Git diff của Gate 9.5 phải xác nhận `models/` + `reports/data/final_profile/` không đổi. Nhánh chính sau biên bản này chỉ có code UI/API và docs.
+- CI Windows là runner Windows Server, **không** thay thế manual thao tác nhấp đúp trên Windows10 cá nhân.
+
+## Historical evidence clarification
+
+- `docs/GATE5_SELECTION.md` ghi quyết định K3 trước final test; đã được gắn **banner SUPERSEDED PRE-TEST**. Văn bản dưới banner lưu nguyên lịch sử cho kiểm toán; quyết định phục vụ thực tế là D011 K2.
+- `reports/data/profiles/log1p_standardscaler_k2_seed42/profile_metadata.json` là candidate **train 264** và chứa đường dẫn local `C:\\Users\\...` từ máy tác giả. Đây là **metadata lịch sử**, không dùng để phục vụ web hiện tại; giữ bất biến, không sửa checksum hồi tố. Hồ sơ cuối đang dùng `reports/data/final_profile/` có path tương đối + checksum (Gate9.2).

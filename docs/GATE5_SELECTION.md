@@ -1,3 +1,5 @@
+> **LƯU TRỮ LỊCH SỬ — QUYẾT ĐỊNH K=3 DƯỚI ĐÂY ĐÃ RÚT TRƯỚC FINAL TEST. KHÔNG DÙNG ĐỂ SERVING.** Quyết định có hiệu lực là **D011 K=2 `log1p_standardscaler`**, đã freeze ở `models/selection.json`; minh chứng và lý do điều chỉnh tại [GATE5_MODEL_SELECTION.md](GATE5_MODEL_SELECTION.md) và [MODEL_CARD.md](MODEL_CARD.md). Nội dung còn lại giữ nguyên để truy vết quá trình trước test.
+
 # Gate 5 — Model Selection (2026-10-08)
 
 **Decision D011: FROZEN CONFIG — `log1p_standardscaler`, K=3, seed=42, n_init=10, max_iter=300, lloyd.** Đây là quyết định trên train/validation. Final test chưa được mở, final fit và model artifact chưa thực hiện.

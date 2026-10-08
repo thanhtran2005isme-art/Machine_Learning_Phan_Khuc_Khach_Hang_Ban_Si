@@ -65,7 +65,8 @@
 - CI runs: Gate6 `37812065997` SUCCESS; Gate7 `37812066044` SUCCESS **34/34 E2E**; Windows Gate8 `37812066198` SUCCESS **34/34 E2E**, clean install, audit, batch smoke. No models/ or final_profile/ changes.
 - [Technical acceptance details](GATE9_4_FRONTEND.md). Next: Gate 9.5 explanations/data+model card and 9.6 final requirements closure, no re-fit/test.
 
-## Gate 9.5 — source-grounded interpretability (CI evidence pending)
+## Gate 9.5 — source-grounded interpretability COMPLETE (CI VERIFIED)
 - Added `docs/DATA_CARD.md`, `docs/MODEL_CARD.md`, `docs/GATE9_5_API_EXAMPLES.md` and `docs/GATE9_5_INTERPRETATION.md`. Source UCI annual **monetary units (m.u.)**, no named currency, dataset DOI/license and raw checksum. Correct time of applicability only after 6 annual spending features are available.
 - `GET /api/model-info` backwards-compatibly adds `data_card`/`model_card` based on frozen D011 metadata, selection rationale, conditions and safe-use limits. Intro, segment and dashboard now reflect cards/units from API.
-- Added backend + E2E tests. **CI is pending**, do not mark complete before verified GitHub Actions results. No changes in `models/` or Gate9.2 profiles; no ML final test rerun.
+- CI runs Gate6 `37813391195` SUCCESS (15 Node, 13 Fastify, TS/Vite build, HTTP smoke), Gate7 `37813391072` SUCCESS (40 E2E Linux), Windows `37813391303` SUCCESS (40 E2E Windows, clean install, npm audit 0, batch smoke). Frozen artifacts unchanged, no ML final test rerun.
+- Historical K3 proposal doc now prominently superseded pre-test; old candidate paths historical only. Next Gate9.6: full 88-ID requirement evidence re-audit and cold reproducibility with zero final-test reevaluation.
