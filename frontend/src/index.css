@@ -15,3 +15,63 @@ h1,h2,h3,p{margin-top:0}h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.18;l
 .footer{background:#fff;border-top:1px solid #e1e7e8;color:#819093;font-size:.8rem;padding:21px 0}
 @media(max-width:880px){.stat-grid{grid-template-columns:repeat(2,1fr)}.segment-grid,.three-columns,.profile-grid,.charts{grid-template-columns:1fr}.hero{padding:30px}}
 @media(max-width:600px){.container{width:min(100% - 24px,1160px)}.header-inner{flex-direction:column;align-items:stretch;padding:12px 0;gap:10px}.nav-tabs{justify-content:space-between}.nav-tabs button{padding:9px 8px;font-size:.88rem}.stat-grid{gap:9px}.stat{padding:13px}.stat strong{font-size:1.4rem}.input-grid,.model-facts{grid-template-columns:1fr}.content-card,.result-card{padding:18px}.main-content{padding-top:20px}.hero{padding:25px 20px}}
+
+
+/* Gate 9.4: native, data-driven charts — no chart-library dependency */
+.candidate-explorer{border-top:1px solid #e6ebea;margin-top:23px;padding-top:23px}
+.candidate-explorer .section-heading{margin-bottom:15px}
+.candidate-k-controls{display:flex;flex-wrap:wrap;gap:7px}
+.candidate-k-controls button{border:1px solid #ccd9d8;background:white;color:#314a4d;border-radius:7px;padding:9px 13px;font-weight:650;min-width:55px}
+.candidate-k-controls .toggle-selected{background:#116b56;color:#fff;border-color:#116b56}
+.candidate-k-controls button:focus-visible,.toggle-row button:focus-visible,.nav-tabs button:focus-visible{outline:2px solid #277f69;outline-offset:3px}
+.candidate-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin:20px 0 12px}
+.candidate-frozen-note{color:#116b56;background:#e9f4ef;border:1px solid #c6e4d7;border-radius:6px;font-size:.77rem;font-weight:700;padding:5px 9px}
+.candidate-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.candidate-metrics>div{border:1px solid #e5e9e9;border-radius:8px;padding:14px;min-width:0}
+.candidate-metrics dt{color:#67777c;font-size:.78rem}
+.candidate-metrics dd{font-size:1.15rem;font-weight:750;margin:6px 0 0;color:#163a32;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.analysis-block{min-width:0;margin:4px 0;padding:18px;border:1px solid #e5ebeb;border-radius:11px;background:#fff}
+.analysis-block h3{margin-bottom:12px}
+.analysis-block>.small-note{margin-bottom:14px}
+.profile-analysis-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:16px}
+.profile-analysis-grid>.analysis-block{margin:0}
+.cluster-size-track{display:flex;height:26px;width:100%;background:#edf2f2;overflow:hidden;border-radius:7px}
+.cluster-size-part,.category-segment{display:block;height:100%}
+.cluster-color-0{background:#116b56}.cluster-color-1{background:#416ca0}
+.cluster-size-legend{display:flex;flex-wrap:wrap;gap:15px;margin-top:14px}
+.cluster-size-legend>div{display:flex;align-items:center;gap:7px;font-size:.84rem;flex-wrap:wrap}
+.cluster-dot,.category-dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none}
+.cluster-dot.cluster-color-0{background:#116b56}.cluster-dot.cluster-color-1{background:#416ca0}
+.median-chart{display:grid;gap:12px}
+.median-chart-row{display:grid;grid-template-columns:minmax(86px,125px) minmax(0,1fr);align-items:center;gap:10px}
+.median-chart-row>strong{font-size:.78rem;color:#415158;line-height:1.4;overflow-wrap:anywhere}
+.median-series{display:grid;gap:4px;min-width:0}
+.median-bar-row{display:grid;grid-template-columns:minmax(0,1fr) 44px;align-items:center;gap:5px}
+.median-bar-track{background:#f2f5f5;border-radius:3px;min-width:0;height:14px;position:relative;overflow:hidden}
+.median-bar{display:block;position:relative;z-index:1;height:100%;border-radius:2px}
+.median-reference-line{position:absolute;top:0;bottom:0;border-left:2px dashed #b08e45;z-index:2}
+.median-value{text-align:right;font-size:.73rem;font-variant-numeric:tabular-nums;color:#52656c}
+.ratio-legend,.category-legend{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin:0 0 15px;font-size:.78rem;color:#4d6368}
+.ratio-legend>.cluster-dot{margin-right:-6px}
+.ratio-reference-symbol{height:14px;border-left:2px dashed #b08e45;margin-right:-6px}
+.category-legend>span{display:inline-flex;align-items:center;gap:5px}
+.category-1{background:#256d63}.category-2{background:#d3a35c}.category-3{background:#648bb0}
+.category-cluster{margin:14px 0}.category-heading{display:flex;justify-content:space-between;gap:8px;font-size:.82rem;margin-bottom:7px}
+.category-track{display:flex;height:23px;border-radius:5px;overflow:hidden;background:#edf2f2}
+.table-scroll{overflow-x:auto;max-width:100%;margin-top:16px}
+.data-table{width:100%;border-collapse:collapse;text-align:right;font-size:.8rem;font-variant-numeric:tabular-nums}
+.data-table caption{caption-side:top}.data-table th,.data-table td{border-bottom:1px solid #e9eeee;padding:9px 7px;white-space:nowrap}
+.data-table th:first-child,.data-table td:first-child{text-align:left}
+.data-table thead th{color:#53666b;font-weight:650;background:#f7faf9}
+.distance-chart{display:grid;gap:13px}
+.distance-chart-row{display:grid;grid-template-columns:48px minmax(0,1fr) 75px;gap:10px;align-items:center}
+.distance-chart-row>strong{font-size:.79rem}
+.distance-track{height:18px;background:#f2f5f5;border-radius:4px;overflow:hidden;position:relative}
+.distance-maximum{display:block;position:absolute;inset:0 auto 0 0;background:#b9c8d3;border-radius:3px}
+.distance-p95{display:block;position:absolute;inset:0 auto 0 0;background:#116b56;border-radius:3px}
+.distance-label{font-size:.76rem;color:#52656c;font-variant-numeric:tabular-nums;text-align:right}
+.distance-max-symbol{display:inline-block;background:#b9c8d3;width:12px;height:11px;border-radius:2px;margin-right:-6px}
+.profile-detail-heading{margin:24px 0 14px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:980px){.profile-analysis-grid{grid-template-columns:1fr}.candidate-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.analysis-block{padding:14px}.median-chart-row{grid-template-columns:90px minmax(0,1fr);gap:7px}.median-bar-row{grid-template-columns:minmax(0,1fr) 40px}.candidate-metrics{gap:7px}.candidate-metrics>div{padding:11px}.candidate-metrics dd{font-size:1rem}.category-legend{gap:7px}}

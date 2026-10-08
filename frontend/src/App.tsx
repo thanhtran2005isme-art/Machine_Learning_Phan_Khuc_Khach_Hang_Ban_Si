@@ -18,11 +18,35 @@ type Experiment = {
   preprocessing: string; k: number; train_inertia: number;
   validation_silhouette: number; ari: number; min_cluster_share: number;
 };
+type FinalProfile = {
+  source_scope: 'train_plus_validation'; development_count: number; read_only: boolean; test_used: boolean;
+  feature_columns: Feature[]; model_sha256: string; profiling_only_columns: ('Channel' | 'Region')[];
+  cluster_summary: Profile[];
+  cluster_sizes: { cluster_id: number; count: number; share: number }[];
+  median_ratio: { cluster_id: number; values: Record<Feature, number> }[];
+  channel_profile: { cluster_id: number; channel: number; count: number; within_cluster_share: number }[];
+  region_profile: { cluster_id: number; region: number; count: number; within_cluster_share: number }[];
+  distance_summary: {
+    cluster_id: number; count: number; min: number; mean: number; median: number;
+    p90: number; p95: number; max: number; q1: number; q3: number;
+    iqr_upper_fence: number; iqr_distance_outlier_count: number; inertia_per_member: number;
+  }[];
+  outliers: { count: number; top_1pct_count: number; top_1pct_inertia_share: number; rule: string };
+  inertia_per_row: number; distance_space: string; median_ratio_denominator: string;
+  evidence_sha256: Record<string, string>;
+};
 type Dashboard = {
+  selection_decision: string; k: number; preprocessing: string;
+  final_profile: FinalProfile;
   experiments: Experiment[]; training: { rows: number; silhouette: number; inertia_per_row: number };
   final_test: { rows: number; silhouette: number; inertia_per_row: number; cluster_counts: Record<string, number> };
   profiles: Profile[]; metric_note: string;
 };
+const EXPERIMENT_K = [2, 3, 4, 5, 6, 7, 8] as const;
+const CATEGORY_NAMES = {
+  channel: { 1: 'Horeca', 2: 'Bán lẻ' },
+  region: { 1: 'Lisbon', 2: 'Oporto', 3: 'Khu vực khác' },
+} as const;
 const FIELDS: { key: Feature; label: string; description: string }[] = [
   { key: 'Fresh', label: 'Hàng tươi', description: 'Fresh' },
   { key: 'Milk', label: 'Sữa', description: 'Milk' },
@@ -82,6 +106,187 @@ function ProfileCard({ profile }: { profile: Profile }) {
     </div>)}</div>
   </article>;
 }
+
+function verifyDashboard(payload: Dashboard): Dashboard {
+  const final = payload?.final_profile;
+  if (payload?.selection_decision !== 'D011' || payload.k !== 2 ||
+      payload.preprocessing !== 'log1p_standardscaler' ||
+      !Array.isArray(payload.experiments) || payload.experiments.length !== 14 ||
+      !final || final.source_scope !== 'train_plus_validation' ||
+      final.development_count !== 352 || final.read_only !== true || final.test_used !== false ||
+      !Array.isArray(final.feature_columns) ||
+      final.feature_columns.join(',') !== FIELDS.map(f => f.key).join(',') ||
+      !Array.isArray(final.cluster_sizes) || final.cluster_sizes.length !== 2 ||
+      final.cluster_sizes[0].cluster_id !== 0 || final.cluster_sizes[1].cluster_id !== 1 ||
+      final.cluster_sizes[0].count + final.cluster_sizes[1].count !== 352 ||
+      !Array.isArray(final.cluster_summary) || final.cluster_summary.length !== 2 ||
+      !Array.isArray(final.median_ratio) || final.median_ratio.length !== 2 ||
+      !Array.isArray(final.channel_profile) || final.channel_profile.length !== 4 ||
+      !Array.isArray(final.region_profile) || final.region_profile.length !== 6 ||
+      !Array.isArray(final.distance_summary) || final.distance_summary.length !== 2 ||
+      !final.outliers || !Number.isFinite(final.outliers.count)) {
+    throw new Error('Hồ sơ phân khúc cuối thiếu hoặc không hợp lệ.');
+  }
+  return payload;
+}
+
+function CandidateExplorer({ candidate, selectionK, preprocessing, valueK, onChangeK }: {
+  candidate: Experiment | undefined; selectionK: number; preprocessing: string;
+  valueK: number; onChangeK: (value: number) => void;
+}) {
+  return <section className="candidate-explorer" aria-label="Khám phá cấu hình K">
+    <div className="section-heading">
+      <h3>Khám phá cấu hình K</h3>
+      <p>Chỉ xem bằng chứng train/validation; không thay đổi mô hình phân khúc cuối.</p>
+    </div>
+    <div className="candidate-k-controls" role="group" aria-label="Chọn K để xem thí nghiệm">
+      {EXPERIMENT_K.map(k =>
+        <button type="button" key={k} className={valueK === k ? 'toggle-selected' : ''}
+          aria-pressed={valueK === k} onClick={() => onChangeK(k)}>K={k}</button>)}
+    </div>
+    {candidate ? <>
+      <div className="candidate-heading"><strong>{preprocessing === 'raw' ? 'Raw' : 'Log1p + StandardScaler'} · K={candidate.k}</strong>
+        {candidate.k === selectionK && preprocessing === 'log1p_standardscaler' &&
+          <span className="candidate-frozen-note">D011 · Mô hình được chọn</span>}
+      </div>
+      <dl className="candidate-metrics">
+        <div><dt>Train inertia</dt><dd data-testid="candidate-inertia">{formatNumber(candidate.train_inertia, 2)}</dd></div>
+        <div><dt>Validation silhouette</dt><dd data-testid="candidate-silhouette">{formatNumber(candidate.validation_silhouette, 4)}</dd></div>
+        <div><dt>ARI stability</dt><dd data-testid="candidate-ari">{formatNumber(candidate.ari, 4)}</dd></div>
+        <div><dt>Tỷ trọng cụm nhỏ nhất</dt><dd data-testid="candidate-min-share">{formatPercent(candidate.min_cluster_share)}</dd></div>
+      </dl>
+    </> : <p className="notice notice-error" role="alert">Không có bằng chứng thí nghiệm cho lựa chọn này.</p>}
+    <p className="muted small-note">K phục vụ luôn cố định: {selectionK}. Các candidate chỉ là kết quả thí nghiệm, không có hồ sơ 352 mẫu hay model serving riêng.</p>
+  </section>;
+}
+
+function ClusterSizeChart({ profile }: { profile: FinalProfile }) {
+  const ordered = [...profile.cluster_sizes].sort((a,b) => a.cluster_id - b.cluster_id);
+  return <div className="analysis-block">
+    <h3>Quy mô hai cụm</h3>
+    <div className="cluster-size-track" role="img" aria-label={'Quy mô cụm: ' +
+      ordered.map(r => 'cụm ' + r.cluster_id + ' ' + r.count + ' khách, ' + formatPercent(r.share)).join('; ')}>
+      {ordered.map(row => <span key={row.cluster_id} className={'cluster-size-part cluster-color-' + row.cluster_id}
+        style={{ width: (row.share * 100) + '%' }} />)}
+    </div>
+    <div className="cluster-size-legend">
+      {ordered.map(row => <div key={row.cluster_id}>
+        <span className={'cluster-dot cluster-color-' + row.cluster_id} />
+        <strong>Cụm {row.cluster_id}: {formatNumber(row.count)} khách</strong>
+        <span className="muted">{formatPercent(row.share)}</span>
+      </div>)}
+    </div>
+    <p className="muted small-note">Tỷ trọng của 352 khách development, không phải số lượng khách mới được dự đoán.</p>
+  </div>;
+}
+
+function MedianRatioChart({ profile }: { profile: FinalProfile }) {
+  const ratios = [...profile.median_ratio].sort((a,b) => a.cluster_id - b.cluster_id);
+  const max = Math.max(1, ...ratios.flatMap(r => FIELDS.map(f => r.values[f.key])));
+  const reference = 100 / max;
+  const description = 'Tỷ lệ median theo cụm so với median của toàn bộ 352 khách: ' +
+    FIELDS.map(f => f.key + ' ' + ratios.map(r => 'cụm ' + r.cluster_id + ' ' +
+      r.values[f.key].toFixed(3)).join(', ')).join('; ');
+  return <div className="analysis-block">
+    <h3>So sánh median chi tiêu</h3>
+    <p className="muted small-note">Tỷ lệ so với median chung của 352 mẫu development; mốc 1,0 là bằng median chung. Các thanh dùng cùng thang đo.</p>
+    <div className="ratio-legend"><span className="cluster-dot cluster-color-0"/> Cụm 0
+      <span className="cluster-dot cluster-color-1"/> Cụm 1
+      <span className="ratio-reference-symbol"/> Mốc 1,0</div>
+    <div className="median-chart" role="img" aria-label={description}>
+      {FIELDS.map(f => <div className="median-chart-row" key={f.key}>
+        <strong>{f.label}</strong>
+        <div className="median-series">
+          {ratios.map(r => <div className="median-bar-row" key={r.cluster_id}>
+            <div className="median-bar-track">
+              <span className="median-reference-line" style={{ left: reference + '%' }}/>
+              <span className={'median-bar cluster-color-' + r.cluster_id}
+                style={{ width: (r.values[f.key] / max * 100) + '%' }}/>
+            </div>
+            <span className="median-value">{formatNumber(r.values[f.key], 2)}×</span>
+          </div>)}
+        </div>
+      </div>)}
+    </div>
+    <p className="muted small-note">Chi tiêu gốc theo đơn vị monetary units của UCI; tỷ lệ trên không phải số tiền hay độ tin cậy.</p>
+  </div>;
+}
+
+type DistributionRow = { cluster_id: number; count: number; within_cluster_share: number; channel?: number; region?: number };
+function DistributionChart({ title, field, rows, sizes }: {
+  title: string; field: 'channel' | 'region'; rows: DistributionRow[];
+  sizes: FinalProfile['cluster_sizes'];
+}) {
+  const codes = field === 'channel' ? [1,2] : [1,2,3];
+  const categories = CATEGORY_NAMES[field];
+  return <section className="analysis-block distribution-chart">
+    <h3>{title}</h3>
+    <p className="muted small-note">Tỷ lệ theo từng cụm, chỉ dùng để diễn giải hậu phân cụm, không tham gia huấn luyện hoặc chọn K.</p>
+    <div className="category-legend">
+      {codes.map(code => <span key={code}><span className={'category-dot category-' + code}/>{categories[code as keyof typeof categories]} ({code})</span>)}
+    </div>
+    {sizes.map(c => {
+      const details = codes.map(code => rows.find(r => r.cluster_id === c.cluster_id &&
+        (field === 'channel' ? r.channel : r.region) === code));
+      return <div className="category-cluster" key={c.cluster_id}>
+        <div className="category-heading"><strong>Cụm {c.cluster_id}</strong><span className="muted">{c.count} khách</span></div>
+        <div role="img" className="category-track" aria-label={title + ', cụm ' + c.cluster_id + ': ' +
+          details.map((row,i) => String(categories[codes[i] as keyof typeof categories]) +
+            ' ' + (row?.count ?? 0) + ' khách, ' + formatPercent(row?.within_cluster_share ?? 0)).join('; ')}>
+          {details.map((row,i) => <span key={codes[i]} className={'category-segment category-' + codes[i]}
+            style={{ width: ((row?.within_cluster_share ?? 0) * 100) + '%' }} />)}
+        </div>
+      </div>;
+    })}
+    <div className="table-scroll">
+      <table className="data-table">
+        <caption className="sr-only">{title} theo số lượng và tỷ trọng từng cụm</caption>
+        <thead><tr><th scope="col">Cụm</th><th scope="col">{field === 'channel' ? 'Channel' : 'Region'}</th><th scope="col">Khách</th><th scope="col">Trong cụm</th></tr></thead>
+        <tbody>{rows.map(row => {
+          const code = field === 'channel' ? row.channel : row.region;
+          return <tr key={row.cluster_id + '-' + code}><th scope="row">Cụm {row.cluster_id}</th>
+            <td>{categories[code as keyof typeof categories]} ({code})</td>
+            <td>{formatNumber(row.count)}</td><td>{formatPercent(row.within_cluster_share)}</td></tr>;
+        })}</tbody>
+      </table>
+    </div>
+  </section>;
+}
+
+function DistanceChart({ profile }: { profile: FinalProfile }) {
+  const distances = [...profile.distance_summary].sort((a,b) => a.cluster_id - b.cluster_id);
+  const max = Math.max(1, ...distances.map(r => r.max));
+  return <section className="analysis-block">
+    <h3>Khoảng cách tới tâm cụm</h3>
+    <p className="muted small-note">Khoảng cách Euclidean trong không gian log1p + StandardScaler; không phải xác suất hay độ tin cậy.</p>
+    <div className="ratio-legend"><span className="cluster-dot cluster-color-0" /> P95
+      <span className="distance-max-symbol" /> Khoảng cách lớn nhất</div>
+    <div className="distance-chart" role="img" aria-label={'Khoảng cách tới tâm cụm: ' +
+      distances.map(d => 'cụm ' + d.cluster_id + ' trung vị ' + d.median.toFixed(3) +
+        ', P95 ' + d.p95.toFixed(3) + ', tối đa ' + d.max.toFixed(3) +
+        ', ngoại lệ IQR ' + d.iqr_distance_outlier_count).join('; ')}>
+      {distances.map(d => <div className="distance-chart-row" key={d.cluster_id}>
+        <strong>Cụm {d.cluster_id}</strong><div className="distance-track">
+          <span className="distance-maximum" style={{ width: (d.max / max * 100) + '%' }}/>
+          <span className="distance-p95" style={{ width: (d.p95 / max * 100) + '%' }}/>
+        </div><span className="distance-label">P95 {formatNumber(d.p95, 2)}</span>
+      </div>)}
+    </div>
+    <div className="table-scroll">
+      <table className="data-table">
+        <caption className="sr-only">Thống kê khoảng cách của mô hình cuối</caption>
+        <thead><tr><th scope="col">Cụm</th><th scope="col">Trung vị</th><th scope="col">P95</th><th scope="col">Tối đa</th><th scope="col">Ngoại lệ IQR</th></tr></thead>
+        <tbody>{distances.map(d => <tr key={d.cluster_id}>
+          <th scope="row">Cụm {d.cluster_id}</th><td>{formatNumber(d.median, 3)}</td>
+          <td>{formatNumber(d.p95, 3)}</td><td>{formatNumber(d.max, 3)}</td>
+          <td>{formatNumber(d.iqr_distance_outlier_count)}</td>
+        </tr>)}</tbody>
+      </table>
+    </div>
+    <p className="muted small-note">Tổng {formatNumber(profile.outliers.count)} mẫu ngoài ngưỡng khoảng cách Q3 + 1,5×IQR theo từng cụm; chỉ gắn cờ, không loại dữ liệu.</p>
+  </section>;
+}
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('intro');
   const [info, setInfo] = useState<ModelInfo | null>(null);
@@ -89,6 +294,7 @@ export default function App() {
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
   const [dashboardError, setDashboardError] = useState<string | null>(null);
   const [preprocessing, setPreprocessing] = useState('log1p_standardscaler');
+  const [candidateK, setCandidateK] = useState<number>(2);
   const [values, setValues] = useState<Record<Feature, string>>({
     Fresh: '', Milk: '', Grocery: '', Frozen: '', Detergents_Paper: '', Delicassen: '',
   });
@@ -108,7 +314,7 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (screen !== 'dashboard' || dashboard) return;
-    getJson<Dashboard>('/api/dashboard').then(setDashboard).catch(e => setDashboardError(String(e.message)));
+    getJson<Dashboard>('/api/dashboard').then(verifyDashboard).then(setDashboard).catch(e => setDashboardError(String(e.message)));
   }, [screen, dashboard]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -143,6 +349,7 @@ export default function App() {
     setValues(Object.fromEntries(FIELDS.map(f => [f.key, String(profile.median_spending[f.key])])) as Record<Feature, string>);
   };
   const allRows = dashboard?.experiments.filter(row => row.preprocessing === preprocessing) || [];
+  const candidate = allRows.find(row => row.k === candidateK);
 
   return <div className="app-shell">
     <header className="site-header">
@@ -221,11 +428,33 @@ export default function App() {
           <section className="content-card"><div className="section-heading"><h2>So sánh K=2..8</h2><p>Chọn một không gian để xem inertia; không so sánh trực tiếp trị số inertia giữa raw và scaled.</p></div>
             <div className="toggle-row"><button className={preprocessing === 'log1p_standardscaler' ? 'toggle-selected' : ''} onClick={() => setPreprocessing('log1p_standardscaler')}>Log1p + StandardScaler</button><button className={preprocessing === 'raw' ? 'toggle-selected' : ''} onClick={() => setPreprocessing('raw')}>Raw</button></div>
             <div className="charts"><Chart title="Elbow · Train inertia" description="Thấp hơn khi K tăng; dùng xem mức thay đổi trong cùng preprocessing." rows={allRows} metric="train_inertia" /><Chart title="Validation silhouette" description="Giá trị cao hơn biểu thị phân tách tốt hơn theo metric này." rows={allRows} metric="validation_silhouette" /><Chart title="ARI stability qua 10 seed" description="Độ nhất quán gán cụm giữa các lần khởi tạo." rows={allRows} metric="ari" /></div>
+            <CandidateExplorer candidate={candidate} selectionK={dashboard.k} preprocessing={preprocessing}
+              valueK={candidateK} onChangeK={setCandidateK}/>
             <p className="muted small-note">{dashboard.metric_note}</p>
           </section>
-          <section className="content-card"><div className="section-heading"><h2>Hồ sơ 2 phân khúc cuối</h2><p>Median chi tiêu theo đơn vị gốc, tính từ 352 khách train+validation.</p></div><div className="profile-grid">{dashboard.profiles.map(p => <ProfileCard key={p.cluster_id} profile={p} />)}</div></section>
+          <section className="content-card" aria-label="Hồ sơ phân khúc cuối">
+            <div className="section-heading"><h2>Hồ sơ 2 phân khúc cuối</h2>
+              <p>Model D011 K=2; hậu phân cụm trên {dashboard.final_profile.development_count} khách train + validation, không sử dụng tập test.</p>
+            </div>
+            <ClusterSizeChart profile={dashboard.final_profile}/>
+            <div className="profile-analysis-grid">
+              <MedianRatioChart profile={dashboard.final_profile}/>
+              <DistanceChart profile={dashboard.final_profile}/>
+            </div>
+            <div className="profile-analysis-grid">
+              <DistributionChart title="Phân bố Channel" field="channel" rows={dashboard.final_profile.channel_profile}
+                sizes={dashboard.final_profile.cluster_sizes}/>
+              <DistributionChart title="Phân bố Region" field="region" rows={dashboard.final_profile.region_profile}
+                sizes={dashboard.final_profile.cluster_sizes}/>
+            </div>
+            <div className="section-heading profile-detail-heading"><h3>Median chi tiêu gốc theo cụm</h3>
+              <p>Đơn vị chi tiêu theo dữ liệu UCI Wholesale Customers; số liệu trích từ model đã đóng băng.</p></div>
+            <div className="profile-grid">{dashboard.final_profile.cluster_summary.map(p => <ProfileCard key={p.cluster_id} profile={p} />)}</div>
+          </section>
           <section className="content-card"><div className="section-heading"><h2>Model card</h2><p>Trạng thái mô hình đã freeze trước final test.</p></div>
-            <dl className="model-facts"><div><dt>Preprocessing</dt><dd>log1p + StandardScaler</dd></div><div><dt>Số cụm</dt><dd>2</dd></div><div><dt>Huấn luyện</dt><dd>352 khách (train + validation)</dd></div><div><dt>Final test</dt><dd>88 khách, silhouette {formatNumber(dashboard.final_test.silhouette, 6)}</dd></div><div><dt>Artifact SHA-256</dt><dd className="hash">{info?.artifact_sha256 || 'Đang tải…'}</dd></div></dl>
+            <dl className="model-facts"><div><dt>Preprocessing</dt><dd>log1p + StandardScaler</dd></div><div><dt>Số cụm</dt><dd>2</dd></div><div><dt>Huấn luyện</dt><dd>{dashboard.final_profile.development_count} khách (train + validation)</dd></div><div><dt>Final test</dt><dd>88 khách, silhouette {formatNumber(dashboard.final_test.silhouette, 6)}</dd></div><div><dt>Artifact SHA-256</dt><dd className="hash">{dashboard.final_profile.model_sha256}</dd></div>
+              <div><dt>Phạm vi profiling</dt><dd>Development 352 · Channel/Region chỉ diễn giải</dd></div>
+              <div><dt>Hồ sơ kiểm chứng</dt><dd>{Object.keys(dashboard.final_profile.evidence_sha256).length} CSV đã xác minh SHA-256 tại Backend</dd></div></dl>
             <p className="muted small-note">{info?.limitations}</p>
           </section>
         </>}
