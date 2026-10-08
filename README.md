@@ -1200,3 +1200,17 @@ npm run dev:frontend
 - API: `GET /api/health`, `GET /api/model-info`, `GET /api/dashboard`, `POST /api/segment`.
 - Hướng dẫn API và integrity: `docs/GATE6_SERVING.md`.
 - Không chạy lại `ml:freeze`, `ml:finalize` hoặc đánh giá final test. Báo cáo, slides và browser E2E chưa nằm trong Gate 6 code.
+
+## Gate 7 — Web/API E2E và bảo mật dependencies
+
+Gate 7 đã PASS GitHub Actions: **18/18 Chromium desktop/mobile-emulated tests**, đối chiếu Python sklearn ↔ Node trên 6 trường hợp tổng hợp và `npm audit` báo 0 vulnerabilities sau nâng Vitest. Xem [docs/GATE7_VERIFICATION.md](docs/GATE7_VERIFICATION.md).
+
+Kiểm tra nhanh regression: `npm ci` → `npm run test:gate6`. Để kiểm thử trình duyệt tại Windows, cài test runner riêng (không phải dependency của ứng dụng):
+
+```powershell
+npm install --no-save --package-lock=false @playwright/test@1.56.1
+npx playwright install chromium
+npm run test:e2e
+```
+
+Để chạy thử FE/BE bình thường: nhấp đúp `run.bat`. Mobile trong CI là Chromium giả lập kích thước thiết bị, không thay thế nghiệm thu trên điện thoại vật lý. Model D011 không được huấn luyện/đánh giá lại.

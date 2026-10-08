@@ -93,26 +93,19 @@ Node.js không được tự ý train K-Means mỗi request.
 
 ## 6. Trạng thái hiện tại
 
-### Đã dựng
+### Machine Learning / Gate 3–5
 
-- React skeleton.
-- Node/Fastify skeleton với `GET /api/health` và placeholder `GET /api/model-info`.
-- Python data download/audit/split/prepare.
-- Data quality validation.
-- Train/validation/test split cố định + manifest.
-- Unit tests cho data split/validation và backend skeleton.
-- EDA train-only cùng baseline A/B, 140 thí nghiệm K-Means train/validation, profiling và stability.
+- Data audit, split 264/88/88, train-only EDA, baseline, 140 K-Means runs và 630 ARI comparisons đã hoàn thành.
+- D011: model cuối `log1p_standardscaler` + K=2, fit development 352 khách, final test 88 khách đánh giá đúng một lần và đã COMPLETE.
+- `models/selection.json`, `models/model.json`, `models/model.joblib` canonical; checksum và frozen metadata được giữ nguyên.
 
-### Gate 5 đã hoàn thành
+### Serving Web & API / Gate 6–7
 
-- D011 chọn `log1p_standardscaler`, K=2 sau so sánh train/validation và kiểm tra refit trên 352 dòng.
-- `models/selection.json` freeze trước final test; model fit train+validation; đánh giá final test 88 dòng đúng một lần (`status=COMPLETE`).
-- Artifact serving JSON và Python joblib đã xuất và kiểm tra checksum; portable inference khớp sklearn.
-
-### Chưa làm có chủ đích
-
-- API `POST /api/segment`, `GET /api/dashboard`, `GET /api/model-info` đã có source và validation.
-- React 3 màn hình đã có source và kết nối API; xem Gate 6 CI/local test evidence để xác nhận runtime.
+- Fastify `GET /api/health`, `GET /api/model-info`, `GET /api/dashboard`, `POST /api/segment` đã hoàn thiện; không chạy train khi request.
+- React/Vite ba màn hình Giới thiệu, Phân khúc và Dashboard đã kết nối API thực.
+- Gate 6 CI: TypeScript/Vite build + 5 native tests + 9 API tests + production HTTP smoke PASS.
+- Gate 7 CI: 18 Playwright E2E desktop/mobile PASS; Python sklearn joblib ↔ Node portable parity PASS trên 6 synthetic vectors; security audit sau nâng Vitest5 không còn advisory được npm báo. Xem `docs/GATE7_VERIFICATION.md`.
+- Chưa thực hiện manual Chrome Windows thật hoặc deployment công khai.
 
 ## 7. Kiến trúc tài liệu để tiếp tục qua nhiều phiên AI
 

@@ -33,3 +33,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Gate 7 local Playwright evidence (CI uploads failures as Actions artifacts)
+e2e/test-results/
+e2e/playwright-report/
+playwright-report/
+test-results/

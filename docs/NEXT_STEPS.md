@@ -7,12 +7,13 @@
 - Gate 6: Fastify API đọc frozen JSON, React 3 màn hình, production smoke và GitHub CI PASS; `run.bat` chạy cả hai app.
 - Lưu ý `models/selection_frozen.json` K3 là lịch sử chọn sơ bộ đã rút **trước final test**; không dùng cho serving.
 
-## Gate 7 (đang kiểm thử)
+## Gate 7 — COMPLETE trong CI
 
-1. Browser E2E Playwright desktop + mobile, navigation, form happy/negative, dashboard, API outage.
-2. Parity Python sklearn joblib ↔ Node JSON trên synthetic inputs, không đọc lại final test.
-3. Audit npm dependencies và cập nhật khi đủ bằng chứng, sau đó full regression & CI.
-4. Cập nhật Gate 7 evidence/handoff/history, bàn giao sau khi thực tế PASS.
+- Python sklearn ↔ Node parity 1/1 PASS trên 6 synthetic vectors, không đọc lại final test.
+- Playwright Chromium desktop và mobile emulation 18/18 PASS; happy/negative UI, API outage, dashboard, responsive.
+- Audit dependencies sau nâng Vitest5: 0 vulnerabilities được npm báo; `package-lock.json` cập nhật có regression.
+- Gate 6 và Gate 7 GitHub CI SUCCESS: `37789072881` và `37789072891`.
+- Xem `docs/GATE7_VERIFICATION.md` để biết evidence và giới hạn (chưa manual Windows).
 
 ## Sau Gate 7
 
