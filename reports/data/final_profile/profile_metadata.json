@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "decision": "D011",
+  "scope": "train_plus_validation",
+  "source_rows": {
+    "train": 264,
+    "validation": 88
+  },
+  "frozen_k": 2,
+  "frozen_preprocessing": "log1p_standardscaler",
+  "model_fit_performed": false,
+  "scaler_fit_performed": false,
+  "test_used": false,
+  "source_policy": "read train.csv and validation.csv only; no final test or re-fit",
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "profiling_only_columns": [
+    "Channel",
+    "Region"
+  ],
+  "distance_space": "Euclidean in frozen log1p StandardScaler space",
+  "outlier_policy": "distance > cluster Q3 + 1.5*IQR; descriptive flag, no removal",
+  "median_ratio_denominator": "overall 352-development median by feature",
+  "provenance": {
+    "selection_sha256": "f256dc6a04a5a8eddb0fc854e940bda25a4276b86b184d6155c4cee2a1ed8c64",
+    "model_sha256": "5057db0e290c93043abe4add3abf440e64864dc8d187a8d0b22d18621acd3b28",
+    "train_sha256": "35b039bd4a97a0b4209fb70d6969d0a4117976b20b812aa252c04a48995de01f",
+    "validation_sha256": "2da358c10737747553c34db8e37531ed0b739abf09166c2b805f18328a990cf6"
+  },
+  "files": {
+    "cluster_summary.csv": {
+      "path": "reports/data/final_profile/cluster_summary.csv",
+      "sha256": "ba27a64777323a96eb3d84b6af75455eaf802bd7ecf59f77c5fa17997fe41dc0"
+    },
+    "median_ratio.csv": {
+      "path": "reports/data/final_profile/median_ratio.csv",
+      "sha256": "2873a3abb97615ad93c008dd292831295304c536bdee72fd377c78cae54a98c5"
+    },
+    "cluster_sizes.csv": {
+      "path": "reports/data/final_profile/cluster_sizes.csv",
+      "sha256": "f682254c70772ceb2963e8121643119a0fdfe8d252de8260fbe3a0d8932ecec2"
+    },
+    "channel_profile.csv": {
+      "path": "reports/data/final_profile/channel_profile.csv",
+      "sha256": "31270de1b49e55b0ad8aff37136824e992d4305057d43734d171c3776da6c535"
+    },
+    "region_profile.csv": {
+      "path": "reports/data/final_profile/region_profile.csv",
+      "sha256": "f99bb9607f7628ecdcdf397577782baa869905c434b3116008858f53c9a36d71"
+    },
+    "distance_summary.csv": {
+      "path": "reports/data/final_profile/distance_summary.csv",
+      "sha256": "6e2838882d5c5e3fee0177b3d89e376732538232a6846809434f8c049ee104c5"
+    }
+  },
+  "development_count": 352,
+  "cluster_counts": {
+    "0": 162,
+    "1": 190
+  },
+  "distance_outlier_count": 16,
+  "top_1pct_count": 4,
+  "top_1pct_inertia_share": 0.09722438407028816,
+  "inertia_per_row": 4.163874729781235
+}
