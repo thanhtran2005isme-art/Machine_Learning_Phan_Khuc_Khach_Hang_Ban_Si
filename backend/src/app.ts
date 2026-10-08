@@ -14,17 +14,17 @@ const spending = z.object({
 export function buildApp(options: { modelPath?: string; profileDir?: string } = {}) {
   const app = Fastify({ logger: false, bodyLimit: 16 * 1024 });
   let loaded: LoadedModel | null = null;
-  let loadError: string | null = null;
   try {
     loaded = loadModel(options);
-  } catch (error) {
-    loadError = error instanceof Error ? error.message : 'Model unavailable';
+  } catch {
+    // Do not expose internal filesystem paths or model-loading diagnostics to HTTP clients.
+    loaded = null;
   }
   app.get('/api/health', async () => ({
     status: 'ok', service: 'wholesale-customer-segmentation-api', modelReady: loaded !== null,
   }));
   app.get('/api/model-info', async (_request, reply) => {
-    if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable', detail: loadError });
+    if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });
     return modelInfo(loaded);
   });
   app.get('/api/dashboard', async (_request, reply) => {
