@@ -161,7 +161,7 @@
 | **9.3 — API evidence/dashboard** | Expose experiment candidate và final profile có schema/provenance, errors và API tests | R5-02, R5-19 |
 | **9.4 — UI đúng đề** | Chart median 6 biến, cluster sizes, candidate K2–8 read-only, thông tin đơn vị/mô hình, responsive + E2E | R5-02, R5-03, R5-07, R5-12, R7-06 |
 | **9.5 — Diễn giải, tài liệu** | Đơn vị & thời điểm đầu vào, model/data card, request+response example, phân tích outlier, remove misleading old status/K3 docs, relative metadata trong lần tái tạo mới | R2-03, R3-02, R3-03, R3-12, R4-01, R4-08, R5-06, R6-13, R7-14 |
-| **9.6 — Full regression/reproducibility** | Rà toàn bộ request/response/chart/evidence + clean ML regeneration **không chạy lại final test**; thử Windows10 local | R2-04, R2-10, R6-11, R7-03, R7-07 |
+| **9.6 — Full regression/reproducibility** | Rà toàn bộ request/response/chart/evidence + clean ML regeneration **không chạy lại final test**; thử Windows10 local | R2-04, R6-11, R7-03, R7-07 |
 | **Hồ sơ nhóm và nộp — HOÃN** | Lịch 6 tuần, bằng chứng 2 thành viên, tự đánh giá, checkpoint, báo cáo PDF/DOCX, slides/demo/vấn đáp (không tạo dữ kiện giả) | R2-11, R5-13, R5-14, R5-15, R6-01, R6-02, R6-04, R6-05, R6-06, R6-07, R6-08, R6-14, R7-08, R7-12, R7-13 |
 
 ## Những bằng chứng **chưa được làm** trong Gate 9.1
