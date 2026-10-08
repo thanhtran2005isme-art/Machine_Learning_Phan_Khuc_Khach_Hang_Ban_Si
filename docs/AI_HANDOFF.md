@@ -51,3 +51,9 @@
 - Derived outputs committed in `74ddfb24bc771e048c1c025e6591e692e9d3de53`: 6 CSV + profile_metadata.json in `reports/data/final_profile/`. Frozen models unchanged.
 - Model K2 final cluster sizes **162/190**, Channel/Region totals 352, distance outliers IQR 5/11, inertia/row 4.163874729781235.
 - **Next: Gate 9.3** API loads only verified profile files and exposes stable validated JSON contract, no profile retraining.
+
+## Gate 9.3 — Backend verified final profile
+- `backend/final-profile.mjs`: validate model D011 + selected metadata, SHA256 per CSV including LF/CRLF compatibility, CSV shape, summary/size/Channel/Region/ratio/distance consistency against frozen artifacts. Every dashboard request verifies files, no fit/train/test access.
+- `GET /api/dashboard` backwards compatible with Gate 6, adds `final_profile`. Invalid files → 503; health/segment stay operational. See `docs/GATE9_3_API.md`.
+- Gate6 CI run 37810418640: 15/15 Node tests, 11/11 Fastify tests, builds and HTTP smoke PASS. Gate7/8/browser regression separate runs; verify before declaring full closure.
+- Next: Gate9.4 FE charts/table candidate explorer sourced only from verified API.

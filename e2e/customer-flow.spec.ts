@@ -160,3 +160,27 @@ test('old API response cannot restore a cleared or edited prediction', async ({ 
   await expect(page.locator('.empty-result')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Phân khúc khách hàng', exact: true })).toBeEnabled();
 });
+
+test('Gate 9.3 dashboard API provides checksum-verified final 352-development data without changing selected K', async ({ request }) => {
+  const response = await request.get('/api/dashboard');
+  expect(response.status()).toBe(200);
+  const body = await response.json();
+  expect(body.k).toBe(2);
+  expect(body.preprocessing).toBe('log1p_standardscaler');
+  expect(body.experiments).toHaveLength(14);
+  expect(body.final_profile).toMatchObject({
+    development_count: 352,
+    source_scope: 'train_plus_validation',
+    profiling_only_columns: ['Channel', 'Region'],
+    test_used: false,
+    read_only: true,
+  });
+  expect(body.final_profile.cluster_sizes.map((r: {count: number}) => r.count)).toEqual([162, 190]);
+  expect(body.final_profile.cluster_summary).toHaveLength(2);
+  expect(body.final_profile.median_ratio).toHaveLength(2);
+  expect(body.final_profile.distance_summary).toHaveLength(2);
+  expect(body.final_profile.outliers.count).toBe(16);
+  expect(body.final_profile.channel_profile.reduce((n: number, r: {count: number}) => n + r.count, 0)).toBe(352);
+  expect(body.final_profile.region_profile.reduce((n: number, r: {count: number}) => n + r.count, 0)).toBe(352);
+  expect(Object.keys(body.final_profile.evidence_sha256)).toHaveLength(6);
+});

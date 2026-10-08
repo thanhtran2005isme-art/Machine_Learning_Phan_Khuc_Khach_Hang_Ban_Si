@@ -42,3 +42,8 @@
 - CI `37797274530` SUCCESS 8/8 tests; generated Git commit `74ddfb24` contains 6 validated profile CSVs and `profile_metadata.json`.
 - Cluster 0: 162; cluster 1: 190; Channel/Region, medians and distance metrics verified against frozen D011, no fit/test read. See `docs/GATE9_2_FROZEN_PROFILE.md`.
 - **Next Gate 9.3:** API expose profile/evidence with checksum validation; then Gate 9.4 charts/dashboard. No model retrain or final test.
+
+## Gate 9.3 — Verified API implemented
+- `GET /api/dashboard` now includes checksum-verified `final_profile`: cluster summary, sizes, six-variable median ratios, Channel/Region distribution, centroid distance/outlier metrics and provenance.
+- Core Gate6 CI `37810418640` PASS (15 Node / 11 API tests / builds / smoke); see `docs/GATE9_3_API.md`.
+- Next Gate9.4 UI: read these real arrays to build profile chart, cluster sizes, candidate K explorer and model card, plus desktop/mobile E2E.
