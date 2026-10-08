@@ -184,3 +184,115 @@ test('Gate 9.3 dashboard API provides checksum-verified final 352-development da
   expect(body.final_profile.region_profile.reduce((n: number, r: {count: number}) => n + r.count, 0)).toBe(352);
   expect(Object.keys(body.final_profile.evidence_sha256)).toHaveLength(6);
 });
+
+
+test('Gate 9.4 chart values are grounded in the verified final API profile', async ({ page, request }) => {
+  const api = await request.get('/api/dashboard');
+  expect(api.status()).toBe(200);
+  const { final_profile: profile } = await api.json();
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'So sánh median chi tiêu' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Quy mô hai cụm' })).toBeVisible();
+  const size = page.getByRole('img', { name: /^Quy mô cụm:/ });
+  const label = await size.getAttribute('aria-label');
+  expect(label).toContain('cụm 0 ' + profile.cluster_sizes[0].count + ' khách');
+  expect(label).toContain('cụm 1 ' + profile.cluster_sizes[1].count + ' khách');
+  const medians = await page.getByRole('img', { name: /^Tỷ lệ median theo cụm/ }).getAttribute('aria-label');
+  expect(medians).toContain('Fresh cụm 0 ' + profile.median_ratio[0].values.Fresh.toFixed(3));
+  expect(medians).toContain('Detergents_Paper cụm 1 ' + profile.median_ratio[1].values.Detergents_Paper.toFixed(3));
+  await expect(page.getByRole('heading', { name: 'Median chi tiêu gốc theo cụm' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: profile.cluster_summary[0].name })).toBeVisible();
+  await expect(page.getByRole('heading', { name: profile.cluster_summary[1].name })).toBeVisible();
+});
+
+test('Gate 9.4 Channel and Region charts show the original category counts and percentages', async ({ page, request }) => {
+  const { final_profile: profile } = await (await request.get('/api/dashboard')).json();
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Phân bố Channel' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Phân bố Region' })).toBeVisible();
+  const channel = await page.getByRole('img', { name: /^Phân bố Channel, cụm 0/ }).getAttribute('aria-label');
+  expect(channel).toContain(profile.channel_profile.find((x: { cluster_id: number; channel: number }) =>
+    x.cluster_id === 0 && x.channel === 1).count + ' khách');
+  const region = await page.getByRole('img', { name: /^Phân bố Region, cụm 1/ }).getAttribute('aria-label');
+  expect(region).toContain(profile.region_profile.find((x: { cluster_id: number; region: number }) =>
+    x.cluster_id === 1 && x.region === 3).count + ' khách');
+  await expect(page.getByRole('table', { name: 'Phân bố Channel theo số lượng và tỷ trọng từng cụm' })).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Phân bố Region theo số lượng và tỷ trọng từng cụm' })).toBeVisible();
+});
+
+test('Gate 9.4 distance plot and outlier breakdown match API without treating distances as confidence', async ({ page, request }) => {
+  const { final_profile: profile } = await (await request.get('/api/dashboard')).json();
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Khoảng cách tới tâm cụm' })).toBeVisible();
+  const labels = await page.getByRole('img', { name: /^Khoảng cách tới tâm cụm:/ }).getAttribute('aria-label');
+  expect(labels).toContain('cụm 0 trung vị ' + profile.distance_summary[0].median.toFixed(3));
+  expect(labels).toContain('cụm 1 trung vị ' + profile.distance_summary[1].median.toFixed(3));
+  expect(labels).toContain('ngoại lệ IQR ' + profile.distance_summary[1].iqr_distance_outlier_count);
+  await expect(page.getByRole('table', { name: 'Thống kê khoảng cách của mô hình cuối' })).toBeVisible();
+  await expect(page.getByText('Tổng ' + profile.outliers.count + ' mẫu ngoài ngưỡng')).toBeVisible();
+});
+
+test('Gate 9.4 K explorer browses all candidates without changing K=2 serving', async ({ page, request }) => {
+  const api = await request.get('/api/dashboard');
+  const evidence = await api.json();
+  const explorer = (await page.goto('/'), await page.getByRole('button', { name: 'Dashboard', exact: true }).click(),
+    page.getByRole('region', { name: 'Khám phá cấu hình K' }));
+  await expect(explorer).toBeVisible();
+  const controls = page.getByRole('group', { name: 'Chọn K để xem thí nghiệm' });
+  const serving = page.getByText('D011 · Mô hình được chọn');
+  await expect(serving).toBeVisible();
+  for (const k of [3, 5, 8]) {
+    await controls.getByRole('button', { name: 'K=' + k, exact: true }).click();
+    await expect(controls.getByRole('button', { name: 'K=' + k })).toHaveAttribute('aria-pressed', 'true');
+    const entry = evidence.experiments.find((e: { k: number; preprocessing: string }) =>
+      e.k === k && e.preprocessing === 'log1p_standardscaler');
+    await expect(page.getByTestId('candidate-inertia')).toHaveText(
+      entry.train_inertia.toLocaleString('vi-VN', { maximumFractionDigits: 2 }));
+    await expect(serving).toHaveCount(0);
+  }
+  await page.getByRole('button', { name: 'Raw', exact: true }).click();
+  const raw = evidence.experiments.find((e: { k: number; preprocessing: string }) =>
+    e.k === 8 && e.preprocessing === 'raw');
+  await expect(page.getByTestId('candidate-silhouette')).toHaveText(
+    raw.validation_silhouette.toLocaleString('vi-VN', { maximumFractionDigits: 4 }));
+  await controls.getByRole('button', { name: 'K=2', exact: true }).click();
+  await expect(serving).toHaveCount(0);
+  await page.getByRole('button', { name: 'Log1p + StandardScaler', exact: true }).click();
+  await expect(serving).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Hồ sơ 2 phân khúc cuối' })).toBeVisible();
+  await expect(page.getByText('K phục vụ luôn cố định: 2.')).toBeVisible();
+  const prediction = await request.post('/api/segment', { data: sample });
+  expect(prediction.ok()).toBeTruthy();
+  expect([0,1]).toContain((await prediction.json()).cluster_id);
+});
+
+test('Gate 9.4 denies misleading visuals if final profile is missing from API 200', async ({ page }) => {
+  await page.route('**/api/dashboard', async route => {
+    const response = await route.fetch();
+    const original = await response.json();
+    delete original.final_profile;
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(original) });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('Hồ sơ phân khúc cuối thiếu hoặc không hợp lệ');
+  await expect(page.getByRole('heading', { name: 'Quy mô hai cụm' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'So sánh median chi tiêu' })).toHaveCount(0);
+});
+
+test('Gate 9.4 has no document overflow at narrow 320px while tables scroll internally', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'So sánh median chi tiêu' })).toBeVisible();
+  const widths = await page.evaluate(() => ({
+    doc: document.documentElement.scrollWidth, viewport: window.innerWidth,
+    tables: [...document.querySelectorAll<HTMLElement>('.table-scroll')].map(x => x.scrollWidth >= x.clientWidth),
+  }));
+  expect(widths.doc).toBeLessThanOrEqual(widths.viewport + 1);
+  expect(widths.tables).toHaveLength(3);
+  expect(widths.tables.every(Boolean)).toBeTruthy();
+});
