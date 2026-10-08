@@ -1,6 +1,6 @@
 # AI HANDOFF — Project 22
 
-> Cập nhật: 2026-10-08. Branch: `main`. Gate 5 đã COMPLETE, Gate 6 đã triển khai source trên GitHub; CI đã PASS Node core 4 tests, Fastify 9 tests và TypeScript/Vite build tại GitHub Actions run 37777044973; production HTTP smoke PASS tại GitHub Actions run 37777234275.
+> Cập nhật: 2026-10-08. Branch: `main`. Gate 5 đã COMPLETE, Gate 6 đã triển khai source trên GitHub; Gate 6 CI hoàn chỉnh PASS: GitHub Actions run 37777406114 (5 Node-native tests, 9 Fastify injection tests, TypeScript/Vite build, production HTTP smoke).
 
 ## Phạm vi và nguồn sự thật
 
@@ -23,12 +23,12 @@
 ## Bằng chứng trước Gate 6
 
 - Gate 5 local: Python tests 100 passed, backend tests 2 passed, frontend/backend build PASS (theo history trước).
-- Gate 6: CI run 37777044973 chứng minh Node test 4 PASS, Fastify 9 PASS, TypeScript/Vite build PASS. Production HTTP smoke PASS tại run 37777234275; checksum mismatch (LF/CRLF) đã được xử lý không thay frozen artifact. CI hiện 4 Node + 9 Fastify tests + build + HTTP smoke PASS; chạy lại CI sau test integrity bổ sung.
+- Gate 6: CI run 37777406114 PASS trên GitHub Actions Ubuntu/Node22: Node-native 5/5, Fastify 9/9, frontend/backend build, production HTTP smoke. Test checksum tampering PASS; LF/CRLF mismatch được xử lý mà không sửa artifact Gate 5.
 - Current source ưu tiên hơn tài liệu nếu có mâu thuẫn; conflict merge K2/K3 trong AI_HANDOFF và DECISIONS đã được giải quyết ở Gate 6.
 
 ## Việc tiếp theo
 
-1. Xem kết quả Gate 6 CI (Node native tests, Fastify Vitest, TypeScript + Vite build).
+1. Gate 6 CI đã PASS; kiểm tra thủ công browser E2E trên Windows nếu cần nghiệm thu giao diện.
 2. Kiểm thử local bằng `npm ci`, `npm run test:backend`, `npm run test:serving`, `npm run build`.
 3. Chạy backend `npm run dev:backend`, frontend `npm run dev:frontend`; kiểm thử luồng nhập đủ 6 feature → API → kết quả; negative paths.
 4. Đối chiếu đại diện dự đoán Node/Python từ development fixture, không mở final test.
