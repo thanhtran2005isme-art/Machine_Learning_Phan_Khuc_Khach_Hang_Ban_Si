@@ -44,10 +44,9 @@ jobs:
         run: npm run test:e2e
       - name: Launch actual run.bat and verify both ports and prediction
         run: |
-          # Start-Process prevents cmd /k windows from inheriting GitHub Actions' console pipe.
-          $launcher = Start-Process -FilePath 'cmd.exe' -ArgumentList '/c','run.bat' -PassThru -WindowStyle Hidden
-          Start-Sleep -Seconds 2
-          if ($launcher.HasExited -and $launcher.ExitCode -ne 0) { throw "run.bat returned $($launcher.ExitCode)" }
+          # Headless batch path executes the same FE/BE npm scripts without permanent cmd /k windows.
+          cmd.exe /c run.bat --ci
+          if ($LASTEXITCODE -ne 0) { throw "run.bat --ci returned $LASTEXITCODE" }
           $ready = $false
           for ($n = 0; $n -lt 45; $n++) {
             Start-Sleep -Seconds 2

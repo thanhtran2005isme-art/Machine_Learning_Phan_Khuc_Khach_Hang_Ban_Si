@@ -51,6 +51,7 @@ if errorlevel 1 (
 )
 
 :launch
+if /I "%~1"=="--ci" goto :launch_ci
 echo [INFO] Starting Backend at http://127.0.0.1:3001
 start "Project 22 - Backend" /D "%CD%" cmd /k "npm run dev:backend"
 if errorlevel 1 (
@@ -69,6 +70,17 @@ echo.
 echo [OK] Frontend and Backend were launched in separate windows.
 echo [INFO] Open http://localhost:5173 in your browser.
 echo [INFO] To stop: press Ctrl+C in EACH server window.
+exit /b 0
+
+:launch_ci
+rem Headless CI mode: use exactly the same npm scripts, but detach stdout/console.
+echo [INFO] Starting Backend (headless CI) at http://127.0.0.1:3001
+start "Project22-BE-CI" /D "%CD%" /B cmd /c "npm run dev:backend >NUL 2>&1"
+if errorlevel 1 goto :error
+echo [INFO] Starting Frontend (headless CI) at http://localhost:5173
+start "Project22-FE-CI" /D "%CD%" /B cmd /c "npm run dev:frontend >NUL 2>&1"
+if errorlevel 1 goto :error
+echo [OK] CI launched frontend and backend. Verify readiness via HTTP.
 exit /b 0
 
 :error_dir
