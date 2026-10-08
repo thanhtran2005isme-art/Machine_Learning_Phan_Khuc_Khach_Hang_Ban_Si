@@ -8,6 +8,8 @@ REPORTS_DATA_DIR = PROJECT_ROOT / "reports" / "data"
 REPORTS_FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
 EDA_DATA_DIR = REPORTS_DATA_DIR / "eda"
 EDA_FIGURES_DIR = REPORTS_FIGURES_DIR / "eda"
+EXPERIMENT_DATA_DIR = REPORTS_DATA_DIR / "experiments"
+EXPERIMENT_FIGURES_DIR = REPORTS_FIGURES_DIR / "experiments"
 
 RAW_CSV = RAW_DIR / "Wholesale customers data.csv"
 RAW_METADATA = RAW_DIR / "metadata.json"

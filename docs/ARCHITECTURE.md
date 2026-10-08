@@ -101,13 +101,12 @@ Node.js không được tự ý train K-Means mỗi request.
 - Data quality validation.
 - Train/validation/test split cố định + manifest.
 - Unit tests cho data split/validation và backend skeleton.
+- EDA train-only cùng baseline A/B, 140 thí nghiệm K-Means train/validation, profiling và stability.
 
 ### Chưa làm có chủ đích
 
-- EDA hoàn chỉnh trên train.
-- `log1p` / `StandardScaler` trong pipeline mô hình.
-- Baseline clustering.
-- K-Means / chọn K.
+- Chọn K/preprocessing từ bằng chứng validation và đóng băng cấu hình.
+- Final test độc lập sau khi đóng băng cấu hình.
 - Model artifact.
 - `POST /api/segment`.
 - Dashboard thực nghiệm/model card.

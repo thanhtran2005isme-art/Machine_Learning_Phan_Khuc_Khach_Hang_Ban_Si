@@ -58,6 +58,13 @@ File này lưu **quyết định và lý do**, không phải nhật ký mọi co
 - **Cấu trúc:** `AGENTS.md` → `docs/AI_HANDOFF.md` → `ARCHITECTURE.md` / `DECISIONS.md` / task docs → `history/` → Git.
 - **Hệ quả:** mỗi phiên có thay đổi đáng kể phải cập nhật handoff và history.
 
+## D010 — Cố định protocol baseline/K-Means trước lựa chọn mô hình
+
+- **Trạng thái:** Accepted, 2026-10-08.
+- **Quyết định:** baseline A thống kê train; baseline B raw K=2 seed42; grid raw / log1p + StandardScaler × K=2..8 × seed42..51 với `n_init=10`, `algorithm=lloyd`.
+- **Lý do:** đủ 140 cấu hình không trùng, so sánh và tái lập; dựa trên EDA train nhưng chưa chọn trước phương pháp.
+- **Hệ quả:** chỉ fit trên train; validation chỉ transform/predict; test giữ kín; so sánh inertia chỉ trong cùng không gian, dùng silhouette/ARI/cluster size/profile để đánh giá. Xem `docs/EXPERIMENTS.md`.
+
 ## Cách thêm quyết định mới
 
 Dùng mẫu:

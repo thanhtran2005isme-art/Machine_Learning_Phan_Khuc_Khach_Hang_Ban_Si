@@ -1,0 +1,13 @@
+{
+  "preprocessing": "raw",
+  "k": 2,
+  "seed": 42,
+  "n_init": 10,
+  "inertia_train": 64359685860.56044,
+  "inertia_validation": 25458450561.283268,
+  "silhouette_train": 0.4984602643461909,
+  "silhouette_validation": 0.6102504084130643,
+  "silhouette_validation_status": "ok",
+  "train_clusters_present": 2,
+  "validation_clusters_present": 2
+}

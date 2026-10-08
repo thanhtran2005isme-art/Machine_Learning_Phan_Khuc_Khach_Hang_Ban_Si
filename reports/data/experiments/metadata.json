@@ -1,0 +1,77 @@
+{
+  "scope": "fit_train_transform_predict_validation_only",
+  "model_features": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "excluded_from_fit": [
+    "Channel",
+    "Region"
+  ],
+  "preprocessing": [
+    "raw",
+    "log1p_standardscaler"
+  ],
+  "k_values": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "n_init": 10,
+  "algorithm": "lloyd",
+  "sklearn_version": "1.9.1",
+  "rows": {
+    "train": 264,
+    "validation": 88
+  },
+  "runs_expected": 140,
+  "runs_actual": 140,
+  "scaler_fit_split": "train_only",
+  "kmeans_fit_split": "train_only",
+  "validation_policy": "transform_and_predict_only",
+  "test_accessed": false,
+  "k_selected": false,
+  "inertia_definition": "sum of squared distances to fitted train centroids in each preprocessing space",
+  "validation_silhouette_definition": "silhouette on validation points using predicted labels; null when fewer than 2 predicted clusters",
+  "undefined_validation_silhouette_runs": 0,
+  "stability_definition": "pairwise ARI on train assignments across 45 seed pairs per preprocessing/K",
+  "input_sha256": {
+    "train": "35b039bd4a97a0b4209fb70d6969d0a4117976b20b812aa252c04a48995de01f",
+    "validation": "2da358c10737747553c34db8e37531ed0b739abf09166c2b805f18328a990cf6"
+  },
+  "tables": {
+    "baseline_a_train": "reports/data/experiments/baseline_a_train.csv",
+    "runs": "reports/data/experiments/runs.csv",
+    "cluster_sizes": "reports/data/experiments/cluster_sizes.csv",
+    "cluster_profiles": "reports/data/experiments/cluster_profiles.csv",
+    "seed_summary": "reports/data/experiments/seed_summary.csv",
+    "stability": "reports/data/experiments/stability.csv"
+  },
+  "figures": {
+    "inertia_train": "reports/figures/experiments/inertia_train.png",
+    "inertia_validation": "reports/figures/experiments/inertia_validation.png",
+    "silhouette_train": "reports/figures/experiments/silhouette_train.png",
+    "silhouette_validation": "reports/figures/experiments/silhouette_validation.png"
+  },
+  "baseline_b": "reports/data/experiments/baseline_b.json"
+}

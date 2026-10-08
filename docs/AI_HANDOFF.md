@@ -1,14 +1,14 @@
 # AI HANDOFF — trạng thái hiện tại
 
-> Cập nhật: 2026-10-05  
+> Cập nhật: 2026-10-08
 > Branch: `main`  
 > EDA implementation commit: `5a64acb075b065c61bb547f02a88e599a452e1a6`
 
 ## 1. Mục tiêu hiện tại
 
-Skeleton project, data pipeline, web/backend skeleton và EDA train-only đã được dựng và kiểm chứng bằng log chạy thật trên Windows 10. **Gate B PASS, Gate C PASS, EDA runtime PASS. K-Means chưa bắt đầu.**
+Skeleton, data pipeline, EDA train-only và thí nghiệm baseline + K-Means đã chạy trên Windows 10. **Gate B PASS, Gate C PASS, EDA PASS, Gate D baseline/grid PASS (140/140 runs, chưa chọn K).**
 
-Bước tiếp theo là đọc các artifact EDA thật, ghi nhận kết luận preprocessing dựa trên train, rồi đóng băng protocol thí nghiệm baseline + K-Means trước khi dùng validation/test.
+Bước tiếp theo là diễn giải bằng chứng train/validation để chọn cấu hình, sau đó đóng băng cấu hình trước khi mở independent test đúng một lần. Xem `docs/EXPERIMENTS.md`.
 
 ## 2. Stack đã chốt
 
@@ -51,7 +51,17 @@ reports/data/eda/
 reports/figures/eda/
 ```
 
-EDA hiện so sánh raw với `log1p`, báo cáo skewness/median/IQR/outlier/correlation. **Chưa fit StandardScaler và chưa chạy K-Means.**
+EDA so sánh raw với `log1p`; 6/6 biến train giảm absolute skewness sau log. EDA độc lập chưa fit StandardScaler/K-Means; thí nghiệm Gate D fit cả hai đúng phạm vi train.
+
+### Gate D — baseline + K-Means (2026-10-08)
+
+- Code: `ml/src/experiment.py`, test: `ml/tests/test_experiment.py`, hướng dẫn: `docs/EXPERIMENTS.md`.
+- Baseline A: thống kê 6 biến chi tiêu trên train. Baseline B: raw K=2 seed=42.
+- Grid **raw và log1p + StandardScaler × K=2..8 × seed=42..51 = 140 runs**, `n_init=10`, `algorithm=lloyd`.
+- Chỉ fit trên 264 train; validation (88) transform/predict; test (88) chưa đọc.
+- Tính inertia/silhouette train/validation, cluster size/proportion, median profile + Channel/Region post-fit, stability 45 cặp ARI mỗi preprocessing/K.
+- Thực chạy `python ml/src/experiment.py`: 140/140, **0 silhouette validation không xác định**; tạo CSV, JSON, **4 PNG** thật tại `reports/data/experiments/`, `reports/figures/experiments/`.
+- **Chưa chọn K, chưa đóng băng mô hình, chưa chạy final test, chưa thay BE/FE.**
 
 ## 4. Kiểm chứng local đã có bằng chứng thật
 
@@ -128,12 +138,7 @@ EDA đã sinh bảng/hình local. **Chưa được ghi kết luận định lư�
 
 ## 6. Chưa làm
 
-- Chưa đọc/ghi kết luận định lượng từ artifact EDA thật.
-- Chưa đóng băng protocol baseline/thí nghiệm.
-- Baseline không clustering.
-- Baseline K=2.
-- Raw vs `log1p + StandardScaler` trong thí nghiệm K-Means.
-- K=2..8, stability >=10 seed.
+- Chưa đánh giá và lựa chọn cấu hình dựa trên bằng chứng train/validation (Gate kế tiếp).
 - Chọn K bằng validation.
 - Final independent test.
 - Export serving artifact.
@@ -142,16 +147,16 @@ EDA đã sinh bảng/hình local. **Chưa được ghi kết luận định lư�
 
 ## 7. Bước tiếp theo
 
-1. Đọc `reports/data/eda/train_skewness.csv`, `train_iqr_outliers.csv`, `preprocessing_comparison.csv` và các figure EDA.
-2. Ghi kết luận EDA dựa trên train, không nhìn validation/test để quyết định preprocessing.
-3. Nếu bằng chứng ủng hộ, chốt nhánh chính `log1p + StandardScaler`; vẫn giữ nhánh raw để thí nghiệm bắt buộc.
-4. Đóng băng protocol: baseline A, baseline K=2, K=2..8, >=10 seed, inertia/silhouette/stability/cluster size/profile.
-5. Viết code baseline/experiment.
-6. Sau đó mới dùng validation để so sánh candidate; test tiếp tục khóa.
+1. Rà soát `reports/data/experiments/runs.csv`, `seed_summary.csv`, `stability.csv`, `cluster_profiles.csv`.
+2. Diễn giải silhouette, inertia **trong cùng không gian**, ARI, kích thước và ý nghĩa cụm.
+3. Lựa chọn preprocessing/K từ train + validation có giải trình, không dùng test.
+4. Ghi quyết định và đóng băng cấu hình sau khi lựa chọn.
+5. Đánh giá final test độc lập một lần, sau đó mới export model/serving artifact.
 
 ## 8. File nên đọc tiếp
 
 - `docs/EDA.md`
+- `docs/EXPERIMENTS.md`
 - `docs/NEXT_STEPS.md`
 - `docs/ARCHITECTURE.md`
 - `docs/DECISIONS.md`
