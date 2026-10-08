@@ -37,3 +37,7 @@
 1. Windows 10 máy thật của người dùng: `git pull --ff-only origin main`, `npm ci`, `npm run test:gate6`, double-click `run.bat`, thử 3 màn hình.
 2. Nếu cần E2E trên máy Windows cá nhân, xem lệnh Playwright trong `docs/GATE8_VERIFICATION.md`.
 3. Nếu không có lỗi thực tế, dừng phát triển code theo phạm vi hiện tại; không làm report/slide khi chưa được giao.
+
+## Gate 9.1 — Requirements traceability audited
+- Đề gốc Project 22 trang 2–7: 88 dòng yêu cầu đánh giá tại `docs/GATE9_1_REQUIREMENTS_MATRIX.md` + CSV; trạng thái: PASS 43, PARTIAL 29, MISSING 10, NOT REQUIRED 6.
+- Chưa sửa frozen model/Backend/Frontend; không chạy lại final test. Backlog chức năng ưu tiên 9.2→9.6; báo cáo/slide/hồ sơ 2 người vẫn bắt buộc khi nộp nhưng đang hoãn.

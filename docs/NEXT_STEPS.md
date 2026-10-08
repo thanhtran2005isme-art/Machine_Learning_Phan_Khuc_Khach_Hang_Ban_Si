@@ -30,3 +30,9 @@
 
 - Kiểm tra trực tiếp double-click `run.bat` và màn hình trên Windows10 của người dùng (CI Windows Server 2025 không thay thế).
 - Sau nghiệm thu local, không cần mở rộng code ngoài scope Project 22 trừ khi tìm thấy lỗi mới.
+
+## Gate 9.1 — Traceability complete
+
+- Xem `docs/GATE9_1_REQUIREMENTS_MATRIX.md` (đọc theo trang đề 2–7) và bản máy đọc `docs/GATE9_1_REQUIREMENTS_MATRIX.csv`.
+- Ma trận 88 mục: 43 PASS / 29 PARTIAL / 10 MISSING / 6 NOT REQUIRED. Không đổi trạng thái khi chưa có evidence mới.
+- Tiếp theo: Gate 9.2 frozen-profile 352 development **predict-only**; không đọc test hay refit model.
