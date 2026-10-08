@@ -52,9 +52,9 @@ jobs:
             Start-Sleep -Seconds 2
             try {
               $health = Invoke-RestMethod -Uri 'http://127.0.0.1:3001/api/health' -TimeoutSec 3
-              $page = Invoke-WebRequest -Uri 'http://127.0.0.1:5173' -TimeoutSec 3
+              $page = Invoke-WebRequest -Uri 'http://localhost:5173' -TimeoutSec 3
               if ($health.modelReady -eq $true -and $page.StatusCode -eq 200) { $ready = $true; break }
-            } catch { Write-Host "Waiting for run.bat BE/FE startup..." }
+            } catch { Write-Host "Waiting for run.bat BE/FE startup: $($_.Exception.Message)" }
           }
           if (-not $ready) { throw "run.bat did not start both servers on Windows" }
           $payload = '{"Fresh":6410.5,"Milk":7226,"Grocery":10842.5,"Frozen":1153,"Detergents_Paper":4084.5,"Delicassen":1508.5}'
