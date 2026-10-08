@@ -1,0 +1,33 @@
+name: Gate 7 Dependency Refresh Trial
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/gate7-dependency-refresh.yml
+jobs:
+  trial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Trial patched Vitest version without changing repo
+        run: npm install --save-dev --workspace backend vitest@5.0.3 --package-lock-only --ignore-scripts
+      - run: npm ci
+      - run: npm run test:gate6
+      - name: Audit trial dependencies
+        run: npm audit --audit-level=moderate
+      - name: Emit reproducible trial lockfile for connector review
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const lock = fs.readFileSync('package-lock.json').toString('base64');
+          for (let i=0; i<lock.length; i+=3200) {
+            console.log('GATE7_LOCK_CHUNK ' + String(i/3200).padStart(4, '0') + ' ' + lock.slice(i, i+3200));
+          }
+          console.log('GATE7_LOCK_END ' + lock.length);
+          NODE
