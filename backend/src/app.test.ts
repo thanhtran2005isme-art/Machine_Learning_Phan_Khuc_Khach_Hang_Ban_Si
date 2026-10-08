@@ -43,6 +43,16 @@ describe('Gate 6: frozen serving', () => {
     expect(response.json().final_test.rows).toBe(88);
     await app.close();
   });
+  it('never exposes filesystem paths in error responses for a missing model', async () => {
+    const app=buildApp({modelPath:'C:\\\\private\\\\internal\\\\secret-model.json'});
+    const response=await app.inject({method:'GET',url:'/api/model-info'});
+    expect(response.statusCode).toBe(503);
+    const error=response.json();
+    expect(error.status).toBe('not_ready');
+    expect(error.detail).toBeUndefined();
+    expect(JSON.stringify(error)).not.toMatch(/private|internal|secret-model|ENOENT/i);
+    await app.close();
+  });
   it('fails closed when the model is absent or corrupt', async () => {
     const app = buildApp({ modelPath: '/path/that/does/not/exist.json' });
     expect((await app.inject({ method: 'GET', url: '/api/health' })).json().modelReady).toBe(false);
