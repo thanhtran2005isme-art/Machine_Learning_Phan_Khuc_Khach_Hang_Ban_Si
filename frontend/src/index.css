@@ -75,3 +75,12 @@ h1,h2,h3,p{margin-top:0}h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.18;l
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:980px){.profile-analysis-grid{grid-template-columns:1fr}.candidate-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.analysis-block{padding:14px}.median-chart-row{grid-template-columns:90px minmax(0,1fr);gap:7px}.median-bar-row{grid-template-columns:minmax(0,1fr) 40px}.candidate-metrics{gap:7px}.candidate-metrics>div{padding:11px}.candidate-metrics dd{font-size:1rem}.category-legend{gap:7px}}
+
+
+/* Gate 9.5: succinct data/model card disclosure */
+.source-link{display:inline-flex;align-items:center;color:#116b56;text-decoration:underline;text-underline-offset:3px;font-size:.89rem;font-weight:650}
+.source-link:hover{color:#084a39}.source-link:focus-visible{outline:2px solid #277f69;outline-offset:3px}
+.interpretation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:20px 0}
+.interpretation-grid>div{min-width:0;background:#f6faf8;border:1px solid #e2ebe7;padding:17px;border-radius:9px}
+.interpretation-grid h3{margin-bottom:8px}.interpretation-grid p{font-size:.88rem;color:#536468;margin-bottom:8px}
+@media(max-width:750px){.interpretation-grid{grid-template-columns:1fr}}
