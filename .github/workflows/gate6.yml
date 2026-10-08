@@ -1,0 +1,19 @@
+name: Gate 6 API and Web
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  gate6:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:serving
+      - run: npm run test:backend
+      - run: npm run build

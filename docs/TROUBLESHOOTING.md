@@ -32,7 +32,7 @@ python -m pip --version
 
 ---
 
-## T002 — `/api/model-info` trả 503 / `modelReady=false`
+## T002 — `/api/model-info` trả 503 / `modelReady=false` (giai đoạn skeleton cũ)
 
 **Triệu chứng**
 
@@ -41,13 +41,13 @@ python -m pip --version
 
 **Nguyên nhân**
 
-Đây là hành vi **đúng ở giai đoạn skeleton**. Model K-Means chưa được thí nghiệm/chọn/đóng băng.
+Đây từng là hành vi **đúng ở giai đoạn skeleton**. Từ Gate 6, mô hình đã được freeze, endpoint này thông thường trả 200. HTTP 503 hiện nay nghĩa là artifact thiếu/hỏng, SHA-256 không khớp hoặc metadata freeze bị lệch.
 
 **Không sửa bằng cách** hard-code model giả hoặc train model trong request.
 
 **Xác minh**
 
-Backend skeleton tests phải kỳ vọng đúng trạng thái này trước khi ML artifact tồn tại.
+Trong Gate 6, kiểm tra `models/model.json`, `models/selection.json`, `models/final_evaluation.json`, rồi chạy `npm run test:backend`. Không tự chạy lại final test, không ghi đè frozen model. Test thiếu artifact phải kỳ vọng HTTP 503.
 
 ---
 

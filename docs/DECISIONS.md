@@ -65,28 +65,22 @@ File này lưu **quyết định và lý do**, không phải nhật ký mọi co
 - **Lý do:** đủ 140 cấu hình không trùng, so sánh và tái lập; dựa trên EDA train nhưng chưa chọn trước phương pháp.
 - **Hệ quả:** chỉ fit trên train; validation chỉ transform/predict; test giữ kín; so sánh inertia chỉ trong cùng không gian, dùng silhouette/ARI/cluster size/profile để đánh giá. Xem `docs/EXPERIMENTS.md`.
 
-<<<<<<< HEAD
 ## D011 — Chọn K=2 log1p + StandardScaler và freeze (Gate 5)
 
-- **Trạng thái:** Accepted, 2026-10-08, trước final test.
-- **Quyết định:** `log1p_standardscaler`, K=2, `random_state=42`, `n_init=10`, `max_iter=300`, `algorithm=lloyd`; chỉ fit 6 feature chi tiêu. Cấu hình cuối tại `models/selection.json` có SHA-256 evidence train/validation.
-- **Lý do:** K2 log ổn định seed (ARI 0.9970), silhouette validation 0.3066, min train share 44.70%, profile Grocery/Detergents và Fresh/Frozen nhất quán; refit trên 352 development cho phân hoạch ARI 0.8893 so với mô hình train-only. Dù K3 mô tả 3 profile tốt trên train/validation, ARI khi refit K3 chỉ 0.3343 và hai nhóm Grocery cao chồng lấn về diễn giải. Raw K2 silhouette 0.6103 nhưng validation 81/7, top 1% inertia 25.33%.
-- **Hệ quả:** Freeze trước khi mở test; refit `log1p` + scaler + KMeans trên train+validation (352), sau đó đánh giá final test 88 **một lần** và xuất chính mô hình đã đánh giá thành joblib/JSON. Final test không đổi cấu hình, không fit, không chọn policy. Kết quả test chỉ báo cáo, không quay lại model selection. BE/FE thuộc gate sau.
-- **Chi tiết bằng chứng:** `docs/GATE5_MODEL_SELECTION.md`. Freeze K3 sơ bộ đã được rút trước khi mở test và lưu tại `models/selection_k3_retracted_pretest.json` để kiểm toán; quyết định cuối là K2. Channel/Region chỉ hậu phân cụm; không dùng làm nhãn chọn K; không loại outlier.
-- **Kết quả sau freeze (chỉ báo cáo, không điều chỉnh quyết định):** final test độc lập đúng một lần 88 dòng, silhouette 0.238890, inertia/row 4.505144, cụm 45/43; evaluation `COMPLETE`. Artifact `models/model.json` và `models/model.joblib` lấy từ mô hình fit development 352 dòng. SHA-256 lưu trong `models/final_evaluation.json`; không đánh giá lại test.
-=======
-## D011 — Chọn cấu hình K-Means sau Gate 5 (đã freeze)
+- **Trạng thái:** Accepted/FROZEN, 2026-10-08, trước final test.
+- **Quyết định:** `log1p_standardscaler`, K=2, `random_state=42`, `n_init=10`, `max_iter=300`, `algorithm=lloyd`; chỉ sáu biến chi tiêu.
+- **Lý do:** seed ARI 0.9970, validation silhouette 0.3066, train cluster share tối thiểu 44.70%, profile nhất quán; ARI sau refit train+validation K2=0.8893 so với K3=0.3343. Raw K2 bị các điểm xa chi phối rõ rệt.
+- **Hệ quả:** `models/selection.json` đã freeze trước khi mở test. Sau đó fit lại trên 352 mẫu development, đánh giá test 88 mẫu đúng một lần (silhouette 0.238890), xuất `models/model.json` và `models/model.joblib` từ cùng fitted model. Không mở lại test hoặc thay K dựa trên test.
+- **Nguồn:** `docs/GATE5_MODEL_SELECTION.md`; `models/final_evaluation.json` status COMPLETE. `models/selection_frozen.json` K3 và `docs/GATE5_SELECTION.md` phản ánh đề xuất cũ đã rút trước test, **không phải cấu hình serving**.
 
-- **Trạng thái:** Accepted/FROZEN, 2026-10-08; quyết định chỉ dựa trên train/validation, chưa đọc final test.
-- **Preprocessing:** `log1p` sáu biến chi tiêu, sau đó `StandardScaler`.
-- **Model:** `KMeans(n_clusters=3, random_state=42, n_init=10, max_iter=300, algorithm="lloyd")`.
-- **Features đúng thứ tự:** `Fresh`, `Milk`, `Grocery`, `Frozen`, `Detergents_Paper`, `Delicassen`. `Channel` và `Region` chỉ dành cho profiling sau fit.
-- **Lý do:** K=3 cho ba kiểu chi tiêu khác biệt và nhất quán train/validation (Grocery/Detergents cao; chi tiêu thấp; Fresh/Frozen cao). Silhouette validation=0.2165, ARI mean=0.9078, cluster train=91/73/100; không có cụm <5%. Chấp nhận độ phân tách/stability thấp hơn log K=2 (silhouette validation=0.3066, ARI=0.9970) để giữ phân khúc Fresh/Frozen riêng biệt có ý nghĩa kinh doanh.
-- **Loại raw K=2:** ảnh hưởng điểm xa lớn (top 1% đóng góp 25.33% train inertia), cụm lệch 217/47; các giá trị inertia không so sánh giữa không gian raw và scaled.
-- **Policy sau freeze:** fit lại scaler và K-Means trên `train+validation` (352 dòng) theo đúng config đã chốt, sau đó mới được mở final test (88 dòng) để đánh giá một lần, không dùng để chỉnh cấu hình. Lưu pipeline và metadata/model artifact. Nếu test yếu, ghi nhận kết quả; không chọn lại từ test.
-- **Nguồn bằng chứng:** `docs/GATE5_SELECTION.md` và `models/selection_frozen.json`. `experiment_metadata.json` Gate 4 giữ `selection_status=NOT_SELECTED` để phản ánh trạng thái lịch sử tại lúc chạy 140 thí nghiệm.
-- **Chưa thực hiện tại thời điểm freeze:** chưa mở test, chưa chạy final refit/evaluation, chưa xuất fitted model artifact, chưa sửa BE/FE.
->>>>>>> 7defe431a81af90ba3b971c30a771ee9a490052c
+## D012 — Gate 6 serving qua frozen JSON, giao diện không retrain
+
+- **Trạng thái:** Accepted, 2026-10-08.
+- **Quyết định:** Fastify nạp và kiểm tra SHA-256 `models/model.json` theo `models/final_evaluation.json`; đối chiếu `models/selection.json` D011. Suy luận log1p → StandardScaler → Euclidean nearest centroid; lỗi checksum/schema trả service unavailable. Dashboard lấy experiment evidence và metadata final evaluation (read-only); không đọc final test CSV.
+- **Lý do:** cùng mô hình với Python, phù hợp serving Node.js đã chọn; không tạo pipeline huấn luyện trực tuyến hay dữ liệu giả.
+- **Hệ quả:** API chỉ nhận sáu số không âm hữu hạn; outside observed train ranges cảnh báo nhưng không tự clip. Frontend ba màn hình React đọc API. Không sửa artifact Gate 5.
+
+
 
 ## Cách thêm quyết định mới
 

@@ -73,9 +73,9 @@ React UI/dashboard
 - Test không được dùng để chọn K, scaler, seed hay policy.
 - `Channel` và `Region` không đi vào fit K-Means chính; chỉ ghép lại sau clustering để profiling.
 
-## 5. Kiến trúc serving dự kiến
+## 5. Kiến trúc serving thực tế
 
-Python là nguồn huấn luyện/đánh giá chính. Sau khi mô hình được chọn và đóng băng:
+Python đã huấn luyện/đánh giá và đóng băng model ở Gate 5. Backend ở Gate 6 đọc JSON serving tại startup, xác minh checksum và D011; không retrain:
 
 ```text
 Python training
@@ -111,8 +111,8 @@ Node.js không được tự ý train K-Means mỗi request.
 
 ### Chưa làm có chủ đích
 
-- `POST /api/segment`.
-- Dashboard thực nghiệm/model card.
+- API `POST /api/segment`, `GET /api/dashboard`, `GET /api/model-info` đã có source và validation.
+- React 3 màn hình đã có source và kết nối API; xem Gate 6 CI/local test evidence để xác nhận runtime.
 
 ## 7. Kiến trúc tài liệu để tiếp tục qua nhiều phiên AI
 
@@ -131,3 +131,10 @@ docs/AI_HANDOFF.md
 ```
 
 Nguyên tắc: handoff giữ hiện tại; history giữ quá khứ; Git giữ diff tuyệt đối.
+
+## Gate 6 — Ranh giới tích hợp
+
+- `backend/model.mjs` đọc `models/model.json` SHA256 phải khớp `models/final_evaluation.json`; `models/selection.json` bắt buộc D011 K2. Bản K3 `models/selection_frozen.json` là lưu trữ lịch sử, không dùng runtime.
+- API nhận đúng sáu biến chi tiêu số không âm, không coercion; trả cụm, distances trong không gian scaled và hồ sơ median gốc.
+- Dữ liệu dashboard là artifacts K sweep đã commit; final evaluation metadata chỉ hiển thị, không tính lại test.
+- Frontend Vite /api proxy tới Fastify 127.0.0.1:3001. Không có database.
