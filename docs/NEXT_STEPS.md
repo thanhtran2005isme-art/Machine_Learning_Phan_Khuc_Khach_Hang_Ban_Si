@@ -36,3 +36,9 @@
 - Xem `docs/GATE9_1_REQUIREMENTS_MATRIX.md` (đọc theo trang đề 2–7) và bản máy đọc `docs/GATE9_1_REQUIREMENTS_MATRIX.csv`.
 - Ma trận 88 mục: 43 PASS / 29 PARTIAL / 10 MISSING / 6 NOT REQUIRED. Không đổi trạng thái khi chưa có evidence mới.
 - Tiếp theo: Gate 9.2 frozen-profile 352 development **predict-only**; không đọc test hay refit model.
+
+## Gate 9.2 — COMPLETE: frozen K2 development profiles
+
+- CI `37797274530` SUCCESS 8/8 tests; generated Git commit `74ddfb24` contains 6 validated profile CSVs and `profile_metadata.json`.
+- Cluster 0: 162; cluster 1: 190; Channel/Region, medians and distance metrics verified against frozen D011, no fit/test read. See `docs/GATE9_2_FROZEN_PROFILE.md`.
+- **Next Gate 9.3:** API expose profile/evidence with checksum validation; then Gate 9.4 charts/dashboard. No model retrain or final test.

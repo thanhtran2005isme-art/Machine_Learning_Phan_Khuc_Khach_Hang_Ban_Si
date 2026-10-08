@@ -174,3 +174,9 @@
 ## Hướng kiểm soát Gate 9.2
 
 Trước khi thay source: xác minh đầu vào 352 development hiện có hoặc có thể tái lập đúng checksum của `models/selection.json`; chỉ `predict` qua fitted scaler/centroids hoặc nạp joblib, **không** `fit`. Mọi profile phải ghi rõ `fit_scope=352 development`, provenance, SHA và định nghĩa cách tính. Mọi API/UI mới phải có test và dùng dữ liệu thật.
+
+## Gate 9.2 evidence update (post-audit, 2026-10-08)
+
+- Đã bổ sung bằng chứng **final 352 development** tại [profile_metadata.json](../reports/data/final_profile/profile_metadata.json) cùng 6 CSV, nguồn [Gate9.2 CI](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37797274530).
+- Liên quan R4-08/R5-19/R7-05: đã xử lý thiếu dữ liệu final distance/outlier, median/Channel/Region; **vẫn giữ PARTIAL** cho các mục yêu cầu hiển thị/giải thích trên web cho tới Gate 9.3–9.5 có API và UI thực cùng test.
+- Bảng đếm 88 mục là snapshot **tại Gate 9.1**; khi thực hiện Gate 9.6 sẽ tính lại trạng thái sau các gate mới, không tự chuyển PASS chỉ vì CSV đã có.

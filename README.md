@@ -1222,3 +1222,7 @@ npm run test:e2e
 Để sử dụng trên Windows10 của bạn, `git pull --ff-only origin main` rồi **nhấp đúp `run.bat`**. Nếu thiếu dependencies, batch tự gọi npm ci. Xem [docs/GATE8_VERIFICATION.md](docs/GATE8_VERIFICATION.md) để biết giới hạn CI so với máy cá nhân và lệnh nghiệm thu local.
 
 Báo cáo và slide **chưa thực hiện**.
+
+## Gate 9.2 — Final K=2 development profiling
+
+Đã tạo hồ sơ **352 khách hàng train+validation** từ frozen model D011 K=2 bằng predict-only, không train lại, không đọc final test. Kết quả: cụm 0 = 162, cụm 1 = 190. Channel/Region, median, khoảng cách, thống kê outlier và metadata checksum ở [reports/data/final_profile](reports/data/final_profile); kiểm thử chi tiết trong [docs/GATE9_2_FROZEN_PROFILE.md](docs/GATE9_2_FROZEN_PROFILE.md). Đây là đầu vào dữ liệu cho Gate 9.3 API và Gate 9.4 Dashboard.

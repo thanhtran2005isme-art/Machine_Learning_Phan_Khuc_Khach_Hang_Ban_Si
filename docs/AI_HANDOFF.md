@@ -42,9 +42,12 @@
 - Đề gốc Project 22 trang 2–7: 88 dòng yêu cầu đánh giá tại `docs/GATE9_1_REQUIREMENTS_MATRIX.md` + CSV; trạng thái: PASS 43, PARTIAL 29, MISSING 10, NOT REQUIRED 6.
 - Chưa sửa frozen model/Backend/Frontend; không chạy lại final test. Backlog chức năng ưu tiên 9.2→9.6; báo cáo/slide/hồ sơ 2 người vẫn bắt buộc khi nộp nhưng đang hoãn.
 
-## Gate 9.2 — Source added, CI pending
+## Gate 9.2 — COMPLETE, CI verified
 - `ml/src/final_profile.py`: read frozen model + 264 train/88 validation only, reject wrong SHA, predict-only final K2 352-profile.
 - `ml/src/prepare_development_only.py`: build only train/validation from raw UCI on clean runner; no held-out test.csv created.
 - `ml/tests/test_final_profile.py`: 8 tests (frozen sklearn parity, independent medians/channel/region, determinism, tamper/leakage/no-fit guards).
 - `docs/GATE9_2_FROZEN_PROFILE.md`: specification and evidence. CI `.github/workflows/gate9-2-frozen-profile.yml` will commit verified profile CSV/JSON after PASS.
-- Do not mark completed until workflow results; no change to models/.
+- GitHub Actions `37797274530` SUCCESS: 8/8 Python tests, 352 development sklearn/JSON parity, reproducibility SHA, category counts; no final test split and no fit.
+- Derived outputs committed in `74ddfb24bc771e048c1c025e6591e692e9d3de53`: 6 CSV + profile_metadata.json in `reports/data/final_profile/`. Frozen models unchanged.
+- Model K2 final cluster sizes **162/190**, Channel/Region totals 352, distance outliers IQR 5/11, inertia/row 4.163874729781235.
+- **Next: Gate 9.3** API loads only verified profile files and exposes stable validated JSON contract, no profile retraining.
