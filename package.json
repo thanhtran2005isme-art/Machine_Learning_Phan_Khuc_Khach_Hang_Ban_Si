@@ -21,7 +21,7 @@
     "ml:freeze": "python -m ml.src.freeze_selection",
     "ml:finalize": "python -m ml.src.finalize_model",
     "test:ml": "python -m pytest ml/tests -q",
-    "test:serving": "node --test backend/model.test.mjs",
+    "test:serving": "node --test backend/model.test.mjs backend/final-profile.test.mjs",
     "test:gate6": "npm run test:serving && npm run test:backend && npm run build && npm run test:smoke",
     "test:smoke": "node backend/smoke.mjs",
     "test:e2e": "playwright test --config=e2e/playwright.config.ts",

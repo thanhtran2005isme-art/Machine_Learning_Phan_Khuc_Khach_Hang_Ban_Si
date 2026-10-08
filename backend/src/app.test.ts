@@ -51,3 +51,36 @@ describe('Gate 6: frozen serving', () => {
     await app.close();
   });
 });
+
+describe('Gate 9.3: validated final 352-development dashboard API', () => {
+  it('keeps old dashboard fields and adds verified final profiles for six features', async () => {
+    const app=buildApp();
+    const response=await app.inject({method:'GET',url:'/api/dashboard'});
+    expect(response.statusCode).toBe(200);
+    const data=response.json();
+    expect(data.experiments).toHaveLength(14);
+    expect(data.training.rows).toBe(352);
+    expect(data.final_test.rows).toBe(88);
+    expect(data.profiles).toHaveLength(2);
+    expect(data.final_profile).toMatchObject({
+      source_scope:'train_plus_validation',development_count:352,read_only:true,test_used:false,
+    });
+    expect(data.final_profile.cluster_sizes.map((r:{count:number})=>r.count)).toEqual([162,190]);
+    expect(data.final_profile.channel_profile.reduce((n:number,r:{count:number})=>n+r.count,0)).toBe(352);
+    expect(data.final_profile.region_profile.reduce((n:number,r:{count:number})=>n+r.count,0)).toBe(352);
+    expect(data.final_profile.distance_summary).toHaveLength(2);
+    expect(data.final_profile.median_ratio).toHaveLength(2);
+    await app.close();
+  });
+  it('returns 503 for missing Gate 9.2 files, without disabling segmentation', async () => {
+    const app=buildApp({profileDir:'/missing-gate9-3-profile-directory'});
+    const dash=await app.inject({method:'GET',url:'/api/dashboard'});
+    expect(dash.statusCode).toBe(503);
+    expect(dash.json()).toMatchObject({status:'not_ready'});
+    const health=await app.inject({method:'GET',url:'/api/health'});
+    expect(health.json().modelReady).toBe(true);
+    const predicted=await app.inject({method:'POST',url:'/api/segment',payload:example});
+    expect(predicted.statusCode).toBe(200);
+    await app.close();
+  });
+});
