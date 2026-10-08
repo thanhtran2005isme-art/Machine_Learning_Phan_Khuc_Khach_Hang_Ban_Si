@@ -118,3 +118,10 @@ Chỉ ghi PASS vào handoff/history sau khi có output chạy thật.
 **File liên quan**
 ...
 ```
+
+## T00G8 — Gate 8 Windows batch trên CI và máy thật
+
+- `run.bat` cần Node.js >=20 và npm; nếu dependencies chưa có hoặc `npm ls --depth=0` lỗi, file gọi `npm ci` để đồng bộ lockfile.
+- Nhấp đúp `run.bat`: 2 cửa sổ `cmd /k` của Backend và Frontend, Ctrl+C từng cửa sổ để thoát.
+- `run.bat --ci` dành cho GitHub Windows runner headless (không tạo cửa sổ `cmd /k`). Kiểm tra `/api/health` tại 127.0.0.1:3001 và frontend ở `http://localhost:5173` vì Vite có thể bind `localhost` qua IPv6 trên Windows.
+- Windows Server 2025 GitHub Actions `37791339124` PASS; không khẳng định đã nhấp đúp/test trực tiếp trên Windows10 của người dùng.

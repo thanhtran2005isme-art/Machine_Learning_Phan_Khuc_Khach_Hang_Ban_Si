@@ -1176,7 +1176,7 @@ Report + Slides + Reproducibility Check
 
 ## 28. Trạng thái hiện tại
 
-Repository đang ở giai đoạn khởi tạo. README này là **đặc tả yêu cầu + roadmap triển khai** dựa trên đề Project 22.
+Repository hiện đã có **ML frozen Gate 5, Fastify API, React web và CI kiểm thử Gate 6–8 PASS**. Các phần trước trong README là đặc tả/kế hoạch lịch sử; xem phần Gate 6–8 bên dưới để dùng lệnh chạy thực tế.
 
 Khi bắt đầu code, mỗi hạng mục hoàn thành cần được cập nhật lại README để đảm bảo tài liệu luôn đúng với source thực tế.
 
@@ -1214,3 +1214,11 @@ npm run test:e2e
 ```
 
 Để chạy thử FE/BE bình thường: nhấp đúp `run.bat`. Mobile trong CI là Chromium giả lập kích thước thiết bị, không thay thế nghiệm thu trên điện thoại vật lý. Model D011 không được huấn luyện/đánh giá lại.
+
+## Gate 8 — Windows clean install & final code audit
+
+Đã nghiệm thu trên [GitHub Actions Windows Server 2025](https://github.com/thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si/actions/runs/37791339124): clean npm ci, security audit 0 advisories, Gate6 regression, sklearn vs Node parity, **20/20 Chromium E2E** và kiểm thử `run.bat --ci` có FE/BE thật. Model K2 không thay đổi.
+
+Để sử dụng trên Windows10 của bạn, `git pull --ff-only origin main` rồi **nhấp đúp `run.bat`**. Nếu thiếu dependencies, batch tự gọi npm ci. Xem [docs/GATE8_VERIFICATION.md](docs/GATE8_VERIFICATION.md) để biết giới hạn CI so với máy cá nhân và lệnh nghiệm thu local.
+
+Báo cáo và slide **chưa thực hiện**.

@@ -23,14 +23,17 @@
 - `npm audit --audit-level=moderate` sau `npm ci`: PASS, npm báo 0 vulnerabilities. `backend/package.json` Vitest5 và `package-lock.json` đã nâng có kiểm chứng.
 - Không mở lại final test hay sửa model files trong Gate 6/7. Xem `docs/GATE7_VERIFICATION.md` để biết chi tiết.
 
-## Việc tiếp theo — Gate 8 (chưa làm)
+## Gate 8 — CI VERIFIED / PASS
 
-1. Windows local `git pull`, `npm ci`, `npm run test:gate6`; `run.bat` và thử giao diện trên trình duyệt thật.
-2. Nếu muốn browser automated Windows: `npm install --no-save --package-lock=false @playwright/test@1.56.1`, `npx playwright install chromium`, `npm run test:e2e`.
-3. Kiểm tra UX, responsive, lỗi trạng thái mất API/mất model và khả năng tái lập clean install; điều tra regression nếu có.
-4. Không thêm database/mobile/cloud hoặc thay model K2; không làm báo cáo/slide khi user chỉ yêu cầu code.
+- Windows Server 2025 GitHub Actions run `37791339124`: clean checkout, `npm ci`, 0 audit advisories, Gate 6 full regression, Python sklearn ↔ Node frozen artifact parity, 20/20 Chromium desktop/mobile emulated E2E PASS.
+- `run.bat --ci`: API modelReady true, frontend HTTP 200, POST /api/segment hợp lệ. Bình thường `run.bat` vẫn mở hai cửa sổ cmd; đã thêm Node version guard và automatic npm ci khi deps cũ.
+- React stale API response khi người dùng sửa/xóa input đã được sửa và có regression test.
+- `docs/history/2026-10.md` đã được dọn conflict merge K2/K3; lưu lịch sử K3 pretest nhưng cấu hình duy nhất phục vụ inference vẫn D011 K2.
+- Tất cả model artifacts Gate 5 không thay đổi. Không chạy lại final test.
+- Chi tiết chứng cứ: `docs/GATE8_VERIFICATION.md`.
 
-## Gate 8 — Windows audit in progress (do not claim PASS before CI)
-- Workflow `.github/workflows/gate8-windows.yml`: Windows clean npm ci, audit, Gate6 regression, parity, E2E, actual run.bat and BE/FE HTTP checks.
-- `frontend/src/App.tsx`: invalidate pending request on edit/clear to avoid stale prediction; added Playwright regression.
-- `docs/GATE8_VERIFICATION.md`: scope and CI verification status.
+## Việc tiếp theo
+
+1. Windows 10 máy thật của người dùng: `git pull --ff-only origin main`, `npm ci`, `npm run test:gate6`, double-click `run.bat`, thử 3 màn hình.
+2. Nếu cần E2E trên máy Windows cá nhân, xem lệnh Playwright trong `docs/GATE8_VERIFICATION.md`.
+3. Nếu không có lỗi thực tế, dừng phát triển code theo phạm vi hiện tại; không làm report/slide khi chưa được giao.
