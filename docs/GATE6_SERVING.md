@@ -32,7 +32,7 @@ Response 200 gồm `cluster_id`, `distance_to_centroid`, `distances_to_centroids
 ## Chống leakage & integrity
 
 - Chỉ đọc model JSON, selection và evaluation metadata + evidence experiment/EDA; **không đọc `data/processed/test.csv`**.
-- Verify SHA256 model bytes theo frozen evaluation và kiểm tra model metadata K2/D011. Nếu mismatch: fail closed, `modelReady=false`.
+- Verify SHA256 model bytes (hoặc chính nội dung được chuyển LF → CRLF do Git checkout khác Windows) theo frozen evaluation và kiểm tra model metadata K2/D011. Nếu mismatch: fail closed, `modelReady=false`.
 - Inference: per feature `(log1p(x) - scaler_mean)/scaler_scale`, squared Euclidean tới 2 centroids; chỉ số nhỏ nhất thắng tie.
 - Warnings nếu ngoài min/max **của 264 mẫu train EDA** (không phải absolute domain của toàn bộ dataset). Vẫn dự đoán, không đổi input.
 - Các biểu đồ inertia phải so sánh *trong cùng preprocessing*, không so magnitude giữa raw và logscale.
@@ -42,5 +42,6 @@ Response 200 gồm `cluster_id`, `distance_to_centroid`, `distances_to_centroids
 - `npm run test:serving`: node built-in tests cho checksum, independent distance, bad inputs và dashboard data.
 - `npm run test:backend`: Fastify injection happy path, strict validation, thiếu model, JSON metadata và 14 runs.
 - `npm run build`: TypeScript backend/frontend và Vite.
+- `npm run test:smoke`: khởi động compiled backend HTTP và gọi health/model-info/dashboard/segment/bad input.
 - Manual E2E: nhập 6 số → API → cluster/profile; thử thiếu 1 số, âm, sai kiểu, cực lớn; thử tắt backend; xem dashboard chart/profile.
 - Không tuyên bố PASS cho môi trường nào chưa có log. Không được mở lại final test để phục vụ Gate 6.
