@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "selection_id": "D011",
+  "selection_status": "FROZEN",
+  "freeze_date": "2026-10-08",
+  "selected_from": "train_validation_only",
+  "final_test_used_for_selection": false,
+  "data_split": {
+    "train_count": 264,
+    "validation_count": 88,
+    "final_test_count_expected": 88
+  },
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "profiling_only_columns": [
+    "Channel",
+    "Region"
+  ],
+  "preprocessing": {
+    "name": "log1p_standardscaler",
+    "transform": "numpy.log1p",
+    "scaler": "sklearn.preprocessing.StandardScaler"
+  },
+  "kmeans": {
+    "n_clusters": 3,
+    "random_state": 42,
+    "n_init": 10,
+    "max_iter": 300,
+    "algorithm": "lloyd"
+  },
+  "post_selection_training_scope": "train_plus_validation",
+  "final_test_policy": "evaluate_exactly_once_after_refit_and_freeze_do_not_tune",
+  "source_gate4_commit": "26476baacb5c6dbd185293f10c81ea9a7eff90df",
+  "source_evidence": [
+    "reports/data/experiments/selection_evidence.csv",
+    "reports/data/experiments/review_table.csv",
+    "reports/data/profiles/log1p_standardscaler_k3_seed42/train_median_profile.csv",
+    "reports/data/profiles/log1p_standardscaler_k3_seed42/validation_median_profile.csv"
+  ],
+  "model_artifact_status": "NOT_TRAINED_OR_EXPORTED",
+  "final_test_evaluation_status": "NOT_RUN"
+}
