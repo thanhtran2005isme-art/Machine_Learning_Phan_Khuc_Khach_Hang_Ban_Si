@@ -1,0 +1,81 @@
+{
+  "scope": "train_and_validation_only",
+  "test_used": false,
+  "test_policy": "Do not read test until preprocessing and K are frozen.",
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "profiling_only_columns": [
+    "Channel",
+    "Region"
+  ],
+  "preprocessing_modes": {
+    "raw": "No learned preprocessing; six spending columns in original units.",
+    "log1p_standardscaler": "np.log1p then StandardScaler fit on train only; validation uses transform only."
+  },
+  "k_values": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "seed_count": 10,
+  "runs_actual": 140,
+  "ari_pair_count": 630,
+  "stability_pairs_file": "stability_pairs.csv",
+  "n_init": 10,
+  "max_iter": 300,
+  "stability_metric": "mean pairwise Adjusted Rand Index on train assignments across seeds",
+  "selection_status": "NOT_SELECTED",
+  "selection_rule": "Review validation silhouette, elbow/inertia, ARI stability, cluster sizes and interpretability together. Do not auto-select K from one metric.",
+  "baseline": {
+    "descriptive_no_clustering": "baseline_descriptive.csv",
+    "k2": {
+      "preprocessing": "raw",
+      "seed": 42,
+      "note": "Simple reproducible K=2 reference; not the final model decision."
+    }
+  },
+  "scaler_metadata": {
+    "raw": null,
+    "log1p_standardscaler": {
+      "mean": [
+        8.825889867337551,
+        8.04186851257685,
+        8.361042805053389,
+        7.345050511178478,
+        6.628570224834032,
+        6.728871179406388
+      ],
+      "scale": [
+        1.4849157255624557,
+        1.1210270481454199,
+        1.111223676120537,
+        1.2713083799851166,
+        1.6865584992658822,
+        1.1915158268582382
+      ],
+      "fit_scope": "train_only_after_log1p"
+    }
+  }
+}

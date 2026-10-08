@@ -102,7 +102,7 @@ Bảng mô tả train theo 6 feature:
 - 6 biến raw;
 - `K=2`;
 - `random_state=42`;
-- `n_init=20`;
+- `n_init=10`;
 - đánh giá train và validation;
 - chỉ là mốc tham chiếu, không phải model cuối.
 
@@ -121,12 +121,12 @@ Không thử K ngoài khoảng này trong protocol chính trước khi hoàn t�
 Mỗi tổ hợp preprocessing/K chạy tối thiểu 10 seed:
 
 ```text
-seed = 0..9
+seed = 42..51
 ```
 
 Mỗi K-Means dùng:
 
-- `n_init=20`;
+- `n_init=10`;
 - `max_iter=300`;
 - `algorithm="lloyd"`.
 
@@ -209,6 +209,7 @@ reports/data/experiments/
   runs.csv
   aggregate.csv
   stability.csv
+  stability_pairs.csv
   selection_evidence.csv
   experiment_metadata.json
 

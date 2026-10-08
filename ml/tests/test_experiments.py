@@ -42,7 +42,7 @@ def test_log1p_scaler_is_fit_on_train_only() -> None:
     train = make_frame(rows=20, offset=0.0)
     validation = make_frame(rows=10, offset=1_000_000.0)
     train_values, validation_values, scaler = prepare_matrices(
-        train, validation, "log1p_scale"
+        train, validation, "log1p_standardscaler"
     )
     assert scaler is not None
 
@@ -65,15 +65,15 @@ def test_single_model_returns_finite_train_validation_metrics() -> None:
     train = make_frame(rows=60)
     validation = make_frame(rows=30, offset=10.0)
     train_values, validation_values, _ = prepare_matrices(
-        train, validation, "log1p_scale"
+        train, validation, "log1p_standardscaler"
     )
     row, labels = run_single_model(
         train_values,
         validation_values,
-        preprocessing="log1p_scale",
+        preprocessing="log1p_standardscaler",
         k=2,
-        seed=0,
-        n_init=5,
+        seed=42,
+        n_init=10,
     )
     assert len(labels) == 60
     assert np.isfinite(float(row["train_inertia"]))

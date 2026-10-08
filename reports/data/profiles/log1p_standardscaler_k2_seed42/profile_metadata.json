@@ -1,0 +1,49 @@
+{
+  "scope": "train_and_validation_only",
+  "test_used": false,
+  "selection_status": "CANDIDATE_PROFILE_ONLY",
+  "not_final_model": true,
+  "candidate": {
+    "preprocessing": "log1p_standardscaler",
+    "k": 2,
+    "seed": 42,
+    "n_init": 10,
+    "max_iter": 300
+  },
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "profiling_only_columns": [
+    "Channel",
+    "Region"
+  ],
+  "fit_scope": "train_only",
+  "train_count": 264,
+  "validation_count": 88,
+  "validation_clusters_present": 2,
+  "small_train_clusters_below_5pct": 0,
+  "experiment_metadata": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\experiments\\experiment_metadata.json",
+  "validation_policy": "predict_only_with_train-fitted preprocessing/model",
+  "interpretation_policy": "Use median spending in original units as the primary cluster profile; Channel/Region are descriptive only and never ground truth.",
+  "centroid_note": "For log1p_standardscaler, centroids are inverse-transformed to original units for reference; median profiles remain the preferred interpretation.",
+  "artifacts": {
+    "train_median_profile": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\train_median_profile.csv",
+    "validation_median_profile": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\validation_median_profile.csv",
+    "train_channel_profile": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\train_channel_profile.csv",
+    "train_region_profile": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\train_region_profile.csv",
+    "validation_channel_profile": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\validation_channel_profile.csv",
+    "validation_region_profile": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\validation_region_profile.csv",
+    "train_distance_summary": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\train_distance_summary.csv",
+    "validation_distance_summary": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\validation_distance_summary.csv",
+    "centroids_original_units": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\centroids_original_units.csv",
+    "train_median_ratio": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\train_median_ratio.csv",
+    "cluster_quality": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\data\\profiles\\log1p_standardscaler_k2_seed42\\cluster_quality.csv",
+    "profile_plot": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\figures\\profiles\\log1p_standardscaler_k2_seed42\\median_ratio.png",
+    "size_plot": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\reports\\figures\\profiles\\log1p_standardscaler_k2_seed42\\cluster_sizes.png"
+  }
+}

@@ -27,6 +27,7 @@ try:
         EXPERIMENT_RUNS_CSV,
         EXPERIMENT_SELECTION_EVIDENCE_CSV,
         EXPERIMENT_STABILITY_CSV,
+        EXPERIMENT_STABILITY_PAIRS_CSV,
         TRAIN_CSV,
         VALIDATION_CSV,
     )
@@ -42,14 +43,15 @@ except ImportError:
         EXPERIMENT_RUNS_CSV,
         EXPERIMENT_SELECTION_EVIDENCE_CSV,
         EXPERIMENT_STABILITY_CSV,
+        EXPERIMENT_STABILITY_PAIRS_CSV,
         TRAIN_CSV,
         VALIDATION_CSV,
     )
 
-PREPROCESSING_MODES = ("raw", "log1p_scale")
+PREPROCESSING_MODES = ("raw", "log1p_standardscaler")
 DEFAULT_K_VALUES = tuple(range(2, 9))
-DEFAULT_SEEDS = tuple(range(10))
-DEFAULT_N_INIT = 20
+DEFAULT_SEEDS = tuple(range(42, 52))
+DEFAULT_N_INIT = 10
 DEFAULT_MAX_ITER = 300
 BASELINE_SEED = 42
 
@@ -63,11 +65,18 @@ def load_split(path: Path) -> pd.DataFrame:
     missing = [column for column in SPENDING_COLUMNS if column not in df.columns]
     if missing:
         raise ValueError(f"Thiếu feature bắt buộc: {missing}")
+    feature_matrix(df)
     return df
 
 
 def feature_matrix(df: pd.DataFrame) -> np.ndarray:
-    values = df[SPENDING_COLUMNS].to_numpy(dtype=float, copy=True)
+    missing = [column for column in SPENDING_COLUMNS if column not in df.columns]
+    if missing:
+        raise ValueError(f"Thiếu feature bắt buộc: {missing}")
+    try:
+        values = df[SPENDING_COLUMNS].to_numpy(dtype=float, copy=True)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("Feature chi tiêu phải là số hữu hạn.") from exc
     if not np.isfinite(values).all():
         raise ValueError("Feature chứa NaN hoặc +/-inf.")
     if (values < 0).any():
@@ -85,7 +94,7 @@ def prepare_matrices(
 
     if mode == "raw":
         return train_raw, validation_raw, None
-    if mode != "log1p_scale":
+    if mode != "log1p_standardscaler":
         raise ValueError(f"Preprocessing mode không hỗ trợ: {mode}")
 
     train_log = np.log1p(train_raw)
@@ -137,6 +146,12 @@ def run_single_model(
     n_init: int = DEFAULT_N_INIT,
     max_iter: int = DEFAULT_MAX_ITER,
 ) -> tuple[dict[str, float | int | str], np.ndarray]:
+    if not isinstance(k, (int, np.integer)) or not 2 <= k <= min(len(train_values), len(validation_values) - 1):
+        raise ValueError("K không hợp lệ cho kích thước train/validation và silhouette.")
+    if not isinstance(seed, (int, np.integer)) or isinstance(seed, (bool, np.bool_)) or seed < 0:
+        raise ValueError("Seed phải là số nguyên không âm.")
+    if not isinstance(n_init, (int, np.integer)) or isinstance(n_init, (bool, np.bool_)) or n_init < 1:
+        raise ValueError("n_init phải là số nguyên dương.")
     model = KMeans(
         n_clusters=k,
         random_state=seed,
@@ -191,6 +206,18 @@ def pairwise_ari(labelings: list[np.ndarray]) -> dict[str, float | int]:
         "ari_min": float(values.min()),
         "ari_max": float(values.max()),
     }
+
+
+def pairwise_ari_rows(
+    labelings: list[np.ndarray], seeds: tuple[int, ...], preprocessing: str, k: int
+) -> list[dict]:
+    if len(labelings) != len(seeds) or len(seeds) != len(set(seeds)):
+        raise ValueError("Số seed và labels phải tương ứng, không được trùng seed.")
+    return [
+        {"preprocessing": preprocessing, "k": k, "seed_a": seeds[i],
+         "seed_b": seeds[j], "ari": float(adjusted_rand_score(labelings[i], labelings[j]))}
+        for i, j in combinations(range(len(seeds)), 2)
+    ]
 
 
 def aggregate_runs(runs: pd.DataFrame) -> pd.DataFrame:
@@ -265,10 +292,12 @@ def run_experiments(
     seeds: tuple[int, ...] = DEFAULT_SEEDS,
     n_init: int = DEFAULT_N_INIT,
 ) -> dict:
-    if len(seeds) < 10:
-        raise ValueError("Thiết kế bắt buộc ít nhất 10 seed để đánh giá stability.")
+    if tuple(seeds) != DEFAULT_SEEDS:
+        raise ValueError("Protocol yêu cầu đúng 10 seed phân biệt: 42..51.")
     if tuple(k_values) != DEFAULT_K_VALUES:
         raise ValueError("Protocol chính yêu cầu K = 2..8.")
+    if n_init != DEFAULT_N_INIT:
+        raise ValueError("Protocol D010 yêu cầu n_init=10.")
 
     train_df = load_split(train_path)
     validation_df = load_split(validation_path)
@@ -332,20 +361,32 @@ def run_experiments(
     aggregate = aggregate_runs(runs)
 
     stability_rows: list[dict[str, float | int | str]] = []
+    all_pair_rows: list[dict] = []
     for (mode, k), labelings in labels_by_key.items():
+        pairs = pairwise_ari_rows(labelings, seeds, mode, k)
+        scores = np.array([p["ari"] for p in pairs])
+        all_pair_rows.extend(pairs)
         stability_rows.append(
             {
                 "preprocessing": mode,
                 "k": k,
-                **pairwise_ari(labelings),
+                "pair_count": len(pairs),
+                "ari_mean": float(scores.mean()),
+                "ari_std": float(scores.std(ddof=0)),
+                "ari_min": float(scores.min()),
+                "ari_max": float(scores.max()),
             }
         )
     stability = pd.DataFrame(stability_rows).sort_values(["preprocessing", "k"])
+    stability_pairs = pd.DataFrame(all_pair_rows)
+    if len(runs) != 140 or len(stability_pairs) != 630 or not (stability["pair_count"] == 45).all():
+        raise AssertionError("Grid/stability không đủ 140 runs và 630 ARI pairs.")
     evidence = aggregate.merge(stability, on=["preprocessing", "k"], how="left")
 
     runs.to_csv(EXPERIMENT_RUNS_CSV, index=False, encoding="utf-8")
     aggregate.to_csv(EXPERIMENT_AGGREGATE_CSV, index=False, encoding="utf-8")
     stability.to_csv(EXPERIMENT_STABILITY_CSV, index=False, encoding="utf-8")
+    stability_pairs.to_csv(EXPERIMENT_STABILITY_PAIRS_CSV, index=False, encoding="utf-8")
     evidence.to_csv(EXPERIMENT_SELECTION_EVIDENCE_CSV, index=False, encoding="utf-8")
 
     save_line_plot(
@@ -385,11 +426,14 @@ def run_experiments(
         "profiling_only_columns": ["Channel", "Region"],
         "preprocessing_modes": {
             "raw": "No learned preprocessing; six spending columns in original units.",
-            "log1p_scale": "np.log1p then StandardScaler fit on train only; validation uses transform only.",
+            "log1p_standardscaler": "np.log1p then StandardScaler fit on train only; validation uses transform only.",
         },
         "k_values": list(k_values),
         "seeds": list(seeds),
         "seed_count": len(seeds),
+        "runs_actual": len(runs),
+        "ari_pair_count": len(stability_pairs),
+        "stability_pairs_file": EXPERIMENT_STABILITY_PAIRS_CSV.name,
         "n_init": n_init,
         "max_iter": DEFAULT_MAX_ITER,
         "stability_metric": "mean pairwise Adjusted Rand Index on train assignments across seeds",

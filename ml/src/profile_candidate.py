@@ -20,10 +20,13 @@ try:
         DEFAULT_K_VALUES,
         DEFAULT_MAX_ITER,
         DEFAULT_N_INIT,
+        DEFAULT_SEEDS,
         PREPROCESSING_MODES,
         load_split,
         prepare_matrices,
     )
+    from .review_experiments import load_metadata
+    from .data_paths import EXPERIMENT_METADATA_JSON
 except ImportError:
     from audit_data import SPENDING_COLUMNS
     from data_paths import PROFILE_DATA_DIR, PROFILE_FIGURES_DIR, TRAIN_CSV, VALIDATION_CSV
@@ -31,10 +34,13 @@ except ImportError:
         DEFAULT_K_VALUES,
         DEFAULT_MAX_ITER,
         DEFAULT_N_INIT,
+        DEFAULT_SEEDS,
         PREPROCESSING_MODES,
         load_split,
         prepare_matrices,
     )
+    from review_experiments import load_metadata
+    from data_paths import EXPERIMENT_METADATA_JSON
 
 PROFILE_ONLY_COLUMNS = ("Channel", "Region")
 
@@ -52,6 +58,8 @@ def fit_candidate(
         raise ValueError(f"preprocessing phải thuộc {PREPROCESSING_MODES}")
     if k not in DEFAULT_K_VALUES:
         raise ValueError(f"k phải thuộc {DEFAULT_K_VALUES}")
+    if not isinstance(seed, (int, np.integer)) or seed < 0 or n_init < 1:
+        raise ValueError("Seed phải nguyên không âm và n_init >= 1.")
 
     train_values, validation_values, scaler = prepare_matrices(
         train_df, validation_df, preprocessing
@@ -69,6 +77,8 @@ def fit_candidate(
 
 
 def cluster_median_profile(df: pd.DataFrame, labels: np.ndarray) -> pd.DataFrame:
+    if len(df) != len(labels) or not np.isfinite(np.asarray(labels, dtype=float)).all():
+        raise ValueError("Nhãn cụm không hợp lệ hoặc sai số mẫu.")
     labeled = df[list(SPENDING_COLUMNS)].copy()
     labeled.insert(0, "cluster", labels.astype(int))
     medians = labeled.groupby("cluster", as_index=False)[list(SPENDING_COLUMNS)].median()
@@ -80,6 +90,8 @@ def cluster_median_profile(df: pd.DataFrame, labels: np.ndarray) -> pd.DataFrame
 def categorical_profile(df: pd.DataFrame, labels: np.ndarray, column: str) -> pd.DataFrame:
     if column not in PROFILE_ONLY_COLUMNS:
         raise ValueError(f"Profiling categorical chỉ hỗ trợ {PROFILE_ONLY_COLUMNS}")
+    if len(df) != len(labels) or column not in df:
+        raise ValueError("Thiếu cột profiling hoặc labels sai kích thước.")
     labeled = pd.DataFrame({"cluster": labels.astype(int), column: df[column].to_numpy()})
     counts = (
         labeled.groupby(["cluster", column], as_index=False)
@@ -92,12 +104,16 @@ def categorical_profile(df: pd.DataFrame, labels: np.ndarray, column: str) -> pd
 
 
 def distance_summary(values: np.ndarray, labels: np.ndarray, model: KMeans) -> pd.DataFrame:
+    if len(values) != len(labels) or len(values) == 0:
+        raise ValueError("Distance nhận labels không tương ứng số mẫu.")
     distances = model.transform(values)
     assigned = distances[np.arange(len(values)), labels]
     frame = pd.DataFrame({"cluster": labels.astype(int), "distance_to_centroid": assigned})
     rows: list[dict[str, float | int]] = []
     for cluster, group in frame.groupby("cluster"):
         series = group["distance_to_centroid"]
+        q1, q3 = series.quantile([0.25, 0.75])
+        threshold = q3 + 1.5 * (q3 - q1)
         rows.append(
             {
                 "cluster": int(cluster),
@@ -107,6 +123,8 @@ def distance_summary(values: np.ndarray, labels: np.ndarray, model: KMeans) -> p
                 "p90": float(series.quantile(0.90)),
                 "p95": float(series.quantile(0.95)),
                 "max": float(series.max()),
+                "iqr_outlier_threshold": float(threshold),
+                "iqr_outlier_count": int((series > threshold).sum()),
             }
         )
     return pd.DataFrame(rows).sort_values("cluster").reset_index(drop=True)
@@ -119,8 +137,8 @@ def backtransform_centers(
 ) -> np.ndarray:
     if preprocessing == "raw":
         return centers.copy()
-    if preprocessing != "log1p_scale" or scaler is None:
-        raise ValueError("log1p_scale cần scaler đã fit trên train.")
+    if preprocessing != "log1p_standardscaler" or scaler is None:
+        raise ValueError("log1p_standardscaler cần scaler đã fit trên train.")
     log_centers = scaler.inverse_transform(centers)
     return np.expm1(log_centers)
 
@@ -180,7 +198,12 @@ def profile_candidate(
     n_init: int = DEFAULT_N_INIT,
     train_path: Path = TRAIN_CSV,
     validation_path: Path = VALIDATION_CSV,
+    experiment_metadata_path: Path = EXPERIMENT_METADATA_JSON,
 ) -> dict:
+    meta = load_metadata(experiment_metadata_path)
+    if (preprocessing not in PREPROCESSING_MODES or k not in DEFAULT_K_VALUES
+            or seed not in DEFAULT_SEEDS or n_init != meta["n_init"]):
+        raise ValueError("Candidate config không khớp grid seed=42..51/n_init=10/K=2..8.")
     train_df = load_split(train_path)
     validation_df = load_split(validation_path)
 
@@ -201,6 +224,17 @@ def profile_candidate(
 
     train_profile = cluster_median_profile(train_df, train_labels)
     validation_profile = cluster_median_profile(validation_df, validation_labels)
+    cluster_sizes = pd.DataFrame({"cluster": range(k)}).merge(
+        train_profile[["cluster", "count", "share"]], on="cluster", how="left"
+    ).rename(columns={"count": "train_count", "share": "train_share"}).merge(
+        validation_profile[["cluster", "count", "share"]].rename(
+            columns={"count": "validation_count", "share": "validation_share"}),
+        on="cluster", how="left"
+    ).fillna(0)
+    cluster_sizes["small_train_cluster_below_5pct"] = cluster_sizes["train_share"] < 0.05
+    cluster_sizes["abs_train_validation_share_gap"] = (
+        cluster_sizes["train_share"] - cluster_sizes["validation_share"]
+    ).abs()
     ratios = median_ratio_table(train_profile, train_df)
 
     artifacts: dict[str, Path] = {
@@ -214,6 +248,7 @@ def profile_candidate(
         "validation_distance_summary": data_dir / "validation_distance_summary.csv",
         "centroids_original_units": data_dir / "centroids_original_units.csv",
         "train_median_ratio": data_dir / "train_median_ratio.csv",
+        "cluster_quality": data_dir / "cluster_quality.csv",
         "metadata": data_dir / "profile_metadata.json",
         "profile_plot": figure_dir / "median_ratio.png",
         "size_plot": figure_dir / "cluster_sizes.png",
@@ -221,6 +256,7 @@ def profile_candidate(
 
     train_profile.to_csv(artifacts["train_median_profile"], index=False, encoding="utf-8")
     validation_profile.to_csv(artifacts["validation_median_profile"], index=False, encoding="utf-8")
+    cluster_sizes.to_csv(artifacts["cluster_quality"], index=False, encoding="utf-8")
     categorical_profile(train_df, train_labels, "Channel").to_csv(
         artifacts["train_channel_profile"], index=False, encoding="utf-8"
     )
@@ -261,12 +297,17 @@ def profile_candidate(
         "feature_columns": list(SPENDING_COLUMNS),
         "profiling_only_columns": list(PROFILE_ONLY_COLUMNS),
         "fit_scope": "train_only",
+        "train_count": len(train_df),
+        "validation_count": len(validation_df),
+        "validation_clusters_present": int(len(np.unique(validation_labels))),
+        "small_train_clusters_below_5pct": int(cluster_sizes["small_train_cluster_below_5pct"].sum()),
+        "experiment_metadata": str(experiment_metadata_path),
         "validation_policy": "predict_only_with_train-fitted preprocessing/model",
         "interpretation_policy": (
             "Use median spending in original units as the primary cluster profile; Channel/Region are descriptive only and never ground truth."
         ),
         "centroid_note": (
-            "For log1p_scale, centroids are inverse-transformed to original units for reference; median profiles remain the preferred interpretation."
+            "For log1p_standardscaler, centroids are inverse-transformed to original units for reference; median profiles remain the preferred interpretation."
         ),
         "artifacts": {key: str(path) for key, path in artifacts.items() if key != "metadata"},
     }
@@ -290,7 +331,7 @@ def main() -> None:
     )
     parser.add_argument("--preprocessing", choices=PREPROCESSING_MODES, required=True)
     parser.add_argument("--k", type=int, choices=DEFAULT_K_VALUES, required=True)
-    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEEDS[0])
     parser.add_argument("--n-init", type=int, default=DEFAULT_N_INIT)
     args = parser.parse_args()
     profile_candidate(

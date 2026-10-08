@@ -38,7 +38,7 @@ npm run ml:review
 
 Script kiểm tra protocol có đủ:
 
-- 2 preprocessing: `raw`, `log1p_scale`;
+- 2 preprocessing: `raw`, `log1p_standardscaler`;
 - K = 2..8;
 - ít nhất 10 run/seed mỗi tổ hợp;
 - metric bắt buộc không NaN/inf;
@@ -60,13 +60,13 @@ Sau review, chọn một shortlist nhỏ (thường 1–3 candidate) để profi
 Ví dụ:
 
 ```powershell
-python ml/src/profile_candidate.py --preprocessing log1p_scale --k 3 --seed 0
+python ml/src/profile_candidate.py --preprocessing log1p_standardscaler --k 3 --seed 42
 ```
 
 hoặc:
 
 ```powershell
-npm run ml:profile -- --preprocessing log1p_scale --k 3 --seed 0
+npm run ml:profile -- --preprocessing log1p_standardscaler --k 3 --seed 42
 ```
 
 `K=3` ở ví dụ trên chỉ minh họa cú pháp; không phải K được đề xuất trước khi đọc evidence thật.
@@ -120,7 +120,7 @@ Không dùng Channel/Region làm ground truth để chọn K.
 
 ## 6. Median là profile chính
 
-Dữ liệu chi tiêu lệch và có outlier, do đó profile kinh doanh chính dùng **median theo cluster trong đơn vị gốc**. Centroid inverse-transform chỉ là thông tin tham chiếu, đặc biệt ở nhánh `log1p_scale`.
+Dữ liệu chi tiêu lệch và có outlier, do đó profile kinh doanh chính dùng **median theo cluster trong đơn vị gốc**. Centroid inverse-transform chỉ là thông tin tham chiếu, đặc biệt ở nhánh `log1p_standardscaler`.
 
 ## 7. Khi nào được freeze?
 

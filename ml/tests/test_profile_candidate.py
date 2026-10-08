@@ -30,10 +30,10 @@ def test_fit_candidate_uses_only_six_spending_features() -> None:
     model, train_labels, validation_labels, scaler, _, _ = fit_candidate(
         train,
         validation,
-        preprocessing="log1p_scale",
+        preprocessing="log1p_standardscaler",
         k=2,
-        seed=0,
-        n_init=5,
+        seed=42,
+        n_init=10,
     )
     assert model.n_features_in_ == 6
     assert scaler is not None
@@ -58,18 +58,18 @@ def test_cluster_median_profile_keeps_original_units() -> None:
     assert profile.loc[0, "Fresh"] == frame.loc[:5, "Fresh"].median()
 
 
-def test_backtransform_log1p_scale_centers_returns_original_space() -> None:
+def test_backtransform_log1p_standardscaler_centers_returns_original_space() -> None:
     train = make_frame(60)
     validation = make_frame(30)
     model, _, _, scaler, _, _ = fit_candidate(
         train,
         validation,
-        preprocessing="log1p_scale",
+        preprocessing="log1p_standardscaler",
         k=2,
-        seed=0,
-        n_init=5,
+        seed=42,
+        n_init=10,
     )
-    restored = backtransform_centers(model.cluster_centers_, "log1p_scale", scaler)
+    restored = backtransform_centers(model.cluster_centers_, "log1p_standardscaler", scaler)
     assert restored.shape == (2, 6)
     assert np.isfinite(restored).all()
     assert (restored >= 0).all()

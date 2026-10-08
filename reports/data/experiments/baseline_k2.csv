@@ -1,0 +1,2 @@
+preprocessing,k,seed,n_init,train_inertia,validation_inertia,train_silhouette,validation_silhouette,train_cluster_sizes,train_min_cluster_size,train_max_cluster_size,train_min_cluster_share,train_max_cluster_share,validation_distinct_clusters,n_iter
+raw,2,42,10,64359685860.56044,25458450561.28327,0.4984602643461909,0.6102504084130643,"{""0"": 217, ""1"": 47}",47,217,0.17803030303030304,0.821969696969697,2,10
