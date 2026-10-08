@@ -91,3 +91,11 @@ Outlier chỉ được **phát hiện và báo cáo** ở bước audit. Không 
 ## 7. Trích dẫn dữ liệu
 
 Cardoso, M. (2013). *Wholesale customers* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5030X
+
+## 8. Data card Gate 9.5 — đơn vị và thời điểm dự đoán
+
+- **Nguồn UCI ghi đơn vị monetary units (m.u.)**, là chi tiêu **theo năm**, **không xác định cụ thể tiền tệ**, không mặc định VND. Không tự nhân tỷ giá để đưa input mới vào mô hình.
+- Chỉ phân khúc đối tượng đã có dữ liệu chi tiêu cả năm ở đủ sáu nhóm. Đây không phải mô hình dự báo doanh thu hoặc phân loại khách mới chưa có giao dịch.
+- `Channel` (1=Horeca, 2=Retail) và `Region` (1=Lisbon, 2=Oporto, 3=Other) chỉ dùng profiling; UCI gắn role metadata khác Project22 nhưng không tạo nhãn thật.
+- File `data/raw/metadata.json` sinh local chứa `downloaded_at_utc`, SHA256 raw và archive; **không commit**. Ngày donated 2014 trên UCI không phải ngày tải thực tế.
+- Raw SHA256 trong audit Git: `c3d018c643565b85cee733c4a2ac76dd76e080e857cb23f0ccfcc2e15a6c17ef`. Bản chi tiết xem [Data card](../docs/DATA_CARD.md).

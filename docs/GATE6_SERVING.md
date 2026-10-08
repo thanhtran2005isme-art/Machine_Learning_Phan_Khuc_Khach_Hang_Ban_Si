@@ -52,3 +52,9 @@ Response 200 gồm `cluster_id`, `distance_to_centroid`, `distances_to_centroids
 - Verifier SHA256 Gate 5 trên CRLF khớp chính xác sau Git Linux checkout LF; tampering thật vẫn bị từ chối. Không thay đổi Gate 5 artifact.
 - Chưa có browser E2E hoặc kiểm thử Windows thực tế; người tiếp theo cần chạy local UI.
 - `npm ci` ở CI đã cảnh báo 3 dependency advisories (1 moderate, 2 critical); chưa thực hiện nâng dependency/lockfile trong Gate 6, cần audit riêng trước public deployment.
+
+## Gate 9.5 — Hợp đồng API mẫu và model/data card hiện hành
+
+- Response hoàn chỉnh của `POST /api/segment` cho vector ví dụ thực từ model D011 tại [GATE9_5_API_EXAMPLES.md](GATE9_5_API_EXAMPLES.md); không chỉ mô tả trường JSON.
+- `GET /api/model-info` có `data_card` (UCI, DOI, CC BY 4.0, m.u. hằng năm, thời điểm gán), `model_card` (seed, n_init, max_iter, Lloyd, selection rationale, limitations). Trường cũ còn nguyên.
+- Ghi chú `npm ci` advisory 3 issues trong phần Gate6 cũ là **lịch sử thời điểm Gate6**, không phải audit hiện tại. Từ Gate7, CI `npm audit --audit-level=moderate` được kích hoạt và Gate8/9.4 đã PASS khi chạy.

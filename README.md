@@ -1230,3 +1230,7 @@ Báo cáo và slide **chưa thực hiện**.
 ## Gate 9.4 — Dashboard đã hoàn thiện phần chức năng trực quan
 
 Dữ liệu thực từ `GET /api/dashboard.final_profile`: biểu đồ median sáu nhóm hàng, quy mô hai cụm K2, phân bố Channel/Region, khoảng cách và ngoại lệ IQR. Bộ khám phá thí nghiệm **Raw/Log1p, K2–8** chỉ chuyển dữ liệu xem, **không thay đổi K=2 phục vụ**. Có nhãn số liệu, bảng chi tiết và responsive 320px; CI Chromium Linux/Windows **34/34 PASS**. [Chi tiết nghiệm thu](docs/GATE9_4_FRONTEND.md). Báo cáo và slides chưa làm.
+
+## Gate 9.5 — Data card / Model card / API sample
+
+Nguồn [UCI](https://archive.ics.uci.edu/dataset/292/wholesale%2Bcustomers) ghi sáu khoản chi tiêu **hằng năm**, đơn vị **monetary units (m.u.)**, **không mặc định VND**; model chỉ nhận sáu feature có sẵn, không dự báo cho khách chưa có dữ liệu chi tiêu. `GET /api/model-info` cung cấp `data_card` và `model_card` đọc tham số D011 đã đóng băng; giao diện ba màn hình hiển thị lý do chọn K2 và giới hạn (khoảng cách không phải confidence). Xem [Data card](docs/DATA_CARD.md), [Model card](docs/MODEL_CARD.md), [Ví dụ API JSON](docs/GATE9_5_API_EXAMPLES.md) và [biên bản Gate9.5](docs/GATE9_5_INTERPRETATION.md). Không thay đổi model/final test.
