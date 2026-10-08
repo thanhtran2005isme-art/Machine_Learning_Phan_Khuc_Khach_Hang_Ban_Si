@@ -1,6 +1,6 @@
 # AI HANDOFF — Project 22
 
-> Cập nhật: 2026-10-08. Branch: main. Gate 4 đã kiểm chứng PASS; xem `docs/GATE4_VERIFICATION.md`.
+> Cập nhật: 2026-10-08. Branch: main. Gate 5 đã freeze **cấu hình lựa chọn** trên evidence train/validation; final test và model export chưa chạy.
 
 ## Phạm vi và kiến trúc
 - Dataset UCI Wholesale Customers 440 dòng; split train=264, validation=88, final test=88.
@@ -9,7 +9,7 @@
 - D010: raw hoặc log1p_standardscaler; K=2..8; seed=42..51; n_init=10; max_iter=300; algorithm=lloyd.
 - Baseline A thống kê train; baseline B raw K=2 seed=42.
 - Scaler và K-Means chỉ fit trên train; validation chỉ transform/predict; **final test giữ kín**.
-- Chưa freeze/ chọn model cuối, chưa export serving artifact hay làm BE/FE.
+- Gate 5 chọn **log1p_standardscaler K=3 seed42**, n_init=10, max_iter=300, lloyd; frozen config `models/selection_frozen.json`; chưa final test/refit/export hay BE/FE.
 
 ## Giai đoạn trước có bằng chứng
 - Gate B data audit PASS: 440 dòng, 8 cột, missing 0, duplicate 0; split 264/88/88.
@@ -33,14 +33,24 @@
 - Shortlist nghiên cứu: raw K=2, log1p_standardscaler K=2 và K=3 (seed=42). Chưa chọn K cuối.
 - Báo cáo và các con số chi tiết: `docs/GATE4_VERIFICATION.md`.
 
+## Gate 5 — model selection (2026-10-08)
+
+- D011 FROZEN: `log1p_standardscaler`, K=3, seed42, n_init10, max_iter300, lloyd.
+- Silhouette train/validation=0.2049/0.2165, ARI mean/min=0.9078/0.7982. Clusters train=91/73/100, validation=40/24/24.
+- Median gốc train/validation cho thấy ba nhóm Grocery/Detergents cao, chi tiêu thấp, Fresh/Frozen cao; xem `docs/GATE5_SELECTION.md`.
+- Raw K2 và log K2 là đối chứng; K3 giữ tính diễn giải để đổi lấy giảm silhouette/ARI. Chỉ dùng 6 chi tiêu để quyết định.
+- `models/selection_frozen.json` là **frozen selection config**, không phải fitted model artifact. Chưa chạy final test hay xuất model.
+
 ## Những điều cần duy trì
 - Tuyệt đối không đọc `data/processed/test.csv` trong Gate 4.
 - Không chọn K theo riêng silhouette; không so inertia khác preprocessing vì khác scale.
 - Median chi tiêu đơn vị gốc là diễn giải chính; centroid chỉ tham khảo.
-- Không freeze, không sửa backend/frontend trong Gate 4.
+- Gate 4 lịch sử không freeze; Gate 5 đã freeze cấu hình tại D011. Không sửa backend/frontend.
 
 ## Tiếp theo
-1. Người phụ trách đọc `docs/GATE4_VERIFICATION.md`, `reports/EXPERIMENT_REVIEW.md` và profile CSV/PNG của shortlist.
-2. Thảo luận tính diễn giải của ba candidate, quan sát ảnh hưởng outlier, stability và train/validation gap.
-3. Chỉ tại gate sau, cân nhắc và ghi quyết định chính thức chọn preprocessing/K/seed; freeze trước khi test độc lập.
-4. Giữ kín final test đến đúng giai đoạn chốt cấu hình; chưa triển khai serving, BE/FE trong Gate 4.
+1. Khôi phục phiên Codex local, đối chiếu `git status` và `origin/main` trước khi chạy lệnh.
+2. Validate frozen config và kiểm tra các test Gate 4, đảm bảo Gate 5 không làm thay đổi protocol đã dùng lựa chọn.
+3. Refit pipeline đã freeze trên train+validation, không dùng test cho fit hay điều chỉnh.
+4. Đánh giá final test **một lần duy nhất**; lưu metric, provenance và không điều chỉnh K/preprocessing sau khi xem test.
+5. Xuất fitted model artifact kèm metadata/scaler/centroids/feature order, verify load và prediction reproducibility.
+6. Ghi báo cáo test/export, cập nhật history/handoff và commit; BE/FE để gate sau.

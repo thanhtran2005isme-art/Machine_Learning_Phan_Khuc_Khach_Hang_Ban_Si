@@ -1,28 +1,8 @@
-# Next Steps — Gate 4
+# Next Steps — Sau Gate 5 Selection Freeze
 
-Phạm vi: **stability, evidence review và candidate profiling**. Chưa chọn/freeze mô hình, chưa mở final test, chưa sửa backend/frontend.
-
-## Protocol D010
-- Preprocessing: `raw`, `log1p_standardscaler`.
-- K=2..8; seed=42..51; `n_init=10`, `max_iter=300`, `algorithm=lloyd`.
-- 140 K-Means runs, 14 candidate, 45 ARI pairs/candidate, tổng 630 pairs.
-- Scaler/model fit trên train; validation transform/predict; Channel/Region sau fit cho profiling.
-
-## Lệnh kiểm chứng
-```powershell
-python -m pytest ml/tests -q
-python ml/src/experiments.py
-python ml/src/review_experiments.py
-```
-
-Đối chiếu thực tế CSV/JSON tại `reports/data/experiments/`, các PNG ở `reports/figures/experiments/` và báo cáo `reports/EXPERIMENT_REVIEW.md`.
-
-## Shortlist và profiling
-Sau khi đọc `review_table.csv` và train/validation evidence, xác định 1–3 candidate và ghi rõ rationale. Chạy từng cấu hình:
-```powershell
-python ml/src/profile_candidate.py --preprocessing log1p_standardscaler --k 3 --seed 42
-```
-K=3 chỉ là ví dụ cú pháp. Profile median 6 biến đơn vị gốc, Channel/Region hậu phân cụm, distance-to-centroid, inverse-transform, cluster size, outliers và biểu đồ.
-
-## Gate tiếp theo (ngoài phạm vi)
-Sau khi diễn giải profile mới chọn/freeze config trong `docs/DECISIONS.md`, rồi mới mở independent test đúng một lần. Chưa xuất model hay triển khai API/UI.
+- Đã freeze D011: `log1p_standardscaler`, K=3, seed=42, `n_init=10`, `max_iter=300`, `algorithm=lloyd` trên sáu biến chi tiêu; xem `docs/GATE5_SELECTION.md` và `models/selection_frozen.json`.
+- Quyết định dựa trên train/validation; **final test chưa đọc**, fitted model chưa có. Gate 5 chưa thể xác nhận PASS end-to-end vì runtime local Codex đã hết hiệu lực.
+- Khi local hoạt động lại, kiểm tra `git status --short --branch`, `git pull --ff-only origin main` khi working tree sạch, `python -m pytest ml/tests -q`.
+- Validate config; refit **train+validation**; hoàn tất output và metadata. Chỉ **sau đó** mới đánh giá final test đúng một lần. Không dùng test để sửa config.
+- Xuất fitted model/pipeline và JSON provenance; test load/predict, đối chiếu centroid, cluster profiling gắn đúng cluster ID cuối.
+- Viết báo cáo final test, cập nhật `docs/AI_HANDOFF.md` và `docs/history/2026-10.md`, kiểm tra commit/push. BE/FE chỉ thực hiện tại gate sau.
