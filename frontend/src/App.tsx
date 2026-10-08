@@ -4,7 +4,22 @@ import type { FormEvent } from 'react';
 type Feature = 'Fresh' | 'Milk' | 'Grocery' | 'Frozen' | 'Detergents_Paper' | 'Delicassen';
 type Screen = 'intro' | 'segment' | 'dashboard';
 type Profile = { cluster_id: number; name: string; count: number; share: number; median_spending: Record<Feature, number> };
+type DataCard = {
+  dataset: string; uci_id: number; source_url: string; doi: string; license: string;
+  row_count: number; spending_period: string; spending_unit: string; currency_known: boolean;
+  feature_columns: Feature[]; profiling_only_columns: string[];
+  data_available_when: string; source_policy: string;
+};
+type ModelCard = {
+  decision: string; algorithm: string; random_state: number; n_init: number; max_iter: number;
+  preprocessing: string; k: number; selection_scope: string; fit_scope: string; fit_rows: number;
+  held_out_test_rows: number; held_out_test_evaluated_once: boolean;
+  cluster_labels: string; selection_rationale: string; assumptions: string;
+  intended_use: string; prohibited_inferences: string;
+  metric_cautions: string; distance_cautions: string;
+};
 type ModelInfo = {
+  data_card: DataCard; model_card: ModelCard;
   status: string; k: number; preprocessing: string; training_count: number; artifact_sha256: string;
   profiles: Profile[]; reference_ranges: Record<Feature, { min: number; max: number }>;
   reference_note: string; limitations: string;
@@ -383,9 +398,21 @@ export default function App() {
             <div><h3>Giới hạn</h3><p>{info?.limitations || 'K-Means mô tả nhóm, không phải dự đoán doanh thu hay đánh giá khách hàng.'}</p></div>
           </div>
         </section>
+        {info?.data_card && <section className="content-card" aria-label="Data card">
+          <div className="section-heading"><h2>Data card</h2><p>Nguồn và điều kiện nhập dữ liệu.</p></div>
+          <dl className="model-facts">
+            <div><dt>Dataset</dt><dd>{info.data_card.dataset} · UCI #{info.data_card.uci_id}</dd></div>
+            <div><dt>Đối tượng</dt><dd>{formatNumber(info.data_card.row_count)} khách hàng bán sỉ</dd></div>
+            <div><dt>Đơn vị chi tiêu</dt><dd>{info.data_card.spending_unit} · hằng năm, không mặc định VND</dd></div>
+            <div><dt>Giấy phép</dt><dd>{info.data_card.license}</dd></div>
+          </dl>
+          <p className="muted small-note"><strong>Thời điểm gán cụm:</strong> {info.data_card.data_available_when}</p>
+          <p className="muted small-note">Channel/Region chỉ được dùng để mô tả sau phân cụm, không tham gia fit hoặc lựa chọn K.</p>
+          <a className="source-link" href={info.data_card.source_url} target="_blank" rel="noopener noreferrer">Nguồn dữ liệu UCI ↗</a>
+        </section>}
       </div>}
       {screen === 'segment' && <section>
-        <div className="page-heading"><span className="eyebrow">01 / PHÂN KHÚC KHÁCH HÀNG</span><h1>Phân khúc khách hàng mới</h1><p>Nhập chi tiêu hằng năm của khách trong cùng đơn vị tiền tệ theo bộ dữ liệu UCI. Không quy đổi hoặc tự điền giá trị còn thiếu.</p></div>
+        <div className="page-heading"><span className="eyebrow">01 / PHÂN KHÚC KHÁCH HÀNG</span><h1>Phân khúc khách hàng mới</h1><p>Nhập đủ sáu khoản chi tiêu hằng năm theo monetary units (m.u.) của UCI, không mặc định VND. Chỉ áp dụng khi có lịch sử chi tiêu cả năm; không quy đổi hoặc tự điền giá trị còn thiếu.</p></div>
         <div className="segment-grid">
           <form className="content-card" onSubmit={submit} noValidate>
             <div className="section-heading"><h2>Thông tin chi tiêu</h2><p>Sáu trường bắt buộc, mỗi giá trị là số không âm.</p></div>
@@ -406,6 +433,7 @@ export default function App() {
               <h2>{result.profile.name}</h2>
               <p>Khoảng cách tới tâm cụm: <strong>{formatNumber(result.distance_to_centroid, 4)}</strong></p>
               <p className="muted small-note">{result.distance_space}. Khoảng cách không phải xác suất hoặc độ tin cậy.</p>
+              <p className="muted small-note">Tên cụm mô tả xu hướng chi tiêu; không phải mức độ tốt/xấu của khách hàng.</p>
               {result.warnings.length > 0 && <div className="notice notice-warn" role="status"><strong>Cảnh báo ngoài khoảng train:</strong>{result.warnings.map((w,i) => <p key={i}>{w}</p>)}</div>}
               <div className="divider-line" />
               <h3>Median chi tiêu của cụm</h3>
@@ -454,8 +482,21 @@ export default function App() {
           <section className="content-card"><div className="section-heading"><h2>Model card</h2><p>Trạng thái mô hình đã freeze trước final test.</p></div>
             <dl className="model-facts"><div><dt>Preprocessing</dt><dd>log1p + StandardScaler</dd></div><div><dt>Số cụm</dt><dd>2</dd></div><div><dt>Huấn luyện</dt><dd>{dashboard.final_profile.development_count} khách (train + validation)</dd></div><div><dt>Final test</dt><dd>88 khách, silhouette {formatNumber(dashboard.final_test.silhouette, 6)}</dd></div><div><dt>Artifact SHA-256</dt><dd className="hash">{dashboard.final_profile.model_sha256}</dd></div>
               <div><dt>Phạm vi profiling</dt><dd>Development 352 · Channel/Region chỉ diễn giải</dd></div>
-              <div><dt>Hồ sơ kiểm chứng</dt><dd>{Object.keys(dashboard.final_profile.evidence_sha256).length} CSV đã xác minh SHA-256 tại Backend</dd></div></dl>
-            <p className="muted small-note">{info?.limitations}</p>
+              <div><dt>Hồ sơ kiểm chứng</dt><dd>{Object.keys(dashboard.final_profile.evidence_sha256).length} CSV đã xác minh SHA-256 tại Backend</dd></div>
+              {info?.model_card && <>
+                <div><dt>Thuật toán</dt><dd>{info.model_card.algorithm}</dd></div>
+                <div><dt>Random state</dt><dd>{info.model_card.random_state}</dd></div>
+                <div><dt>Số lần khởi tạo</dt><dd>{info.model_card.n_init}</dd></div>
+                <div><dt>Số vòng lặp tối đa</dt><dd>{info.model_card.max_iter}</dd></div>
+                <div><dt>Tập chọn mô hình</dt><dd>Train / validation; không dùng final test</dd></div>
+                <div><dt>Đơn vị đầu vào</dt><dd>{info.data_card.spending_unit} / năm; không xác định VND</dd></div>
+              </>}
+            </dl>
+            {info?.model_card && <div className="interpretation-grid">
+              <div><h3>Vì sao chọn K=2?</h3><p>{info.model_card.selection_rationale}</p></div>
+              <div><h3>Giới hạn diễn giải</h3><p>{info.model_card.metric_cautions}</p><p>{info.model_card.distance_cautions}</p></div>
+            </div>}
+            <p className="muted small-note">{info?.model_card?.prohibited_inferences || info?.limitations}</p>
           </section>
         </>}
       </section>}
