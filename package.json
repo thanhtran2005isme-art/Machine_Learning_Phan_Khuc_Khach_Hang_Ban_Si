@@ -14,7 +14,13 @@
     "data:audit": "python ml/src/audit_data.py",
     "data:split": "python ml/src/split_data.py",
     "eda:train": "python ml/src/eda.py",
+<<<<<<< HEAD
     "ml:experiments": "python ml/src/experiment.py",
+=======
+    "ml:experiment": "python ml/src/experiments.py",
+    "ml:review": "python ml/src/review_experiments.py",
+    "ml:profile": "python ml/src/profile_candidate.py",
+>>>>>>> fcfd75fb02b6ead0eabf976c16e7684e4a186254
     "test:ml": "python -m pytest ml/tests -q"
   },
   "engines": {
