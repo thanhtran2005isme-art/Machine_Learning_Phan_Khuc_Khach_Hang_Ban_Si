@@ -84,3 +84,51 @@ describe('Gate 9.3: validated final 352-development dashboard API', () => {
     await app.close();
   });
 });
+
+describe('Gate 9.5: source-grounded model and data cards', () => {
+  it('returns units, source, timing, frozen configuration and usage boundaries', async () => {
+    const app = buildApp();
+    const response = await app.inject({ method:'GET', url:'/api/model-info' });
+    expect(response.statusCode).toBe(200);
+    const info = response.json();
+    expect(info).toMatchObject({
+      status:'ready', selection_decision:'D011', k:2, training_count:352,
+      data_card:{
+        dataset:'Wholesale customers', uci_id:292, row_count:440,
+        license:'CC BY 4.0', spending_period:'annual',
+        spending_unit:'monetary units (m.u.)', currency_known:false,
+        profiling_only_columns:['Channel','Region'],
+      },
+      model_card:{
+        decision:'D011', algorithm:'KMeans (lloyd)', random_state:42,
+        n_init:10, max_iter:300, k:2, fit_rows:352,
+        held_out_test_rows:88, held_out_test_evaluated_once:true,
+      },
+    });
+    expect(info.data_card.feature_columns).toEqual([
+      'Fresh','Milk','Grocery','Frozen','Detergents_Paper','Delicassen'
+    ]);
+    expect(info.data_card.doi).toBe('https://doi.org/10.24432/C5030X');
+    expect(info.data_card.data_available_when).toContain('đầy đủ chi tiêu hằng năm');
+    expect(info.model_card.metric_cautions).toContain('Inertia raw và scaled');
+    expect(info.model_card.distance_cautions).toContain('264 mẫu EDA');
+    expect(info.model_card.prohibited_inferences).toContain('Không dùng cụm');
+    expect(info.model_card.selection_rationale).toContain('K=2');
+    const segment = await app.inject({
+      method:'POST', url:'/api/segment', payload:example,
+    });
+    expect(segment.statusCode).toBe(200);
+    expect([0,1]).toContain(segment.json().cluster_id);
+    await app.close();
+  });
+
+  it('does not claim a specific currency or probabilistic confidence', async () => {
+    const app = buildApp();
+    const info = (await app.inject({ method:'GET', url:'/api/model-info' })).json();
+    expect(info.data_card.currency_known).toBe(false);
+    expect(info.data_card.spending_unit).not.toMatch(/VND|USD|EUR/i);
+    expect(info.model_card.distance_cautions.toLowerCase()).toContain('không phải xác suất');
+    expect(info.model_card.cluster_labels).toContain('không có thứ bậc');
+    await app.close();
+  });
+});

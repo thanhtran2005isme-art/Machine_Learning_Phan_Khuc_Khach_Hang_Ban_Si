@@ -296,3 +296,43 @@ test('Gate 9.4 has no document overflow at narrow 320px while tables scroll inte
   expect(widths.tables).toHaveLength(3);
   expect(widths.tables.every(Boolean)).toBeTruthy();
 });
+
+test('Gate 9.5 data card identifies UCI monetary units, source and annual-record requirement', async ({ page, request }) => {
+  const response = await request.get('/api/model-info');
+  expect(response.ok()).toBeTruthy();
+  const {data_card} = await response.json();
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name:'Data card' })).toBeVisible();
+  await expect(page.getByText(data_card.spending_unit, { exact:false }).first()).toBeVisible();
+  const link = page.getByRole('link', { name:'Nguồn dữ liệu UCI' });
+  await expect(link).toHaveAttribute('href', data_card.source_url);
+  await expect(page.getByText(data_card.data_available_when)).toBeVisible();
+  await page.getByRole('button', { name:'Phân khúc', exact:true }).click();
+  await expect(page.getByText(/monetary units.*không mặc định VND/)).toBeVisible();
+});
+
+test('Gate 9.5 final model card uses configuration from API and explains selection/limitations', async ({ page, request }) => {
+  const info = await (await request.get('/api/model-info')).json();
+  await page.goto('/');
+  await page.getByRole('button', { name:'Dashboard', exact:true }).click();
+  await expect(page.getByRole('heading', { name:'Model card' })).toBeVisible();
+  await expect(page.getByText('KMeans (lloyd)')).toBeVisible();
+  const facts = page.locator('.model-facts');
+  await expect(facts).toContainText(String(info.model_card.random_state));
+  await expect(facts).toContainText(String(info.model_card.n_init));
+  await expect(facts).toContainText(String(info.model_card.max_iter));
+  await expect(page.getByRole('heading', { name:'Vì sao chọn K=2?' })).toBeVisible();
+  await expect(page.getByText(info.model_card.selection_rationale)).toBeVisible();
+  await expect(page.getByText(info.model_card.metric_cautions)).toBeVisible();
+  await expect(page.getByText(info.model_card.distance_cautions)).toBeVisible();
+});
+
+test('Gate 9.5 result states neutral group meaning without replacing centroid distance', async ({ page }) => {
+  await openSegment(page);
+  await exampleInput(page);
+  await page.getByRole('button', { name:'Phân khúc khách hàng', exact:true }).click();
+  const result = page.locator('.result-card');
+  await expect(result).toBeVisible();
+  await expect(result).toContainText('Tên cụm mô tả xu hướng chi tiêu');
+  await expect(result).toContainText('Khoảng cách không phải xác suất hoặc độ tin cậy');
+});

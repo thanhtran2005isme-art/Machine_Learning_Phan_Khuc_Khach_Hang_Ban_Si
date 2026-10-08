@@ -31,6 +31,11 @@ try {
   const info = await request('/api/model-info');
   assert.equal(info.code, 200);
   assert.equal(info.body.k, 2);
+  assert.equal(info.body.data_card.spending_unit, 'monetary units (m.u.)');
+  assert.equal(info.body.data_card.currency_known, false);
+  assert.equal(info.body.model_card.random_state, 42);
+  assert.equal(info.body.model_card.n_init, 10);
+  assert.equal(info.body.model_card.max_iter, 300);
   const dashboard = await request('/api/dashboard');
   assert.equal(dashboard.code, 200);
   assert.equal(dashboard.body.experiments.length, 14);
