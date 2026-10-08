@@ -22,9 +22,24 @@ if errorlevel 1 (
     goto :error
 )
 
+rem Node >= 20 is required by the workspaces.
+set "NODE_MAJOR="
+for /f "delims=" %%V in ('node -p "parseInt(process.versions.node,10)" 2^>nul') do set "NODE_MAJOR=%%V"
+if not defined NODE_MAJOR (
+    echo [ERROR] Cannot determine the Node.js version.
+    goto :error
+)
+if %NODE_MAJOR% LSS 20 (
+    echo [ERROR] Node.js 20 or newer is required. Current major: %NODE_MAJOR%.
+    goto :error
+)
+
 rem Install on first launch, or if either workspace dev command is missing.
 if not exist "node_modules\.bin\vite.cmd" goto :install
 if not exist "node_modules\.bin\tsx.cmd" goto :install
+rem Git pull may have changed package.json/package-lock without replacing node_modules.
+call npm ls --depth=0 --silent >nul 2>&1
+if errorlevel 1 goto :install
 goto :launch
 
 :install
