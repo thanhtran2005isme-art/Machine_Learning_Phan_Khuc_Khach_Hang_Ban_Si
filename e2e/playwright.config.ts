@@ -22,13 +22,15 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'npm run dev:backend',
+      command: 'npm --workspace backend run start',
       url: 'http://127.0.0.1:3001/api/health',
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
+      stdout: 'pipe',
+      stderr: 'pipe',
     },
     {
-      command: 'npm run dev:frontend -- --host 127.0.0.1',
+      command: 'npm --workspace frontend run dev -- --host 127.0.0.1 --port 5173 --strictPort',
       url: 'http://127.0.0.1:5173',
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,

@@ -19,6 +19,7 @@ jobs:
           cache: pip
           cache-dependency-path: ml/requirements.txt
       - run: npm ci
+      - run: npm run build
       - name: Install Playwright runner without editing frozen npm lockfile
         run: npm install --no-save --package-lock=false @playwright/test@1.56.1
       - run: npx playwright install --with-deps chromium
@@ -27,6 +28,8 @@ jobs:
         run: npm run test:parity
       - name: Browser E2E desktop and mobile
         run: npm run test:e2e
+        env:
+          DEBUG: pw:webserver
       - name: Record dependency advisory details
         if: always()
         run: |
