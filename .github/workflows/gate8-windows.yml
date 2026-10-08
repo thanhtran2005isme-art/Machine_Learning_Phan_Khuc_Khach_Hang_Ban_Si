@@ -1,0 +1,70 @@
+name: Gate 8 Windows Clean-Install and Browser Audit
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source tree and frozen artifact boundaries
+        run: |
+          if (!(Test-Path 'run.bat') -or !(Test-Path 'models/model.json') -or !(Test-Path 'models/selection.json')) { throw "Missing required Gate 8 files" }
+          if (Test-Path 'node_modules') { throw "Not a clean checkout" }
+          if (Test-Path 'data/processed/test.csv') { throw "Held-out test data must not be shipped" }
+          git status --short
+      - name: Clean dependency installation
+        run: npm ci
+      - name: Security audit (moderate+ must fail)
+        run: npm audit --audit-level=moderate
+      - name: Gate 6 full backend/frontend regression and production smoke
+        run: npm run test:gate6
+      - name: Set up frozen sklearn inference dependencies (no training)
+        run: python -m pip install "numpy>=2,<3" "scikit-learn>=1.5,<2" "joblib>=1.4,<2"
+      - name: Cross-language parity on Windows using frozen joblib
+        run: |
+          $env:PYTHON = (Get-Command python).Source
+          npm run test:parity
+      - name: Install browser E2E runner in CI only
+        run: npm install --no-save --package-lock=false @playwright/test@1.56.1
+      - run: npx playwright install chromium
+      - name: Chromium desktop and mobile emulation on Windows
+        run: npm run test:e2e
+      - name: Launch actual run.bat and verify both ports and prediction
+        run: |
+          cmd.exe /c run.bat
+          if ($LASTEXITCODE -ne 0) { throw "run.bat returned $LASTEXITCODE" }
+          $ready = $false
+          for ($n = 0; $n -lt 45; $n++) {
+            Start-Sleep -Seconds 2
+            try {
+              $health = Invoke-RestMethod -Uri 'http://127.0.0.1:3001/api/health' -TimeoutSec 3
+              $page = Invoke-WebRequest -Uri 'http://127.0.0.1:5173' -TimeoutSec 3
+              if ($health.modelReady -eq $true -and $page.StatusCode -eq 200) { $ready = $true; break }
+            } catch { Write-Host "Waiting for run.bat BE/FE startup..." }
+          }
+          if (-not $ready) { throw "run.bat did not start both servers on Windows" }
+          $payload = '{"Fresh":6410.5,"Milk":7226,"Grocery":10842.5,"Frozen":1153,"Detergents_Paper":4084.5,"Delicassen":1508.5}'
+          $result = Invoke-RestMethod -Uri 'http://127.0.0.1:3001/api/segment' -Method Post -ContentType 'application/json' -Body $payload -TimeoutSec 10
+          if ($result.cluster_id -notin @(0,1) -or $result.distance_to_centroid -lt 0) { throw 'Invalid prediction from run.bat launched backend' }
+          Write-Host "PASS run.bat Windows: FE HTTP 200, modelReady true, K2 API prediction $($result.cluster_id)"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: gate8-windows-browser-diagnostics
+          path: |
+            e2e/test-results/
+            e2e/playwright-report/
+          retention-days: 7

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 
 type Feature = 'Fresh' | 'Milk' | 'Grocery' | 'Frozen' | 'Detergents_Paper' | 'Delicassen';
@@ -95,6 +95,13 @@ export default function App() {
   const [result, setResult] = useState<SegmentResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const requestVersion = useRef(0);
+  const clearPendingResult = () => {
+    requestVersion.current += 1;
+    setResult(null);
+    setSubmitError(null);
+    setSubmitting(false);
+  };
 
   useEffect(() => {
     getJson<ModelInfo>('/api/model-info').then(setInfo).catch(e => setModelError(String(e.message)));
@@ -106,7 +113,8 @@ export default function App() {
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitError(null); setResult(null);
+    clearPendingResult();
+    const version = requestVersion.current;
     const spending: Partial<Record<Feature, number>> = {};
     for (const field of FIELDS) {
       const raw = values[field.key].trim();
@@ -122,15 +130,17 @@ export default function App() {
       const body = await getJson<SegmentResult>('/api/segment', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spending),
       });
-      setResult(body);
+      if (version === requestVersion.current) setResult(body);
     } catch(e) {
-      setSubmitError(e instanceof Error ? e.message : 'Không thể phân khúc');
-    } finally { setSubmitting(false); }
+      if (version === requestVersion.current) setSubmitError(e instanceof Error ? e.message : 'Không thể phân khúc');
+    } finally {
+      if (version === requestVersion.current) setSubmitting(false);
+    }
   };
 
   const filledExample = (profile: Profile) => {
+    clearPendingResult();
     setValues(Object.fromEntries(FIELDS.map(f => [f.key, String(profile.median_spending[f.key])])) as Record<Feature, string>);
-    setResult(null); setSubmitError(null);
   };
   const allRows = dashboard?.experiments.filter(row => row.preprocessing === preprocessing) || [];
 
@@ -175,11 +185,11 @@ export default function App() {
             <div className="input-grid">{FIELDS.map(f => <label className="field" key={f.key}>
               <span>{f.label} <small>({f.description})</small></span>
               <input inputMode="decimal" type="number" min="0" step="any" required placeholder="Nhập số tiền" value={values[f.key]}
-                onChange={event => { setValues(prev => ({ ...prev, [f.key]: event.target.value })); setResult(null); }} />
+                onChange={event => { clearPendingResult(); setValues(prev => ({ ...prev, [f.key]: event.target.value })); }} />
               <small>{info?.reference_ranges?.[f.key] ? 'Train quan sát: ' + formatNumber(info.reference_ranges[f.key].min) + ' – ' + formatNumber(info.reference_ranges[f.key].max) : 'Giá trị không âm'}</small>
             </label>)}</div>
             {submitError && <p className="notice notice-error" role="alert">{submitError}</p>}
-            <div className="form-footer"><button className="btn-primary" type="submit" disabled={submitting || !info}>{submitting ? 'Đang xử lý…' : 'Phân khúc khách hàng'}</button><button className="btn-subtle" type="button" onClick={() => { setValues({ Fresh:'', Milk:'', Grocery:'', Frozen:'', Detergents_Paper:'', Delicassen:'' }); setResult(null); }}>Xóa dữ liệu</button></div>
+            <div className="form-footer"><button className="btn-primary" type="submit" disabled={submitting || !info}>{submitting ? 'Đang xử lý…' : 'Phân khúc khách hàng'}</button><button className="btn-subtle" type="button" onClick={() => { clearPendingResult(); setValues({ Fresh:'', Milk:'', Grocery:'', Frozen:'', Detergents_Paper:'', Delicassen:'' }); }}>Xóa dữ liệu</button></div>
             <p className="muted small-note">{info?.reference_note || 'Khoảng giá trị là thông tin tham khảo, không phải giới hạn đầu vào cứng.'}</p>
           </form>
           <div className="result-column">

@@ -135,3 +135,28 @@ test('no horizontal overflow at viewport size', async ({ page }) => {
     expect(sizes.doc).toBeLessThanOrEqual(sizes.inner + 1);
   }
 });
+
+test('old API response cannot restore a cleared or edited prediction', async ({ page }) => {
+  await openSegment(page);
+  await exampleInput(page);
+  let release!: () => void;
+  let intercepted!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  const interceptedRequest = new Promise<void>(resolve => { intercepted = resolve; });
+  await page.route('**/api/segment', async route => {
+    intercepted();
+    await held;
+    await route.continue();
+  });
+  const response = page.waitForResponse(r => r.url().endsWith('/api/segment') && r.request().method() === 'POST');
+  await page.getByRole('button', { name: 'Phân khúc khách hàng', exact: true }).click();
+  await interceptedRequest;
+  await page.getByRole('button', { name: 'Xóa dữ liệu' }).click();
+  await expect(page.locator('.result-card')).toHaveCount(0);
+  release();
+  await response;
+  await page.waitForTimeout(100);
+  await expect(page.locator('.result-card')).toHaveCount(0);
+  await expect(page.locator('.empty-result')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Phân khúc khách hàng', exact: true })).toBeEnabled();
+});

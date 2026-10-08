@@ -29,3 +29,8 @@
 2. Nếu muốn browser automated Windows: `npm install --no-save --package-lock=false @playwright/test@1.56.1`, `npx playwright install chromium`, `npm run test:e2e`.
 3. Kiểm tra UX, responsive, lỗi trạng thái mất API/mất model và khả năng tái lập clean install; điều tra regression nếu có.
 4. Không thêm database/mobile/cloud hoặc thay model K2; không làm báo cáo/slide khi user chỉ yêu cầu code.
+
+## Gate 8 — Windows audit in progress (do not claim PASS before CI)
+- Workflow `.github/workflows/gate8-windows.yml`: Windows clean npm ci, audit, Gate6 regression, parity, E2E, actual run.bat and BE/FE HTTP checks.
+- `frontend/src/App.tsx`: invalidate pending request on edit/clear to avoid stale prediction; added Playwright regression.
+- `docs/GATE8_VERIFICATION.md`: scope and CI verification status.
