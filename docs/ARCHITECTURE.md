@@ -131,3 +131,8 @@ Nguyên tắc: handoff giữ hiện tại; history giữ quá khứ; Git giữ d
 - API nhận đúng sáu biến chi tiêu số không âm, không coercion; trả cụm, distances trong không gian scaled và hồ sơ median gốc.
 - Dữ liệu dashboard là artifacts K sweep đã commit; final evaluation metadata chỉ hiển thị, không tính lại test.
 - Frontend Vite /api proxy tới Fastify 127.0.0.1:3001. Không có database.
+
+## Gate 10.2 — Kiến trúc PCA/Ward development-only
+- Ngoài luồng inference, Python offline dùng frozen D011 scaler và chỉ 352 dòng train+validation kiểm SHA. PCA hai chiều để chiếu hình, Agglomerative Ward so sánh 6D, không chọn lại mô hình.
+- Artifact read-only: reports/data/development_extension/analysis.json và metadata.json; backend endpoint GET /api/development-extension xác minh SHA/provenance và trả 503 độc lập khi thiếu evidence.
+- Frontend trực quan hóa scatter/contingency/ARI; API /api/segment vẫn dùng KMeans D011 và không fit trên request; final test độc lập không được truy cập.

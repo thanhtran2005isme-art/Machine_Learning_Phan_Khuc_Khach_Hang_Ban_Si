@@ -78,3 +78,8 @@
 - On branch feat/gate10-analysis-explain-export only: verified detailed 14-candidate seed metrics, descriptive outlier view, per-customer explanation, CSV / browser PDF print, and pedagogical Lloyd walkthrough from Bài 8.
 - CI run 38020099636 SUCCESS on code commit 43e808fe: 15 native, 14 Fastify, 46 Playwright cases. Not merged into main.
 - Next optional gate: PCA 2D / Hierarchical must derive real development-only points in offline Python and persist/check derived evidence; do not modify frozen D011 or held-out test.
+
+## Gate 10.2 — optional PCA 2D / Hierarchical Ward
+- Implemented in feature draft PR #1 only; wait Linux+Windows green CI and human review before merge.
+- Validate 352 real projected points, train 264 / val 88 filters, D011/Ward coloring, orthogonal PCA components, ARI, contingency and responsive dashboard.
+- Once approved merge, finish mandatory report 15–25 pages, 10–12 slides and real two-member contribution evidence; do not reopen final test.
