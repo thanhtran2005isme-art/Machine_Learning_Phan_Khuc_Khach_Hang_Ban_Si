@@ -1,0 +1,66 @@
+name: Gate 10.2 Offline Development Evidence
+on:
+  push:
+    branches: [feat/gate10-analysis-explain-export]
+    paths:
+      - ml/src/development_extension.py
+      - ml/tests/test_development_extension.py
+      - .github/workflows/gate10-2-evidence.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  generate:
+    if: github.repository == 'thanhtran2005isme-art/Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: ml/requirements.txt
+      - run: python -m pip install -r ml/requirements.txt
+      - name: Download SHA-audited UCI raw and materialize development ONLY
+        run: |
+          test ! -f data/processed/test.csv
+          python -m ml.src.download_data
+          python -m ml.src.prepare_development_only
+          test ! -f data/processed/test.csv
+      - name: Run independent extension tests and frozen profile checks
+        run: python -m pytest ml/tests/test_development_extension.py ml/tests/test_final_profile.py -q
+      - name: Generate reproducible points and evidence
+        run: |
+          python -m ml.src.development_extension
+          mkdir -p /tmp/gate10-2
+          cp -r reports/data/development_extension /tmp/gate10-2/first
+          python -m ml.src.development_extension
+          diff -r /tmp/gate10-2/first reports/data/development_extension
+          test ! -f data/processed/test.csv
+          git diff --exit-code -- models reports/data/final_profile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gate10-2-pca-ward-development-only
+          path: reports/data/development_extension/
+          retention-days: 30
+      - name: Publish audited derivation only to feature branch
+        if: github.ref == 'refs/heads/feat/gate10-analysis-explain-export'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reports/data/development_extension/analysis.json reports/data/development_extension/metadata.json
+          if git diff --cached --quiet; then
+            echo 'Derived evidence already committed.'
+          else
+            git commit -m 'data(gate10.2): commit validated 352-development PCA/Ward evidence [skip ci]'
+            git push origin HEAD:refs/heads/feat/gate10-analysis-explain-export
+          fi
