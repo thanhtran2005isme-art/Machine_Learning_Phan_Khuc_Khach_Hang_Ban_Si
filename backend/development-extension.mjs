@@ -19,6 +19,7 @@ const choose = n => n*(n-1)/2;
 export function loadVerifiedDevelopmentExtension(loaded, { extensionDir = DEFAULT_DIR } = {}) {
   need(object(loaded) && object(loaded.model) && object(loaded.evaluation), 'frozen model missing');
   const m = loaded.model, e = loaded.evaluation;
+  const selection = JSON.parse(readFileSync(fileURLToPath(new URL('../models/selection.json', import.meta.url)), 'utf8'));
   const meta = JSON.parse(readFileSync(join(extensionDir, 'metadata.json'), 'utf8'));
   need(meta.schema_version === 1 && meta.status === 'COMPLETE' &&
     meta.scope === 'train_plus_validation' && meta.decision === 'D011' &&
@@ -32,8 +33,10 @@ export function loadVerifiedDevelopmentExtension(loaded, { extensionDir = DEFAUL
     meta.serving_model_changed === false &&
     meta.provenance?.model_sha256 === loaded.checksum &&
     meta.provenance?.selection_sha256 === e.selection_sha256 &&
-    meta.provenance?.train_sha256 && HEX_SHA.test(meta.provenance.train_sha256) &&
-    meta.provenance?.validation_sha256 && HEX_SHA.test(meta.provenance.validation_sha256) &&
+    selection.status === 'FROZEN' && selection.decision === 'D011' &&
+    selection.k === 2 && selection.test_used_for_selection === false &&
+    meta.provenance?.train_sha256 === selection.evidence?.train?.sha256 &&
+    meta.provenance?.validation_sha256 === selection.evidence?.validation?.sha256 &&
     object(meta.files) && Object.keys(meta.files).length === 1 &&
     meta.files['analysis.json']?.path === 'reports/data/development_extension/analysis.json' &&
     HEX_SHA.test(meta.files['analysis.json'].sha256), 'metadata/provenance mismatch');
