@@ -69,6 +69,8 @@ describe('Gate 9.3: validated final 352-development dashboard API', () => {
     expect(response.statusCode).toBe(200);
     const data=response.json();
     expect(data.experiments).toHaveLength(14);
+    expect(data.experiments.every((x:{pair_count:number;ari_min:number;ari:number;ari_max:number;validation_silhouette_std:number}) =>
+      x.pair_count===45 && x.ari_min<=x.ari && x.ari<=x.ari_max && Number.isFinite(x.validation_silhouette_std))).toBe(true);
     expect(data.training.rows).toBe(352);
     expect(data.final_test.rows).toBe(88);
     expect(data.profiles).toHaveLength(2);

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
+import { CustomerInsight, ExperimentReport, LloydWalkthrough } from './AnalysisExtensions';
 
 type Feature = 'Fresh' | 'Milk' | 'Grocery' | 'Frozen' | 'Detergents_Paper' | 'Delicassen';
 type Screen = 'intro' | 'segment' | 'dashboard';
@@ -31,7 +32,8 @@ type SegmentResult = {
 };
 type Experiment = {
   preprocessing: string; k: number; train_inertia: number;
-  validation_silhouette: number; ari: number; min_cluster_share: number;
+  validation_silhouette: number; validation_silhouette_std: number;
+  ari: number; ari_min: number; ari_max: number; pair_count: number; min_cluster_share: number;
 };
 type FinalProfile = {
   source_scope: 'train_plus_validation'; development_count: number; read_only: boolean; test_used: boolean;
@@ -398,6 +400,7 @@ export default function App() {
             <div><h3>Giới hạn</h3><p>{info?.limitations || 'K-Means mô tả nhóm, không phải dự đoán doanh thu hay đánh giá khách hàng.'}</p></div>
           </div>
         </section>
+        <LloydWalkthrough/>
         {info?.data_card && <section className="content-card" aria-label="Data card">
           <div className="section-heading"><h2>Data card</h2><p>Nguồn và điều kiện nhập dữ liệu.</p></div>
           <dl className="model-facts">
@@ -438,6 +441,7 @@ export default function App() {
               <div className="divider-line" />
               <h3>Median chi tiêu của cụm</h3>
               <div className="profile-values">{FIELDS.map(f => <div key={f.key}><span>{f.label}</span><strong>{formatNumber(result.profile.median_spending[f.key])}</strong></div>)}</div>
+              <CustomerInsight input={values} result={result}/>
             </article> : <div className="empty-result"><div className="empty-icon">◎</div><h2>Chưa có kết quả phân khúc</h2><p>Nhập 6 giá trị và nhấn “Phân khúc khách hàng”. Bạn cũng có thể dùng median thực từ mô hình làm dữ liệu ví dụ:</p><div className="example-actions">{info?.profiles.map(p => <button className="btn-subtle" key={p.cluster_id} onClick={() => filledExample(p)}>Điền ví dụ cụm {p.cluster_id}</button>)}</div></div>}
           </div>
         </div>
@@ -458,6 +462,7 @@ export default function App() {
             <div className="charts"><Chart title="Elbow · Train inertia" description="Thấp hơn khi K tăng; dùng xem mức thay đổi trong cùng preprocessing." rows={allRows} metric="train_inertia" /><Chart title="Validation silhouette" description="Giá trị cao hơn biểu thị phân tách tốt hơn theo metric này." rows={allRows} metric="validation_silhouette" /><Chart title="ARI stability qua 10 seed" description="Độ nhất quán gán cụm giữa các lần khởi tạo." rows={allRows} metric="ari" /></div>
             <CandidateExplorer candidate={candidate} selectionK={dashboard.k} preprocessing={preprocessing}
               valueK={candidateK} onChangeK={setCandidateK}/>
+            <ExperimentReport experiments={dashboard.experiments} profile={dashboard.final_profile}/>
             <p className="muted small-note">{dashboard.metric_note}</p>
           </section>
           <section className="content-card" aria-label="Hồ sơ phân khúc cuối">

@@ -78,3 +78,8 @@
 - API 503 no longer leaks internal model-loading paths; added regression.
 - Gate9.6 matrix `docs/GATE9_6_REQUIREMENTS_MATRIX.csv` + MD = **57 PASS /16 PARTIAL /9 MISSING /6 NOT REQUIRED**, includes deferred report/slides/team evidence honestly. [Final acceptance](GATE9_6_FINAL.md).
 - Stop adding features; next manual Windows10 demonstration + real group evidence/reports, when user requests. NEVER rerun final holdout/refit D011.
+
+
+## Gate 10.1 - feature branch only (CI pending)
+- Experimental read-only evidence detail, seed variability, descriptive outliers, customer explanation, CSV/browser PDF print and teaching Lloyd panel. See docs/GATE10_1_ANALYSIS.md.
+- Do not claim these changes are on main until PR merged. PCA/Hierarchical deferred to development-only offline evidence gate.

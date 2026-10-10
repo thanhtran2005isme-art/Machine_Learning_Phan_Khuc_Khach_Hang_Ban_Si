@@ -336,3 +336,38 @@ test('Gate 9.5 result states neutral group meaning without replacing centroid di
   await expect(result).toContainText('Tên cụm mô tả xu hướng chi tiêu');
   await expect(result).toContainText('Khoảng cách không phải xác suất hoặc độ tin cậy');
 });
+
+
+test('Gate 10.1 guided Lloyd example is not the serving model', async ({page})=>{
+  await page.goto('/');
+  const toy=page.getByRole('region',{name:'Minh họa Lloyd với điểm mô phỏng'});
+  await expect(toy.getByRole('heading',{name:'K-Means hoạt động như thế nào?'})).toBeVisible();
+  await toy.getByRole('button',{name:'Bước tiếp'}).click();
+  await expect(toy.getByRole('heading',{name:/Cập nhật tâm/})).toBeVisible();
+  await toy.getByRole('button',{name:'Bước tiếp'}).click();
+  await expect(toy.getByText(/Chi chuyển sang cụm 0/)).toBeVisible();
+});
+test('Gate 10.1 extended experiments use 14 verified rows and export CSV',async ({page,request})=>{
+  const response=await request.get('/api/dashboard');
+  expect(response.ok()).toBeTruthy();
+  const evidence=await response.json();
+  expect(evidence.experiments.every((x:{pair_count:number})=>x.pair_count===45)).toBe(true);
+  await page.goto('/');
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const report=page.getByRole('region',{name:'Bảng bằng chứng thí nghiệm chuyên sâu'});
+  await expect(report.getByRole('heading',{name:'Bảng thí nghiệm chuyên sâu'})).toBeVisible();
+  await expect(report.locator('tbody tr')).toHaveCount(14);
+  const file=page.waitForEvent('download');
+  await report.getByRole('button',{name:'Tải CSV thí nghiệm'}).click();
+  expect((await file).suggestedFilename()).toBe('kaitokidshop-thi-nghiem.csv');
+});
+test('Gate 10.1 segment explains six spending values and exports CSV',async ({page})=>{
+  await openSegment(page);await exampleInput(page);
+  await page.getByRole('button',{name:'Phân khúc khách hàng',exact:true}).click();
+  const card=page.locator('.result-card');
+  await expect(card.getByRole('heading',{name:'Giải thích kết quả từng khách'})).toBeVisible();
+  await expect(card.locator('.analysis-extra tbody tr')).toHaveCount(6);
+  const file=page.waitForEvent('download');
+  await card.getByRole('button',{name:'Tải CSV kết quả'}).click();
+  expect((await file).suggestedFilename()).toBe('kaitokidshop-ket-qua-phan-khuc.csv');
+});
