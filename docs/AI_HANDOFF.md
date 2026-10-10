@@ -78,3 +78,21 @@
 - API 503 no longer leaks internal model-loading paths; added regression.
 - Gate9.6 matrix `docs/GATE9_6_REQUIREMENTS_MATRIX.csv` + MD = **57 PASS /16 PARTIAL /9 MISSING /6 NOT REQUIRED**, includes deferred report/slides/team evidence honestly. [Final acceptance](GATE9_6_FINAL.md).
 - Stop adding features; next manual Windows10 demonstration + real group evidence/reports, when user requests. NEVER rerun final holdout/refit D011.
+
+
+## Gate 10.1 - feature branch CI verified (not merged)
+- Experimental read-only evidence detail, seed variability, descriptive outliers, customer explanation, CSV/browser PDF print and teaching Lloyd panel. See docs/GATE10_1_ANALYSIS.md.
+- Do not claim these changes are on main until PR merged. Gate 10.1 CI 38020099636 SUCCESS: 15 native + 14 API tests; 46 Playwright desktop/mobile; build, security audit and Python-Node parity PASS at code SHA 43e808fe. PCA/Hierarchical deferred to development-only offline evidence gate.
+
+## Gate 10.2 — PCA 2D và Hierarchical Ward (feature PR #1)
+- Offline Python ml/src/development_extension.py: 352 development, frozen mean/scale, PCA(2D) và Ward K2 6D, không refit KMeans, không đọc final test.
+- CI offline 38037496861 PASS; verified analysis.json 352 điểm commit data fb7ebf11. PC1=0.44926644, PC2=0.26999868; KMeans silhouette 0.28915821, Ward 0.26262047, ARI 0.68724883, sizes KMeans 162/190 Ward 194/158.
+- Read-only API GET /api/development-extension + strict SHA/source/count/ARI validation, React dashboard toggles colors and development split, no fake points.
+- Feature branch feat/gate10-analysis-explain-export, PR #1 still not merged. Linux/Windows PR CI jobs must be checked before merge. Frozen model/selection/test and final_profile unchanged.
+- Full method + command: docs/GATE10_2_PCA_HIERARCHICAL.md.
+
+
+## Gate 10.3 — UI refresh on feature PR #1 (CI latest status must be verified)
+- Updated frontend App.tsx, index.css, AnalysisExtensions.tsx, DevelopmentAnalytics.tsx, added E2E UX/responsive/screenshot tests. Desktop sidebar, mobile nav, verified frozen model status, customer form completion and comparison bars, PCA point selection, dashboard jump anchors. All data from API; no new dependencies.
+- Screenshots from test browser written as GitHub Actions artifacts. See docs/GATE10_3_UI_UX.md for scope and manual UI review checklist.
+- Feature branch only (not main); Gate10 GitHub Actions latest run must be inspected before marking PASS. No ML/backend/frozen data touched in this gate.

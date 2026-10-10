@@ -96,3 +96,10 @@ Dùng mẫu:
 - **Hệ quả:** ảnh hưởng code/test/report
 - **Thay thế:** D0YY nếu supersede quyết định cũ
 ```
+
+## D012 — PCA/Ward là phân tích mở rộng, không phải model selection
+- **Status:** Accepted (optional coursework extension).
+- **Reason:** Đề cho phép PCA2D và so sánh Hierarchical; cần mô hình diễn giải có bằng chứng nhưng tránh nhìn 2D rồi suy diễn hiệu quả 6D.
+- **Decision:** frozen D011 K2 serving duy nhất; PCA fit 352 development sau biến đổi frozen D011 chỉ để vẽ; Ward fit 352 development trong không gian Euclidean 6D, không dùng Channel/Region, final test hoặc 2D points để tạo nhãn.
+- **Consequences:** benchmark chỉ mô tả trên development, không chọn lại D011; ARI/contingency không phụ thuộc tên cụm; artifact mới có SHA và không thay models/.
+- **Evidence:** docs/GATE10_2_PCA_HIERARCHICAL.md và Gate 10.2 CI.

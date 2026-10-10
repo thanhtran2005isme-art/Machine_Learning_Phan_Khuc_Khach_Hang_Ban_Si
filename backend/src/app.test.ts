@@ -62,6 +62,34 @@ describe('Gate 6: frozen serving', () => {
   });
 });
 
+describe('Gate 10.2: PCA/Ward development-only API', () => {
+  it('exposes 352 real projection points and a two-way contingency', async () => {
+    const app=buildApp();
+    const response=await app.inject({method:'GET',url:'/api/development-extension'});
+    expect(response.statusCode).toBe(200);
+    const body=response.json();
+    expect(body).toMatchObject({decision:'D011',development_count:352,test_used:false,read_only:true});
+    expect(body.points).toHaveLength(352);
+    expect(body.points.filter((p:{split:string})=>p.split==='train')).toHaveLength(264);
+    expect(body.comparison.frozen_counts).toEqual([162,190]);
+    expect(body.comparison.contingency.flat().reduce((x:number,y:number)=>x+y,0)).toBe(352);
+    expect(body.pca.components).toHaveLength(2);
+    await app.close();
+  });
+  it('fails closed on missing evidence without disabling frozen inference', async () => {
+    const app=buildApp({extensionDir:'/path/no-such-pca-evidence'});
+    const bad=await app.inject({method:'GET',url:'/api/development-extension'});
+    expect(bad.statusCode).toBe(503);
+    expect(JSON.stringify(bad.json())).not.toContain('/path/no-such');
+    const ok=await app.inject({method:'GET',url:'/api/health'});
+    expect(ok.json().modelReady).toBe(true);
+    const segment=await app.inject({method:'POST',url:'/api/segment',
+      payload:{Fresh:6410.5,Milk:7226,Grocery:10842.5,Frozen:1153,Detergents_Paper:4084.5,Delicassen:1508.5}});
+    expect(segment.statusCode).toBe(200);
+    await app.close();
+  });
+});
+
 describe('Gate 9.3: validated final 352-development dashboard API', () => {
   it('keeps old dashboard fields and adds verified final profiles for six features', async () => {
     const app=buildApp();
@@ -69,6 +97,8 @@ describe('Gate 9.3: validated final 352-development dashboard API', () => {
     expect(response.statusCode).toBe(200);
     const data=response.json();
     expect(data.experiments).toHaveLength(14);
+    expect(data.experiments.every((x:{pair_count:number;ari_min:number;ari:number;ari_max:number;validation_silhouette_std:number}) =>
+      x.pair_count===45 && x.ari_min<=x.ari && x.ari<=x.ari_max && Number.isFinite(x.validation_silhouette_std))).toBe(true);
     expect(data.training.rows).toBe(352);
     expect(data.final_test.rows).toBe(88);
     expect(data.profiles).toHaveLength(2);

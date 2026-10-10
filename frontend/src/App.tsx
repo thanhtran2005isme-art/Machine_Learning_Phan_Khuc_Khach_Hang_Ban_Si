@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
+import { CustomerInsight, ExperimentReport, LloydWalkthrough } from './AnalysisExtensions';
+import { DevelopmentAnalytics, type DevelopmentExtension } from './DevelopmentAnalytics';
 
 type Feature = 'Fresh' | 'Milk' | 'Grocery' | 'Frozen' | 'Detergents_Paper' | 'Delicassen';
 type Screen = 'intro' | 'segment' | 'dashboard';
@@ -31,7 +33,8 @@ type SegmentResult = {
 };
 type Experiment = {
   preprocessing: string; k: number; train_inertia: number;
-  validation_silhouette: number; ari: number; min_cluster_share: number;
+  validation_silhouette: number; validation_silhouette_std: number;
+  ari: number; ari_min: number; ari_max: number; pair_count: number; min_cluster_share: number;
 };
 type FinalProfile = {
   source_scope: 'train_plus_validation'; development_count: number; read_only: boolean; test_used: boolean;
@@ -103,7 +106,7 @@ function Chart({ title, description, rows, metric }: {
       </g>)}
       <polyline points={points} fill="none" stroke="#12735c" strokeWidth="3.2" strokeLinejoin="round" strokeLinecap="round" />
       {data.map((row,i) => <g key={row.k}>
-        <circle cx={x(i)} cy={y(row[metric])} r="5" fill="#12735c" stroke="white" strokeWidth="2" />
+        <circle cx={x(i)} cy={y(row[metric])} r="5" fill="#12735c" stroke="white" strokeWidth="2"><title>{'K='+row.k+' · '+formatNumber(row[metric],5)}</title></circle>
         <text x={x(i)} y="224" textAnchor="middle" fontSize="13" fill="#4b5563">K={row.k}</text>
       </g>)}
     </svg>
@@ -302,12 +305,25 @@ function DistanceChart({ profile }: { profile: FinalProfile }) {
   </section>;
 }
 
+const NAV_ICONS = {
+  intro: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1z',
+  segment: 'M4 6h16M7 6v4m10-4v4M4 14h16m-9 0v4m5-4v4M4 22h16',
+  dashboard: 'M4 20V10h4v10m4 0V4h4v16m4 0v-7h4v7',
+} as const;
+function NavIcon({screen}:{screen:Screen}) {
+  return <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d={NAV_ICONS[screen]}/>
+  </svg>;
+}
 export default function App() {
   const [screen, setScreen] = useState<Screen>('intro');
   const [info, setInfo] = useState<ModelInfo | null>(null);
   const [modelError, setModelError] = useState<string | null>(null);
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
   const [dashboardError, setDashboardError] = useState<string | null>(null);
+  const [extension, setExtension] = useState<DevelopmentExtension | null>(null);
+  const [extensionError, setExtensionError] = useState<string | null>(null);
   const [preprocessing, setPreprocessing] = useState('log1p_standardscaler');
   const [candidateK, setCandidateK] = useState<number>(2);
   const [values, setValues] = useState<Record<Feature, string>>({
@@ -331,6 +347,18 @@ export default function App() {
     if (screen !== 'dashboard' || dashboard) return;
     getJson<Dashboard>('/api/dashboard').then(verifyDashboard).then(setDashboard).catch(e => setDashboardError(String(e.message)));
   }, [screen, dashboard]);
+
+  useEffect(() => {
+    if (screen !== 'dashboard' || extension || extensionError) return;
+    getJson<DevelopmentExtension>('/api/development-extension').then(data => {
+      if (data.decision !== 'D011' || data.development_count !== 352 ||
+          data.read_only !== true || data.test_used !== false || data.points.length !== 352 ||
+          data.comparison.frozen_counts.join(',') !== '162,190') {
+        throw new Error('Dữ liệu PCA/Ward không khớp mô hình D011');
+      }
+      setExtension(data);
+    }).catch(error => setExtensionError(String(error.message)));
+  }, [screen, extension, extensionError]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -365,25 +393,59 @@ export default function App() {
   };
   const allRows = dashboard?.experiments.filter(row => row.preprocessing === preprocessing) || [];
   const candidate = allRows.find(row => row.k === candidateK);
+  const entered = FIELDS.filter(f => values[f.key].trim() !== '').length;
+  const currentPage = screen === 'intro' ? 'Giới thiệu' : screen === 'segment' ? 'Phân khúc khách hàng' : 'Dashboard phân tích';
 
   return <div className="app-shell">
     <header className="site-header">
-      <div className="container header-inner">
-        <div className="brand"><span className="brand-mark">K</span><div><strong>KaitoKidShop</strong><small>Phân khúc khách hàng bán sỉ</small></div></div>
+      <div className="header-inner">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">K</span>
+          <div><strong>KaitoKidShop</strong><small>Customer Intelligence</small></div>
+        </div>
+        <div className="sidebar-section-label">KHÔNG GIAN LÀM VIỆC</div>
         <nav className="nav-tabs" aria-label="Điều hướng chính">
           {([{ id: 'intro', label: 'Giới thiệu' }, { id: 'segment', label: 'Phân khúc' }, { id: 'dashboard', label: 'Dashboard' }] as const).map(tab =>
-            <button key={tab.id} className={screen === tab.id ? 'nav-active' : ''} onClick={() => setScreen(tab.id)} aria-current={screen === tab.id ? 'page' : undefined}>{tab.label}</button>)}
+            <button type="button" key={tab.id} className={screen === tab.id ? 'nav-active' : ''}
+              onClick={() => { setScreen(tab.id); window.scrollTo({top:0,behavior:'instant'}); }}
+              aria-current={screen === tab.id ? 'page' : undefined}>
+              <NavIcon screen={tab.id}/><span>{tab.label}</span>
+            </button>)}
         </nav>
+        <div className="sidebar-bottom">
+          <span className="sidebar-indicator" aria-hidden="true"/>
+          <div><strong>{info ? 'D011 · K-Means K=2' : modelError ? 'Mô hình không sẵn sàng' : 'Đang xác minh mô hình'}</strong>
+            <small>{info ? 'Artifact đã đóng băng' : 'Kiểm tra kết nối API'}</small></div>
+        </div>
       </div>
     </header>
     <main className="container main-content">
+      <div className="workspace-topbar">
+        <div><span className="workspace-overline">PROJECT 22</span><span className="workspace-divider">/</span><strong>{currentPage}</strong></div>
+        <span className="workspace-status"><span aria-hidden="true"/> {info ? 'Model D011 · Chỉ đọc' : modelError ? 'Mô hình không sẵn sàng' : 'Đang kết nối'}</span>
+      </div>
       {modelError && <div className="notice notice-error" role="alert">Không tải được mô hình: {modelError}. Kiểm tra Backend và artifact Gate 5.</div>}
       {screen === 'intro' && <div className="intro">
         <section className="hero">
-          <span className="eyebrow">PROJECT 22 · MACHINE LEARNING</span>
-          <h1>Hiểu cơ cấu chi tiêu, nhận diện phân khúc khách hàng bán sỉ.</h1>
-          <p>Dựa trên dữ liệu UCI Wholesale Customers, mô hình K-Means phân nhóm theo sáu loại chi tiêu hằng năm. Kết quả giúp khám phá đặc điểm nhóm, không đánh giá giá trị của một khách hàng.</p>
-          <div className="hero-actions"><button className="btn-primary" onClick={() => setScreen('segment')}>Thử phân khúc khách hàng →</button><button className="btn-subtle" onClick={() => setScreen('dashboard')}>Xem kết quả thí nghiệm</button></div>
+          <div className="hero-copy">
+            <span className="eyebrow">PHÂN TÍCH KHÁCH HÀNG · PROJECT 22</span>
+            <h1>Hiểu cơ cấu chi tiêu, nhận diện phân khúc khách hàng bán sỉ.</h1>
+            <p>Dựa trên dữ liệu UCI Wholesale Customers, mô hình K-Means phân nhóm theo sáu loại chi tiêu hằng năm. Kết quả giúp khám phá đặc điểm nhóm, không đánh giá giá trị của một khách hàng.</p>
+            <div className="hero-actions"><button className="btn-primary" onClick={() => setScreen('segment')}>Thử phân khúc khách hàng →</button><button className="btn-subtle" onClick={() => setScreen('dashboard')}>Xem kết quả thí nghiệm</button></div>
+          </div>
+          <div className="hero-preview" aria-label="Tổng quan mô hình đã đóng băng">
+            <div className="preview-top"><span>TỔNG QUAN MÔ HÌNH</span><span className="preview-live">D011 · K2</span></div>
+            <strong>Hai phân khúc phát triển</strong>
+            <p>Phân bố dựa trên 352 khách train + validation.</p>
+            {info?.profiles?.length === 2 ? <>
+              <div className="preview-track" role="img" aria-label={'Kích thước cụm: ' + info.profiles.map(p => 'cụm '+p.cluster_id+' '+p.count+' khách').join(', ')}>
+                {info.profiles.map(p => <span key={p.cluster_id} className={'cluster-color-'+p.cluster_id} style={{width:(p.share*100)+'%'}} />)}
+              </div>
+              <div className="preview-rows">{info.profiles.map(p =>
+                <div key={p.cluster_id}><span><i className={'cluster-dot cluster-color-'+p.cluster_id}/>Cụm {p.cluster_id}</span><strong>{formatNumber(p.count)} khách</strong></div>)}</div>
+            </> : <p className="muted small-note">{modelError ? 'Không có bằng chứng mô hình.' : 'Đang tải dữ liệu từ API…'}</p>}
+            <div className="preview-footer">6 đặc trưng · log1p + StandardScaler</div>
+          </div>
         </section>
         <div className="stat-grid">
           <article className="stat"><span>Khách hàng trong bộ dữ liệu</span><strong>440</strong><small>UCI Wholesale Customers</small></article>
@@ -398,6 +460,7 @@ export default function App() {
             <div><h3>Giới hạn</h3><p>{info?.limitations || 'K-Means mô tả nhóm, không phải dự đoán doanh thu hay đánh giá khách hàng.'}</p></div>
           </div>
         </section>
+        <LloydWalkthrough/>
         {info?.data_card && <section className="content-card" aria-label="Data card">
           <div className="section-heading"><h2>Data card</h2><p>Nguồn và điều kiện nhập dữ liệu.</p></div>
           <dl className="model-facts">
@@ -414,21 +477,34 @@ export default function App() {
       {screen === 'segment' && <section>
         <div className="page-heading"><span className="eyebrow">01 / PHÂN KHÚC KHÁCH HÀNG</span><h1>Phân khúc khách hàng mới</h1><p>Nhập đủ sáu khoản chi tiêu hằng năm theo monetary units (m.u.) của UCI, không mặc định VND. Chỉ áp dụng khi có lịch sử chi tiêu cả năm; không quy đổi hoặc tự điền giá trị còn thiếu.</p></div>
         <div className="segment-grid">
-          <form className="content-card" onSubmit={submit} noValidate>
+          <form className="content-card" onSubmit={submit} noValidate aria-label="Nhập chi tiêu khách hàng">
             <div className="section-heading"><h2>Thông tin chi tiêu</h2><p>Sáu trường bắt buộc, mỗi giá trị là số không âm.</p></div>
-            <div className="input-grid">{FIELDS.map(f => <label className="field" key={f.key}>
-              <span>{f.label} <small>({f.description})</small></span>
-              <input inputMode="decimal" type="number" min="0" step="any" required placeholder="Nhập số tiền" value={values[f.key]}
-                onChange={event => { clearPendingResult(); setValues(prev => ({ ...prev, [f.key]: event.target.value })); }} />
-              <small>{info?.reference_ranges?.[f.key] ? 'Train quan sát: ' + formatNumber(info.reference_ranges[f.key].min) + ' – ' + formatNumber(info.reference_ranges[f.key].max) : 'Giá trị không âm'}</small>
-            </label>)}</div>
+            <div className="form-progress" aria-live="polite">
+              <div><span>Mức độ hoàn thành</span><strong>{entered}/6 trường</strong></div>
+              <div className="form-progress-track" aria-hidden="true"><span style={{width:(entered/6*100)+'%'}}/></div>
+            </div>
+            <div className="input-grid">{FIELDS.map((f,index) => {
+              const raw = values[f.key].trim();
+              const invalid = raw.length > 0 && (!Number.isFinite(Number(raw)) || Number(raw) < 0);
+              return <label className="field" key={f.key}>
+                <span><span className="field-index">{String(index+1).padStart(2,'0')}</span>{f.label} <small>({f.description})</small></span>
+                <div className="field-input">
+                  <input inputMode="decimal" type="number" min="0" step="any" required placeholder="0" value={values[f.key]}
+                    aria-invalid={invalid} aria-describedby={'help-'+f.key}
+                    onChange={event => { clearPendingResult(); setValues(prev => ({ ...prev, [f.key]: event.target.value })); }} />
+                  <span aria-hidden="true">m.u.</span>
+                </div>
+                <small id={'help-'+f.key}>{invalid ? 'Nhập số không âm, hữu hạn.' :
+                  info?.reference_ranges?.[f.key] ? 'Train quan sát: ' + formatNumber(info.reference_ranges[f.key].min) + ' – ' + formatNumber(info.reference_ranges[f.key].max) : 'Giá trị không âm'}</small>
+              </label>;
+            })}</div>
             {submitError && <p className="notice notice-error" role="alert">{submitError}</p>}
             <div className="form-footer"><button className="btn-primary" type="submit" disabled={submitting || !info}>{submitting ? 'Đang xử lý…' : 'Phân khúc khách hàng'}</button><button className="btn-subtle" type="button" onClick={() => { clearPendingResult(); setValues({ Fresh:'', Milk:'', Grocery:'', Frozen:'', Detergents_Paper:'', Delicassen:'' }); }}>Xóa dữ liệu</button></div>
             <p className="muted small-note">{info?.reference_note || 'Khoảng giá trị là thông tin tham khảo, không phải giới hạn đầu vào cứng.'}</p>
           </form>
           <div className="result-column">
             {result ? <article className="result-card" aria-live="polite">
-              <span className="eyebrow">KẾT QUẢ MÔ HÌNH THỰC</span>
+              <div className="result-heading"><span className="eyebrow">KẾT QUẢ MÔ HÌNH THỰC</span><span className="result-pill">Đã phân tích</span></div>
               <div className="result-id">Cụm {result.cluster_id}</div>
               <h2>{result.profile.name}</h2>
               <p>Khoảng cách tới tâm cụm: <strong>{formatNumber(result.distance_to_centroid, 4)}</strong></p>
@@ -438,7 +514,8 @@ export default function App() {
               <div className="divider-line" />
               <h3>Median chi tiêu của cụm</h3>
               <div className="profile-values">{FIELDS.map(f => <div key={f.key}><span>{f.label}</span><strong>{formatNumber(result.profile.median_spending[f.key])}</strong></div>)}</div>
-            </article> : <div className="empty-result"><div className="empty-icon">◎</div><h2>Chưa có kết quả phân khúc</h2><p>Nhập 6 giá trị và nhấn “Phân khúc khách hàng”. Bạn cũng có thể dùng median thực từ mô hình làm dữ liệu ví dụ:</p><div className="example-actions">{info?.profiles.map(p => <button className="btn-subtle" key={p.cluster_id} onClick={() => filledExample(p)}>Điền ví dụ cụm {p.cluster_id}</button>)}</div></div>}
+              <CustomerInsight input={values} result={result}/>
+            </article> : <div className="empty-result"><div className="empty-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="24" stroke="currentColor" strokeWidth="2"/><circle cx="23" cy="24" r="5" fill="currentColor"/><circle cx="42" cy="27" r="5" fill="currentColor" opacity=".7"/><circle cx="32" cy="43" r="5" fill="currentColor" opacity=".5"/></svg></div><h2>Chưa có kết quả phân khúc</h2><p>Nhập 6 giá trị và nhấn “Phân khúc khách hàng”. Bạn cũng có thể dùng median thực từ mô hình làm dữ liệu ví dụ:</p><div className="example-actions">{info?.profiles.map(p => <button className="btn-subtle" key={p.cluster_id} onClick={() => filledExample(p)}>Điền ví dụ cụm {p.cluster_id}</button>)}</div></div>}
           </div>
         </div>
       </section>}
@@ -447,20 +524,30 @@ export default function App() {
         {dashboardError && <div className="notice notice-error" role="alert">{dashboardError}</div>}
         {!dashboard && !dashboardError && <p className="muted">Đang tải dữ liệu thí nghiệm…</p>}
         {dashboard && <>
+          <nav className="dashboard-shortcuts" aria-label="Truy cập nhanh các phân tích">
+            <a href="#experiment-analysis">Thí nghiệm K=2–8</a>
+            <a href="#pca-analysis">PCA & Ward</a>
+            <a href="#cluster-profiles">Hồ sơ cụm</a>
+            <a href="#model-information">Thông số mô hình</a>
+          </nav>
           <div className="stat-grid">
             <article className="stat"><span>K đã chọn</span><strong>2</strong><small>Log1p + StandardScaler</small></article>
             <article className="stat"><span>Silhouette development</span><strong>{formatNumber(dashboard.training.silhouette, 4)}</strong><small>{dashboard.training.rows} mẫu</small></article>
             <article className="stat"><span>Silhouette final test</span><strong>{formatNumber(dashboard.final_test.silhouette, 4)}</strong><small>Đã đánh giá một lần</small></article>
             <article className="stat"><span>Final test độc lập</span><strong>{dashboard.final_test.rows}</strong><small>Khách hàng, không tham gia fit</small></article>
           </div>
-          <section className="content-card"><div className="section-heading"><h2>So sánh K=2..8</h2><p>Chọn một không gian để xem inertia; không so sánh trực tiếp trị số inertia giữa raw và scaled.</p></div>
+          <section id="experiment-analysis" className="content-card"><div className="section-heading"><h2>So sánh K=2..8</h2><p>Chọn một không gian để xem inertia; không so sánh trực tiếp trị số inertia giữa raw và scaled.</p></div>
             <div className="toggle-row"><button className={preprocessing === 'log1p_standardscaler' ? 'toggle-selected' : ''} onClick={() => setPreprocessing('log1p_standardscaler')}>Log1p + StandardScaler</button><button className={preprocessing === 'raw' ? 'toggle-selected' : ''} onClick={() => setPreprocessing('raw')}>Raw</button></div>
             <div className="charts"><Chart title="Elbow · Train inertia" description="Thấp hơn khi K tăng; dùng xem mức thay đổi trong cùng preprocessing." rows={allRows} metric="train_inertia" /><Chart title="Validation silhouette" description="Giá trị cao hơn biểu thị phân tách tốt hơn theo metric này." rows={allRows} metric="validation_silhouette" /><Chart title="ARI stability qua 10 seed" description="Độ nhất quán gán cụm giữa các lần khởi tạo." rows={allRows} metric="ari" /></div>
             <CandidateExplorer candidate={candidate} selectionK={dashboard.k} preprocessing={preprocessing}
               valueK={candidateK} onChangeK={setCandidateK}/>
+            <ExperimentReport experiments={dashboard.experiments} profile={dashboard.final_profile}/>
             <p className="muted small-note">{dashboard.metric_note}</p>
           </section>
-          <section className="content-card" aria-label="Hồ sơ phân khúc cuối">
+          {extensionError && <div className="notice notice-error" role="alert">Phân tích PCA/Ward chưa sẵn sàng: {extensionError}</div>}
+          {extension && <div id="pca-analysis"><DevelopmentAnalytics data={extension}/></div>}
+          {!extension && !extensionError && <p className="muted">Đang tải bằng chứng PCA/Ward…</p>}
+          <section id="cluster-profiles" className="content-card" aria-label="Hồ sơ phân khúc cuối">
             <div className="section-heading"><h2>Hồ sơ 2 phân khúc cuối</h2>
               <p>Model D011 K=2; hậu phân cụm trên {dashboard.final_profile.development_count} khách train + validation, không sử dụng tập test.</p>
             </div>
@@ -479,7 +566,7 @@ export default function App() {
               <p>Đơn vị chi tiêu theo dữ liệu UCI Wholesale Customers; số liệu trích từ model đã đóng băng.</p></div>
             <div className="profile-grid">{dashboard.final_profile.cluster_summary.map(p => <ProfileCard key={p.cluster_id} profile={p} />)}</div>
           </section>
-          <section className="content-card"><div className="section-heading"><h2>Model card</h2><p>Trạng thái mô hình đã freeze trước final test.</p></div>
+          <section id="model-information" className="content-card"><div className="section-heading"><h2>Model card</h2><p>Trạng thái mô hình đã freeze trước final test.</p></div>
             <dl className="model-facts"><div><dt>Preprocessing</dt><dd>log1p + StandardScaler</dd></div><div><dt>Số cụm</dt><dd>2</dd></div><div><dt>Huấn luyện</dt><dd>{dashboard.final_profile.development_count} khách (train + validation)</dd></div><div><dt>Final test</dt><dd>88 khách, silhouette {formatNumber(dashboard.final_test.silhouette, 6)}</dd></div><div><dt>Artifact SHA-256</dt><dd className="hash">{dashboard.final_profile.model_sha256}</dd></div>
               <div><dt>Phạm vi profiling</dt><dd>Development 352 · Channel/Region chỉ diễn giải</dd></div>
               <div><dt>Hồ sơ kiểm chứng</dt><dd>{Object.keys(dashboard.final_profile.evidence_sha256).length} CSV đã xác minh SHA-256 tại Backend</dd></div>

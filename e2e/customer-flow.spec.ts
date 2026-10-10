@@ -293,7 +293,7 @@ test('Gate 9.4 has no document overflow at narrow 320px while tables scroll inte
     tables: [...document.querySelectorAll<HTMLElement>('.table-scroll')].map(x => x.scrollWidth >= x.clientWidth),
   }));
   expect(widths.doc).toBeLessThanOrEqual(widths.viewport + 1);
-  expect(widths.tables).toHaveLength(3);
+  expect(widths.tables.length).toBeGreaterThanOrEqual(4); // Multiple verified development tables added in Gate10.2.
   expect(widths.tables.every(Boolean)).toBeTruthy();
 });
 
@@ -335,4 +335,122 @@ test('Gate 9.5 result states neutral group meaning without replacing centroid di
   await expect(result).toBeVisible();
   await expect(result).toContainText('Tên cụm mô tả xu hướng chi tiêu');
   await expect(result).toContainText('Khoảng cách không phải xác suất hoặc độ tin cậy');
+});
+
+
+test('Gate 10.1 guided Lloyd example is not the serving model', async ({page})=>{
+  await page.goto('/');
+  const toy=page.getByRole('region',{name:'Minh họa Lloyd với điểm mô phỏng'});
+  await expect(toy.getByRole('heading',{name:'K-Means hoạt động như thế nào?'})).toBeVisible();
+  await toy.getByRole('button',{name:'Bước tiếp'}).click();
+  await expect(toy.getByRole('heading',{name:/Cập nhật tâm/})).toBeVisible();
+  await toy.getByRole('button',{name:'Bước tiếp'}).click();
+  await expect(toy.getByText(/Chi chuyển sang cụm 0/)).toBeVisible();
+});
+test('Gate 10.1 extended experiments use 14 verified rows and export CSV',async ({page,request})=>{
+  const response=await request.get('/api/dashboard');
+  expect(response.ok()).toBeTruthy();
+  const evidence=await response.json();
+  expect(evidence.experiments.every((x:{pair_count:number})=>x.pair_count===45)).toBe(true);
+  await page.goto('/');
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const report=page.getByRole('region',{name:'Bảng bằng chứng thí nghiệm chuyên sâu'});
+  await expect(report.getByRole('heading',{name:'Bảng thí nghiệm chuyên sâu'})).toBeVisible();
+  await expect(report.locator('tbody tr')).toHaveCount(14);
+  const file=page.waitForEvent('download');
+  await report.getByRole('button',{name:'Tải CSV thí nghiệm'}).click();
+  expect((await file).suggestedFilename()).toBe('kaitokidshop-thi-nghiem.csv');
+});
+test('Gate 10.1 segment explains six spending values and exports CSV',async ({page})=>{
+  await openSegment(page);await exampleInput(page);
+  await page.getByRole('button',{name:'Phân khúc khách hàng',exact:true}).click();
+  const card=page.locator('.result-card');
+  await expect(card.getByRole('heading',{name:'Giải thích kết quả từng khách'})).toBeVisible();
+  await expect(card.locator('.analysis-extra tbody tr')).toHaveCount(6);
+  const file=page.waitForEvent('download');
+  await card.getByRole('button',{name:'Tải CSV kết quả'}).click();
+  expect((await file).suggestedFilename()).toBe('kaitokidshop-ket-qua-phan-khuc.csv');
+});
+
+
+test('Gate 10.2 PCA plots 352 real development points and filters by split',async({page,request})=>{
+  const reply=await request.get('/api/development-extension');
+  expect(reply.status()).toBe(200);
+  const data=await reply.json();
+  expect(data.points).toHaveLength(352);
+  expect(data.comparison.frozen_counts).toEqual([162,190]);
+  await page.goto('/');
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const panel=page.getByRole('region',{name:'PCA 2D và so sánh Hierarchical'});
+  await expect(panel.getByRole('heading',{name:/PCA 2D · So sánh/})).toBeVisible();
+  await expect(panel.locator('svg circle.pca-dot')).toHaveCount(352);
+  await expect(panel.getByTestId('pca-visible-count')).toHaveText('352');
+  await panel.getByRole('group',{name:'Lọc dữ liệu development'}).getByRole('button',{name:'Validation'}).click();
+  await expect(panel.locator('svg circle.pca-dot')).toHaveCount(88);
+  await panel.getByRole('group',{name:'Lọc dữ liệu development'}).getByRole('button',{name:'Train'}).click();
+  await expect(panel.locator('svg circle.pca-dot')).toHaveCount(264);
+  await panel.getByRole('group',{name:'Phương pháp tô màu'}).getByRole('button',{name:'Hierarchical Ward'}).click();
+  expect(await panel.locator('svg circle[data-label="0"]').count()).toBeGreaterThan(0);
+  await expect(panel.getByText(/Adjusted Rand Index/)).toBeVisible();
+});
+
+
+test('Gate 10.3 professional workspace navigates all three screens and shows verified sidebar state', async ({page}) => {
+  await page.goto('/');
+  await expect(page.locator('.site-header .brand')).toContainText('KaitoKidShop');
+  await expect(page.getByText('Model D011 · Chỉ đọc')).toBeVisible();
+  await page.getByRole('button',{name:'Phân khúc',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'Phân khúc khách hàng mới'})).toBeVisible();
+  await expect(page.getByText('0/6 trường')).toBeVisible();
+  await page.getByRole('button',{name:'Điền ví dụ cụm 0'}).click();
+  await expect(page.getByText('6/6 trường')).toBeVisible();
+  await expect(page.locator('.input-grid .field-input')).toHaveCount(6);
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const shortcuts=page.getByRole('navigation',{name:'Truy cập nhanh các phân tích'});
+  await expect(shortcuts.getByRole('link',{name:'PCA & Ward'})).toHaveAttribute('href','#pca-analysis');
+  await expect(page.locator('#cluster-profiles')).toBeVisible();
+  await page.getByRole('button',{name:'Giới thiệu',exact:true}).click();
+  await expect(page.locator('.hero-preview')).toContainText('352 khách');
+});
+
+test('Gate 10.3 PCA allows selecting a real anonymous point by index',async({page})=>{
+  await page.goto('/');
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const panel=page.getByRole('region',{name:'PCA 2D và so sánh Hierarchical'});
+  await panel.getByLabel('Mã mẫu (1–352)').fill('352');
+  await expect(panel.locator('.pca-point-detail')).toContainText('352');
+  await expect(panel.locator('.pca-point-detail')).toContainText('Validation');
+  await panel.getByLabel('Mã mẫu (1–352)').fill('0');
+  await expect(panel.locator('.pca-point-detail')).toHaveCount(0);
+});
+
+test('Gate 10.3 responsive workspace has no horizontal overflow at 320px and 768px',async({page})=>{
+  for (const width of [320,768]){
+    await page.setViewportSize({width,height:780});
+    await page.goto('/');
+    for(const screen of ['Giới thiệu','Phân khúc','Dashboard']){
+      await page.getByRole('button',{name:screen,exact:true}).click();
+      if(screen==='Dashboard') await expect(page.locator('#cluster-profiles')).toBeVisible();
+      const dimension=await page.evaluate(()=>({doc:document.documentElement.scrollWidth,viewport:innerWidth}));
+      expect(dimension.doc).toBeLessThanOrEqual(dimension.viewport+1);
+    }
+  }
+});
+
+
+test('Gate 10.3 visual review captures three real API-backed screens',async({page},testInfo)=>{
+  test.setTimeout(90_000);
+  await page.goto('/');
+  await expect(page.getByText('Model D011 · Chỉ đọc')).toBeVisible();
+  await expect(page.locator('.hero-preview .preview-rows>div')).toHaveCount(2);
+  await page.screenshot({path:testInfo.outputPath('01-intro.png'),fullPage:true,animations:'disabled'});
+  await page.getByRole('button',{name:'Phân khúc',exact:true}).click();
+  await page.getByRole('button',{name:'Điền ví dụ cụm 0'}).click();
+  await page.getByRole('button',{name:'Phân khúc khách hàng',exact:true}).click();
+  await expect(page.locator('.result-card .customer-mini-chart')).toBeVisible();
+  await page.screenshot({path:testInfo.outputPath('02-segment.png'),fullPage:true,animations:'disabled'});
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  await expect(page.getByRole('region',{name:'PCA 2D và so sánh Hierarchical'})).toBeVisible();
+  await expect(page.locator('#cluster-profiles')).toBeVisible();
+  await page.screenshot({path:testInfo.outputPath('03-dashboard.png'),fullPage:true,animations:'disabled'});
 });

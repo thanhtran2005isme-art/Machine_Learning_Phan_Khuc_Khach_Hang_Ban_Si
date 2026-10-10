@@ -127,17 +127,20 @@ export function modelInfo(loaded) {
 export function dashboard(loaded, { profileDir } = {}) {
   const source = readFileSync(artifact('reports/data/experiments/selection_evidence.csv'), 'utf8').trim().split(/\r?\n/);
   const columns = source[0].split(',');
-  const required = ['preprocessing', 'k', 'train_inertia_mean', 'validation_silhouette_mean', 'ari_mean', 'min_cluster_share_mean'];
+  const required = ['preprocessing', 'k', 'train_inertia_mean', 'validation_silhouette_mean', 'validation_silhouette_std', 'ari_mean', 'ari_min', 'ari_max', 'pair_count', 'min_cluster_share_mean'];
   if (!required.every(key => columns.includes(key))) throw new Error('Experiment evidence missing columns');
   const experiments = source.slice(1).filter(Boolean).map(line => {
     const cells = line.split(',');
     const row = Object.fromEntries(columns.map((col, index) => [col, cells[index]]));
     return { preprocessing: row.preprocessing, k: Number(row.k), train_inertia: Number(row.train_inertia_mean),
-      validation_silhouette: Number(row.validation_silhouette_mean), ari: Number(row.ari_mean), min_cluster_share: Number(row.min_cluster_share_mean) };
+      validation_silhouette: Number(row.validation_silhouette_mean), validation_silhouette_std: Number(row.validation_silhouette_std),
+      ari: Number(row.ari_mean), ari_min: Number(row.ari_min), ari_max: Number(row.ari_max),
+      pair_count: Number(row.pair_count), min_cluster_share: Number(row.min_cluster_share_mean) };
   });
   if (experiments.length !== 14 || experiments.some(x => !['raw','log1p_standardscaler'].includes(x.preprocessing) ||
       !Number.isInteger(x.k) || x.k < 2 || x.k > 8 ||
-      ![x.train_inertia, x.validation_silhouette, x.ari, x.min_cluster_share].every(Number.isFinite))) {
+      ![x.train_inertia, x.validation_silhouette, x.validation_silhouette_std, x.ari, x.ari_min, x.ari_max, x.min_cluster_share].every(Number.isFinite) ||
+      x.pair_count !== 45 || x.ari_min > x.ari || x.ari > x.ari_max)) {
     throw new Error('Invalid frozen experiment evidence');
   }
   return {

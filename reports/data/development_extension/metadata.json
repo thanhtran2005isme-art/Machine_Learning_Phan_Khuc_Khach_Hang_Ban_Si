@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "decision": "D011",
+  "scope": "train_plus_validation",
+  "development_count": 352,
+  "source_rows": {
+    "train": 264,
+    "validation": 88
+  },
+  "feature_columns": [
+    "Fresh",
+    "Milk",
+    "Grocery",
+    "Frozen",
+    "Detergents_Paper",
+    "Delicassen"
+  ],
+  "profiling_only_columns": [
+    "Channel",
+    "Region"
+  ],
+  "frozen_model_fit_performed": false,
+  "frozen_scaler_fit_performed": false,
+  "pca_fit_performed": true,
+  "hierarchical_fit_performed": true,
+  "test_used": false,
+  "test_evaluated": false,
+  "serving_model_changed": false,
+  "provenance": {
+    "selection_sha256": "f256dc6a04a5a8eddb0fc854e940bda25a4276b86b184d6155c4cee2a1ed8c64",
+    "model_sha256": "5057db0e290c93043abe4add3abf440e64864dc8d187a8d0b22d18621acd3b28",
+    "train_sha256": "35b039bd4a97a0b4209fb70d6969d0a4117976b20b812aa252c04a48995de01f",
+    "validation_sha256": "2da358c10737747553c34db8e37531ed0b739abf09166c2b805f18328a990cf6"
+  },
+  "files": {
+    "analysis.json": {
+      "path": "reports/data/development_extension/analysis.json",
+      "sha256": "e286cd3020c88a54c02bc20a124fc26efd0b2868a0e0c1aeea14c812067b0959"
+    }
+  }
+}
