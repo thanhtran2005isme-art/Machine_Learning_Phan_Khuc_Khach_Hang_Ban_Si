@@ -35,6 +35,20 @@ export function CustomerInsight({input,result}:{input:Record<F,string>;result:Re
   return <section className="analysis-extra" aria-label="Giải thích kết quả từng khách">
     <h3>Giải thích kết quả từng khách</h3>
     <p className="muted small-note">Đầu vào so với median cụm được gán; cùng đơn vị m.u. theo năm.</p>
+    <div className="customer-mini-chart" aria-label="So sánh từng khoản chi tiêu với median cụm">
+      {data.map(row => {
+        const denominator=Math.max(1,row.v,row.median);
+        return <div className="customer-mini-row" key={row.key}>
+          <span>{row.label}</span>
+          <div className="customer-mini-bars">
+            <div className="customer-mini-track"><span className="mini-input" style={{width:(row.v/denominator*100)+'%'}} /></div>
+            <div className="customer-mini-track"><span className="mini-median" style={{width:(row.median/denominator*100)+'%'}} /></div>
+          </div>
+          <strong>{row.median>0?fmt(row.v/row.median)+'×':'—'}</strong>
+        </div>;
+      })}
+      <p className="muted small-note">Mỗi hàng có thang riêng · <span className="legend-swatch input-swatch"/> Đầu vào · <span className="legend-swatch median-swatch"/> Median cụm</p>
+    </div>
     <div className="table-scroll"><table className="data-table">
       <thead><tr><th>Nhóm hàng</th><th>Đầu vào</th><th>Median cụm</th><th>Tỷ lệ</th></tr></thead>
       <tbody>{data.map(r=><tr key={r.key}><th scope="row">{r.label}</th><td>{fmt(r.v)}</td>

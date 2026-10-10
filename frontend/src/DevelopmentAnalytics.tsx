@@ -17,6 +17,8 @@ const number=(v:number,n=3)=>new Intl.NumberFormat('vi-VN',{maximumFractionDigit
 export function DevelopmentAnalytics({data}:{data:DevelopmentExtension}){
   const [color,setColor]=useState<'kmeans'|'hierarchical'>('kmeans');
   const [filter,setFilter]=useState<'all'|'train'|'validation'>('all');
+  const [selectedIndex,setSelectedIndex]=useState<number|null>(null);
+  const selected=selectedIndex===null?null:data.points[selectedIndex];
   const points=data.points.filter(p=>filter==='all'||p.split===filter);
   const xall=data.points.map(p=>p.pc1), yall=data.points.map(p=>p.pc2);
   const minX=Math.min(...xall),maxX=Math.max(...xall),minY=Math.min(...yall),maxY=Math.max(...yall);
@@ -56,9 +58,9 @@ export function DevelopmentAnalytics({data}:{data:DevelopmentExtension}){
           <rect x="44" y="25" width="621" height="335" rx="8" fill="#fbfcfc" stroke="#d9e4e4"/>
           <line x1={mapX(0)} y1="25" x2={mapX(0)} y2="360" stroke="#9eaeb0" strokeDasharray="4 5"/>
           <line x1="44" y1={mapY(0)} x2="665" y2={mapY(0)} stroke="#9eaeb0" strokeDasharray="4 5"/>
-          {points.map(p=><circle key={p.index} cx={mapX(p.pc1)} cy={mapY(p.pc2)} r="4"
-            className={'pca-dot pca-group-'+p[color]} data-split={p.split}
-            data-label={p[color]}>
+          {points.map(p=><circle key={p.index} cx={mapX(p.pc1)} cy={mapY(p.pc2)} r={selectedIndex===p.index?7:4}
+            className={'pca-dot pca-group-'+p[color]+(selectedIndex===p.index?' pca-selected':'')} data-split={p.split}
+            data-label={p[color]} onClick={()=>setSelectedIndex(p.index)}>
             <title>{'Mẫu '+(p.index+1)+' · '+p.split+' · '+label+' cụm '+p[color]+' · PC1='+number(p.pc1)+' · PC2='+number(p.pc2)}</title>
           </circle>)}
           <text x="355" y="392" textAnchor="middle" fontSize="13" fill="#52666c">PC1 ({number(share[0],1)}%)</text>
@@ -68,6 +70,19 @@ export function DevelopmentAnalytics({data}:{data:DevelopmentExtension}){
           <span><i className="legend-dot pca-group-1"/>Cụm 1</span><small>Tô theo {label}</small></div>
       </div>
       <div className="pca-notes">
+        <h3>Khám phá điểm dữ liệu</h3>
+        <label className="pca-point-picker">Mã mẫu (1–352)
+          <input type="number" inputMode="numeric" min="1" max="352" placeholder="Chọn mã mẫu"
+            value={selectedIndex===null?'':String(selectedIndex+1)}
+            onChange={e=>{const v=e.target.value.trim();setSelectedIndex(v&&Number.isInteger(Number(v))&&Number(v)>=1&&Number(v)<=352?Number(v)-1:null);}} />
+        </label>
+        {selected ? <dl className="pca-point-detail" aria-live="polite">
+          <div><dt>Mã mẫu</dt><dd>{selected.index+1}</dd></div>
+          <div><dt>Tập dữ liệu</dt><dd>{selected.split==='train'?'Train':'Validation'}</dd></div>
+          <div><dt>K-Means</dt><dd>Cụm {selected.kmeans}</dd></div>
+          <div><dt>Ward</dt><dd>Cụm {selected.hierarchical}</dd></div>
+          <div><dt>PC1 / PC2</dt><dd>{number(selected.pc1,3)} / {number(selected.pc2,3)}</dd></div>
+        </dl> : <p className="muted small-note">Chạm vào một chấm trên biểu đồ hoặc nhập mã mẫu để xem chi tiết của điểm đó.</p>}
         <h3>Cách đọc biểu đồ</h3>
         <p>Mỗi chấm là một khách trong tập development. PCA chiếu sáu đặc trưng đã log1p + StandardScaler sang hai trục để xem xu hướng hình học.</p>
         <p>Hai trục chỉ giữ {number(share[0]+share[1],2)}% phương sai; các điểm gần nhau trên hình 2D không nhất thiết có khoảng cách gần tương ứng trong 6D.</p>

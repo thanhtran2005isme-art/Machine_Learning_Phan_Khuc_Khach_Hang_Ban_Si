@@ -393,3 +393,46 @@ test('Gate 10.2 PCA plots 352 real development points and filters by split',asyn
   expect(await panel.locator('svg circle[data-label="0"]').count()).toBeGreaterThan(0);
   await expect(panel.getByText(/Adjusted Rand Index/)).toBeVisible();
 });
+
+
+test('Gate 10.3 professional workspace navigates all three screens and shows verified sidebar state', async ({page}) => {
+  await page.goto('/');
+  await expect(page.locator('.site-header .brand')).toContainText('KaitoKidShop');
+  await expect(page.getByText('Model D011 · Chỉ đọc')).toBeVisible();
+  await page.getByRole('button',{name:'Phân khúc',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'Phân khúc khách hàng mới'})).toBeVisible();
+  await expect(page.getByText('0/6 trường')).toBeVisible();
+  await page.getByRole('button',{name:'Điền ví dụ cụm 0'}).click();
+  await expect(page.getByText('6/6 trường')).toBeVisible();
+  await expect(page.locator('.input-grid .field-input')).toHaveCount(6);
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const shortcuts=page.getByRole('navigation',{name:'Truy cập nhanh các phân tích'});
+  await expect(shortcuts.getByRole('link',{name:'PCA & Ward'})).toHaveAttribute('href','#pca-analysis');
+  await expect(page.locator('#cluster-profiles')).toBeVisible();
+  await page.getByRole('button',{name:'Giới thiệu',exact:true}).click();
+  await expect(page.locator('.hero-preview')).toContainText('352 khách');
+});
+
+test('Gate 10.3 PCA allows selecting a real anonymous point by index',async({page})=>{
+  await page.goto('/');
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const panel=page.getByRole('region',{name:'PCA 2D và so sánh Hierarchical'});
+  await panel.getByLabel('Mã mẫu (1–352)').fill('352');
+  await expect(panel.locator('.pca-point-detail')).toContainText('352');
+  await expect(panel.locator('.pca-point-detail')).toContainText('Validation');
+  await panel.getByLabel('Mã mẫu (1–352)').fill('0');
+  await expect(panel.locator('.pca-point-detail')).toHaveCount(0);
+});
+
+test('Gate 10.3 responsive workspace has no horizontal overflow at 320px and 768px',async({page})=>{
+  for (const width of [320,768]){
+    await page.setViewportSize({width,height:780});
+    await page.goto('/');
+    for(const screen of ['Giới thiệu','Phân khúc','Dashboard']){
+      await page.getByRole('button',{name:screen,exact:true}).click();
+      if(screen==='Dashboard') await expect(page.locator('#cluster-profiles')).toBeVisible();
+      const dimension=await page.evaluate(()=>({doc:document.documentElement.scrollWidth,viewport:innerWidth}));
+      expect(dimension.doc).toBeLessThanOrEqual(dimension.viewport+1);
+    }
+  }
+});
