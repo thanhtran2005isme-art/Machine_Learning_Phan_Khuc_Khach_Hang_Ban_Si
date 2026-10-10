@@ -436,3 +436,21 @@ test('Gate 10.3 responsive workspace has no horizontal overflow at 320px and 768
     }
   }
 });
+
+
+test('Gate 10.3 visual review captures three real API-backed screens',async({page},testInfo)=>{
+  test.setTimeout(90_000);
+  await page.goto('/');
+  await expect(page.getByText('Model D011 · Chỉ đọc')).toBeVisible();
+  await expect(page.locator('.hero-preview .preview-rows>div')).toHaveCount(2);
+  await page.screenshot({path:testInfo.outputPath('01-intro.png'),fullPage:true,animations:'disabled'});
+  await page.getByRole('button',{name:'Phân khúc',exact:true}).click();
+  await page.getByRole('button',{name:'Điền ví dụ cụm 0'}).click();
+  await page.getByRole('button',{name:'Phân khúc khách hàng',exact:true}).click();
+  await expect(page.locator('.result-card .customer-mini-chart')).toBeVisible();
+  await page.screenshot({path:testInfo.outputPath('02-segment.png'),fullPage:true,animations:'disabled'});
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  await expect(page.getByRole('region',{name:'PCA 2D và so sánh Hierarchical'})).toBeVisible();
+  await expect(page.locator('#cluster-profiles')).toBeVisible();
+  await page.screenshot({path:testInfo.outputPath('03-dashboard.png'),fullPage:true,animations:'disabled'});
+});

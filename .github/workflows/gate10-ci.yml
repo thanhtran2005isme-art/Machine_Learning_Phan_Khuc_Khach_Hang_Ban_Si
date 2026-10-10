@@ -43,6 +43,20 @@ jobs:
           git diff --exit-code -- models reports/data/final_profile reports/data/development_extension
       - run: npm run test:parity
       - run: npm run test:e2e
+      - name: Attach screenshots for desktop/mobile visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate10-ui-windows
+          path: e2e/test-results/**/*.png
+          if-no-files-found: ignore
+      - name: Attach screenshots for desktop/mobile visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate10-ui-ubuntu
+          path: e2e/test-results/**/*.png
+          if-no-files-found: ignore
   windows-integration:
     runs-on: windows-latest
     timeout-minutes: 35

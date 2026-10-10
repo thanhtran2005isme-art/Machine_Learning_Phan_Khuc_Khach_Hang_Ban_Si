@@ -90,3 +90,9 @@
 - Read-only API GET /api/development-extension + strict SHA/source/count/ARI validation, React dashboard toggles colors and development split, no fake points.
 - Feature branch feat/gate10-analysis-explain-export, PR #1 still not merged. Linux/Windows PR CI jobs must be checked before merge. Frozen model/selection/test and final_profile unchanged.
 - Full method + command: docs/GATE10_2_PCA_HIERARCHICAL.md.
+
+
+## Gate 10.3 — UI refresh on feature PR #1 (CI latest status must be verified)
+- Updated frontend App.tsx, index.css, AnalysisExtensions.tsx, DevelopmentAnalytics.tsx, added E2E UX/responsive/screenshot tests. Desktop sidebar, mobile nav, verified frozen model status, customer form completion and comparison bars, PCA point selection, dashboard jump anchors. All data from API; no new dependencies.
+- Screenshots from test browser written as GitHub Actions artifacts. See docs/GATE10_3_UI_UX.md for scope and manual UI review checklist.
+- Feature branch only (not main); Gate10 GitHub Actions latest run must be inspected before marking PASS. No ML/backend/frozen data touched in this gate.
