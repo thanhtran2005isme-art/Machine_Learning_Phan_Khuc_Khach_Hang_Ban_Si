@@ -38,8 +38,7 @@ jobs:
           python -m ml.src.download_data
           python -m ml.src.prepare_development_only
           python -m pytest ml/tests/test_development_extension.py -q
-          python -m ml.src.development_extension --output /tmp/gate10-2-ci
-          diff -r reports/data/development_extension /tmp/gate10-2-ci
+          python -m ml.src.verify_development_extension
           test ! -f data/processed/test.csv
           git diff --exit-code -- models reports/data/final_profile reports/data/development_extension
       - run: npm run test:parity
@@ -48,6 +47,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 35
     env:
+      PYTHON: python
       PYTHONUTF8: '1'
       PYTHONIOENCODING: utf-8
       OMP_NUM_THREADS: '1'
@@ -77,7 +77,7 @@ jobs:
           python -m ml.src.download_data
           python -m ml.src.prepare_development_only
           python -m pytest ml/tests/test_development_extension.py -q
-          python -m ml.src.development_extension --output "$env:RUNNER_TEMP\gate10-2-windows"
+          python -m ml.src.verify_development_extension
           if (Test-Path 'data/processed/test.csv') { throw 'Final test was materialized' }
           git diff --exit-code -- models reports/data/final_profile reports/data/development_extension
       - run: npm install --no-save --package-lock=false @playwright/test@1.56.1

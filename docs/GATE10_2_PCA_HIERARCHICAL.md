@@ -37,3 +37,10 @@ Tuyệt đối không dùng ml:freeze, ml:finalize hoặc final test để chọ
 ## Trạng thái
 - Offline CI run 38037496861: SUCCESS, artifact thật đã commit SHA fb7ebf11.
 - Gate 10 pull request CI Linux/Windows phải xem job cuối cùng để xác nhận trước merge; không tự nhận PASS khi chưa có kết quả.
+
+## Đối chiếu số học giữa hệ điều hành
+
+- Git giữ đúng SHA-256 của artifact gốc, API không chấp nhận artifact bị sửa.
+- Replay PCA trên runner khác có thể lệch khoảng 1e-15 do SVD/BLAS floating point; không yêu cầu SHA artifact mới giống byte-for-byte giữa các môi trường.
+- ml/src/verify_development_extension.py so sánh ngữ nghĩa: provenance/hash gốc chính xác, frozen labels và Ward partition giống nhau (ARI=1), PCA components/points so với hai dấu trục với tolerance 1e-8 và chỉ số trong 1e-10.
+- Windows parity test yêu cầu PYTHON=python để dùng đúng môi trường setup-python, thay vì Windows py -3 launcher có thể trỏ sang Python không có joblib.
