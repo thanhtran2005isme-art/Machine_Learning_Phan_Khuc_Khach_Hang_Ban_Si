@@ -47,13 +47,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gate10-ui-windows
-          path: e2e/test-results/**/*.png
-          if-no-files-found: ignore
-      - name: Attach screenshots for desktop/mobile visual review
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
           name: gate10-ui-ubuntu
           path: e2e/test-results/**/*.png
           if-no-files-found: ignore
@@ -98,3 +91,10 @@ jobs:
       - run: npx playwright install chromium
       - run: npm run test:parity
       - run: npm run test:e2e
+      - name: Attach screenshots for desktop/mobile visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate10-ui-windows
+          path: e2e/test-results/**/*.png
+          if-no-files-found: ignore
