@@ -293,7 +293,7 @@ test('Gate 9.4 has no document overflow at narrow 320px while tables scroll inte
     tables: [...document.querySelectorAll<HTMLElement>('.table-scroll')].map(x => x.scrollWidth >= x.clientWidth),
   }));
   expect(widths.doc).toBeLessThanOrEqual(widths.viewport + 1);
-  expect(widths.tables).toHaveLength(3);
+  expect(widths.tables).toHaveLength(4); // Gate10.1 adds a fourth scrollable evidence table.
   expect(widths.tables.every(Boolean)).toBeTruthy();
 });
 

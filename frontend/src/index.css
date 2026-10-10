@@ -100,3 +100,10 @@ h1,h2,h3,p{margin-top:0}h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.18;l
 @media print{.site-header,.footer,.hero-actions,.analysis-actions,.form-footer{display:none!important}
  body{background:#fff!important}.content-card,.result-card{box-shadow:none!important;break-inside:avoid}
  .table-scroll{overflow:visible!important}.main-content{width:100%!important;max-width:100%!important}}
+
+
+/* Gate10.1 mobile click-through: scrolling table and diagnostic blocks cannot cover export controls. */
+.segment-grid > .result-column,.result-card,.analysis-extra{min-width:0}
+.analysis-distances{position:relative;z-index:0}
+.analysis-actions{position:relative;z-index:2}
+.analysis-actions > button{position:relative;z-index:2}
