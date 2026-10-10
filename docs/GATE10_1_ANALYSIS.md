@@ -1,6 +1,6 @@
 # Gate 10.1 - Read-only analytics extension
 
-Status: IMPLEMENTED IN FEATURE BRANCH; CI PENDING. No final-test reevaluation.
+Status: FEATURE BRANCH CI VERIFIED for code commit 43e808fe; NOT MERGED. No final-test reevaluation.
 
 ## Added
 - Add detailed 14-candidate experiment table showing silhouette standard deviation and ARI minimum across seeds; fields come from the existing train/validation selection_evidence.csv, not simulated.
@@ -17,4 +17,4 @@ Do not run ml:freeze or ml:finalize.
 ## Next
 PCA 2D and hierarchical comparison require offline development-only row-level evidence; do not manufacture PCA points. Add a reproducible offline generator and reviewed artifact in the next gate.
 
-CI is pending; never label tests PASS before logs are checked.
+CI verified: GitHub Actions run 38020099636 SUCCESS on commit 43e808fe. Serving 15/15, Fastify 14/14, Playwright 46/46 (desktop + mobile Chromium), build, audit and Python-Node parity PASS. First run exposed an old 3-table expectation and mobile CSV click interception; fixed before the green run.

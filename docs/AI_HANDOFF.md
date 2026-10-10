@@ -80,6 +80,6 @@
 - Stop adding features; next manual Windows10 demonstration + real group evidence/reports, when user requests. NEVER rerun final holdout/refit D011.
 
 
-## Gate 10.1 - feature branch only (CI pending)
+## Gate 10.1 - feature branch CI verified (not merged)
 - Experimental read-only evidence detail, seed variability, descriptive outliers, customer explanation, CSV/browser PDF print and teaching Lloyd panel. See docs/GATE10_1_ANALYSIS.md.
-- Do not claim these changes are on main until PR merged. PCA/Hierarchical deferred to development-only offline evidence gate.
+- Do not claim these changes are on main until PR merged. Gate 10.1 CI 38020099636 SUCCESS: 15 native + 14 API tests; 46 Playwright desktop/mobile; build, security audit and Python-Node parity PASS at code SHA 43e808fe. PCA/Hierarchical deferred to development-only offline evidence gate.
