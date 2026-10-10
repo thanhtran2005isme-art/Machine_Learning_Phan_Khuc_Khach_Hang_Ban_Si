@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { CustomerInsight, ExperimentReport, LloydWalkthrough } from './AnalysisExtensions';
+import { DevelopmentAnalytics, type DevelopmentExtension } from './DevelopmentAnalytics';
 
 type Feature = 'Fresh' | 'Milk' | 'Grocery' | 'Frozen' | 'Detergents_Paper' | 'Delicassen';
 type Screen = 'intro' | 'segment' | 'dashboard';
@@ -310,6 +311,8 @@ export default function App() {
   const [modelError, setModelError] = useState<string | null>(null);
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
   const [dashboardError, setDashboardError] = useState<string | null>(null);
+  const [extension, setExtension] = useState<DevelopmentExtension | null>(null);
+  const [extensionError, setExtensionError] = useState<string | null>(null);
   const [preprocessing, setPreprocessing] = useState('log1p_standardscaler');
   const [candidateK, setCandidateK] = useState<number>(2);
   const [values, setValues] = useState<Record<Feature, string>>({
@@ -333,6 +336,18 @@ export default function App() {
     if (screen !== 'dashboard' || dashboard) return;
     getJson<Dashboard>('/api/dashboard').then(verifyDashboard).then(setDashboard).catch(e => setDashboardError(String(e.message)));
   }, [screen, dashboard]);
+
+  useEffect(() => {
+    if (screen !== 'dashboard' || extension || extensionError) return;
+    getJson<DevelopmentExtension>('/api/development-extension').then(data => {
+      if (data.decision !== 'D011' || data.development_count !== 352 ||
+          data.read_only !== true || data.test_used !== false || data.points.length !== 352 ||
+          data.comparison.frozen_counts.join(',') !== '162,190') {
+        throw new Error('Dữ liệu PCA/Ward không khớp mô hình D011');
+      }
+      setExtension(data);
+    }).catch(error => setExtensionError(String(error.message)));
+  }, [screen, extension, extensionError]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -465,6 +480,9 @@ export default function App() {
             <ExperimentReport experiments={dashboard.experiments} profile={dashboard.final_profile}/>
             <p className="muted small-note">{dashboard.metric_note}</p>
           </section>
+          {extensionError && <div className="notice notice-error" role="alert">Phân tích PCA/Ward chưa sẵn sàng: {extensionError}</div>}
+          {extension && <DevelopmentAnalytics data={extension}/>}
+          {!extension && !extensionError && <p className="muted">Đang tải bằng chứng PCA/Ward…</p>}
           <section className="content-card" aria-label="Hồ sơ phân khúc cuối">
             <div className="section-heading"><h2>Hồ sơ 2 phân khúc cuối</h2>
               <p>Model D011 K=2; hậu phân cụm trên {dashboard.final_profile.development_count} khách train + validation, không sử dụng tập test.</p>

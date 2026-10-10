@@ -107,3 +107,33 @@ h1,h2,h3,p{margin-top:0}h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.18;l
 .analysis-distances{position:relative;z-index:0}
 .analysis-actions{position:relative;z-index:2}
 .analysis-actions > button{position:relative;z-index:2}
+
+
+/* Gate10.2: PCA scatter uses real 352-development points, no external chart dependency. */
+.development-analytics{min-width:0}
+.pca-toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin:14px 0}
+.analysis-switch{display:flex;gap:5px;flex-wrap:wrap}
+.analysis-switch button{background:#f7faf9;border:1px solid #d9e4e2;padding:8px 12px;border-radius:8px;color:#36544e;cursor:pointer;font-size:.83rem}
+.analysis-switch button.toggle-selected{background:#e3f3ee;border-color:#17816d;color:#075844;font-weight:700}
+.analysis-switch button:focus-visible{outline:2px solid #17816d;outline-offset:2px}
+.pca-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.pca-summary>div{padding:14px 12px;border:1px solid #e3ebea;background:#fafdfc;border-radius:12px;min-width:0}
+.pca-summary span,.pca-summary small{display:block;font-size:.78rem;color:#61716f}
+.pca-summary strong{display:block;font-size:1.35rem;line-height:1.5;font-variant-numeric:tabular-nums;color:#143f36}
+.pca-main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;margin-top:18px;align-items:start}
+.pca-plot,.pca-notes{min-width:0}
+.pca-plot svg{display:block;width:100%;height:auto}
+.pca-dot{opacity:.74;stroke:#fff;stroke-width:.55}
+.pca-group-0{fill:#137c66;background:#137c66}
+.pca-group-1{fill:#dd943e;background:#dd943e}
+.pca-legend{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:.83rem;color:#485e59;padding:8px}
+.pca-legend span{display:inline-flex;gap:7px;align-items:center}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.pca-legend small{color:#6d817b}
+.pca-notes{padding:18px;border:1px solid #e3ece9;border-radius:12px;background:#f6faf8}
+.pca-notes h3{margin-top:0}
+.analysis-comparison{margin-top:26px;padding-top:20px;border-top:1px solid #e4ecea}
+.pca-loadings{margin-top:18px;padding:14px;border:1px solid #dde7e5;border-radius:9px}
+.pca-loadings summary{cursor:pointer;font-weight:700}
+@media(max-width:760px){.pca-main{grid-template-columns:1fr}.pca-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:400px){.analysis-switch button{padding:7px 9px;font-size:.76rem}.pca-summary strong{font-size:1.1rem}}

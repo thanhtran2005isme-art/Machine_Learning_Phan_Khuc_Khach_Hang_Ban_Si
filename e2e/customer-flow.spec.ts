@@ -293,7 +293,7 @@ test('Gate 9.4 has no document overflow at narrow 320px while tables scroll inte
     tables: [...document.querySelectorAll<HTMLElement>('.table-scroll')].map(x => x.scrollWidth >= x.clientWidth),
   }));
   expect(widths.doc).toBeLessThanOrEqual(widths.viewport + 1);
-  expect(widths.tables).toHaveLength(4); // Gate10.1 adds a fourth scrollable evidence table.
+  expect(widths.tables.length).toBeGreaterThanOrEqual(4); // Multiple verified development tables added in Gate10.2.
   expect(widths.tables.every(Boolean)).toBeTruthy();
 });
 
@@ -370,4 +370,26 @@ test('Gate 10.1 segment explains six spending values and exports CSV',async ({pa
   const file=page.waitForEvent('download');
   await card.getByRole('button',{name:'Tải CSV kết quả'}).click();
   expect((await file).suggestedFilename()).toBe('kaitokidshop-ket-qua-phan-khuc.csv');
+});
+
+
+test('Gate 10.2 PCA plots 352 real development points and filters by split',async({page,request})=>{
+  const reply=await request.get('/api/development-extension');
+  expect(reply.status()).toBe(200);
+  const data=await reply.json();
+  expect(data.points).toHaveLength(352);
+  expect(data.comparison.frozen_counts).toEqual([162,190]);
+  await page.goto('/');
+  await page.getByRole('button',{name:'Dashboard',exact:true}).click();
+  const panel=page.getByRole('region',{name:'PCA 2D và so sánh Hierarchical'});
+  await expect(panel.getByRole('heading',{name:/PCA 2D · So sánh/})).toBeVisible();
+  await expect(panel.locator('svg circle.pca-dot')).toHaveCount(352);
+  await expect(panel.getByTestId('pca-visible-count')).toHaveText('352');
+  await panel.getByRole('group',{name:'Lọc dữ liệu development'}).getByRole('button',{name:'Validation'}).click();
+  await expect(panel.locator('svg circle.pca-dot')).toHaveCount(88);
+  await panel.getByRole('group',{name:'Lọc dữ liệu development'}).getByRole('button',{name:'Train'}).click();
+  await expect(panel.locator('svg circle.pca-dot')).toHaveCount(264);
+  await panel.getByRole('group',{name:'Phương pháp tô màu'}).getByRole('button',{name:'Hierarchical Ward'}).click();
+  expect(await panel.locator('svg circle[data-label="0"]').count()).toBeGreaterThan(0);
+  await expect(panel.getByText(/Adjusted Rand Index/)).toBeVisible();
 });

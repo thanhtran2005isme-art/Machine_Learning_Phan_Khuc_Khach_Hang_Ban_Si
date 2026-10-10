@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import { z } from 'zod';
 import { loadModel, segment, modelInfo, dashboard, type LoadedModel } from '../model.mjs';
+import { loadVerifiedDevelopmentExtension } from '../development-extension.mjs';
 
 const spending = z.object({
   Fresh: z.number().finite().nonnegative(),
@@ -11,7 +12,7 @@ const spending = z.object({
   Delicassen: z.number().finite().nonnegative(),
 }).strict();
 
-export function buildApp(options: { modelPath?: string; profileDir?: string } = {}) {
+export function buildApp(options: { modelPath?: string; profileDir?: string; extensionDir?: string } = {}) {
   const app = Fastify({ logger: false, bodyLimit: 16 * 1024 });
   let loaded: LoadedModel | null = null;
   try {
@@ -31,6 +32,11 @@ export function buildApp(options: { modelPath?: string; profileDir?: string } = 
     if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });
     try { return dashboard(loaded, { profileDir: options.profileDir }); }
     catch { return reply.code(503).send({ status: 'not_ready', message: 'Dashboard evidence unavailable or failed integrity validation' }); }
+  });
+  app.get('/api/development-extension', async (_request, reply) => {
+    if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });
+    try { return loadVerifiedDevelopmentExtension(loaded, { extensionDir: options.extensionDir }); }
+    catch { return reply.code(503).send({ status: 'not_ready', message: 'Development extension evidence unavailable or invalid' }); }
   });
   app.post('/api/segment', async (request, reply) => {
     if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });
