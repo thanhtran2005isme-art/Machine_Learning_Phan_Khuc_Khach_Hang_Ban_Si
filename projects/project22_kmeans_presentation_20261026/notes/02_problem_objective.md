@@ -1,0 +1,3 @@
+Về bối cảnh: Nhà phân phối cần hiểu rõ các kiểu mẫu hình cơ cấu chi tiêu thực tế để tối ưu hóa tồn kho, logistics kho bãi và chính sách dịch vụ.
+Câu hỏi nghiên cứu trọng tâm là: Sau khi log-transform và chuẩn hóa, K-Means tạo ra các phân khúc nào ổn định và có ý nghĩa thực tế?
+Mục tiêu là tuân thủ chặt chẽ quy tắc chống rò rỉ dữ liệu, đánh giá tập test độc lập 1 lần, và đặc biệt tuân thủ ranh giới đạo đức: cụm chỉ mang tính mô tả trung tính, tuyệt đối không gán nhãn định giá con người.

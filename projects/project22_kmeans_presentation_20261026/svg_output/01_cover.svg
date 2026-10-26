@@ -1,63 +1,86 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <linearGradient id="coverGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#1E40AF"/>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="60%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
     </linearGradient>
-    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#10B981"/>
+    <linearGradient id="glowBlue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.9"/>
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
-  
-  <!-- Decorative gradient band -->
-  <g id="hero-field" data-pptx-role="decoration">
-    <rect x="0" y="0" width="1280" height="360" fill="url(#coverGradient)" fill-opacity="0.08"/>
-    <rect x="60" y="340" width="400" height="6" rx="3" fill="url(#accentBar)"/>
+
+  <!-- Dark Executive Background -->
+  <g id="cover-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="url(#bgGrad)"/>
+    <circle cx="1100" cy="160" r="280" fill="#2563EB" opacity="0.08"/>
+    <circle cx="200" cy="550" r="220" fill="#059669" opacity="0.06"/>
   </g>
-  
-  <!-- Main title group -->
-  <g id="title-main" data-pptx-bounds="60 180 1160 280">
-    <text x="60" y="240" font-size="56" font-weight="bold" fill="#1F2937">
-      <tspan x="60" dy="0">Phân Khúc Khách Hàng Bán Sỉ</tspan>
-      <tspan x="60" dy="70">Với K-Means Clustering</tspan>
-    </text>
-    <text x="60" y="380" font-size="28" fill="#6B7280">Project 22 — Machine Learning Fundamentals</text>
+
+  <!-- Top Category Badges -->
+  <g id="hero-badge">
+    <rect x="80" y="70" width="230" height="32" rx="16" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1.5"/>
+    <text x="195" y="91" font-size="12" font-weight="bold" fill="#60A5FA" text-anchor="middle">HỌC MÁY CƠ BẢN • ĐỒ ÁN 22</text>
+    <rect x="325" y="70" width="220" height="32" rx="16" fill="#064E3B" stroke="#10B981" stroke-width="1.5"/>
+    <text x="435" y="91" font-size="13" font-weight="bold" fill="#34D399" text-anchor="middle">UCI WHOLESALE CUSTOMERS</text>
   </g>
-  
-  <!-- Project info cards -->
-  <g id="info-cards" data-pptx-bounds="60 460 1160 200">
-    <!-- Dataset info -->
-    <g id="card-dataset">
-      <rect x="60" y="460" width="350" height="90" rx="12" fill="#F8F9FA"/>
-      <use data-icon="phosphor-duotone/database" x="80" y="485" width="40" height="40" fill="#2563EB"/>
-      <text x="135" y="500" font-size="16" font-weight="bold" fill="#1F2937">UCI Wholesale Customers</text>
-      <text x="135" y="525" font-size="14" fill="#6B7280">440 customers, 6 features</text>
-    </g>
+
+  <!-- Title &amp; Subtitle -->
+  <g id="hero-title">
+    <text x="80" y="180" font-size="52" font-weight="bold" fill="#FFFFFF">PHÂN KHÚC KHÁCH HÀNG BÁN SỈ</text>
+    <text x="80" y="240" font-size="32" font-weight="bold" fill="url(#glowBlue)">Với K-Means Clustering &amp; Web Serving Architecture</text>
+    <text x="80" y="295" font-size="18" fill="#94A3B8">Phân tích chuyên sâu 6 đặc trưng chi tiêu, tối ưu K=2, chống rò rỉ dữ liệu và triển khai Production API</text>
+  </g>
+
+  <!-- 3 Big Stat Cards -->
+  <g id="hero-kpis">
+    <!-- Card 1: Data -->
+    <rect x="80" y="350" width="345" height="150" rx="14" fill="url(#cardBg)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="80" y="350" width="345" height="4" rx="2" fill="#3B82F6"/>
+    <text x="110" y="395" font-size="14" font-weight="bold" fill="#94A3B8" letter-spacing="1">QUY MÔ DỮ LIỆU</text>
+    <text x="110" y="445" font-size="32" font-weight="bold" fill="#38BDF8">440 <tspan font-size="18" fill="#94A3B8" font-weight="normal">Khách Hàng</tspan></text>
+    <text x="110" y="480" font-size="14" fill="#CBD5E1">6 biến chi tiêu monetary units + 2 biến phân tích</text>
+
+    <!-- Card 2: Model -->
+    <rect x="465" y="350" width="345" height="150" rx="14" fill="url(#cardBg)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="465" y="350" width="345" height="4" rx="2" fill="#10B981"/>
+    <text x="495" y="395" font-size="14" font-weight="bold" fill="#94A3B8" letter-spacing="1">MÔ HÌNH ĐÓNG BĂNG D011</text>
+    <text x="495" y="445" font-size="32" font-weight="bold" fill="#34D399">K = 2 <tspan font-size="18" fill="#94A3B8" font-weight="normal">Cụm Tối Ưu</tspan></text>
+    <text x="495" y="480" font-size="14" fill="#CBD5E1">Log1p + Scaler | ARI: 0.997 | Sil: 0.307 val</text>
+
+    <!-- Card 3: System -->
+    <rect x="850" y="350" width="345" height="150" rx="14" fill="url(#cardBg)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="850" y="350" width="345" height="4" rx="2" fill="#A855F7"/>
+    <text x="880" y="395" font-size="14" font-weight="bold" fill="#94A3B8" letter-spacing="1">KIẾN TRÚC TRIỂN KHAI</text>
+    <text x="880" y="445" font-size="32" font-weight="bold" fill="#C084FC">Full Stack <tspan font-size="18" fill="#94A3B8" font-weight="normal">Web Serving</tspan></text>
+    <text x="880" y="480" font-size="14" fill="#CBD5E1">Fastify API + React Client + 100% CI Testing</text>
+  </g>
+
+  <!-- Author &amp; Supervisor Section -->
+  <g id="hero-metadata">
+    <rect x="80" y="535" width="1115" height="110" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1"/>
     
-    <!-- Method info -->
-    <g id="card-method">
-      <rect x="465" y="460" width="350" height="90" rx="12" fill="#F8F9FA"/>
-      <use data-icon="phosphor-duotone/chart-pie-slice" x="485" y="485" width="40" height="40" fill="#10B981"/>
-      <text x="540" y="500" font-size="16" font-weight="bold" fill="#1F2937">K-Means D011</text>
-      <text x="540" y="525" font-size="14" fill="#6B7280">log1p + StandardScaler, K=2</text>
-    </g>
-    
-    <!-- Application info -->
-    <g id="card-app">
-      <rect x="870" y="460" width="350" height="90" rx="12" fill="#F8F9FA"/>
-      <use data-icon="phosphor-duotone/code" x="890" y="485" width="40" height="40" fill="#8B5CF6"/>
-      <text x="945" y="500" font-size="16" font-weight="bold" fill="#1F2937">Full Stack Application</text>
-      <text x="945" y="525" font-size="14" fill="#6B7280">React + Node.js + API</text>
-    </g>
+    <!-- Supervisor -->
+    <text x="120" y="575" font-size="13" font-weight="bold" fill="#64748B" letter-spacing="1">GIẢNG VIÊN HƯỚNG DẪN</text>
+    <text x="120" y="605" font-size="18" font-weight="bold" fill="#F8FAFC">PGS.TS. NGUYỄN VĂN HẬU</text>
+    <text x="120" y="628" font-size="13" fill="#94A3B8">Khoa Công Nghệ Thông Tin • Học phần: Học Máy Cơ Bản</text>
+
+    <line x1="600" y1="555" x2="600" y2="625" stroke="#334155" stroke-width="1"/>
+
+    <!-- Students -->
+    <text x="640" y="575" font-size="13" font-weight="bold" fill="#64748B" letter-spacing="1">NHÓM SINH VIÊN THỰC HIỆN</text>
+    <text x="640" y="605" font-size="18" font-weight="bold" fill="#F8FAFC">NHÓM 02 SINH VIÊN</text>
+    <text x="640" y="628" font-size="13" fill="#94A3B8">Phân công: ML Pipeline, Data Analysis &amp; Web Serving Architecture</text>
   </g>
-  
+
   <!-- Footer -->
-  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 650 1160 50">
-    <text x="60" y="675" font-size="14" fill="#9CA3AF">Data → Model → Deployment</text>
-    <text x="1220" y="675" font-size="14" fill="#9CA3AF" text-anchor="end">2026-10-26</text>
+  <g id="footer" data-pptx-role="footer">
+    <text x="80" y="688" font-size="13" fill="#64748B">Project 22: K-Means Customer Segmentation • Machine Learning Fundamentals</text>
+    <text x="1195" y="688" font-size="13" font-weight="bold" fill="#64748B" text-anchor="end">01 / 15</text>
   </g>
 </svg>

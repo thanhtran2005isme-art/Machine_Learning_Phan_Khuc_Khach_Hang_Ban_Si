@@ -1,0 +1,126 @@
+{
+  "slides": {
+    "01_cover": {
+      "transition": { "effect": "fade", "duration": 0.8 },
+      "groups": {
+        "hero-badge": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.5 },
+        "hero-title": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.6 },
+        "hero-kpis": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 },
+        "hero-metadata": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.5 }
+      }
+    },
+    "02_problem_objective": {
+      "transition": { "effect": "push", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "problem-pillars": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "03_dataset_features": {
+      "transition": { "effect": "push", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "dataset-meta": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.5 },
+        "spending-features": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.8 },
+        "profiling-variables": { "effect": "entrance_wipe", "trigger": "after-previous", "duration": 0.6 }
+      }
+    },
+    "04_pipeline_leakage": {
+      "transition": { "effect": "wipe", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "leakage-guard": { "effect": "entrance_zoom", "trigger": "after-previous", "duration": 0.6 },
+        "pipeline-flow": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.8 },
+        "split-evidence": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.6 }
+      }
+    },
+    "05_preprocessing_comparison": {
+      "transition": { "effect": "reveal", "duration": 0.7 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "raw-issues": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 },
+        "transform-bridge": { "effect": "entrance_zoom", "trigger": "after-previous", "duration": 0.6 },
+        "log1p-solution": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "06_elbow_method": {
+      "transition": { "effect": "split", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "elbow-chart": { "effect": "entrance_wipe", "trigger": "after-previous", "duration": 0.8 },
+        "elbow-insights": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "07_silhouette_analysis": {
+      "transition": { "effect": "zoom", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "silhouette-table": { "effect": "entrance_wipe", "trigger": "after-previous", "duration": 0.8 },
+        "stability-insights": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "08_final_model": {
+      "transition": { "effect": "push", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "decision-stamp": { "effect": "entrance_zoom", "trigger": "after-previous", "duration": 0.6 },
+        "model-pillars": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.8 },
+        "test-evaluation": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.6 }
+      }
+    },
+    "09_cluster_profiles": {
+      "transition": { "effect": "push", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "cluster-personas": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.8 }
+      }
+    },
+    "10_channel_region": {
+      "transition": { "effect": "reveal", "duration": 0.7 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "cross-validation-note": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.5 },
+        "cross-matrix": { "effect": "entrance_wipe", "trigger": "after-previous", "duration": 0.7 },
+        "channel-insights": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "11_tech_stack": {
+      "transition": { "effect": "wipe", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "system-architecture": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.8 }
+      }
+    },
+    "12_web_application": {
+      "transition": { "effect": "split", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "browser-mockup": { "effect": "entrance_zoom", "trigger": "after-previous", "duration": 0.8 }
+      }
+    },
+    "13_testing_quality": {
+      "transition": { "effect": "push", "duration": 0.6 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "testing-suite": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 },
+        "ci-cd-cards": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "14_limitations_future": {
+      "transition": { "effect": "reveal", "duration": 0.7 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "project-limitations": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 },
+        "future-roadmap": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    },
+    "15_conclusion": {
+      "transition": { "effect": "zoom", "duration": 0.7 },
+      "groups": {
+        "header": { "effect": "entrance_fade", "trigger": "after-previous", "duration": 0.4 },
+        "conclusion-summary": { "effect": "entrance_zoom", "trigger": "after-previous", "duration": 0.7 },
+        "qa-invite": { "effect": "entrance_fly", "trigger": "after-previous", "duration": 0.7 }
+      }
+    }
+  }
+}

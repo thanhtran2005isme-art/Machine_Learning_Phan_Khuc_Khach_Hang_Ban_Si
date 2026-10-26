@@ -1,0 +1,3 @@
+Sau khi xem xét đa tiêu chí (Elbow, Silhouette, độ ổn định seed, và tính cân bằng cụm), nhóm quyết định đóng băng cấu hình D011: K=2, log1p + StandardScaler, random_state=42, thuật toán Lloyd.
+Tiến hành refit trên 352 mẫu phát triển và đánh giá duy nhất một lần trên 88 mẫu Test độc lập:
+Silhouette trên Test đạt 0.2389, quán tính 4.505, và tỷ lệ phân bố cụm là 45/43 (48.9% min share), cực kỳ cân bằng.

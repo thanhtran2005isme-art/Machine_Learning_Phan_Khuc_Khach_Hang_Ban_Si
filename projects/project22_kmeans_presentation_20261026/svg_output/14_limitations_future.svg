@@ -1,82 +1,91 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
-    </filter>
-    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#10B981"/>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect width="1280" height="720" fill="#FFFFFF"/>
-  
-  <!-- Header -->
-  <text x="80" y="80" font-size="42" font-weight="bold" fill="#1F2937">Limitations &amp; Future Work</text>
-  <text x="80" y="115" font-size="24" fill="#6B7280">Hạn chế và Hướng phát triển</text>
-  <rect x="80" y="125" width="120" height="4" rx="2" fill="url(#accentBar)"/>
-  
-  <!-- Limitations (Left) -->
-  <g transform="translate(80,180)">
-    <circle cx="22" cy="0" r="30" fill="#FEE2E2"/>
-    <text x="22" y="10" font-size="32" text-anchor="middle">⚠️</text>
-    <text x="75" y="5" font-size="24" font-weight="bold" fill="#DC2626">Hạn chế hiện tại</text>
-    
-    <!-- Card 1 -->
-    <rect x="0" y="45" width="540" height="130" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="25" y="80" font-size="19" font-weight="600" fill="#1F2937">1. Phương pháp K-Means</text>
-    <text x="25" y="105" font-size="16" fill="#4B5563">• Chỉ phát hiện cluster hình cầu (Euclidean)</text>
-    <text x="25" y="130" font-size="16" fill="#4B5563">• Không phù hợp cluster hình dạng phức tạp</text>
-    <text x="25" y="155" font-size="16" fill="#4B5563">• Nhạy cảm outliers dù đã preprocessing</text>
-    
-    <!-- Card 2 -->
-    <rect x="0" y="190" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="25" y="225" font-size="19" font-weight="600" fill="#1F2937">2. Feature engineering</text>
-    <text x="25" y="250" font-size="16" fill="#4B5563">• Chưa có interaction (Fresh×Milk, etc.)</text>
-    <text x="25" y="275" font-size="16" fill="#4B5563">• Chưa có temporal patterns (timestamp)</text>
-    
-    <!-- Card 3 -->
-    <rect x="0" y="310" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="25" y="345" font-size="19" font-weight="600" fill="#1F2937">3. Validation</text>
-    <text x="25" y="370" font-size="16" fill="#4B5563">• Chỉ test stability, chưa có ground truth</text>
-    <text x="25" y="395" font-size="16" fill="#4B5563">• Chưa A/B test business metrics thực tế</text>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
   </g>
-  
-  <!-- Future Work (Right) -->
-  <g transform="translate(660,180)">
-    <circle cx="22" cy="0" r="30" fill="#D1FAE5"/>
-    <text x="22" y="10" font-size="32" text-anchor="middle">🚀</text>
-    <text x="75" y="5" font-size="24" font-weight="bold" fill="#059669">Hướng phát triển</text>
-    
-    <!-- Card 1 -->
-    <rect x="0" y="45" width="540" height="130" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="25" y="80" font-size="19" font-weight="600" fill="#1F2937">1. Thuật toán khác</text>
-    <text x="25" y="105" font-size="16" fill="#4B5563">• DBSCAN: cluster bất kỳ + outliers</text>
-    <text x="25" y="130" font-size="16" fill="#4B5563">• Hierarchical: phân tích dendrogram</text>
-    <text x="25" y="155" font-size="16" fill="#4B5563">• GMM: soft assignment, uncertainty</text>
-    
-    <!-- Card 2 -->
-    <rect x="0" y="190" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="25" y="225" font-size="19" font-weight="600" fill="#1F2937">2. Feature mới</text>
-    <text x="25" y="250" font-size="16" fill="#4B5563">• Ratio: Fresh/Total, Milk/Grocery</text>
-    <text x="25" y="275" font-size="16" fill="#4B5563">• RFM analysis nếu có dữ liệu thời gian</text>
-    
-    <!-- Card 3 -->
-    <rect x="0" y="310" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="25" y="345" font-size="19" font-weight="600" fill="#1F2937">3. Production deployment</text>
-    <text x="25" y="370" font-size="16" fill="#4B5563">• Monitoring data drift (PSI, KL divergence)</text>
-    <text x="25" y="395" font-size="16" fill="#4B5563">• A/B test chiến dịch marketing theo cluster</text>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="255" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="197.5" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">ĐÁNH GIÁ &amp;AMP; ĐỊNH HƯỚNG</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Giới Hạn Nghiên Cứu &amp; Lộ Trình Phát Triển Tương Lai</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Cái nhìn khách quan về phạm vi đề tài và các bước tiến hóa công nghệ tiếp theo</text>
   </g>
+
+  <!-- Main Slide Content -->
   
-  <!-- Academic constraint note -->
-  <rect x="80" y="510" width="1120" height="130" rx="12" fill="#EEF2FF" stroke="#6366F1" stroke-width="2"/>
-  <text x="110" y="545" font-size="20" font-weight="bold" fill="#4338CA">Ghi chú học thuật:</text>
-  <text x="110" y="575" font-size="17" fill="#4F46E5">Project 22 hoàn thành với K-Means baseline theo đúng yêu cầu Project 22:</text>
-  <text x="110" y="605" font-size="17" fill="#4F46E5">• 6 biến chi tiêu là features chính, Channel/Region chỉ profiling</text>
-  <text x="110" y="635" font-size="17" fill="#4F46E5">• Preprocessing + Train/Val/Test split đúng quy trình → Model artifact đã đóng băng</text>
-  
-  <!-- Footer -->
-  <text x="80" y="680" font-size="14" fill="#9CA3AF">Các phương pháp nâng cao để lại cho tương lai</text>
-  <text x="1200" y="680" font-size="14" fill="#9CA3AF" text-anchor="end">14 / 15</text>
+  <!-- Left Side: Limitations -->
+  <g id="project-limitations">
+    <rect x="70" y="150" width="540" height="515" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="150" width="540" height="6" rx="3" fill="#F59E0B"/>
+    <text x="100" y="190" font-size="18" font-weight="bold" fill="#0F172A">Giới Hạn Hiện Tại Của Đề Tài</text>
+    <text x="100" y="215" font-size="13" fill="#64748B">Các yếu tố ràng buộc khách quan từ tập dữ liệu và phạm vi môn học</text>
+
+    <!-- Lim 1 -->
+    <rect x="95" y="245" width="490" height="110" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="115" y="275" font-size="15" font-weight="bold" fill="#B45309">1. Kích Thước Mẫu Hạn Chế (440 Quan Sát)</text>
+    <text x="115" y="302" font-size="13" fill="#334155">• Tập dữ liệu tương đối nhỏ, dù đủ cho thuật toán phân cụm K-Means</text>
+    <text x="115" y="325" font-size="13" fill="#334155">cơ bản nhưng chưa bao quát được toàn bộ phân khúc thị trường rộng lớn.</text>
+    <text x="115" y="345" font-size="12" fill="#64748B">Cần bổ sung thêm dữ liệu giao dịch từ nhiều nhà phân phối khác nhau.</text>
+
+    <!-- Lim 2 -->
+    <rect x="95" y="375" width="490" height="110" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="115" y="405" font-size="15" font-weight="bold" fill="#B45309">2. Dữ Liệu Tĩnh &amp; Thiếu Yếu Tố Thời Gian</text>
+    <text x="115" y="432" font-size="13" fill="#334155">• 6 biến chi tiêu là tổng hợp hằng năm, không có mốc thời gian (timestamp).</text>
+    <text x="115" y="455" font-size="13" fill="#334155">• Chưa thể phân tích tính thời vụ (mùa du lịch, lễ tết) hay tần suất mua.</text>
+    <text x="115" y="475" font-size="12" fill="#64748B">Chưa khai thác được các thuộc tính Recency &amp; Frequency trong mô hình RFM.</text>
+
+    <!-- Lim 3 -->
+    <rect x="95" y="505" width="490" height="135" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="115" y="535" font-size="15" font-weight="bold" fill="#B45309">3. Giả Định Cụm Hình Cầu Của K-Means</text>
+    <text x="115" y="562" font-size="13" fill="#334155">• K-Means ngầm định các cụm có hình cầu lồi và phương sai tương đồng.</text>
+    <text x="115" y="585" font-size="13" fill="#334155">• Với dữ liệu phân bố mật độ phức tạp, K-Means có thể bỏ lỡ hình thái cụm.</text>
+    <text x="115" y="615" font-size="12" font-weight="bold" fill="#991B1B">➔ D011 đã giảm thiểu rủi ro này bằng Log1p transform trước khi fit.</text>
+  </g>
+
+  <!-- Right Side: Future Work -->
+  <g id="future-roadmap">
+    <rect x="650" y="150" width="560" height="515" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="650" y="150" width="560" height="6" rx="3" fill="#10B981"/>
+    <text x="680" y="190" font-size="18" font-weight="bold" fill="#0F172A">Hướng Phát Triển Tương Lai (Roadmap)</text>
+    <text x="680" y="215" font-size="13" fill="#64748B">Kế hoạch mở rộng nâng cấp hệ thống trong môi trường sản xuất thực tế</text>
+
+    <!-- Phase 1 -->
+    <rect x="675" y="245" width="510" height="110" rx="10" fill="#ECFDF5" stroke="#A7F3D0"/>
+    <text x="695" y="275" font-size="15" font-weight="bold" fill="#065F46">GIAI ĐOẠN 1: MỞ RỘNG MÔ HÌNH RFM &amp; CHUỖI THỜI GIAN</text>
+    <text x="695" y="302" font-size="13" fill="#334155">• Thu thập log giao dịch chi tiết theo ngày để tính:</text>
+    <text x="710" y="325" font-size="13" fill="#064E3B">• <tspan font-weight="bold">Recency</tspan> (Lần mua gần nhất), <tspan font-weight="bold">Frequency</tspan> (Tần suất) và <tspan font-weight="bold">Monetary</tspan>.</text>
+    <text x="695" y="345" font-size="12" fill="#065F46">Nhận diện sớm các khách hàng bán sỉ có nguy cơ rời bỏ (Churn prediction).</text>
+
+    <!-- Phase 2 -->
+    <rect x="675" y="375" width="510" height="110" rx="10" fill="#EFF6FF" stroke="#BFDBFE"/>
+    <text x="695" y="405" font-size="15" font-weight="bold" fill="#1D4ED8">GIAI ĐOẠN 2: THỬ NGHIỆM MÔ HÌNH NÂNG CAO (GMM / DBSCAN)</text>
+    <text x="695" y="432" font-size="13" fill="#334155">• Thử nghiệm <tspan font-weight="bold">Gaussian Mixture Models (GMM)</tspan> để phân cụm mềm (Soft clustering),</text>
+    <text x="710" y="455" font-size="13" fill="#1E40AF">cho phép một khách hàng thuộc về nhiều cụm với xác suất cụ thể.</text>
+    <text x="695" y="475" font-size="12" fill="#1D4ED8">Thử nghiệm DBSCAN để tự động phát hiện và cô lập các điểm ngoại lệ dị thường.</text>
+
+    <!-- Phase 3 -->
+    <rect x="675" y="505" width="510" height="135" rx="10" fill="#FAF5FF" stroke="#E9D5FF"/>
+    <text x="695" y="535" font-size="15" font-weight="bold" fill="#7C3AED">GIAI ĐOẠN 3: TỰ ĐỘNG HÓA TIẾP THỊ &amp; GỢI Ý (RECOMMENDER)</text>
+    <text x="695" y="562" font-size="13" fill="#334155">• Tích hợp hệ thống Recommendation Engine tự động gợi ý danh mục</text>
+    <text x="710" y="585" font-size="13" fill="#6B21A8">hàng hóa cross-sell dựa trên hành vi chi tiêu của từng phân khúc.</text>
+    <text x="695" y="615" font-size="12" font-weight="bold" fill="#7C3AED">➔ Biến đồ án học thuật thành giải pháp phần mềm doanh nghiệp thương mại.</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">14 / 15</text>
+  </g>
 </svg>

@@ -1,0 +1,3 @@
+Thí nghiệm 1 so sánh giữa dữ liệu thô và log1p + StandardScaler.
+Ở dữ liệu thô, độ lệch phải (skewness) cực kỳ nghiêm trọng, lên tới 12.12 ở Delicassen và khoảng giá trị chênh lệch hàng nghìn lần, khiến khoảng cách Euclidean bị bóp méo bởi các ngoại lệ lớn.
+Biến đổi log1p đưa phân phối về dạng chuông gần chuẩn, kết hợp StandardScaler giúp mọi feature có vai trò ngang nhau, giúp ARI stability đạt tới 0.997.

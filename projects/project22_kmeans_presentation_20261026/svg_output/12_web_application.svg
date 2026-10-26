@@ -1,133 +1,107 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#10B981"/>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
     </linearGradient>
-    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
-    </filter>
   </defs>
-  
-  <!-- Background -->
-  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
-  
-  <!-- Header -->
-  <g id="header" data-pptx-bounds="60 50 1160 80">
-    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Ứng Dụng Web — 3 Màn Hình Chính</text>
-    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
   </g>
-  
-  <!-- Screen 1: Introduction -->
-  <g id="screen1" data-pptx-bounds="60 160 360 420">
-    <rect x="60" y="160" width="360" height="420" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" filter="url(#softShadow)"/>
-    
-    <!-- Screen mockup -->
-    <rect x="70" y="170" width="340" height="40" rx="8" fill="#2563EB"/>
-    <text x="240" y="197" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Screen 1: Giới Thiệu</text>
-    
-    <!-- Content area -->
-    <rect x="90" y="230" width="300" height="260" rx="8" fill="#F8F9FA"/>
-    
-    <use data-icon="phosphor-duotone/target" x="100" y="250" width="28" height="28" fill="#2563EB"/>
-    <text x="140" y="272" font-size="14" font-weight="bold" fill="#1F2937">Bài toán và phạm vi</text>
-    
-    <text x="100" y="310" font-size="13" fill="#6B7280">· Data card &amp; Model card</text>
-    <text x="100" y="335" font-size="13" fill="#6B7280">· Đơn vị monetary units</text>
-    <text x="100" y="360" font-size="13" fill="#6B7280">· Giới hạn sử dụng</text>
-    <text x="100" y="385" font-size="13" fill="#6B7280">· Training methodology</text>
-    <text x="100" y="410" font-size="13" fill="#6B7280">· Ethical guidelines</text>
-    
-    <!-- Button mockup -->
-    <rect x="120" y="530" width="240" height="35" rx="8" fill="#2563EB"/>
-    <text x="240" y="553" font-size="15" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Bắt Đầu Phân Khúc →</text>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="174" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="157.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">ỨNG DỤNG THỰC TẾ</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Giao Diện Ứng Dụng Web &amp; Dự Đoán Phân Khúc Trực Tuyến</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Trải nghiệm người dùng: Biểu mẫu nhập liệu trực quan, dự đoán dưới 10ms và khuyến nghị nghiệp vụ</text>
   </g>
+
+  <!-- Main Slide Content -->
   
-  <!-- Screen 2: Segmentation -->
-  <g id="screen2" data-pptx-bounds="460 160 360 420">
-    <rect x="460" y="160" width="360" height="420" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" filter="url(#softShadow)"/>
+  <!-- Browser Mockup Window -->
+  <g id="browser-mockup">
+    <rect x="70" y="150" width="1140" height="515" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
     
-    <!-- Screen mockup -->
-    <rect x="470" y="170" width="340" height="40" rx="8" fill="#10B981"/>
-    <text x="640" y="197" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Screen 2: Phân Khúc</text>
+    <!-- Browser Top Bar -->
+    <rect x="70" y="150" width="1140" height="40" rx="14" fill="#F1F5F9"/>
+    <circle cx="95" cy="170" r="6" fill="#EF4444"/>
+    <circle cx="115" cy="170" r="6" fill="#F59E0B"/>
+    <circle cx="135" cy="170" r="6" fill="#10B981"/>
     
-    <!-- Form mockup -->
-    <rect x="490" y="230" width="300" height="260" rx="8" fill="#F8F9FA"/>
-    
-    <text x="500" y="255" font-size="14" font-weight="bold" fill="#1F2937">Form Input 6 Biến Chi Tiêu</text>
-    
-    <!-- Input fields mockup -->
-    <rect x="500" y="270" width="280" height="30" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
-    <text x="510" y="292" font-size="12" fill="#9CA3AF">Fresh (m.u.)</text>
-    
-    <rect x="500" y="310" width="280" height="30" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
-    <text x="510" y="332" font-size="12" fill="#9CA3AF">Milk (m.u.)</text>
-    
-    <rect x="500" y="350" width="280" height="30" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
-    <text x="510" y="372" font-size="12" fill="#9CA3AF">Grocery (m.u.) ...</text>
-    
-    <text x="500" y="405" font-size="12" fill="#6B7280">✓ Real-time validation</text>
-    <text x="500" y="425" font-size="12" fill="#6B7280">✓ Lưu lịch sử (100 records)</text>
-    <text x="500" y="445" font-size="12" fill="#6B7280">✓ CSV batch import/export</text>
-    
-    <!-- Result preview -->
-    <rect x="500" y="460" width="280" height="20" rx="4" fill="#DCFCE7"/>
-    <text x="510" y="475" font-size="11" font-weight="bold" fill="#065F46">Result: Cluster ID, distance, profile</text>
-    
-    <!-- Button mockup -->
-    <rect x="520" y="530" width="240" height="35" rx="8" fill="#10B981"/>
-    <text x="640" y="553" font-size="15" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Phân Khúc →</text>
+    <rect x="250" y="157" width="700" height="26" rx="6" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="600" y="174" font-size="12" fill="#64748B" text-anchor="middle">http://localhost:3000 • Hệ Thống Phân Khúc Khách Hàng Bán Sỉ (Project 22)</text>
+
+    <!-- Mockup Content: Left Input Form -->
+    <g transform="translate(100 210)">
+      <text x="0" y="20" font-size="15" font-weight="bold" fill="#0F172A">Biểu Mẫu Nhập Liệu Khách Hàng</text>
+      <text x="0" y="42" font-size="12" fill="#64748B">Nhập mức chi tiêu hằng năm của 6 nhóm mặt hàng (m.u.)</text>
+
+      <!-- Input 1 &amp; 2 -->
+      <rect x="0" y="60" width="220" height="45" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="15" y="78" font-size="11" fill="#64748B">Fresh (Tươi sống)</text>
+      <text x="15" y="96" font-size="14" font-weight="bold" fill="#0F172A">12,500</text>
+
+      <rect x="240" y="60" width="220" height="45" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="255" y="78" font-size="11" fill="#64748B">Milk (Sữa)</text>
+      <text x="255" y="96" font-size="14" font-weight="bold" fill="#0F172A">2,100</text>
+
+      <!-- Input 3 &amp; 4 -->
+      <rect x="0" y="120" width="220" height="45" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="15" y="138" font-size="11" fill="#64748B">Grocery (Tạp hóa)</text>
+      <text x="15" y="156" font-size="14" font-weight="bold" fill="#0F172A">3,200</text>
+
+      <rect x="240" y="120" width="220" height="45" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="255" y="138" font-size="11" fill="#64748B">Frozen (Đông lạnh)</text>
+      <text x="255" y="156" font-size="14" font-weight="bold" fill="#0F172A">4,800</text>
+
+      <!-- Input 5 &amp; 6 -->
+      <rect x="0" y="180" width="220" height="45" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="15" y="198" font-size="11" fill="#64748B">Detergents_Paper</text>
+      <text x="15" y="216" font-size="14" font-weight="bold" fill="#0F172A">450</text>
+
+      <rect x="240" y="180" width="220" height="45" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+      <text x="255" y="198" font-size="11" fill="#64748B">Delicassen (Đồ nguội)</text>
+      <text x="255" y="216" font-size="14" font-weight="bold" fill="#0F172A">950</text>
+
+      <!-- Predict Button -->
+      <rect x="0" y="245" width="460" height="42" rx="8" fill="#2563EB"/>
+      <text x="230" y="271" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">🔍 PHÂN TÍCH &amp; DỰ ĐOÁN PHÂN KHÚC</text>
+    </g>
+
+    <!-- Mockup Content: Right Result Panel -->
+    <g transform="translate(600 210)">
+      <rect x="0" y="0" width="560" height="410" rx="12" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="25" y="35" font-size="15" font-weight="bold" fill="#0F172A">Kết Quả Phân Tích Thời Gian Thực</text>
+
+      <!-- Prediction Badge -->
+      <rect x="25" y="55" width="510" height="90" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+      <text x="50" y="85" font-size="13" font-weight="bold" fill="#065F46">PHÂN KHÚC DỰ ĐOÁN:</text>
+      <text x="50" y="125" font-size="28" font-weight="bold" fill="#059669">CỤM 1 — NHÀ HÀNG / HORECA</text>
+      <text x="380" y="115" font-size="13" fill="#065F46">Độ tương đồng: <tspan font-weight="bold">94.8%</tspan></text>
+
+      <!-- Insight Callout -->
+      <rect x="25" y="160" width="510" height="230" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
+      <text x="45" y="190" font-size="14" font-weight="bold" fill="#0F172A">Đặc Điểm &amp; Khuyến Nghị Từ Hệ Thống:</text>
+      <text x="45" y="220" font-size="13" fill="#334155">• <tspan font-weight="bold">Chi tiêu Fresh vượt trội (12,500 m.u.):</tspan> Nhu cầu tiêu thụ rau củ, thịt tươi sống hằng ngày rất cao.</text>
+      <text x="45" y="250" font-size="13" fill="#334155">• <tspan font-weight="bold">Chi tiêu Frozen cao (4,800 m.u.):</tspan> Phù hợp với cơ cấu nhà bếp nhà hàng chuẩn bị sẵn.</text>
+      <text x="45" y="280" font-size="13" fill="#334155">• <tspan font-weight="bold">Khoảng cách Euclidean tới tâm Cụm 1:</tspan> 0.412 (Gần hơn nhiều so với Cụm 0: 2.185).</text>
+      
+      <rect x="45" y="310" width="470" height="60" rx="8" fill="#EFF6FF"/>
+      <text x="65" y="335" font-size="13" font-weight="bold" fill="#1E40AF">HÀNH ĐỘNG GỢI Ý CHO NHÂN VIÊN KINH DOANH:</text>
+      <text x="65" y="355" font-size="12" fill="#1E3A8A">Gửi báo giá ưu đãi nguồn hàng thủy hải sản tươi sống và đề xuất lịch giao 6h sáng hằng ngày.</text>
+    </g>
   </g>
-  
-  <!-- Screen 3: Dashboard -->
-  <g id="screen3" data-pptx-bounds="860 160 360 420">
-    <rect x="860" y="160" width="360" height="420" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" filter="url(#softShadow)"/>
-    
-    <!-- Screen mockup -->
-    <rect x="870" y="170" width="340" height="40" rx="8" fill="#8B5CF6"/>
-    <text x="1040" y="197" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Screen 3: Dashboard</text>
-    
-    <!-- Dashboard mockup -->
-    <rect x="890" y="230" width="300" height="260" rx="8" fill="#F8F9FA"/>
-    
-    <text x="900" y="255" font-size="14" font-weight="bold" fill="#1F2937">Analytics &amp; Visualization</text>
-    
-    <!-- Chart mockups -->
-    <rect x="900" y="270" width="135" height="80" rx="6" fill="#EFF6FF" stroke="#2563EB" stroke-width="1"/>
-    <text x="967" y="290" font-size="11" fill="#1E40AF" text-anchor="middle">Cluster</text>
-    <text x="967" y="305" font-size="11" fill="#1E40AF" text-anchor="middle">Sizes</text>
-    <circle cx="967" cy="330" r="20" fill="#2563EB" fill-opacity="0.3"/>
-    
-    <rect x="1055" y="270" width="135" height="80" rx="6" fill="#F0FDF4" stroke="#10B981" stroke-width="1"/>
-    <text x="1122" y="290" font-size="11" fill="#065F46" text-anchor="middle">Medians</text>
-    <rect x="1070" y="305" width="35" height="40" fill="#10B981" fill-opacity="0.3"/>
-    <rect x="1110" y="315" width="35" height="30" fill="#10B981" fill-opacity="0.3"/>
-    <rect x="1150" y="320" width="35" height="25" fill="#10B981" fill-opacity="0.3"/>
-    
-    <!-- Features list -->
-    <text x="900" y="375" font-size="12" fill="#6B7280">✓ Channel/Region composition</text>
-    <text x="900" y="395" font-size="12" fill="#6B7280">✓ Experiment explorer (K2-8)</text>
-    <text x="900" y="415" font-size="12" fill="#6B7280">✓ PCA 2D visualization</text>
-    <text x="900" y="435" font-size="12" fill="#6B7280">✓ Distance outliers</text>
-    <text x="900" y="455" font-size="12" fill="#6B7280">✓ Raw vs Log1p comparison</text>
-    
-    <!-- Live indicator -->
-    <circle cx="980" cy="545" r="6" fill="#10B981"/>
-    <text x="995" y="550" font-size="13" font-weight="bold" fill="#065F46">Live: localhost:5173</text>
-  </g>
-  
-  <!-- Bottom highlight -->
-  <g id="highlight" data-pptx-bounds="60 600 1160 50">
-    <rect x="60" y="600" width="1160" height="50" rx="10" fill="#EFF6FF"/>
-    <use data-icon="phosphor-duotone/check-circle" x="80" y="610" width="30" height="30" fill="#10B981"/>
-    <text x="125" y="632" font-size="18" font-weight="bold" fill="#1E40AF">
-      Full working application from input to insights — Ready for demo
-    </text>
-  </g>
-  
-  <!-- Footer -->
-  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
-    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
-    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">12 / 15</text>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">12 / 15</text>
   </g>
 </svg>

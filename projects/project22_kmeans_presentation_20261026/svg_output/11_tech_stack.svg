@@ -1,114 +1,108 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#10B981"/>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
     </linearGradient>
-    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
-    </filter>
   </defs>
-  
-  <!-- Background -->
-  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
-  
-  <!-- Header -->
-  <g id="header" data-pptx-bounds="60 50 1160 80">
-    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Kiến Trúc Hệ Thống</text>
-    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
   </g>
-  
-  <!-- Architecture Diagram -->
-  <g id="architecture" data-pptx-bounds="60 160 720 480">
-    <!-- Frontend Layer -->
-    <g id="frontend-layer">
-      <rect x="60" y="160" width="720" height="120" rx="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="2" filter="url(#softShadow)"/>
-      <use data-icon="phosphor-duotone/code" x="80" y="190" width="36" height="36" fill="#2563EB"/>
-      <text x="130" y="210" font-size="20" font-weight="bold" fill="#1E40AF">Frontend (React)</text>
-      <text x="130" y="240" font-size="16" fill="#1E3A8A">TypeScript + Vite</text>
-      <text x="440" y="210" font-size="15" fill="#1F2937">3 screens: Intro, Segmentation, Dashboard</text>
-      <text x="440" y="240" font-size="15" fill="#1F2937">Visualization: PCA 2D, charts</text>
-    </g>
-    
-    <!-- Arrow down -->
-    <path d="M 420 280 L 420 310" stroke="#2563EB" stroke-width="4" marker-end="url(#arrowBlue)"/>
-    <text x="440" y="300" font-size="14" fill="#6B7280">API calls</text>
-    
-    <!-- Backend Layer -->
-    <g id="backend-layer">
-      <rect x="60" y="310" width="720" height="140" rx="12" fill="#DCFCE7" stroke="#10B981" stroke-width="2" filter="url(#softShadow)"/>
-      <use data-icon="phosphor-duotone/stack" x="80" y="345" width="36" height="36" fill="#10B981"/>
-      <text x="130" y="365" font-size="20" font-weight="bold" fill="#065F46">Backend (Node.js)</text>
-      <text x="130" y="395" font-size="16" fill="#047857">Fastify + TypeScript</text>
-      <text x="440" y="345" font-size="15" fill="#1F2937">Load frozen model.json (SHA-256 verified)</text>
-      <text x="440" y="375" font-size="15" fill="#1F2937" font-weight="bold">NO retraining on requests</text>
-      <text x="440" y="405" font-size="15" fill="#1F2937">API: /health, /ready, /segment, /dashboard</text>
-    </g>
-    
-    <!-- Arrow down -->
-    <path d="M 420 450 L 420 480" stroke="#10B981" stroke-width="4" marker-end="url(#arrowGreen)"/>
-    <text x="440" y="470" font-size="14" fill="#6B7280">Load once</text>
-    
-    <!-- ML Training Layer -->
-    <g id="ml-layer">
-      <rect x="60" y="480" width="720" height="160" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2" filter="url(#softShadow)"/>
-      <use data-icon="phosphor-duotone/git-branch" x="80" y="520" width="36" height="36" fill="#D97706"/>
-      <text x="130" y="540" font-size="20" font-weight="bold" fill="#92400E">ML Training (Python)</text>
-      <text x="130" y="570" font-size="16" fill="#78350F">scikit-learn, pandas, NumPy</text>
-      <text x="440" y="520" font-size="15" fill="#1F2937">140 experiments → Model selection</text>
-      <text x="440" y="550" font-size="15" fill="#1F2937">D011: log1p + StandardScaler, K=2</text>
-      <text x="440" y="580" font-size="15" fill="#1F2937" font-weight="bold">Export frozen artifacts</text>
-    </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="166.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">KIẾN TRÚC HỆ THỐNG</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Kiến Trúc Tổng Thể &amp; Tech Stack Triển Khai Thực Tế</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Mô hình phục vụ 3 lớp: Giao diện trực quan, API trung gian và Lõi mô hình bất biến</text>
   </g>
+
+  <!-- Main Slide Content -->
   
-  <!-- Testing Card -->
-  <g id="testing" data-pptx-bounds="820 160 400 230">
-    <rect x="820" y="160" width="400" height="230" rx="12" fill="#F0FDF4" stroke="#10B981" stroke-width="2"/>
-    <use data-icon="phosphor-duotone/check-circle" x="840" y="185" width="32" height="32" fill="#10B981"/>
-    <text x="885" y="210" font-size="20" font-weight="bold" fill="#065F46">Testing</text>
-    
-    <g id="test-results" font-size="15" fill="#064E3B">
-      <text x="840" y="245">✓ 64/64 E2E tests PASS</text>
-      <text x="840" y="275">✓ Gate 6: 19 native + 16 API</text>
-      <text x="840" y="305">✓ Gate 7: 40 Playwright</text>
-      <text x="840" y="335">✓ Gate 8: Windows CI</text>
-      <text x="840" y="365">✓ npm audit 0 vulnerabilities</text>
-    </g>
+  <!-- 3-Tier Architecture Diagram -->
+  <g id="system-architecture">
+    <!-- Tier 1: Frontend -->
+    <rect x="70" y="160" width="360" height="490" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="160" width="360" height="6" rx="3" fill="#3B82F6"/>
+    <text x="100" y="195" font-size="13" font-weight="bold" fill="#1D4ED8">TẦNG 1: TRÌNH DIỄN (FRONTEND)</text>
+    <text x="100" y="225" font-size="18" font-weight="bold" fill="#0F172A">React 18 + Tailwind</text>
+    <text x="100" y="250" font-size="13" fill="#64748B">Giao diện SPA hiện đại, đáp ứng đa thiết bị</text>
+
+    <!-- Features -->
+    <rect x="95" y="275" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="110" y="302" font-size="13" font-weight="bold" fill="#0F172A">Biểu Mẫu Nhập Liệu 6 Đặc Trưng:</text>
+    <text x="110" y="325" font-size="12" fill="#64748B">Kiểm tra giá trị biên &amp; cảnh báo tức thì</text>
+
+    <rect x="95" y="350" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="110" y="377" font-size="13" font-weight="bold" fill="#0F172A">Trực Quan Hóa Đồ Thị Động:</text>
+    <text x="110" y="400" font-size="12" fill="#64748B">Radar chart so sánh hồ sơ với tâm cụm</text>
+
+    <rect x="95" y="425" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="110" y="452" font-size="13" font-weight="bold" fill="#0F172A">Xử Lý Batch &amp; Xuất Báo Cáo:</text>
+    <text x="110" y="475" font-size="12" fill="#64748B">Tải lên file CSV và phân loại hàng loạt</text>
+
+    <!-- Tech Badges -->
+    <rect x="95" y="585" width="310" height="45" rx="8" fill="#EFF6FF"/>
+    <text x="250" y="612" font-size="12" font-weight="bold" fill="#1D4ED8" text-anchor="middle">TypeScript • Vite • TailwindCSS • Chart.js</text>
+
+    <!-- Tier 2: Backend API -->
+    <rect x="460" y="160" width="360" height="490" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="460" y="160" width="360" height="6" rx="3" fill="#059669"/>
+    <text x="490" y="195" font-size="13" font-weight="bold" fill="#065F46">TẦNG 2: XỬ LÝ DỊCH VỤ (BACKEND)</text>
+    <text x="490" y="225" font-size="18" font-weight="bold" fill="#0F172A">Fastify REST API</text>
+    <text x="490" y="250" font-size="13" fill="#64748B">Microservice Node.js tốc độ cao &amp; bảo mật</text>
+
+    <!-- API Endpoints -->
+    <rect x="485" y="275" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="500" y="302" font-size="13" font-weight="bold" fill="#059669">POST /api/segment</text>
+    <text x="500" y="325" font-size="12" fill="#64748B">Nhận 6 biến chi tiêu ➔ trả về nhãn cụm &amp; độ cách</text>
+
+    <rect x="485" y="350" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="500" y="377" font-size="13" font-weight="bold" fill="#059669">GET /api/dashboard</text>
+    <text x="500" y="400" font-size="12" fill="#64748B">Cung cấp thống kê tổng thể và thông tin model</text>
+
+    <rect x="485" y="425" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="500" y="452" font-size="13" font-weight="bold" fill="#059669">GET /api/health</text>
+    <text x="500" y="475" font-size="12" fill="#64748B">Kiểm tra trạng thái sẵn sàng (Readiness probe)</text>
+
+    <!-- Tech Badges -->
+    <rect x="485" y="585" width="310" height="45" rx="8" fill="#ECFDF5"/>
+    <text x="640" y="612" font-size="12" font-weight="bold" fill="#065F46" text-anchor="middle">Fastify • Pydantic/Zod Schema • CORS</text>
+
+    <!-- Tier 3: ML Serving Core -->
+    <rect x="850" y="160" width="360" height="490" rx="14" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="2"/>
+    <rect x="850" y="160" width="360" height="6" rx="3" fill="#8B5CF6"/>
+    <text x="880" y="195" font-size="13" font-weight="bold" fill="#6B21A8">TẦNG 3: TRỌNG TÂM MÔ HÌNH (ML CORE)</text>
+    <text x="880" y="225" font-size="18" font-weight="bold" fill="#0F172A">Frozen Artifacts</text>
+    <text x="880" y="250" font-size="13" fill="#64748B">Mô hình đóng băng bất biến (Zero Retraining)</text>
+
+    <!-- Security &amp; Checksum -->
+    <rect x="875" y="275" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="890" y="302" font-size="13" font-weight="bold" fill="#7C3AED">SHA-256 Checksum Guard:</text>
+    <text x="890" y="325" font-size="12" fill="#64748B">Chống can thiệp hoặc sửa đổi file model trái phép</text>
+
+    <rect x="875" y="350" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="890" y="377" font-size="13" font-weight="bold" fill="#7C3AED">Python ↔ Node Parity:</text>
+    <text x="890" y="400" font-size="12" fill="#64748B">Kiểm định dự đoán chính xác tuyệt đối trên 2 môi trường</text>
+
+    <rect x="875" y="425" width="310" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="890" y="452" font-size="13" font-weight="bold" fill="#7C3AED">Tải Model 1 Lần (Singleton):</text>
+    <text x="890" y="475" font-size="12" fill="#64748B">Phản hồi inference dưới 10ms trên mỗi request</text>
+
+    <!-- Tech Badges -->
+    <rect x="875" y="585" width="310" height="45" rx="8" fill="#F3E8FF"/>
+    <text x="1030" y="612" font-size="12" font-weight="bold" fill="#6B21A8" text-anchor="middle">Scikit-Learn • Joblib • Docker Ready</text>
   </g>
-  
-  <!-- Key Points -->
-  <g id="key-points" data-pptx-bounds="820 420 400 220">
-    <rect x="820" y="420" width="400" height="220" rx="12" fill="#F8F9FA"/>
-    <text x="840" y="455" font-size="18" font-weight="bold" fill="#1F2937">Key Architecture Points</text>
-    
-    <g id="points" font-size="15" fill="#1F2937">
-      <text x="840" y="490">
-        <tspan font-weight="bold" fill="#2563EB">Clean separation:</tspan>
-      </text>
-      <text x="840" y="515">Python trains offline</text>
-      <text x="840" y="540">Node.js serves frozen model</text>
-      <text x="840" y="565">React presents to users</text>
-      
-      <text x="840" y="600">
-        <tspan font-weight="bold" fill="#10B981">No runtime training</tspan>
-      </text>
-      <text x="840" y="625">Fast, predictable responses</text>
-    </g>
-  </g>
-  
-  <!-- Arrow markers -->
-  <defs>
-    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563EB"/>
-    </marker>
-    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10B981"/>
-    </marker>
-  </defs>
-  
-  <!-- Footer -->
-  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
-    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
-    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">11 / 15</text>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">11 / 15</text>
   </g>
 </svg>

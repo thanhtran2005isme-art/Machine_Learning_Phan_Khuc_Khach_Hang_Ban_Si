@@ -1,88 +1,124 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
-    </filter>
-    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#10B981"/>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect width="1280" height="720" fill="#FFFFFF"/>
-  
-  <!-- Header -->
-  <text x="80" y="80" font-size="42" font-weight="bold" fill="#1F2937">Silhouette Analysis</text>
-  <text x="80" y="115" font-size="24" fill="#6B7280">Train vs Validation Silhouette Score</text>
-  <rect x="80" y="125" width="120" height="4" rx="2" fill="url(#accentBar)"/>
-  
-  <!-- Chart -->
-  <g transform="translate(150,200)">
-    <!-- Bars for K=2 -->
-    <rect x="0" y="100" width="70" height="150" rx="6" fill="#2563EB"/>
-    <text x="35" y="85" font-size="14" fill="#2563EB" text-anchor="middle" font-weight="600">0.276</text>
-    <rect x="90" y="60" width="70" height="190" rx="6" fill="#10B981"/>
-    <text x="125" y="45" font-size="14" fill="#10B981" text-anchor="middle" font-weight="600">0.307</text>
-    <text x="80" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=2</text>
-    
-    <!-- Bars for K=3 -->
-    <rect x="200" y="130" width="70" height="120" rx="6" fill="#2563EB"/>
-    <text x="235" y="115" font-size="14" fill="#2563EB" text-anchor="middle">0.205</text>
-    <rect x="290" y="110" width="70" height="140" rx="6" fill="#10B981"/>
-    <text x="325" y="95" font-size="14" fill="#10B981" text-anchor="middle">0.217</text>
-    <text x="280" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=3</text>
-    
-    <!-- Bars for K=4 -->
-    <rect x="400" y="135" width="70" height="115" rx="6" fill="#2563EB"/>
-    <text x="435" y="120" font-size="14" fill="#2563EB" text-anchor="middle">0.206</text>
-    <rect x="490" y="170" width="70" height="80" rx="6" fill="#10B981"/>
-    <text x="525" y="155" font-size="14" fill="#10B981" text-anchor="middle">0.154</text>
-    <text x="480" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=4</text>
-    
-    <!-- Bars for K=5 -->
-    <rect x="600" y="145" width="70" height="105" rx="6" fill="#2563EB"/>
-    <text x="635" y="130" font-size="14" fill="#2563EB" text-anchor="middle">0.198</text>
-    <rect x="690" y="170" width="70" height="80" rx="6" fill="#10B981"/>
-    <text x="725" y="155" font-size="14" fill="#10B981" text-anchor="middle">0.162</text>
-    <text x="680" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=5</text>
-    
-    <!-- Bars for K=6,7,8 (smaller) -->
-    <rect x="800" y="148" width="55" height="102" rx="6" fill="#2563EB"/>
-    <text x="828" y="135" font-size="13" fill="#2563EB" text-anchor="middle">0.193</text>
-    <rect x="870" y="172" width="55" height="78" rx="6" fill="#10B981"/>
-    <text x="898" y="160" font-size="13" fill="#10B981" text-anchor="middle">0.160</text>
-    <text x="848" y="280" font-size="15" fill="#1F2937" text-anchor="middle">K=6</text>
-    
-    <rect x="950" y="152" width="55" height="98" rx="6" fill="#2563EB"/>
-    <rect x="1020" y="178" width="55" height="72" rx="6" fill="#10B981"/>
-    <text x="998" y="280" font-size="15" fill="#1F2937" text-anchor="middle">K=7</text>
-    
-    <!-- Grid line -->
-    <line x1="-10" y1="250" x2="1100" y2="250" stroke="#E5E7EB" stroke-width="2"/>
-    
-    <!-- Y-axis labels -->
-    <text x="-30" y="60" font-size="14" fill="#4B5563" text-anchor="end">0.30</text>
-    <text x="-30" y="160" font-size="14" fill="#4B5563" text-anchor="end">0.20</text>
-    <text x="-30" y="255" font-size="14" fill="#4B5563" text-anchor="end">0.00</text>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
   </g>
-  
-  <!-- Legend -->
-  <g transform="translate(950,230)">
-    <rect x="0" y="0" width="40" height="30" rx="4" fill="#2563EB"/>
-    <text x="50" y="20" font-size="16" fill="#1F2937">Train</text>
-    <rect x="120" y="0" width="40" height="30" rx="4" fill="#10B981"/>
-    <text x="170" y="20" font-size="16" fill="#1F2937">Validation</text>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="160" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="150.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">THỰC NGHIỆM 03</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Đánh Giá Silhouette Score &amp; Độ Ổn Định Cụm (10 Seeds)</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Minh chứng số liệu thực nghiệm: K=2 đạt chất lượng tách cụm và độ lặp lại cao nhất</text>
   </g>
+
+  <!-- Main Slide Content -->
   
-  <!-- Insights -->
-  <rect x="80" y="520" width="1120" height="120" rx="12" fill="#DBEAFE"/>
-  <text x="110" y="555" font-size="18" font-weight="bold" fill="#1E40AF">Kết luận:</text>
-  <text x="110" y="585" font-size="16" fill="#1E3A8A">• K=2: Silhouette validation cao nhất (0.307), train-val gap thấp → generalization tốt</text>
-  <text x="110" y="610" font-size="16" fill="#1E3A8A">• K≥3: Score giảm mạnh, overfitting risk tăng</text>
-  <text x="110" y="635" font-size="16" fill="#059669" font-weight="600">→ Kết hợp Elbow + Silhouette + ARI stability (0.997): Chọn K=2</text>
-  
-  <!-- Footer -->
-  <text x="80" y="680" font-size="14" fill="#9CA3AF">Quyết định: K=2, log1p+StandardScaler, random_state=42</text>
-  <text x="1200" y="680" font-size="14" fill="#9CA3AF" text-anchor="end">7 / 15</text>
+  <!-- Comparison Table -->
+  <g id="silhouette-table">
+    <rect x="70" y="150" width="1140" height="340" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    
+    <!-- Table Header -->
+    <rect x="70" y="150" width="1140" height="45" rx="14" fill="#1E293B"/>
+    <text x="110" y="178" font-size="13" font-weight="bold" fill="#FFFFFF">K CỤM</text>
+    <text x="210" y="178" font-size="13" font-weight="bold" fill="#FFFFFF">SILHOUETTE TRAIN</text>
+    <text x="390" y="178" font-size="13" font-weight="bold" fill="#FFFFFF">SILHOUETTE VAL</text>
+    <text x="570" y="178" font-size="13" font-weight="bold" fill="#FFFFFF">KHOẢNG CÁCH GAP</text>
+    <text x="770" y="178" font-size="13" font-weight="bold" fill="#FFFFFF">ĐỘ ỔN ĐỊNH ARI (10 SEEDS)</text>
+    <text x="1030" y="178" font-size="13" font-weight="bold" fill="#FFFFFF">TỶ LỆ CỤM NHỎ NHẤT</text>
+
+    <!-- Row K=2 (Selected Champion) -->
+    <rect x="70" y="195" width="1140" height="48" fill="#ECFDF5"/>
+    <rect x="75" y="202" width="60" height="34" rx="6" fill="#10B981"/>
+    <text x="105" y="224" font-size="15" font-weight="bold" fill="#FFFFFF" text-anchor="middle">K=2 ★</text>
+    <text x="210" y="224" font-size="14" font-weight="bold" fill="#065F46">0.2756</text>
+    <text x="390" y="224" font-size="15" font-weight="bold" fill="#059669">0.3066 (Cao nhất)</text>
+    <text x="570" y="224" font-size="14" font-weight="bold" fill="#059669">+0.0310 (Tổng quát tốt)</text>
+    <text x="770" y="224" font-size="14" font-weight="bold" fill="#059669">0.9970 (std = 0.000000)</text>
+    <text x="1030" y="224" font-size="14" font-weight="bold" fill="#065F46">44.73% (Rất cân bằng)</text>
+
+    <!-- Row K=3 -->
+    <rect x="70" y="243" width="1140" height="42" fill="#FFFFFF"/>
+    <text x="105" y="268" font-size="14" font-weight="bold" fill="#0F172A">K=3</text>
+    <text x="210" y="268" font-size="14" fill="#334155">0.2049</text>
+    <text x="390" y="268" font-size="14" fill="#334155">0.2165</text>
+    <text x="570" y="268" font-size="14" fill="#64748B">+0.0116</text>
+    <text x="770" y="268" font-size="14" fill="#334155">0.9078 (std = 0.054)</text>
+    <text x="1030" y="268" font-size="14" fill="#334155">30.38%</text>
+
+    <!-- Row K=4 -->
+    <rect x="70" y="285" width="1140" height="42" fill="#F8FAFC"/>
+    <text x="105" y="310" font-size="14" font-weight="bold" fill="#0F172A">K=4</text>
+    <text x="210" y="310" font-size="14" fill="#334155">0.2059</text>
+    <text x="390" y="310" font-size="14" fill="#334155">0.1540</text>
+    <text x="570" y="310" font-size="14" fill="#DC2626">-0.0520 (Overfit nhẹ)</text>
+    <text x="770" y="310" font-size="14" fill="#334155">0.9152</text>
+    <text x="1030" y="310" font-size="14" fill="#334155">12.54%</text>
+
+    <!-- Row K=5 -->
+    <rect x="70" y="327" width="1140" height="42" fill="#FFFFFF"/>
+    <text x="105" y="352" font-size="14" font-weight="bold" fill="#0F172A">K=5</text>
+    <text x="210" y="352" font-size="14" fill="#334155">0.1976</text>
+    <text x="390" y="352" font-size="14" fill="#334155">0.1623</text>
+    <text x="570" y="352" font-size="14" fill="#DC2626">-0.0353</text>
+    <text x="770" y="352" font-size="14" fill="#DC2626">0.6775 (Bất ổn định)</text>
+    <text x="1030" y="352" font-size="14" fill="#DC2626">8.60% (Cụm quá nhỏ)</text>
+
+    <!-- Row K=6..8 summary -->
+    <rect x="70" y="369" width="1140" height="42" fill="#F8FAFC"/>
+    <text x="105" y="394" font-size="14" font-weight="bold" fill="#64748B">K=6..8</text>
+    <text x="210" y="394" font-size="14" fill="#64748B">&lt; 0.1933</text>
+    <text x="390" y="394" font-size="14" fill="#64748B">&lt; 0.1601</text>
+    <text x="570" y="394" font-size="14" fill="#DC2626">Âm (Kém tổng quát)</text>
+    <text x="770" y="394" font-size="14" fill="#DC2626">0.56 ~ 0.63 (Rất phân tán)</text>
+    <text x="1030" y="394" font-size="14" fill="#DC2626">&lt; 6.0% (Vi phạm cờ 5%)</text>
+
+    <!-- Source Note inside Table -->
+    <rect x="70" y="445" width="1140" height="45" fill="#F1F5F9"/>
+    <text x="90" y="472" font-size="12" fill="#475569">Nguồn kiểm chứng: reports/data/experiments/review_table.csv • 10 lượt chạy độc lập (Seed 42..51) với thuật toán Lloyd</text>
+  </g>
+
+  <!-- 3 Evidence Callouts -->
+  <g id="stability-insights">
+    <!-- Card 1 -->
+    <rect x="70" y="505" width="360" height="155" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="505" width="360" height="4" rx="2" fill="#10B981"/>
+    <text x="95" y="538" font-size="15" font-weight="bold" fill="#065F46">Silhouette Tối Ưu</text>
+    <text x="95" y="565" font-size="13" fill="#334155">• Điểm Val Silhouette = <tspan font-weight="bold" fill="#059669">0.3066</tspan></text>
+    <text x="95" y="590" font-size="13" fill="#334155">• Vượt trội hoàn toàn so với K=3 (0.216) và K=4 (0.154)</text>
+    <text x="95" y="615" font-size="13" fill="#334155">• Generalization Gap dương (+0.031)</text>
+
+    <!-- Card 2 -->
+    <rect x="460" y="505" width="360" height="155" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="460" y="505" width="360" height="4" rx="2" fill="#2563EB"/>
+    <text x="485" y="538" font-size="15" font-weight="bold" fill="#1E40AF">Độ Ổn Định Tuyệt Đối</text>
+    <text x="485" y="565" font-size="13" fill="#334155">• ARI trung bình = <tspan font-weight="bold" fill="#2563EB">0.996970 ≈ 0.997</tspan></text>
+    <text x="485" y="590" font-size="13" fill="#334155">• Độ lệch chuẩn (std) = <tspan font-weight="bold">0.000000</tspan></text>
+    <text x="485" y="615" font-size="13" fill="#334155">• 10/10 seed đều phân cụm đồng nhất</text>
+
+    <!-- Card 3 -->
+    <rect x="850" y="505" width="360" height="155" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="850" y="505" width="360" height="4" rx="2" fill="#F59E0B"/>
+    <text x="875" y="538" font-size="15" font-weight="bold" fill="#B45309">Phân Phối Cụm Khả Thi</text>
+    <text x="875" y="565" font-size="13" fill="#334155">• Cụm nhỏ nhất chiếm <tspan font-weight="bold">44.7%</tspan></text>
+    <text x="875" y="590" font-size="13" fill="#334155">• Không bị vi phạm cờ cụm cô lập (&lt;5%)</text>
+    <text x="875" y="615" font-size="13" fill="#334155">• Rất thuận lợi cho bài toán kinh doanh</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">07 / 15</text>
+  </g>
 </svg>

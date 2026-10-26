@@ -1,112 +1,137 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
   <defs>
-    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#10B981"/>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
-  
-  <!-- Header -->
-  <g id="header" data-pptx-bounds="60 50 1160 80">
-    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Pipeline Machine Learning &amp; Tránh Data Leakage</text>
-    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
   </g>
-  
-  <!-- Critical Rule -->
-  <g id="critical-rule" data-pptx-bounds="60 160 1160 90">
-    <rect x="60" y="160" width="1160" height="90" rx="12" fill="#DCFCE7" stroke="#10B981" stroke-width="3"/>
-    <use data-icon="phosphor-duotone/warning" x="80" y="185" width="40" height="40" fill="#059669"/>
-    <text x="140" y="200" font-size="20" font-weight="bold" fill="#065F46">Critical Rule</text>
-    <text x="140" y="230" font-size="22" fill="#064E3B">
-      Split train/validation/test <tspan font-weight="bold" fill="#059669">TRƯỚC</tspan> mọi preprocessing học từ dữ liệu
-    </text>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="166.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">KIẾN TRÚC PIPELINE</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Quy Trình Huấn Luyện &amp; Kiểm Soát Chống Rò Rỉ Dữ Liệu</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Quy chuẩn chia tách 60/20/20 và nguyên tắc bảo vệ tập kiểm thử độc lập</text>
   </g>
+
+  <!-- Main Slide Content -->
   
-  <!-- Pipeline Flow -->
-  <g id="pipeline-flow" data-pptx-bounds="60 280 1160 230">
-    <!-- Step 1: Raw Data -->
-    <rect x="60" y="280" width="160" height="80" rx="8" fill="#F8F9FA" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="140" y="315" font-size="16" font-weight="bold" fill="#1F2937" text-anchor="middle">Raw UCI Data</text>
-    <text x="140" y="340" font-size="14" fill="#6B7280" text-anchor="middle">440 customers</text>
-    
-    <!-- Arrow -->
-    <path d="M 220 320 L 250 320" stroke="#2563EB" stroke-width="3" marker-end="url(#arrowBlue)"/>
-    
-    <!-- Step 2: SPLIT (Critical) -->
-    <rect x="250" y="280" width="180" height="80" rx="8" fill="#DBEAFE" stroke="#2563EB" stroke-width="4"/>
-    <text x="340" y="310" font-size="18" font-weight="bold" fill="#1E40AF" text-anchor="middle">SPLIT</text>
-    <text x="340" y="335" font-size="14" fill="#1E3A8A" text-anchor="middle">264 train / 88 val</text>
-    <text x="340" y="355" font-size="14" fill="#1E3A8A" text-anchor="middle">88 test (seed 42)</text>
-    
-    <!-- Arrow -->
-    <path d="M 430 320 L 460 320" stroke="#2563EB" stroke-width="3" marker-end="url(#arrowBlue)"/>
-    
-    <!-- Step 3: Preprocessing -->
-    <rect x="460" y="280" width="200" height="80" rx="8" fill="#F8F9FA" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="560" y="310" font-size="16" font-weight="bold" fill="#1F2937" text-anchor="middle">Fit Preprocessing</text>
-    <text x="560" y="335" font-size="14" fill="#6B7280" text-anchor="middle">log1p + StandardScaler</text>
-    <text x="560" y="355" font-size="13" fill="#10B981" text-anchor="middle">on train only ✓</text>
-    
-    <!-- Arrow -->
-    <path d="M 660 320 L 690 320" stroke="#2563EB" stroke-width="3" marker-end="url(#arrowBlue)"/>
-    
-    <!-- Step 4: K-Means -->
-    <rect x="690" y="280" width="180" height="80" rx="8" fill="#F8F9FA" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="780" y="310" font-size="16" font-weight="bold" fill="#1F2937" text-anchor="middle">K-Means</text>
-    <text x="780" y="335" font-size="14" fill="#6B7280" text-anchor="middle">Fit on train</text>
-    <text x="780" y="355" font-size="14" fill="#6B7280" text-anchor="middle">K=2..8, seed 42..51</text>
-    
-    <!-- Arrow -->
-    <path d="M 870 320 L 900 320" stroke="#2563EB" stroke-width="3" marker-end="url(#arrowBlue)"/>
-    
-    <!-- Step 5: Validation -->
-    <rect x="900" y="280" width="160" height="80" rx="8" fill="#F8F9FA" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="980" y="310" font-size="16" font-weight="bold" fill="#1F2937" text-anchor="middle">Validation</text>
-    <text x="980" y="335" font-size="14" fill="#6B7280" text-anchor="middle">Choose K</text>
-    <text x="980" y="355" font-size="14" fill="#6B7280" text-anchor="middle">&amp; config</text>
-    
-    <!-- Arrow -->
-    <path d="M 1060 320 L 1090 320" stroke="#2563EB" stroke-width="3" marker-end="url(#arrowBlue)"/>
-    
-    <!-- Step 6: Test ONCE -->
-    <rect x="1090" y="280" width="130" height="80" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="3"/>
-    <text x="1155" y="310" font-size="16" font-weight="bold" fill="#991B1B" text-anchor="middle">Test</text>
-    <text x="1155" y="335" font-size="14" fill="#7F1D1D" text-anchor="middle">ONCE</text>
-    <text x="1155" y="355" font-size="13" fill="#7F1D1D" text-anchor="middle">Final report</text>
-    
-    <!-- Result Box -->
-    <rect x="60" y="400" width="1160" height="100" rx="12" fill="#F0FDF4"/>
-    <use data-icon="phosphor-duotone/check-circle" x="80" y="425" width="36" height="36" fill="#10B981"/>
-    <text x="130" y="445" font-size="18" font-weight="bold" fill="#065F46">Result</text>
-    <text x="130" y="475" font-size="17" fill="#064E3B">
-      Test độc lập, không dùng để chọn K hay tham số → Clean evaluation ✓
-    </text>
+  <!-- Golden Rule Banner -->
+  <g id="leakage-guard">
+    <rect x="70" y="150" width="1140" height="70" rx="12" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+    <circle cx="115" cy="185" r="22" fill="#FEE2E2"/>
+    <path d="M115 172 L115 188 M115 194 L115 198" stroke="#DC2626" stroke-width="3" stroke-linecap="round"/>
+    <text x="155" y="177" font-size="15" font-weight="bold" fill="#991B1B">NGUYÊN TẮC VÀNG CHỐNG RÒ RỈ DỮ LIỆU (ANTI-DATA-LEAKAGE):</text>
+    <text x="155" y="202" font-size="14" fill="#7F1D1D">Tuyệt đối phân chia tập dữ liệu (Split) trước khi fit bất kỳ bộ biến đổi nào. Tập Test được giữ độc lập và chỉ đánh giá đúng 1 lần.</text>
   </g>
-  
-  <!-- Key Points -->
-  <g id="key-points" data-pptx-bounds="60 530 1160 110">
-    <text x="60" y="555" font-size="18" font-weight="bold" fill="#1F2937">Key Points:</text>
-    <text x="60" y="585" font-size="16" fill="#1F2937">
-      · Split ratio: 60% / 20% / 20% (264 / 88 / 88 samples)
-    </text>
-    <text x="60" y="615" font-size="16" fill="#1F2937">
-      · All preprocessing parameters learned from train only, then applied to val/test
-    </text>
+
+  <!-- 5-Stage Pipeline Flowchart -->
+  <g id="pipeline-flow">
+    <!-- Stage 1 -->
+    <rect x="70" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="250" width="200" height="6" rx="3" fill="#2563EB"/>
+    <text x="90" y="285" font-size="13" font-weight="bold" fill="#1E40AF">BƯỚC 1</text>
+    <text x="90" y="315" font-size="18" font-weight="bold" fill="#0F172A">Raw Data</text>
+    <text x="90" y="345" font-size="13" fill="#64748B">• 440 mẫu khách hàng</text>
+    <text x="90" y="370" font-size="13" fill="#64748B">• Kiểm tra missing (0)</text>
+    <text x="90" y="395" font-size="13" fill="#64748B">• Giữ nguyên đơn vị m.u.</text>
+    <rect x="85" y="425" width="170" height="36" rx="6" fill="#EFF6FF"/>
+    <text x="170" y="448" font-size="12" font-weight="bold" fill="#1E40AF" text-anchor="middle">Input: 440 × 8</text>
+
+    <!-- Arrow 1 -->
+    <path d="M280 365 L305 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="305,360 315,365 305,370" fill="#94A3B8"/>
+
+    <!-- Stage 2 -->
+    <rect x="315" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2"/>
+    <rect x="315" y="250" width="200" height="6" rx="3" fill="#3B82F6"/>
+    <text x="335" y="285" font-size="13" font-weight="bold" fill="#1D4ED8">BƯỚC 2</text>
+    <text x="335" y="315" font-size="18" font-weight="bold" fill="#0F172A">Split 60 / 20 / 20</text>
+    <text x="335" y="345" font-size="13" fill="#1E40AF">• Train: <tspan font-weight="bold">264 mẫu</tspan> (60%)</text>
+    <text x="335" y="370" font-size="13" fill="#059669">• Val: <tspan font-weight="bold">88 mẫu</tspan> (20%)</text>
+    <text x="335" y="395" font-size="13" fill="#DC2626">• Test: <tspan font-weight="bold">88 mẫu</tspan> (20%)</text>
+    <rect x="330" y="425" width="170" height="36" rx="6" fill="#DBEAFE"/>
+    <text x="415" y="448" font-size="12" font-weight="bold" fill="#1E40AF" text-anchor="middle">Chia tách nghiêm ngặt</text>
+
+    <!-- Arrow 2 -->
+    <path d="M525 365 L550 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="550,360 560,365 550,370" fill="#94A3B8"/>
+
+    <!-- Stage 3 -->
+    <rect x="560" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="560" y="250" width="200" height="6" rx="3" fill="#10B981"/>
+    <text x="580" y="285" font-size="13" font-weight="bold" fill="#065F46">BƯỚC 3</text>
+    <text x="580" y="315" font-size="18" font-weight="bold" fill="#0F172A">Fit Preprocessing</text>
+    <text x="580" y="345" font-size="13" fill="#334155">• <tspan font-weight="bold">CHỈ fit trên Train</tspan></text>
+    <text x="580" y="370" font-size="13" fill="#334155">• log1p(x) nén lệch phải</text>
+    <text x="580" y="395" font-size="13" fill="#334155">• StandardScaler: mean, std</text>
+    <rect x="575" y="425" width="170" height="36" rx="6" fill="#DCFCE7"/>
+    <text x="660" y="448" font-size="12" font-weight="bold" fill="#065F46" text-anchor="middle">Transform Val &amp; Test</text>
+
+    <!-- Arrow 3 -->
+    <path d="M770 365 L795 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="795,360 805,365 795,370" fill="#94A3B8"/>
+
+    <!-- Stage 4 -->
+    <rect x="805" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="805" y="250" width="200" height="6" rx="3" fill="#F59E0B"/>
+    <text x="825" y="285" font-size="13" font-weight="bold" fill="#92400E">BƯỚC 4</text>
+    <text x="825" y="315" font-size="18" font-weight="bold" fill="#0F172A">Thực Nghiệm K</text>
+    <text x="825" y="345" font-size="13" fill="#334155">• K-Means Lloyd K=2..8</text>
+    <text x="825" y="370" font-size="13" fill="#334155">• Đánh giá Elbow &amp; Sil</text>
+    <text x="825" y="395" font-size="13" fill="#334155">• 10 seed kiểm định ARI</text>
+    <rect x="820" y="425" width="170" height="36" rx="6" fill="#FEF3C7"/>
+    <text x="905" y="448" font-size="12" font-weight="bold" fill="#92400E" text-anchor="middle">Chọn D011 (K=2)</text>
+
+    <!-- Arrow 4 -->
+    <path d="M1015 365 L1040 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="1040,360 1050,365 1040,370" fill="#94A3B8"/>
+
+    <!-- Stage 5 -->
+    <rect x="1050" y="250" width="160" height="230" rx="12" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="2"/>
+    <rect x="1050" y="250" width="160" height="6" rx="3" fill="#8B5CF6"/>
+    <text x="1070" y="285" font-size="13" font-weight="bold" fill="#6B21A8">BƯỚC 5</text>
+    <text x="1070" y="315" font-size="18" font-weight="bold" fill="#0F172A">Đóng Băng</text>
+    <text x="1070" y="345" font-size="13" fill="#334155">• Fit lại 352 mẫu dev</text>
+    <text x="1070" y="370" font-size="13" fill="#334155">• Đánh giá Test 1 lần</text>
+    <text x="1070" y="395" font-size="13" fill="#334155">• Xuất model.joblib</text>
+    <rect x="1065" y="425" width="130" height="36" rx="6" fill="#F3E8FF"/>
+    <text x="1130" y="448" font-size="12" font-weight="bold" fill="#6B21A8" text-anchor="middle">Frozen D011</text>
   </g>
-  
-  <!-- Arrow marker -->
-  <defs>
-    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563EB"/>
-    </marker>
-  </defs>
-  
-  <!-- Footer -->
-  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
-    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
-    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">4 / 15</text>
+
+  <!-- Split Evidence Callout -->
+  <g id="split-evidence">
+    <rect x="70" y="505" width="1140" height="155" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <text x="100" y="538" font-size="15" font-weight="bold" fill="#0F172A">BẰNG CHỨNG PHÂN TẬP DỮ LIỆU &amp; TÍNH TOÀN VẸN:</text>
+    
+    <rect x="100" y="555" width="340" height="85" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="120" y="582" font-size="13" font-weight="bold" fill="#1E40AF">TẬP TRAIN (264 mẫu - 60%)</text>
+    <text x="120" y="605" font-size="12" fill="#64748B">data/processed/train.csv</text>
+    <text x="120" y="625" font-size="12" fill="#059669">Dùng học tham số scaler &amp; tìm cụm</text>
+
+    <rect x="470" y="555" width="340" height="85" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="490" y="582" font-size="13" font-weight="bold" fill="#059669">TẬP VALIDATION (88 mẫu - 20%)</text>
+    <text x="490" y="605" font-size="12" fill="#64748B">data/processed/validation.csv</text>
+    <text x="490" y="625" font-size="12" fill="#059669">Dùng so sánh chọn K tối ưu &amp; stability</text>
+
+    <rect x="840" y="555" width="340" height="85" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="860" y="582" font-size="13" font-weight="bold" fill="#DC2626">TẬP TEST (88 mẫu - 20%)</text>
+    <text x="860" y="605" font-size="12" fill="#64748B">data/processed/test.csv</text>
+    <text x="860" y="625" font-size="12" fill="#DC2626">Bảo mật tuyệt đối, chỉ mở sau đóng băng</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">04 / 15</text>
   </g>
 </svg>
