@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">KIỂM THỬ ĐỘC LẬP</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Tập kiểm thử — 88 mẫu (one-shot)</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <rect x="80" y="160" width="272" height="170" rx="12" fill="#E9ECEF"/>
+  <rect x="80" y="160" width="272" height="6" fill="#2E86AB"/>
+  <text x="216" y="212" font-family="Arial" font-size="46" font-weight="bold" fill="#0B3C5D" text-anchor="middle">0.239</text>
+  <text x="216" y="250" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Silhouette (test)</text>
+  <text x="216" y="272" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="middle">đánh giá một lần</text>
+  <rect x="382" y="160" width="272" height="170" rx="12" fill="#E9ECEF"/>
+  <rect x="382" y="160" width="272" height="6" fill="#2E86AB"/>
+  <text x="518" y="212" font-family="Arial" font-size="46" font-weight="bold" fill="#0B3C5D" text-anchor="middle">4.51</text>
+  <text x="518" y="250" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Inertia / row</text>
+  <text x="518" y="272" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="middle">log1p+scaled</text>
+  <rect x="684" y="160" width="272" height="170" rx="12" fill="#E9ECEF"/>
+  <rect x="684" y="160" width="272" height="6" fill="#2E86AB"/>
+  <text x="820" y="212" font-family="Arial" font-size="46" font-weight="bold" fill="#0B3C5D" text-anchor="middle">45 / 43</text>
+  <text x="820" y="250" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Cụm 0 / Cụm 1</text>
+  <text x="820" y="272" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="middle">min share 48.9%</text>
+  <rect x="986" y="160" width="272" height="170" rx="12" fill="#E9ECEF"/>
+  <rect x="986" y="160" width="272" height="6" fill="#2E86AB"/>
+  <text x="1122" y="212" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="middle">↓0.050</text>
+  <text x="1122" y="250" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Chênh lệch</text>
+  <text x="1122" y="272" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="middle">test vs development</text>
+  <text x="80" y="360" font-family="Arial" font-size="17" fill="#1A1A1A" text-anchor="start">Silhouette test thấp hơn development 0.0503 — chỉ số ngoài mẫu, không dùng chọn lại K. Không nhãn thật ⇒ không báo accuracy/precision/recall/F1.</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P08</text>
+</svg>

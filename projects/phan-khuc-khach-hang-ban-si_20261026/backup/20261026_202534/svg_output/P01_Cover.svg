@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="330" height="720" fill="#0B3C5D"/>
+  <rect x="330" y="0" width="7" height="720" fill="#2E86AB"/>
+  <text x="410" y="270" font-family="Arial" font-size="56" font-weight="bold" fill="#0B3C5D" text-anchor="start">Phân Khúc Khách Hàng Bán Sì</text>
+  <text x="410" y="326" font-family="Arial" font-size="26" fill="#14537C" text-anchor="start">Machine Learning Phân Khúc Khách Hàng Bán Sì</text>
+  <rect x="410" y="358" width="140" height="6" fill="#F4A259"/>
+  <text x="410" y="410" font-family="Arial" font-size="21" fill="#1A1A1A" text-anchor="start">Dự án 22 · Quyết định D011 · K-Means K=2 · log1p + StandardScaler</text>
+  <text x="410" y="440" font-family="Arial" font-size="21" fill="#1A1A1A" text-anchor="start">440 khách hàng bán sỉ · 6 chi tiêu hàng năm · kiểm thử độc lập 88 mẫu</text>
+  <text x="410" y="496" font-family="Arial" font-size="19" fill="#6B7280" text-anchor="start">Nguồn: UCI Wholesale Customers (DOI 10.24432/C5030X) · Ngày 2026-10-08</text>
+  <circle cx="1110" cy="640" r="46" fill="#E9ECEF"/>
+  <text x="1110" y="646" font-family="Arial" font-size="30" font-weight="bold" fill="#0B3C5D" text-anchor="middle">P01</text>
+</svg>

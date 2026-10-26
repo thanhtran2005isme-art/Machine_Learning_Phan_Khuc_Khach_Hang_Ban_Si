@@ -1,0 +1,1361 @@
+{
+  "schema": "ppt-master.svg-quality-report.v1",
+  "stage": "final",
+  "target": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output",
+  "source_fingerprint": {
+    "algorithm": "sha256",
+    "digest": "9a7b458a5068f92727696bd6f05b14635140e5ff91bddcc421da7d638ac3c154",
+    "file_count": 14,
+    "files": [
+      {
+        "file": "P01_Cover.svg",
+        "sha256": "f4f5164ba3acbcd0eea769feda0875c355a3760838ba9594a6f9f903aa3197a2"
+      },
+      {
+        "file": "P02_Agenda.svg",
+        "sha256": "244602606eee8cd8ef6881b124871e8f5af467abb4036bcef70b8f0f2f431dec"
+      },
+      {
+        "file": "P03_Data_Source.svg",
+        "sha256": "7654dcd7b841caa4492683e6fd0ad471602a7364036a6a5c6a1817fe6764878e"
+      },
+      {
+        "file": "P04_Preprocess_Split.svg",
+        "sha256": "ca299745dbcc7909264b9a390985715115840e727b38a761b376aca14b003d16"
+      },
+      {
+        "file": "P05_Model_Selection.svg",
+        "sha256": "5262d56f5d8b22b7f4e8b1284f5b4fc5b31d55814cc2b54a7bc0274a19ccdfad"
+      },
+      {
+        "file": "P06_Freeze_Process.svg",
+        "sha256": "25a8abdeb564963b879e461e934e2325c69b71a1c47ae61c4bb3ed3ad6ebd22e"
+      },
+      {
+        "file": "P07_Dev_Results.svg",
+        "sha256": "4af2b37b86c262351ba7be21319d294c521e0f3da75e2fe00dfb71b37d3aa712"
+      },
+      {
+        "file": "P08_Test_Results.svg",
+        "sha256": "11832ac630eb5900fa1360485ed5a690c0e6e3eaa45c58acb9895e3f90fd2048"
+      },
+      {
+        "file": "P09_Cluster0.svg",
+        "sha256": "d4cd09c602b57927169e2dde7c5ac1703d93824a441147bc133cee002ab6ae64"
+      },
+      {
+        "file": "P10_Cluster1.svg",
+        "sha256": "05de598d96eb823049df4c983745001c4383cd6c2f24c245679e1b6017098cb4"
+      },
+      {
+        "file": "P11_Compare.svg",
+        "sha256": "b01023b0fdd496a1d83f6c6a1c79562bf086325d2979f17457c0e6ff9815b6ca"
+      },
+      {
+        "file": "P12_Limitations.svg",
+        "sha256": "a5c84fb1f58737207f94c863b141cd7db4e9b10003a7f9328f91e7b4c05649ff"
+      },
+      {
+        "file": "P13_Recommendations.svg",
+        "sha256": "485f35bd6909cb1f5af1f11a1f7ea955e5d2b9e1d1791ca37a25b2f1dc4c9d76"
+      },
+      {
+        "file": "P14_Closing.svg",
+        "sha256": "0a6cefd0e3446b105869167b094f7989c2e3121ad12a56d8aff6235531d1d4af"
+      }
+    ]
+  },
+  "summary": {
+    "total": 14,
+    "passed": 0,
+    "warnings": 14,
+    "errors": 0
+  },
+  "issue_types": {},
+  "categories": {
+    "blocking": {
+      "count": 0,
+      "issues": []
+    },
+    "introduced": {
+      "count": 43,
+      "issues": [
+        {
+          "file": "P01_Cover.svg",
+          "message": "10 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <rect> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P01_Cover.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P02_Agenda.svg",
+          "message": "33 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P02_Agenda.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P03_Data_Source.svg",
+          "message": "44 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P03_Data_Source.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P04_Preprocess_Split.svg",
+          "message": "25 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P04_Preprocess_Split.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P05_Model_Selection.svg",
+          "message": "32 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P05_Model_Selection.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P06_Freeze_Process.svg",
+          "message": "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "P06_Freeze_Process.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P06_Freeze_Process.svg",
+          "message": "Top-level visible <g> #7 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P06_Freeze_Process.svg",
+          "message": "6 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P06_Freeze_Process.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "Reference SVG: detected 4 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>; <g>; +1 more); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "Top-level visible <g> #7 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "Top-level visible <g> #8 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "Top-level visible <g> #9 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "6 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P07_Dev_Results.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P08_Test_Results.svg",
+          "message": "26 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P08_Test_Results.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P09_Cluster0.svg",
+          "message": "31 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P09_Cluster0.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P10_Cluster1.svg",
+          "message": "31 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P10_Cluster1.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P11_Compare.svg",
+          "message": "40 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P11_Compare.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P12_Limitations.svg",
+          "message": "Reference SVG: detected 3 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "P12_Limitations.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P12_Limitations.svg",
+          "message": "Top-level visible <g> #7 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P12_Limitations.svg",
+          "message": "Top-level visible <g> #8 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P12_Limitations.svg",
+          "message": "11 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P12_Limitations.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P13_Recommendations.svg",
+          "message": "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "P13_Recommendations.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P13_Recommendations.svg",
+          "message": "Top-level visible <g> #7 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "P13_Recommendations.svg",
+          "message": "7 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P13_Recommendations.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "P14_Closing.svg",
+          "message": "9 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "P14_Closing.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        }
+      ]
+    },
+    "inherited": {
+      "count": 0,
+      "issues": []
+    },
+    "source-import": {
+      "count": 0,
+      "summary": {
+        "warning_count": 0,
+        "by_code": {}
+      }
+    }
+  },
+  "drift": {
+    "colors": {
+      "#9FB6CE": [
+        "P14_Closing.svg"
+      ],
+      "#FFFFFF": [
+        "P01_Cover.svg",
+        "P02_Agenda.svg",
+        "P03_Data_Source.svg",
+        "P04_Preprocess_Split.svg",
+        "P05_Model_Selection.svg",
+        "P06_Freeze_Process.svg",
+        "P07_Dev_Results.svg",
+        "P08_Test_Results.svg",
+        "P09_Cluster0.svg",
+        "P10_Cluster1.svg",
+        "P11_Compare.svg",
+        "P12_Limitations.svg",
+        "P13_Recommendations.svg",
+        "P14_Closing.svg"
+      ]
+    },
+    "fonts": {
+      "Arial": [
+        "P01_Cover.svg",
+        "P02_Agenda.svg",
+        "P03_Data_Source.svg",
+        "P04_Preprocess_Split.svg",
+        "P05_Model_Selection.svg",
+        "P06_Freeze_Process.svg",
+        "P07_Dev_Results.svg",
+        "P08_Test_Results.svg",
+        "P09_Cluster0.svg",
+        "P10_Cluster1.svg",
+        "P11_Compare.svg",
+        "P12_Limitations.svg",
+        "P13_Recommendations.svg",
+        "P14_Closing.svg"
+      ]
+    },
+    "sizes": {
+      "21": [
+        "P01_Cover.svg"
+      ],
+      "56": [
+        "P01_Cover.svg"
+      ]
+    }
+  },
+  "carrier_receipt": {
+    "scope": "informational-not-a-quota",
+    "pages": 14,
+    "totals": {
+      "text_elements": 242,
+      "image_placements": 0,
+      "icons": 0,
+      "svg_geometry_elements": 153,
+      "preset_shapes": 0,
+      "page_frame_elements": 0,
+      "marker_uses": 0,
+      "inline_emphasis_runs": 0,
+      "gradient_uses": 0,
+      "filter_uses": 0,
+      "text_effects": 0
+    },
+    "pages_with": {
+      "images": 0,
+      "icons": 0,
+      "presets": 0,
+      "charts": 0,
+      "tables": 0,
+      "formulas": 0,
+      "inline_emphasis_runs": 0,
+      "gradient_uses": 0,
+      "filter_uses": 0,
+      "text_effects": 0
+    },
+    "relationship_pages": 0,
+    "geometry_elements": {
+      "circle": 17,
+      "ellipse": 0,
+      "line": 4,
+      "path": 0,
+      "polygon": 4,
+      "polyline": 0,
+      "rect": 128
+    },
+    "preset_names": {},
+    "native_objects": {
+      "chart": 0,
+      "formula_block": 0,
+      "formula_inline": 0,
+      "other": 0,
+      "table": 0
+    },
+    "image_page_max_frame_share_range": []
+  },
+  "project_issues": {
+    "template": [],
+    "animation": [],
+    "illustration": [],
+    "communication_trace": [],
+    "pptx_structure": []
+  },
+  "files": [
+    {
+      "file": "P01_Cover.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P01_Cover.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "10 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <rect> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 6,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 4,
+              "circle": 1,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 6,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        },
+        "sparse_typography_sizes": {
+          "21": 2,
+          "56": 1
+        }
+      },
+      "passed": true,
+      "source_sha256": "f4f5164ba3acbcd0eea769feda0875c355a3760838ba9594a6f9f903aa3197a2"
+    },
+    {
+      "file": "P02_Agenda.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P02_Agenda.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "33 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 24,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 7,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 24,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "244602606eee8cd8ef6881b124871e8f5af467abb4036bcef70b8f0f2f431dec"
+    },
+    {
+      "file": "P03_Data_Source.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P03_Data_Source.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "44 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 27,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 18,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 27,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "7654dcd7b841caa4492683e6fd0ad471602a7364036a6a5c6a1817fe6764878e"
+    },
+    {
+      "file": "P04_Preprocess_Split.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P04_Preprocess_Split.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "25 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 17,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 17,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "ca299745dbcc7909264b9a390985715115840e727b38a761b376aca14b003d16"
+    },
+    {
+      "file": "P05_Model_Selection.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P05_Model_Selection.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "32 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 24,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 24,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "5262d56f5d8b22b7f4e8b1284f5b4fc5b31d55814cc2b54a7bc0274a19ccdfad"
+    },
+    {
+      "file": "P06_Freeze_Process.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P06_Freeze_Process.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #7 has no id; object-level animation config cannot reference it",
+        "6 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 16,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 4,
+              "polyline": 0,
+              "polygon": 4,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 16,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "25a8abdeb564963b879e461e934e2325c69b71a1c47ae61c4bb3ed3ad6ebd22e"
+    },
+    {
+      "file": "P07_Dev_Results.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P07_Dev_Results.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Reference SVG: detected 4 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>; <g>; +1 more); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #7 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #8 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #9 has no id; object-level animation config cannot reference it",
+        "6 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 16,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 11,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 16,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "4af2b37b86c262351ba7be21319d294c521e0f3da75e2fe00dfb71b37d3aa712"
+    },
+    {
+      "file": "P08_Test_Results.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P08_Test_Results.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "26 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 16,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 11,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 16,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "11832ac630eb5900fa1360485ed5a690c0e6e3eaa45c58acb9895e3f90fd2048"
+    },
+    {
+      "file": "P09_Cluster0.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P09_Cluster0.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "31 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 20,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 12,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 20,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "d4cd09c602b57927169e2dde7c5ac1703d93824a441147bc133cee002ab6ae64"
+    },
+    {
+      "file": "P10_Cluster1.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P10_Cluster1.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "31 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 20,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 12,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 20,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "05de598d96eb823049df4c983745001c4383cd6c2f24c245679e1b6017098cb4"
+    },
+    {
+      "file": "P11_Compare.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P11_Compare.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "40 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 24,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 17,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 24,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "b01023b0fdd496a1d83f6c6a1c79562bf086325d2979f17457c0e6ff9815b6ca"
+    },
+    {
+      "file": "P12_Limitations.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P12_Limitations.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Reference SVG: detected 3 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #7 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #8 has no id; object-level animation config cannot reference it",
+        "11 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 12,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 3,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 12,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "a5c84fb1f58737207f94c863b141cd7db4e9b10003a7f9328f91e7b4c05649ff"
+    },
+    {
+      "file": "P13_Recommendations.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P13_Recommendations.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #7 has no id; object-level animation config cannot reference it",
+        "7 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 13,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 7,
+              "circle": 6,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 13,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "485f35bd6909cb1f5af1f11a1f7ea955e5d2b9e1d1791ca37a25b2f1dc4c9d76"
+    },
+    {
+      "file": "P14_Closing.svg",
+      "path": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\phan-khuc-khach-hang-ban-si_20261026\\svg_output\\P14_Closing.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "9 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2, <text> #3, <text> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 7,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 7,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#9FB6CE",
+            "#FFFFFF"
+          ],
+          "font_families": [
+            "Arial"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "0a6cefd0e3446b105869167b094f7989c2e3121ad12a56d8aff6235531d1d4af"
+    }
+  ]
+}

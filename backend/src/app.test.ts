@@ -9,6 +9,9 @@ describe('Gate 6: frozen serving', () => {
     const health = await app.inject({ method: 'GET', url: '/api/health' });
     expect(health.statusCode).toBe(200);
     expect(health.json().modelReady).toBe(true);
+    const ready = await app.inject({ method: 'GET', url: '/api/ready' });
+    expect(ready.statusCode).toBe(200);
+    expect(ready.json()).toMatchObject({ status: 'ready', modelReady: true });
     const response = await app.inject({ method: 'GET', url: '/api/model-info' });
     expect(response.statusCode).toBe(200);
     expect(response.json()).toMatchObject({ k: 2, preprocessing: 'log1p_standardscaler', training_count: 352 });
@@ -23,6 +26,9 @@ describe('Gate 6: frozen serving', () => {
     expect(body.distance_to_centroid).toBeGreaterThanOrEqual(0);
     expect(body.distances_to_centroids).toHaveLength(2);
     expect(body.profile.median_spending.Grocery).toBeGreaterThan(0);
+    expect(body.decision_support).toMatchObject({ status: 'descriptive', priority: 'low' });
+    expect(body.alternative_profile.name).toBeTruthy();
+    expect(body.relative_margin).toBeGreaterThan(0);
     await app.close();
   });
   it.each([
@@ -56,6 +62,9 @@ describe('Gate 6: frozen serving', () => {
   it('fails closed when the model is absent or corrupt', async () => {
     const app = buildApp({ modelPath: '/path/that/does/not/exist.json' });
     expect((await app.inject({ method: 'GET', url: '/api/health' })).json().modelReady).toBe(false);
+    const ready = await app.inject({ method: 'GET', url: '/api/ready' });
+    expect(ready.statusCode).toBe(503);
+    expect(ready.json()).toMatchObject({ status: 'not_ready', modelReady: false });
     expect((await app.inject({ method: 'POST', url: '/api/segment', payload: example })).statusCode).toBe(503);
     expect((await app.inject({ method: 'GET', url: '/api/model-info' })).statusCode).toBe(503);
     await app.close();
@@ -148,6 +157,12 @@ describe('Gate 9.5: source-grounded model and data cards', () => {
     expect(info.data_card.feature_columns).toEqual([
       'Fresh','Milk','Grocery','Frozen','Detergents_Paper','Delicassen'
     ]);
+    expect(info).toMatchObject({
+      diagnostic_policy: {
+        near_boundary_relative_margin: 0.1,
+        high_distance_ratio_to_development_rms: 1.5,
+      },
+    });
     expect(info.data_card.doi).toBe('https://doi.org/10.24432/C5030X');
     expect(info.data_card.data_available_when).toContain('đầy đủ chi tiêu hằng năm');
     expect(info.model_card.metric_cautions).toContain('Inertia raw và scaled');

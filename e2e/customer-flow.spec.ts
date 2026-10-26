@@ -67,7 +67,7 @@ test('out-of-train range predicts but warns rather than clipping', async ({ page
   await page.locator('input').first().fill('100000000');
   await page.getByRole('button', { name: 'Phân khúc khách hàng', exact: true }).click();
   await expect(page.locator('.result-card')).toBeVisible();
-  await expect(page.getByRole('status')).toContainText('Fresh: ngoài khoảng quan sát');
+  await expect(page.getByTestId('decision-support')).toContainText('Cần rà soát dữ liệu trước khi diễn giải');
 });
 
 test('reset clears all inputs and removes previous result', async ({ page }) => {
@@ -366,7 +366,9 @@ test('Gate 10.1 segment explains six spending values and exports CSV',async ({pa
   await page.getByRole('button',{name:'Phân khúc khách hàng',exact:true}).click();
   const card=page.locator('.result-card');
   await expect(card.getByRole('heading',{name:'Giải thích kết quả từng khách'})).toBeVisible();
-  await expect(card.locator('.analysis-extra tbody tr')).toHaveCount(6);
+  await expect(card.locator('[data-testid="assigned-profile-table"] tbody tr')).toHaveCount(6);
+  const diagnostics = card.getByTestId('decision-support');
+  await expect(diagnostics).toContainText('Có thể dùng để mô tả cơ cấu chi tiêu');
   const file=page.waitForEvent('download');
   await card.getByRole('button',{name:'Tải CSV kết quả'}).click();
   expect((await file).suggestedFilename()).toBe('kaitokidshop-ket-qua-phan-khuc.csv');
@@ -423,6 +425,61 @@ test('Gate 10.3 PCA allows selecting a real anonymous point by index',async({pag
   await panel.getByLabel('Mã mẫu (1–352)').fill('0');
   await expect(panel.locator('.pca-point-detail')).toHaveCount(0);
 });
+
+test('PCA selection is keyboard accessible and resets when the filter changes', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
+  const panel = page.getByRole('region', { name: 'PCA 2D và so sánh Hierarchical' });
+  await expect(panel.locator('svg circle.pca-dot').first()).toHaveAttribute('role', 'button');
+  await panel.locator('svg circle.pca-dot').first().focus();
+  await page.keyboard.press('Enter');
+  await expect(panel.locator('.pca-point-detail')).toBeVisible();
+  await panel.getByRole('group', { name: 'Lọc dữ liệu development' }).getByRole('button', { name: 'Validation' }).click();
+  await expect(panel.locator('.pca-point-detail')).toHaveCount(0);
+});
+
+test('customer metadata is saved locally and can be restored from history', async ({ page }) => {
+  await page.addInitScript(() => localStorage.clear());
+  await openSegment(page);
+  await page.getByLabel('Mã khách hàng').fill('KH-E2E');
+  await page.getByLabel('Tên hiển thị').fill('Đại lý kiểm thử');
+  await exampleInput(page);
+  await page.getByRole('button', { name: 'Phân khúc khách hàng', exact: true }).click();
+  await expect(page.locator('.result-card')).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Lịch sử phân khúc trên trình duyệt' })).toContainText('KH-E2E');
+  await page.getByRole('button', { name: 'Mở lại' }).click();
+  await expect(page.getByLabel('Mã khách hàng')).toHaveValue('KH-E2E');
+});
+test('backend readiness failure can recover with the retry action', async ({ page }) => {
+  let backendReady = false;
+  await page.route('**/api/ready', route => {
+    if (!backendReady) return route.fulfill({
+      status: 503, contentType: 'application/json',
+      body: JSON.stringify({ status: 'not_ready', message: 'Backend warming up' }),
+    });
+    return route.continue();
+  });
+  await page.goto('/');
+  await expect(page.getByRole('alert')).toContainText('Backend warming up');
+  backendReady = true;
+  await page.getByRole('button', { name: 'Thử lại kết nối' }).click();
+  await expect(page.getByText('Model D011 · Chỉ đọc')).toBeVisible();
+});
+
+test('batch CSV uses the frozen API and records each result locally', async ({ page }) => {
+  await page.addInitScript(() => localStorage.clear());
+  await openSegment(page);
+  await page.locator('.batch-panel summary').click();
+  await page.locator('input[type="file"]').setInputFiles({
+    name: 'customers.csv', mimeType: 'text/csv',
+    buffer: Buffer.from('id,name,Fresh,Milk,Grocery,Frozen,Detergents_Paper,Delicassen\nB-001,Đại lý batch,6410.5,7226,10842.5,1153,4084.5,1508.5\n'),
+  });
+  await expect(page.getByText('1 dòng đã đọc')).toBeVisible();
+  await page.getByRole('button', { name: 'Phân tích CSV' }).click();
+  await expect(page.locator('.batch-table')).toContainText('Đã phân tích');
+  await expect(page.getByRole('region', { name: 'Lịch sử phân khúc trên trình duyệt' })).toContainText('B-001');
+});
+
 
 test('Gate 10.3 responsive workspace has no horizontal overflow at 320px and 768px',async({page})=>{
   for (const width of [320,768]){

@@ -1,0 +1,88 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, sans-serif">
+  <defs>
+    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <text x="80" y="80" font-size="42" font-weight="bold" fill="#1F2937">Silhouette Analysis</text>
+  <text x="80" y="115" font-size="24" fill="#6B7280">Train vs Validation Silhouette Score</text>
+  <rect x="80" y="125" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  
+  <!-- Chart -->
+  <g transform="translate(150,200)">
+    <!-- Bars for K=2 -->
+    <rect x="0" y="100" width="70" height="150" rx="6" fill="#2563EB"/>
+    <text x="35" y="85" font-size="14" fill="#2563EB" text-anchor="middle" font-weight="600">0.276</text>
+    <rect x="90" y="60" width="70" height="190" rx="6" fill="#10B981"/>
+    <text x="125" y="45" font-size="14" fill="#10B981" text-anchor="middle" font-weight="600">0.307</text>
+    <text x="80" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=2</text>
+    
+    <!-- Bars for K=3 -->
+    <rect x="200" y="130" width="70" height="120" rx="6" fill="#2563EB"/>
+    <text x="235" y="115" font-size="14" fill="#2563EB" text-anchor="middle">0.205</text>
+    <rect x="290" y="110" width="70" height="140" rx="6" fill="#10B981"/>
+    <text x="325" y="95" font-size="14" fill="#10B981" text-anchor="middle">0.217</text>
+    <text x="280" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=3</text>
+    
+    <!-- Bars for K=4 -->
+    <rect x="400" y="135" width="70" height="115" rx="6" fill="#2563EB"/>
+    <text x="435" y="120" font-size="14" fill="#2563EB" text-anchor="middle">0.206</text>
+    <rect x="490" y="170" width="70" height="80" rx="6" fill="#10B981"/>
+    <text x="525" y="155" font-size="14" fill="#10B981" text-anchor="middle">0.154</text>
+    <text x="480" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=4</text>
+    
+    <!-- Bars for K=5 -->
+    <rect x="600" y="145" width="70" height="105" rx="6" fill="#2563EB"/>
+    <text x="635" y="130" font-size="14" fill="#2563EB" text-anchor="middle">0.198</text>
+    <rect x="690" y="170" width="70" height="80" rx="6" fill="#10B981"/>
+    <text x="725" y="155" font-size="14" fill="#10B981" text-anchor="middle">0.162</text>
+    <text x="680" y="280" font-size="16" fill="#1F2937" text-anchor="middle">K=5</text>
+    
+    <!-- Bars for K=6,7,8 (smaller) -->
+    <rect x="800" y="148" width="55" height="102" rx="6" fill="#2563EB"/>
+    <text x="828" y="135" font-size="13" fill="#2563EB" text-anchor="middle">0.193</text>
+    <rect x="870" y="172" width="55" height="78" rx="6" fill="#10B981"/>
+    <text x="898" y="160" font-size="13" fill="#10B981" text-anchor="middle">0.160</text>
+    <text x="848" y="280" font-size="15" fill="#1F2937" text-anchor="middle">K=6</text>
+    
+    <rect x="950" y="152" width="55" height="98" rx="6" fill="#2563EB"/>
+    <rect x="1020" y="178" width="55" height="72" rx="6" fill="#10B981"/>
+    <text x="998" y="280" font-size="15" fill="#1F2937" text-anchor="middle">K=7</text>
+    
+    <!-- Grid line -->
+    <line x1="-10" y1="250" x2="1100" y2="250" stroke="#E5E7EB" stroke-width="2"/>
+    
+    <!-- Y-axis labels -->
+    <text x="-30" y="60" font-size="14" fill="#4B5563" text-anchor="end">0.30</text>
+    <text x="-30" y="160" font-size="14" fill="#4B5563" text-anchor="end">0.20</text>
+    <text x="-30" y="255" font-size="14" fill="#4B5563" text-anchor="end">0.00</text>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(950,230)">
+    <rect x="0" y="0" width="40" height="30" rx="4" fill="#2563EB"/>
+    <text x="50" y="20" font-size="16" fill="#1F2937">Train</text>
+    <rect x="120" y="0" width="40" height="30" rx="4" fill="#10B981"/>
+    <text x="170" y="20" font-size="16" fill="#1F2937">Validation</text>
+  </g>
+  
+  <!-- Insights -->
+  <rect x="80" y="520" width="1120" height="120" rx="12" fill="#DBEAFE"/>
+  <text x="110" y="555" font-size="18" font-weight="bold" fill="#1E40AF">Kết luận:</text>
+  <text x="110" y="585" font-size="16" fill="#1E3A8A">• K=2: Silhouette validation cao nhất (0.307), train-val gap thấp → generalization tốt</text>
+  <text x="110" y="610" font-size="16" fill="#1E3A8A">• K≥3: Score giảm mạnh, overfitting risk tăng</text>
+  <text x="110" y="635" font-size="16" fill="#059669" font-weight="600">→ Kết hợp Elbow + Silhouette + ARI stability (0.997): Chọn K=2</text>
+  
+  <!-- Footer -->
+  <text x="80" y="680" font-size="14" fill="#9CA3AF">Quyết định: K=2, log1p+StandardScaler, random_state=42</text>
+  <text x="1200" y="680" font-size="14" fill="#9CA3AF" text-anchor="end">7 / 15</text>
+</svg>

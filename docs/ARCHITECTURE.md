@@ -136,3 +136,8 @@ Nguyên tắc: handoff giữ hiện tại; history giữ quá khứ; Git giữ d
 - Ngoài luồng inference, Python offline dùng frozen D011 scaler và chỉ 352 dòng train+validation kiểm SHA. PCA hai chiều để chiếu hình, Agglomerative Ward so sánh 6D, không chọn lại mô hình.
 - Artifact read-only: reports/data/development_extension/analysis.json và metadata.json; backend endpoint GET /api/development-extension xác minh SHA/provenance và trả 503 độc lập khi thiếu evidence.
 - Frontend trực quan hóa scatter/contingency/ARI; API /api/segment vẫn dùng KMeans D011 và không fit trên request; final test độc lập không được truy cập.
+
+## 2026-10-26 — Readiness và dữ liệu khách hàng cục bộ
+- `GET /api/health` là liveness; `GET /api/ready` trả 200 khi frozen D011 đã load, 503 nếu model không sẵn sàng. Frontend kiểm tra readiness trước model-info, retry hữu hạn lỗi mạng/5xx và cung cấp retry thủ công.
+- `frontend/src/customerRecords.ts` phụ trách CSV parse/export và localStorage browser-only (`project22.customer-history.v1`). ID/tên/ghi chú không gửi backend, không tham gia clustering; tối đa 100 kết quả cục bộ, không database/đồng bộ.
+- CSV batch tối đa 100 dòng gọi tuần tự `POST /api/segment` hiện hữu với đúng sáu numeric features; lỗi được lưu riêng từng dòng. Không thêm endpoint training hoặc thay frozen artifacts.

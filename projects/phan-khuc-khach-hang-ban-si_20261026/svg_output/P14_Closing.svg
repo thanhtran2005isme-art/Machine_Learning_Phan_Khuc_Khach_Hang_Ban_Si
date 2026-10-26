@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0B3C5D"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#2E86AB"/>
+  <text x="640" y="290" font-family="Arial" font-size="48" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Tóm tắt &amp; đóng</text>
+  <text x="640" y="344" font-family="Arial" font-size="24" fill="#F4A259" text-anchor="middle">2 nhóm khách hàng · K=2 đã đóng băng · kiểm thử độc lập 88 mẫu</text>
+  <rect x="640" y="380" width="2" height="24" fill="#F4A259"/>
+  <text x="640" y="424" font-family="Arial" font-size="20" fill="#FFFFFF" text-anchor="middle">Silhouette phát triển 0.289 · kiểm thử 0.239 · cụm 162 / 190</text>
+  <text x="640" y="464" font-family="Arial" font-size="16" fill="#CBD5E1" text-anchor="middle">Mô hình dùng để khám phá &amp; tạo giả thuyết nghiệp vụ, cần kiểm chứng tiếp</text>
+  <text x="640" y="620" font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Cảm ơn quý vị</text>
+  <text x="640" y="650" font-family="Arial" font-size="14" fill="#9FB6CE" text-anchor="middle">Dự án 22 — Machine Learning Phân Khúc Khách Hàng Bán Sì · 2026-10-08</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#9FB6CE" text-anchor="end">Project 22 · P14</text>
+</svg>

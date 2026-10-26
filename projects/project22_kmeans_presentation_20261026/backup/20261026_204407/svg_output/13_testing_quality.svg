@@ -1,0 +1,125 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <linearGradient id="successGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <g id="header" data-pptx-bounds="60 50 1160 80">
+    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Kiểm Thử và Đảm Bảo Chất Lượng</text>
+    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  </g>
+  
+  <!-- Overall Status -->
+  <g id="overall-status" data-pptx-bounds="60 160 1160 80">
+    <rect x="60" y="160" width="1160" height="80" rx="12" fill="url(#successGradient)"/>
+    <use data-icon="phosphor-duotone/check-circle" x="90" y="185" width="50" height="50" fill="#FFFFFF"/>
+    <text x="160" y="200" font-size="28" font-weight="bold" fill="#FFFFFF">
+      Comprehensive Testing: 64/64 E2E Tests PASS
+    </text>
+    <text x="160" y="230" font-size="20" fill="#D1FAE5">
+      All layers verified across desktop &amp; mobile platforms
+    </text>
+  </g>
+  
+  <!-- Gate 6 Card -->
+  <g id="gate6" data-pptx-bounds="60 270 360 180">
+    <rect x="60" y="270" width="360" height="180" rx="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="2"/>
+    <rect x="60" y="270" width="360" height="50" rx="12" fill="#2563EB"/>
+    <text x="90" y="303" font-size="20" font-weight="bold" fill="#FFFFFF">Gate 6 — Native &amp; API</text>
+    
+    <g id="gate6-results" font-size="16" fill="#1F2937">
+      <use data-icon="phosphor-duotone/check-circle" x="90" y="335" width="24" height="24" fill="#10B981"/>
+      <text x="125" y="355">19/19 native serving tests</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="90" y="365" width="24" height="24" fill="#10B981"/>
+      <text x="125" y="385">16/16 Fastify API tests</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="90" y="395" width="24" height="24" fill="#10B981"/>
+      <text x="125" y="415">TypeScript &amp; Vite build</text>
+    </g>
+  </g>
+  
+  <!-- Gate 7 Card -->
+  <g id="gate7" data-pptx-bounds="460 270 360 180">
+    <rect x="460" y="270" width="360" height="180" rx="12" fill="#F0FDF4" stroke="#10B981" stroke-width="2"/>
+    <rect x="460" y="270" width="360" height="50" rx="12" fill="#10B981"/>
+    <text x="490" y="303" font-size="20" font-weight="bold" fill="#FFFFFF">Gate 7 — End-to-End</text>
+    
+    <g id="gate7-results" font-size="16" fill="#1F2937">
+      <use data-icon="phosphor-duotone/check-circle" x="490" y="335" width="24" height="24" fill="#10B981"/>
+      <text x="525" y="355">40/40 Playwright tests</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="490" y="365" width="24" height="24" fill="#10B981"/>
+      <text x="525" y="385">Desktop + mobile emulation</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="490" y="395" width="24" height="24" fill="#10B981"/>
+      <text x="525" y="415">Python ↔ Node parity 1/1</text>
+    </g>
+  </g>
+  
+  <!-- Gate 8 Card -->
+  <g id="gate8" data-pptx-bounds="860 270 360 180">
+    <rect x="860" y="270" width="360" height="180" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <rect x="860" y="270" width="360" height="50" rx="12" fill="#F59E0B"/>
+    <text x="890" y="303" font-size="20" font-weight="bold" fill="#FFFFFF">Gate 8 — Windows CI</text>
+    
+    <g id="gate8-results" font-size="16" fill="#1F2937">
+      <use data-icon="phosphor-duotone/check-circle" x="890" y="335" width="24" height="24" fill="#10B981"/>
+      <text x="925" y="355">Clean install verification</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="890" y="365" width="24" height="24" fill="#10B981"/>
+      <text x="925" y="385">40/40 E2E on Server 2025</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="890" y="395" width="24" height="24" fill="#10B981"/>
+      <text x="925" y="415">Batch smoke test</text>
+    </g>
+  </g>
+  
+  <!-- Gate 10.3 Card -->
+  <g id="gate10" data-pptx-bounds="60 480 560 160">
+    <rect x="60" y="480" width="560" height="160" rx="12" fill="#DCFCE7" stroke="#10B981" stroke-width="3"/>
+    <rect x="60" y="480" width="560" height="50" rx="12" fill="#10B981"/>
+    <text x="90" y="513" font-size="20" font-weight="bold" fill="#FFFFFF">Gate 10.3 — Full Regression</text>
+    
+    <g id="gate10-results" font-size="16" fill="#064E3B">
+      <text x="90" y="560" font-weight="bold" fill="#065F46">64/64 E2E tests PASS (comprehensive)</text>
+      <text x="90" y="590">Backend 16/16 · Serving 19/19 · Parity 1/1</text>
+      <text x="90" y="620">Readiness &amp; retry logic verified</text>
+    </g>
+  </g>
+  
+  <!-- Security &amp; Integrity Card -->
+  <g id="security" data-pptx-bounds="660 480 560 160">
+    <rect x="660" y="480" width="560" height="160" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+    <rect x="660" y="480" width="560" height="50" rx="12" fill="#EF4444"/>
+    <use data-icon="phosphor-duotone/warning" x="680" y="493" width="24" height="24" fill="#FFFFFF"/>
+    <text x="720" y="513" font-size="20" font-weight="bold" fill="#FFFFFF">Security &amp; Data Integrity</text>
+    
+    <g id="security-results" font-size="16" fill="#7F1D1D">
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="545" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="565">npm audit: <tspan font-weight="bold" fill="#991B1B">0 vulnerabilities</tspan></text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="580" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="600">SHA-256 checksums verified</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="605" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="625">No unauthorized model changes</text>
+    </g>
+  </g>
+  
+  <!-- Footer -->
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
+    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
+    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">13 / 15</text>
+  </g>
+</svg>

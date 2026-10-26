@@ -5,6 +5,47 @@ import { loadVerifiedFinalProfile } from './final-profile.mjs';
 
 export const FEATURES = Object.freeze(['Fresh', 'Milk', 'Grocery', 'Frozen', 'Detergents_Paper', 'Delicassen']);
 const artifact = (name) => fileURLToPath(new URL('../' + name, import.meta.url));
+const DIAGNOSTIC_POLICY = Object.freeze({
+  nearBoundaryRelativeMargin: 0.10,
+  highDistanceRatioToDevelopmentRms: 1.5,
+});
+function buildDecisionSupport({ nearBoundary, highDistance, outOfRangeFeatures, distanceRatio }) {
+  const reasons = [];
+  if (outOfRangeFeatures.length > 0) reasons.push('out_of_train_range');
+  if (nearBoundary) reasons.push('near_boundary');
+  if (highDistance) reasons.push('high_distance');
+  if (reasons.length === 0) return {
+    status: 'descriptive', priority: 'low', reason_codes: [],
+    title: 'Có thể dùng để mô tả cơ cấu chi tiêu',
+    action: 'Đọc median của cụm được gán như một mô tả khuynh hướng, không suy ra giá trị kinh doanh của khách.',
+    rationale: 'Điểm nằm trong khoảng tham chiếu theo từng biến, đủ xa biên giữa hai tâm và không vượt ngưỡng khoảng cách rà soát.',
+  };
+  if (outOfRangeFeatures.length > 0 && highDistance) return {
+    status: 'review', priority: 'high', reason_codes: reasons,
+    title: 'Cần rà soát dữ liệu trước khi diễn giải',
+    action: 'Xác minh đơn vị, kỳ chi tiêu và các biến ngoài khoảng train; sau đó xem cả median cụm được gán lẫn cụm còn lại.',
+    rationale: 'Đầu vào vừa nằm ngoài miền quan sát của train vừa cách xa các hồ sơ development, nên nhãn gần nhất chỉ nên xem là tham khảo.',
+  };
+  if (outOfRangeFeatures.length > 0) return {
+    status: 'review', priority: 'medium', reason_codes: reasons,
+    title: 'Đầu vào có biến ngoài khoảng quan sát',
+    action: 'Xác minh đơn vị và kỳ chi tiêu của biến được cảnh báo; không tự động cắt ngưỡng hoặc quy đổi giá trị.',
+    rationale: 'Mô hình vẫn trả nhãn gần nhất nhưng dữ liệu này khác miền min/max của 264 mẫu train ở bước EDA.',
+  };
+  if (nearBoundary) return {
+    status: 'review', priority: 'medium', reason_codes: reasons,
+    title: 'Điểm nằm gần biên giữa hai cụm',
+    action: 'Xem đồng thời median của hai cụm và tránh diễn giải đây là một phân loại chắc chắn.',
+    rationale: 'Khoảng cách tới hai centroid gần nhau; mã cụm được trả theo quy tắc tâm gần nhất, không phải xác suất thuộc cụm.',
+  };
+  return {
+    status: 'review', priority: 'medium', reason_codes: reasons,
+    title: 'Điểm cách xa hồ sơ development',
+    action: 'Rà soát các khoản chi tiêu cực trị và dùng kết quả như tín hiệu khám phá, không dùng để tự động quyết định phục vụ.',
+    rationale: 'Khoảng cách tới tâm được gán vượt ngưỡng rà soát ' + distanceRatio.toFixed(2) + '× RMS development.',
+  };
+}
+
 
 function readJson(path) { return JSON.parse(readFileSync(path, 'utf8')); }
 function sameArray(a, b) { return Array.isArray(a) && a.length === b.length && a.every((v, i) => v === b[i]); }
@@ -56,7 +97,7 @@ export function loadModel({ modelPath = artifact('models/model.json') } = {}) {
   return Object.freeze({ model, evaluation, checksum, ranges: readRanges() });
 }
 export function segment(loaded, spending) {
-  const { model, ranges } = loaded;
+  const { model, evaluation, ranges } = loaded;
   if (!spending || typeof spending !== 'object' || Array.isArray(spending) ||
     Object.keys(spending).length !== FEATURES.length ||
     !FEATURES.every(f => Object.hasOwn(spending, f) && typeof spending[f] === 'number' &&
@@ -66,15 +107,37 @@ export function segment(loaded, spending) {
     scaled.reduce((sum, v, i) => sum + (v - center[i]) ** 2, 0)
   ));
   const cluster = distances[1] < distances[0] ? 1 : 0; // sklearn: first center wins ties
+  const alternativeCluster = 1 - cluster;
   const profile = model.cluster_profiles[cluster];
-  const warnings = FEATURES.flatMap(f => spending[f] < ranges[f].min || spending[f] > ranges[f].max
-    ? [f + ': ngoài khoảng quan sát của train (264 khách), kết quả cần thận trọng'] : []);
+  const alternativeProfile = model.cluster_profiles[alternativeCluster];
+  const distance = distances[cluster];
+  const alternativeDistance = distances[alternativeCluster];
+  const distanceGap = alternativeDistance - distance;
+  const relativeMargin = distanceGap / Math.max(alternativeDistance, Number.EPSILON);
+  const developmentRms = Math.sqrt(evaluation.training.inertia_per_row);
+  const distanceRatio = distance / developmentRms;
+  const outOfTrainRangeFeatures = FEATURES.filter(f => spending[f] < ranges[f].min || spending[f] > ranges[f].max);
+  const warnings = outOfTrainRangeFeatures.map(f =>
+    f + ': ngoài khoảng quan sát của train (264 khách), kết quả cần thận trọng');
+  const nearBoundary = relativeMargin < DIAGNOSTIC_POLICY.nearBoundaryRelativeMargin;
+  const highDistance = distanceRatio > DIAGNOSTIC_POLICY.highDistanceRatioToDevelopmentRms;
   return {
     cluster_id: cluster,
-    distance_to_centroid: distances[cluster],
+    distance_to_centroid: distance,
     distances_to_centroids: distances,
+    distance_gap: distanceGap,
+    relative_margin: relativeMargin,
+    distance_ratio_to_development_rms: distanceRatio,
+    out_of_train_range_features: outOfTrainRangeFeatures,
     profile: { name: profile.profile_name, count: profile.count, share: profile.share, median_spending: profile.median_spending },
+    alternative_profile: { name: alternativeProfile.profile_name, count: alternativeProfile.count, share: alternativeProfile.share, median_spending: alternativeProfile.median_spending },
     warnings,
+    decision_support: buildDecisionSupport({
+      nearBoundary,
+      highDistance,
+      outOfRangeFeatures: outOfTrainRangeFeatures,
+      distanceRatio,
+    }),
     distance_space: 'log1p + StandardScaler (Euclidean)',
   };
 }
@@ -87,6 +150,12 @@ export function modelInfo(loaded) {
     artifact_sha256: loaded.checksum,
     profiles: m.cluster_profiles.map(p => ({ cluster_id: p.cluster, name: p.profile_name, count: p.count, share: p.share, median_spending: p.median_spending })),
     reference_ranges: loaded.ranges,
+    diagnostic_policy: {
+      near_boundary_relative_margin: DIAGNOSTIC_POLICY.nearBoundaryRelativeMargin,
+      high_distance_ratio_to_development_rms: DIAGNOSTIC_POLICY.highDistanceRatioToDevelopmentRms,
+      development_rms_distance: Math.sqrt(loaded.evaluation.training.inertia_per_row),
+      note: 'Đây là ngưỡng rà soát mô tả; không phải xác suất, confidence hay nhãn mới.',
+    },
     data_card: {
       dataset: 'Wholesale customers',
       uci_id: 292,

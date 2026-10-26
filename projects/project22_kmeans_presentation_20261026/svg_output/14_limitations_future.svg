@@ -1,0 +1,82 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, sans-serif">
+  <defs>
+    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <text x="80" y="80" font-size="42" font-weight="bold" fill="#1F2937">Limitations &amp; Future Work</text>
+  <text x="80" y="115" font-size="24" fill="#6B7280">Hạn chế và Hướng phát triển</text>
+  <rect x="80" y="125" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  
+  <!-- Limitations (Left) -->
+  <g transform="translate(80,180)">
+    <circle cx="22" cy="0" r="30" fill="#FEE2E2"/>
+    <text x="22" y="10" font-size="32" text-anchor="middle">⚠️</text>
+    <text x="75" y="5" font-size="24" font-weight="bold" fill="#DC2626">Hạn chế hiện tại</text>
+    
+    <!-- Card 1 -->
+    <rect x="0" y="45" width="540" height="130" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <text x="25" y="80" font-size="19" font-weight="600" fill="#1F2937">1. Phương pháp K-Means</text>
+    <text x="25" y="105" font-size="16" fill="#4B5563">• Chỉ phát hiện cluster hình cầu (Euclidean)</text>
+    <text x="25" y="130" font-size="16" fill="#4B5563">• Không phù hợp cluster hình dạng phức tạp</text>
+    <text x="25" y="155" font-size="16" fill="#4B5563">• Nhạy cảm outliers dù đã preprocessing</text>
+    
+    <!-- Card 2 -->
+    <rect x="0" y="190" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <text x="25" y="225" font-size="19" font-weight="600" fill="#1F2937">2. Feature engineering</text>
+    <text x="25" y="250" font-size="16" fill="#4B5563">• Chưa có interaction (Fresh×Milk, etc.)</text>
+    <text x="25" y="275" font-size="16" fill="#4B5563">• Chưa có temporal patterns (timestamp)</text>
+    
+    <!-- Card 3 -->
+    <rect x="0" y="310" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <text x="25" y="345" font-size="19" font-weight="600" fill="#1F2937">3. Validation</text>
+    <text x="25" y="370" font-size="16" fill="#4B5563">• Chỉ test stability, chưa có ground truth</text>
+    <text x="25" y="395" font-size="16" fill="#4B5563">• Chưa A/B test business metrics thực tế</text>
+  </g>
+  
+  <!-- Future Work (Right) -->
+  <g transform="translate(660,180)">
+    <circle cx="22" cy="0" r="30" fill="#D1FAE5"/>
+    <text x="22" y="10" font-size="32" text-anchor="middle">🚀</text>
+    <text x="75" y="5" font-size="24" font-weight="bold" fill="#059669">Hướng phát triển</text>
+    
+    <!-- Card 1 -->
+    <rect x="0" y="45" width="540" height="130" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <text x="25" y="80" font-size="19" font-weight="600" fill="#1F2937">1. Thuật toán khác</text>
+    <text x="25" y="105" font-size="16" fill="#4B5563">• DBSCAN: cluster bất kỳ + outliers</text>
+    <text x="25" y="130" font-size="16" fill="#4B5563">• Hierarchical: phân tích dendrogram</text>
+    <text x="25" y="155" font-size="16" fill="#4B5563">• GMM: soft assignment, uncertainty</text>
+    
+    <!-- Card 2 -->
+    <rect x="0" y="190" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <text x="25" y="225" font-size="19" font-weight="600" fill="#1F2937">2. Feature mới</text>
+    <text x="25" y="250" font-size="16" fill="#4B5563">• Ratio: Fresh/Total, Milk/Grocery</text>
+    <text x="25" y="275" font-size="16" fill="#4B5563">• RFM analysis nếu có dữ liệu thời gian</text>
+    
+    <!-- Card 3 -->
+    <rect x="0" y="310" width="540" height="105" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <text x="25" y="345" font-size="19" font-weight="600" fill="#1F2937">3. Production deployment</text>
+    <text x="25" y="370" font-size="16" fill="#4B5563">• Monitoring data drift (PSI, KL divergence)</text>
+    <text x="25" y="395" font-size="16" fill="#4B5563">• A/B test chiến dịch marketing theo cluster</text>
+  </g>
+  
+  <!-- Academic constraint note -->
+  <rect x="80" y="510" width="1120" height="130" rx="12" fill="#EEF2FF" stroke="#6366F1" stroke-width="2"/>
+  <text x="110" y="545" font-size="20" font-weight="bold" fill="#4338CA">Ghi chú học thuật:</text>
+  <text x="110" y="575" font-size="17" fill="#4F46E5">Project 22 hoàn thành với K-Means baseline theo đúng yêu cầu Project 22:</text>
+  <text x="110" y="605" font-size="17" fill="#4F46E5">• 6 biến chi tiêu là features chính, Channel/Region chỉ profiling</text>
+  <text x="110" y="635" font-size="17" fill="#4F46E5">• Preprocessing + Train/Val/Test split đúng quy trình → Model artifact đã đóng băng</text>
+  
+  <!-- Footer -->
+  <text x="80" y="680" font-size="14" fill="#9CA3AF">Các phương pháp nâng cao để lại cho tương lai</text>
+  <text x="1200" y="680" font-size="14" fill="#9CA3AF" text-anchor="end">14 / 15</text>
+</svg>

@@ -1,0 +1,77 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, sans-serif">
+  <defs>
+    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <text x="80" y="80" font-size="42" font-weight="bold" fill="#1F2937">So sánh Tiền xử lý</text>
+  <text x="80" y="115" font-size="24" fill="#6B7280">Raw vs Log1p + StandardScaler</text>
+  <rect x="80" y="125" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  
+  <!-- Left: Raw Data Issues -->
+  <g transform="translate(80,180)">
+    <circle cx="20" cy="0" r="28" fill="#FEE2E2"/>
+    <text x="70" y="5" font-size="22" font-weight="bold" fill="#DC2626">Raw data - Vấn đề</text>
+    
+    <rect x="0" y="30" width="520" height="420" rx="12" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+    
+    <!-- Skewness -->
+    <text x="25" y="70" font-size="18" font-weight="600" fill="#1F2937">Skewness cực cao:</text>
+    <text x="25" y="100" font-size="16" fill="#4B5563">• Delicassen: 12.12</text>
+    <text x="25" y="125" font-size="16" fill="#4B5563">• Milk: 4.28</text>
+    <text x="25" y="150" font-size="16" fill="#4B5563">• Frozen: 3.53</text>
+    <text x="25" y="175" font-size="16" fill="#4B5563">• Grocery: 2.76</text>
+    
+    <!-- Range -->
+    <text x="25" y="220" font-size="18" font-weight="600" fill="#1F2937">Range rất lớn:</text>
+    <text x="25" y="250" font-size="16" fill="#4B5563">• Fresh: 3 → 112,151</text>
+    <text x="25" y="275" font-size="16" fill="#4B5563">• Milk: 55 → 73,498</text>
+    <text x="25" y="300" font-size="16" fill="#4B5563">• Grocery: 3 → 59,598</text>
+    
+    <!-- Consequences -->
+    <text x="25" y="345" font-size="18" font-weight="600" fill="#1F2937">Hệ quả:</text>
+    <text x="25" y="375" font-size="16" fill="#DC2626">✗ Distance metrics bị chi phối bởi</text>
+    <text x="40" y="395" font-size="16" fill="#DC2626">features có range lớn</text>
+    <text x="25" y="420" font-size="16" fill="#DC2626">✗ KMeans không ổn định</text>
+  </g>
+  
+  <!-- Right: Log1p Solution -->
+  <g transform="translate(680,180)">
+    <circle cx="20" cy="0" r="28" fill="#D1FAE5"/>
+    <text x="70" y="5" font-size="22" font-weight="bold" fill="#059669">Log1p + Scaler ✓</text>
+    
+    <rect x="0" y="30" width="520" height="420" rx="12" fill="#F0FDF4" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Skewness reduction -->
+    <text x="25" y="70" font-size="18" font-weight="600" fill="#1F2937">Giảm skewness mạnh:</text>
+    <text x="25" y="100" font-size="16" fill="#4B5563">• Delicassen: 12.12 → -0.90</text>
+    <text x="25" y="125" font-size="16" fill="#4B5563">• Milk: 4.28 → -0.17</text>
+    <text x="25" y="150" font-size="16" fill="#4B5563">• Frozen: 3.53 → -0.46</text>
+    <text x="25" y="175" font-size="16" fill="#4B5563">• Grocery: 2.76 → -0.94</text>
+    
+    <!-- Standardization -->
+    <text x="25" y="220" font-size="18" font-weight="600" fill="#1F2937">Chuẩn hóa scale:</text>
+    <text x="25" y="250" font-size="16" fill="#4B5563">• Tất cả features: mean=0, std=1</text>
+    <text x="25" y="275" font-size="16" fill="#4B5563">• Distance metrics có ý nghĩa</text>
+    <text x="25" y="300" font-size="16" fill="#4B5563">• Features đóng góp ngang nhau</text>
+    
+    <!-- Benefits -->
+    <text x="25" y="345" font-size="18" font-weight="600" fill="#1F2937">Kết quả:</text>
+    <text x="25" y="375" font-size="16" fill="#059669">✓ ARI mean = 0.997 (K=2, seed stability)</text>
+    <text x="25" y="400" font-size="16" fill="#059669">✓ Silhouette validation = 0.307</text>
+    <text x="25" y="425" font-size="16" fill="#059669">✓ Cluster ổn định, dễ interpret</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="80" y="680" font-size="14" fill="#9CA3AF">Quyết định D011: Chọn log1p + StandardScaler cho toàn bộ pipeline</text>
+  <text x="1200" y="680" font-size="14" fill="#9CA3AF" text-anchor="end">5 / 15</text>
+</svg>

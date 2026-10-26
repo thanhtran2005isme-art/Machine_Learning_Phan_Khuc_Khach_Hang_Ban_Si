@@ -24,6 +24,10 @@ export function buildApp(options: { modelPath?: string; profileDir?: string; ext
   app.get('/api/health', async () => ({
     status: 'ok', service: 'wholesale-customer-segmentation-api', modelReady: loaded !== null,
   }));
+  app.get('/api/ready', async (_request, reply) => {
+    if (!loaded) return reply.code(503).send({ status: 'not_ready', service: 'wholesale-customer-segmentation-api', modelReady: false });
+    return reply.code(200).send({ status: 'ready', service: 'wholesale-customer-segmentation-api', modelReady: true });
+  });
   app.get('/api/model-info', async (_request, reply) => {
     if (!loaded) return reply.code(503).send({ status: 'not_ready', message: 'Frozen model unavailable' });
     return modelInfo(loaded);

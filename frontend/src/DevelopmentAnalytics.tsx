@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type DevelopmentExtension = {
   decision: string; development_count: number; model_sha256: string;
@@ -18,8 +18,9 @@ export function DevelopmentAnalytics({data}:{data:DevelopmentExtension}){
   const [color,setColor]=useState<'kmeans'|'hierarchical'>('kmeans');
   const [filter,setFilter]=useState<'all'|'train'|'validation'>('all');
   const [selectedIndex,setSelectedIndex]=useState<number|null>(null);
-  const selected=selectedIndex===null?null:data.points[selectedIndex];
   const points=data.points.filter(p=>filter==='all'||p.split===filter);
+  useEffect(()=>{setSelectedIndex(null);},[filter]);
+  const selected=selectedIndex===null?null:points.find(p=>p.index===selectedIndex) ?? null;
   const xall=data.points.map(p=>p.pc1), yall=data.points.map(p=>p.pc2);
   const minX=Math.min(...xall),maxX=Math.max(...xall),minY=Math.min(...yall),maxY=Math.max(...yall);
   const marginX=Math.max((maxX-minX)*.07,.05),marginY=Math.max((maxY-minY)*.07,.05);
@@ -60,7 +61,10 @@ export function DevelopmentAnalytics({data}:{data:DevelopmentExtension}){
           <line x1="44" y1={mapY(0)} x2="665" y2={mapY(0)} stroke="#9eaeb0" strokeDasharray="4 5"/>
           {points.map(p=><circle key={p.index} cx={mapX(p.pc1)} cy={mapY(p.pc2)} r={selectedIndex===p.index?7:4}
             className={'pca-dot pca-group-'+p[color]+(selectedIndex===p.index?' pca-selected':'')} data-split={p.split}
-            data-label={p[color]} onClick={()=>setSelectedIndex(p.index)}>
+            data-label={p[color]} role="button" tabIndex={0}
+            aria-label={'Chọn mẫu '+(p.index+1)+' · '+p.split+' · '+label+' cụm '+p[color]}
+            onClick={()=>setSelectedIndex(p.index)}
+            onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();setSelectedIndex(p.index);}}}>
             <title>{'Mẫu '+(p.index+1)+' · '+p.split+' · '+label+' cụm '+p[color]+' · PC1='+number(p.pc1)+' · PC2='+number(p.pc2)}</title>
           </circle>)}
           <text x="355" y="392" textAnchor="middle" fontSize="13" fill="#52666c">PC1 ({number(share[0],1)}%)</text>

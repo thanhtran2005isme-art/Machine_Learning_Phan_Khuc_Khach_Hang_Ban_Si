@@ -18,19 +18,28 @@ function exportCsv(name:string,rows:(string|number)[][]){
   const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
+type DecisionSupport={status:'descriptive'|'review';priority:'low'|'medium'|'high';reason_codes:string[];
+  title:string;action:string;rationale:string};
+type CustomerProfile={name:string;count:number;share:number;median_spending:Record<F,number>};
 type Result={cluster_id:number;distance_to_centroid:number;distances_to_centroids:number[];
-  warnings:string[];profile:{name:string;median_spending:Record<F,number>}};
+  distance_gap:number;relative_margin:number;distance_ratio_to_development_rms:number;
+  out_of_train_range_features:F[];warnings:string[];decision_support:DecisionSupport;
+  profile:CustomerProfile;alternative_profile:CustomerProfile};
 export function CustomerInsight({input,result}:{input:Record<F,string>;result:Result}){
   const other=result.distances_to_centroids.find((_,i)=>i!==result.cluster_id);
   const data=fields.map(f=>({key:f.key,label:f.label,v:Number(input[f.key]),
-    median:result.profile.median_spending[f.key]}));
+    median:result.profile.median_spending[f.key],alternativeMedian:result.alternative_profile.median_spending[f.key]}));
   function download(){exportCsv('kaitokidshop-ket-qua-phan-khuc.csv',[
     ['Decision','D011 frozen KMeans K2'],['Unit','annual monetary units (m.u.)'],
-    ['Cluster',result.cluster_id],['Profile',result.profile.name],
-    ['Distance to assigned centroid',result.distance_to_centroid],
-    ['Distance to other centroid',other??''],['Warnings',result.warnings.join('; ')],
-    ['Feature','Input','Cluster median','Input / median'],
-    ...data.map(r=>[r.key,r.v,r.median,r.median>0?r.v/r.median:'N/A']),
+    ['Cluster',result.cluster_id],['Profile',result.profile.name],['Alternative profile',result.alternative_profile.name],
+    ['Distance to assigned centroid',result.distance_to_centroid],['Distance to other centroid',other??''],
+    ['Distance gap',result.distance_gap],['Relative margin',result.relative_margin],
+    ['Distance ratio to development RMS',result.distance_ratio_to_development_rms],
+    ['Decision support status',result.decision_support.status],['Decision support priority',result.decision_support.priority],
+    ['Decision support reasons',result.decision_support.reason_codes.join('; ')],['Recommended action',result.decision_support.action],
+    ['Warnings',result.warnings.join('; ')],
+    ['Feature','Input','Assigned cluster median','Alternative cluster median','Input / assigned median'],
+    ...data.map(r=>[r.key,r.v,r.median,r.alternativeMedian,r.median>0?r.v/r.median:'N/A']),
   ])}
   return <section className="analysis-extra" aria-label="Giải thích kết quả từng khách">
     <h3>Giải thích kết quả từng khách</h3>
@@ -47,17 +56,34 @@ export function CustomerInsight({input,result}:{input:Record<F,string>;result:Re
           <strong>{row.median>0?fmt(row.v/row.median)+'×':'—'}</strong>
         </div>;
       })}
-      <p className="muted small-note">Mỗi hàng có thang riêng · <span className="legend-swatch input-swatch"/> Đầu vào · <span className="legend-swatch median-swatch"/> Median cụm</p>
+      <p className="muted small-note">Mỗi hàng có thang riêng · <span className="legend-swatch input-swatch"/> Đầu vào · <span className="legend-swatch median-swatch"/> Median cụm được gán</p>
     </div>
-    <div className="table-scroll"><table className="data-table">
-      <thead><tr><th>Nhóm hàng</th><th>Đầu vào</th><th>Median cụm</th><th>Tỷ lệ</th></tr></thead>
+    <div className="table-scroll"><table className="data-table" data-testid="assigned-profile-table">
+      <thead><tr><th>Nhóm hàng</th><th>Đầu vào</th><th>Median cụm gán</th><th>Tỷ lệ</th></tr></thead>
       <tbody>{data.map(r=><tr key={r.key}><th scope="row">{r.label}</th><td>{fmt(r.v)}</td>
         <td>{fmt(r.median)}</td><td>{r.median>0?fmt(r.v/r.median)+'×':'N/A'}</td></tr>)}</tbody>
     </table></div>
-    <dl className="analysis-distances"><div><dt>Tâm được gán</dt><dd>{fmt(result.distance_to_centroid,4)}</dd></div>
-      <div><dt>Tâm còn lại</dt><dd>{other===undefined?'—':fmt(other,4)}</dd></div>
-      <div><dt>Chênh lệch khoảng cách</dt><dd>{other===undefined?'—':fmt(other-result.distance_to_centroid,4)}</dd></div></dl>
-    <p className="muted small-note">Gán cụm dựa trên tâm gần nhất ở không gian log1p + StandardScaler 6 chiều. Chênh lệch khoảng cách không phải độ tin cậy, xác suất hay thang xếp hạng khách hàng.</p>
+    <dl className="analysis-distances">
+      <div><dt>Khoảng cách tới tâm gán</dt><dd>{fmt(result.distance_to_centroid,4)}</dd></div>
+      <div><dt>Khoảng cách tới tâm còn lại</dt><dd>{other===undefined?'—':fmt(other,4)}</dd></div>
+      <div><dt>Chênh lệch khoảng cách</dt><dd>{fmt(result.distance_gap,4)}</dd></div>
+      <div><dt>Relative margin</dt><dd>{fmt(result.relative_margin*100,2)}%</dd></div>
+      <div><dt>So với RMS development</dt><dd>{fmt(result.distance_ratio_to_development_rms,2)}×</dd></div>
+    </dl>
+    <p className="muted small-note">Khoảng cách được tính trong log1p + StandardScaler 6 chiều; relative margin và tỷ lệ RMS chỉ là tín hiệu rà soát, không phải xác suất, độ tin cậy hay thang xếp hạng khách hàng.</p>
+    <div className="profile-compare" aria-label="So sánh hai hồ sơ cụm">
+      <h4>Đối chiếu hai hồ sơ chi tiêu</h4>
+      <p className="muted small-note">Cụm được gán: <strong>{result.profile.name}</strong> · Cụm đối chiếu: <strong>{result.alternative_profile.name}</strong>. Đây là mô tả median, không phải thứ hạng.</p>
+      <div className="table-scroll"><table className="data-table">
+        <thead><tr><th>Nhóm hàng</th><th>Cụm gán</th><th>Cụm đối chiếu</th></tr></thead>
+        <tbody>{data.map(r=><tr key={'compare-'+r.key}><th scope="row">{r.label}</th><td>{fmt(r.median)}</td><td>{fmt(r.alternativeMedian)}</td></tr>)}</tbody>
+      </table></div>
+    </div>
+  <div className={'decision-support decision-' + result.decision_support.priority} data-testid="decision-support">
+      <div className="decision-support-heading"><div><span className="eyebrow">HỖ TRỢ DIỄN GIẢI</span><h4>{result.decision_support.title}</h4></div><strong>{result.decision_support.priority==='low'?'Mô tả':result.decision_support.priority==='high'?'Rà soát cao':'Rà soát'}</strong></div>
+      <p><strong>Hành động đề xuất:</strong> {result.decision_support.action}</p>
+      <p className="muted small-note">{result.decision_support.rationale}</p>
+    </div>
     <div className="analysis-actions"><button type="button" className="btn-subtle" onClick={download}>Tải CSV kết quả</button>
       <button type="button" className="btn-subtle" onClick={()=>window.print()}>In / lưu PDF</button></div>
   </section>;
@@ -65,8 +91,8 @@ export function CustomerInsight({input,result}:{input:Record<F,string>;result:Re
 type Experiment={preprocessing:string;k:number;train_inertia:number;validation_silhouette:number;
   validation_silhouette_std:number;ari:number;ari_min:number;ari_max:number;pair_count:number;
   min_cluster_share:number};
-type Profile={development_count:number;outliers:{count:number;top_1pct_count:number;top_1pct_inertia_share:number}};
-export function ExperimentReport({experiments,profile}:{experiments:Experiment[];profile:Profile}){
+type ExperimentProfile={development_count:number;outliers:{count:number;top_1pct_count:number;top_1pct_inertia_share:number}};
+export function ExperimentReport({experiments,profile}:{experiments:Experiment[];profile:ExperimentProfile}){
   const rows=[...experiments].sort((a,b)=>a.k-b.k||a.preprocessing.localeCompare(b.preprocessing));
   if(rows.length!==14||rows.some(x=>x.pair_count!==45||!Number.isFinite(x.ari_min)||!Number.isFinite(x.validation_silhouette_std)))
     return <p className="notice notice-error" role="alert">Thiếu bằng chứng độ nhạy seed; không hiển thị số liệu thay thế.</p>;

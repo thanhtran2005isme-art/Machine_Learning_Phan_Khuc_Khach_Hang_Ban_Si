@@ -1,0 +1,63 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="coverGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Decorative gradient band -->
+  <g id="hero-field" data-pptx-role="decoration">
+    <rect x="0" y="0" width="1280" height="360" fill="url(#coverGradient)" fill-opacity="0.08"/>
+    <rect x="60" y="340" width="400" height="6" rx="3" fill="url(#accentBar)"/>
+  </g>
+  
+  <!-- Main title group -->
+  <g id="title-main" data-pptx-bounds="60 180 1160 280">
+    <text x="60" y="240" font-size="56" font-weight="bold" fill="#1F2937">
+      <tspan x="60" dy="0">Phân Khúc Khách Hàng Bán Sỉ</tspan>
+      <tspan x="60" dy="70">Với K-Means Clustering</tspan>
+    </text>
+    <text x="60" y="380" font-size="28" fill="#6B7280">Project 22 — Machine Learning Fundamentals</text>
+  </g>
+  
+  <!-- Project info cards -->
+  <g id="info-cards" data-pptx-bounds="60 460 1160 200">
+    <!-- Dataset info -->
+    <g id="card-dataset">
+      <rect x="60" y="460" width="350" height="90" rx="12" fill="#F8F9FA"/>
+      <use data-icon="phosphor-duotone/database" x="80" y="485" width="40" height="40" fill="#2563EB"/>
+      <text x="135" y="500" font-size="16" font-weight="bold" fill="#1F2937">UCI Wholesale Customers</text>
+      <text x="135" y="525" font-size="14" fill="#6B7280">440 customers, 6 features</text>
+    </g>
+    
+    <!-- Method info -->
+    <g id="card-method">
+      <rect x="465" y="460" width="350" height="90" rx="12" fill="#F8F9FA"/>
+      <use data-icon="phosphor-duotone/chart-pie-slice" x="485" y="485" width="40" height="40" fill="#10B981"/>
+      <text x="540" y="500" font-size="16" font-weight="bold" fill="#1F2937">K-Means D011</text>
+      <text x="540" y="525" font-size="14" fill="#6B7280">log1p + StandardScaler, K=2</text>
+    </g>
+    
+    <!-- Application info -->
+    <g id="card-app">
+      <rect x="870" y="460" width="350" height="90" rx="12" fill="#F8F9FA"/>
+      <use data-icon="phosphor-duotone/code" x="890" y="485" width="40" height="40" fill="#8B5CF6"/>
+      <text x="945" y="500" font-size="16" font-weight="bold" fill="#1F2937">Full Stack Application</text>
+      <text x="945" y="525" font-size="14" fill="#6B7280">React + Node.js + API</text>
+    </g>
+  </g>
+  
+  <!-- Footer -->
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 650 1160 50">
+    <text x="60" y="675" font-size="14" fill="#9CA3AF">Data → Model → Deployment</text>
+    <text x="1220" y="675" font-size="14" fill="#9CA3AF" text-anchor="end">2026-10-26</text>
+  </g>
+</svg>

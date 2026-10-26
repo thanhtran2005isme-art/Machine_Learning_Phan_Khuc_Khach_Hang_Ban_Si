@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">PROFILE CỤM</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Cụm 0: Tạp hóa / chất tẩy rửa</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <rect x="80" y="140" width="560" height="170" rx="12" fill="#E9ECEF"/>
+  <rect x="80" y="140" width="560" height="6" fill="#2E86AB"/>
+  <text x="100" y="172" font-family="Arial" font-size="20" font-weight="bold" fill="#0B3C5D" text-anchor="start">162 khách (46.0%)</text>
+  <text x="100" y="200" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Mã 0 không có thứ hạng giá trị.</text>
+  <text x="100" y="228" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Xu hướng cao: Grocery, Milk, Detergents_Paper</text>
+  <rect x="670" y="140" width="530" height="170" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="690" y="172" font-family="Arial" font-size="17" font-weight="bold" fill="#0B3C5D" text-anchor="start">Median (đơn vị gốc)</text>
+  <rect x="670" y="190" width="530" height="40" fill="#E9ECEF"/>
+  <text x="686" y="212" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Fresh</text>
+  <text x="1160" y="212" font-family="Arial" font-size="15" font-weight="bold" fill="#0B3C5D" text-anchor="end">6.410,5</text>
+  <rect x="670" y="230" width="530" height="40" fill="#FFFFFF"/>
+  <text x="686" y="252" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Milk</text>
+  <text x="1160" y="252" font-family="Arial" font-size="15" font-weight="bold" fill="#0B3C5D" text-anchor="end">7.226</text>
+  <rect x="670" y="270" width="530" height="40" fill="#E9ECEF"/>
+  <text x="686" y="292" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Grocery</text>
+  <text x="1160" y="292" font-family="Arial" font-size="15" font-weight="bold" fill="#0B3C5D" text-anchor="end">10.842,5</text>
+  <rect x="670" y="310" width="530" height="40" fill="#FFFFFF"/>
+  <text x="686" y="332" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Frozen</text>
+  <text x="1160" y="332" font-family="Arial" font-size="15" font-weight="bold" fill="#0B3C5D" text-anchor="end">1.153</text>
+  <rect x="670" y="350" width="530" height="40" fill="#E9ECEF"/>
+  <text x="686" y="372" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Detergents_Paper</text>
+  <text x="1160" y="372" font-family="Arial" font-size="15" font-weight="bold" fill="#0B3C5D" text-anchor="end">4.084,5</text>
+  <rect x="670" y="390" width="530" height="40" fill="#FFFFFF"/>
+  <text x="686" y="412" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Delicassen</text>
+  <text x="1160" y="412" font-family="Arial" font-size="15" font-weight="bold" fill="#0B3C5D" text-anchor="end">1.508,5</text>
+  <text x="80" y="360" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="start">Grocery là chi tiêu trung vị cao nhất; Milk và Detergents_Paper cũng cao hơn cụm 1.</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P09</text>
+</svg>

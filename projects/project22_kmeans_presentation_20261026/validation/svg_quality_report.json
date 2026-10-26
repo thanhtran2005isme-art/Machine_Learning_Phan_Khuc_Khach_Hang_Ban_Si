@@ -1,0 +1,1889 @@
+{
+  "schema": "ppt-master.svg-quality-report.v1",
+  "stage": "final",
+  "target": "C:\\Users\\Admin\\Videos\\Machine_Learning_Phan_Khuc_Khach_Hang_Ban_Si\\projects\\project22_kmeans_presentation_20261026",
+  "source_fingerprint": {
+    "algorithm": "sha256",
+    "digest": "5874ee3bfe9cf1c0be06ac6c66021f9ec5bdb7c7f10ea5a420d7e535bce3aee4",
+    "file_count": 15,
+    "files": [
+      {
+        "file": "01_cover.svg",
+        "sha256": "defab42925d590eedd2e4a93cf279d83e51b49c0f750fad74c628a14161304af"
+      },
+      {
+        "file": "02_problem_objective.svg",
+        "sha256": "7cdc28989eb9738b1be2654ef7e1c976133b7dd9261925314bf5fe2cfddf6931"
+      },
+      {
+        "file": "03_dataset_features.svg",
+        "sha256": "03df77d70d7a63461bda218afb593ad7db16a024218e7a2cb7576e3d9742ac70"
+      },
+      {
+        "file": "04_pipeline_leakage.svg",
+        "sha256": "b0114cdd0922210d3cf6a99ce2dd2da568b5ef0016044a5db83d5a326e88fe78"
+      },
+      {
+        "file": "05_preprocessing_comparison.svg",
+        "sha256": "3887ddf08981f5474b737f2572eb3533cead4e4dbacf7ba4429feadcc40b2da3"
+      },
+      {
+        "file": "06_elbow_method.svg",
+        "sha256": "59f9bcb51bdd452a6a6980e271e0d674c6a8ffa40f3b3a4b7561d9a54eb9c184"
+      },
+      {
+        "file": "07_silhouette_analysis.svg",
+        "sha256": "884845fc5f13883d4c693b665b0df2a1a788c7a4b78fe74bad4f711b8d59b7fb"
+      },
+      {
+        "file": "08_final_model.svg",
+        "sha256": "7b644ba77846251369aea3213b4128050d9f17b36d2991e2a372ea496c97fea4"
+      },
+      {
+        "file": "09_cluster_profiles.svg",
+        "sha256": "0fbf26233b8e9f345f0adfaa0c64c5e12f22d6c757e61661f68c39d4f44b31b9"
+      },
+      {
+        "file": "10_channel_region.svg",
+        "sha256": "51262ab35f5f5571ecbaceca1138d6e9c1b3ac5a1bbf271dfd4dc3d8bf18a476"
+      },
+      {
+        "file": "11_tech_stack.svg",
+        "sha256": "36275162b055cb6181e64ce88bb62a08f8d413ebfa982bbfc08a93a6bb7f1fb5"
+      },
+      {
+        "file": "12_web_application.svg",
+        "sha256": "b4b7b59e33e936d121376afcf22de1ccda15b58a1acc900cefda31175496695e"
+      },
+      {
+        "file": "13_testing_quality.svg",
+        "sha256": "6a0379cf5f200d969da775f7b5ca4c079b5284b7c371378f4045c332ff5e97cd"
+      },
+      {
+        "file": "14_limitations_future.svg",
+        "sha256": "73b76029f81c05ceae804b268bf22ce648f75c105ede67af52c2f1fd1c3c646c"
+      },
+      {
+        "file": "15_conclusion.svg",
+        "sha256": "37a9298459eb7eca4ab7fbad90b0cf5c8be5d1066346ba8fc1347892a9c455ef"
+      }
+    ]
+  },
+  "summary": {
+    "total": 15,
+    "passed": 0,
+    "warnings": 15,
+    "errors": 0
+  },
+  "issue_types": {},
+  "categories": {
+    "blocking": {
+      "count": 0,
+      "issues": []
+    },
+    "introduced": {
+      "count": 73,
+      "issues": [
+        {
+          "file": "01_cover.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[35]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "01_cover.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "01_cover.svg",
+          "message": "Reference SVG: detected 1 visible root-level <g> module(s) without explicit data-pptx-bounds (<g id=\"hero-field\">); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "01_cover.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "02_problem_objective.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[41]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "02_problem_objective.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "02_problem_objective.svg",
+          "message": "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"research-question\"> x=90.0, y=375.0..400.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+        },
+        {
+          "file": "02_problem_objective.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "03_dataset_features.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[59]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "03_dataset_features.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "03_dataset_features.svg",
+          "message": "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"source-info\"> x=90.0, y=285.0..310.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+        },
+        {
+          "file": "03_dataset_features.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "04_pipeline_leakage.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (10 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): key-points:fill None -> '#1F2937'; text[50]:fill '#1F2937' -> None; text[51]:fill '#1F2937' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "04_pipeline_leakage.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "04_pipeline_leakage.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(80,180)' -> 'translate(80 180)'; g[29]:transform 'translate(680,180)' -> 'translate(680 180)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif"
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g> x=25.0, y=375.0..425.0, 3 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "Top-level visible <g> #5 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "5 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "05_preprocessing_comparison.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "06_elbow_method.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (1 attribute(s)); examples: g[12]:transform 'translate(180,200)' -> 'translate(180 200)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "06_elbow_method.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif"
+        },
+        {
+          "file": "06_elbow_method.svg",
+          "message": "Reference SVG: detected 1 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "06_elbow_method.svg",
+          "message": "Top-level visible <g> #5 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "06_elbow_method.svg",
+          "message": "8 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "06_elbow_method.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(150,200)' -> 'translate(150 200)'; g[45]:transform 'translate(950,230)' -> 'translate(950 230)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif"
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "Top-level visible <g> #5 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "10 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "07_silhouette_analysis.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "08_final_model.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[63]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "08_final_model.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "08_final_model.svg",
+          "message": "Reference SVG: detected 1 visible root-level <g> module(s) without explicit data-pptx-bounds (<g id=\"frozen-badge\">); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "08_final_model.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "09_cluster_profiles.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (20 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cluster0-values:fill None -> '#1F2937'; text[42]:fill '#1F2937' -> None; text[44]:fill '#1F2937' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "09_cluster_profiles.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (1 attribute(s)); examples: radar-visual:transform 'translate(340, 390)' -> 'translate(340 390)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "09_cluster_profiles.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "09_cluster_profiles.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(80,180)' -> 'translate(80 180)'; g[32]:transform 'translate(660,180)' -> 'translate(660 180)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif"
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "Top-level visible <g> #5 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "10 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "10_channel_region.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "11_tech_stack.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[68]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "11_tech_stack.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "11_tech_stack.svg",
+          "message": "<text> (x=440, y=405; text='API: /health, /ready…') exceeds <g id=\"architecture\"> data-pptx-bounds on the horizontal axis: content (440.0, 392.2)-(787.0, 410.2), container (60.0, 160.0)-(780.0, 640.0), overflow horizontal 1.0%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈9.1 px per Latin char at 15px incl. headroom; ≈78 chars fit in 720 px"
+        },
+        {
+          "file": "11_tech_stack.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "12_web_application.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[72]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "12_web_application.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "12_web_application.svg",
+          "message": "Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id=\"screen2\"> x=500.0, y=405.0..445.0, 3 lines; <g id=\"screen3\"> x=900.0, y=375.0..455.0, 5 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+        },
+        {
+          "file": "12_web_application.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "13_testing_quality.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[73]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "13_testing_quality.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "13_testing_quality.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(80,180)' -> 'translate(80 180)'; g[29]:transform 'translate(660,180)' -> 'translate(660 180)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif"
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates"
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "Top-level visible <g> #5 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "Top-level visible <g> #6 has no id; object-level animation config cannot reference it"
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "10 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "14_limitations_future.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        },
+        {
+          "file": "15_conclusion.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:text-anchor None -> 'middle'; text[9]:text-anchor 'middle' -> None; text[10]:text-anchor 'middle' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "15_conclusion.svg",
+          "message": "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        },
+        {
+          "file": "15_conclusion.svg",
+          "message": "1 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "15_conclusion.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        }
+      ]
+    },
+    "inherited": {
+      "count": 0,
+      "issues": []
+    },
+    "source-import": {
+      "count": 0,
+      "summary": {
+        "warning_count": 0,
+        "by_code": {}
+      }
+    }
+  },
+  "drift": {
+    "colors": {
+      "#000000": [
+        "02_problem_objective.svg",
+        "03_dataset_features.svg",
+        "05_preprocessing_comparison.svg",
+        "06_elbow_method.svg",
+        "07_silhouette_analysis.svg",
+        "08_final_model.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "14_limitations_future.svg"
+      ],
+      "#047857": [
+        "06_elbow_method.svg",
+        "09_cluster_profiles.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "15_conclusion.svg"
+      ],
+      "#059669": [
+        "04_pipeline_leakage.svg",
+        "05_preprocessing_comparison.svg",
+        "06_elbow_method.svg",
+        "07_silhouette_analysis.svg",
+        "10_channel_region.svg",
+        "13_testing_quality.svg",
+        "14_limitations_future.svg",
+        "15_conclusion.svg"
+      ],
+      "#064E3B": [
+        "04_pipeline_leakage.svg",
+        "11_tech_stack.svg",
+        "13_testing_quality.svg"
+      ],
+      "#065F46": [
+        "04_pipeline_leakage.svg",
+        "08_final_model.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "13_testing_quality.svg",
+        "15_conclusion.svg"
+      ],
+      "#1E3A8A": [
+        "02_problem_objective.svg",
+        "04_pipeline_leakage.svg",
+        "07_silhouette_analysis.svg",
+        "08_final_model.svg",
+        "11_tech_stack.svg"
+      ],
+      "#1E40AF": [
+        "01_cover.svg",
+        "02_problem_objective.svg",
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "07_silhouette_analysis.svg",
+        "08_final_model.svg",
+        "09_cluster_profiles.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg"
+      ],
+      "#3B82F6": [
+        "10_channel_region.svg"
+      ],
+      "#4338CA": [
+        "14_limitations_future.svg"
+      ],
+      "#4B5563": [
+        "05_preprocessing_comparison.svg",
+        "06_elbow_method.svg",
+        "07_silhouette_analysis.svg",
+        "14_limitations_future.svg"
+      ],
+      "#4F46E5": [
+        "14_limitations_future.svg"
+      ],
+      "#6366F1": [
+        "14_limitations_future.svg"
+      ],
+      "#78350F": [
+        "02_problem_objective.svg",
+        "11_tech_stack.svg"
+      ],
+      "#7F1D1D": [
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "08_final_model.svg",
+        "13_testing_quality.svg"
+      ],
+      "#92400E": [
+        "02_problem_objective.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg"
+      ],
+      "#991B1B": [
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "08_final_model.svg",
+        "13_testing_quality.svg"
+      ],
+      "#9CA3AF": [
+        "01_cover.svg",
+        "02_problem_objective.svg",
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "05_preprocessing_comparison.svg",
+        "06_elbow_method.svg",
+        "07_silhouette_analysis.svg",
+        "08_final_model.svg",
+        "09_cluster_profiles.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "13_testing_quality.svg",
+        "14_limitations_future.svg"
+      ],
+      "#D1D5DB": [
+        "06_elbow_method.svg",
+        "12_web_application.svg"
+      ],
+      "#D1FAE5": [
+        "05_preprocessing_comparison.svg",
+        "06_elbow_method.svg",
+        "10_channel_region.svg",
+        "13_testing_quality.svg",
+        "14_limitations_future.svg",
+        "15_conclusion.svg"
+      ],
+      "#D97706": [
+        "02_problem_objective.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg"
+      ],
+      "#DBEAFE": [
+        "02_problem_objective.svg",
+        "04_pipeline_leakage.svg",
+        "07_silhouette_analysis.svg",
+        "10_channel_region.svg"
+      ],
+      "#DC2626": [
+        "05_preprocessing_comparison.svg",
+        "14_limitations_future.svg"
+      ],
+      "#DCFCE7": [
+        "04_pipeline_leakage.svg",
+        "08_final_model.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "13_testing_quality.svg",
+        "15_conclusion.svg"
+      ],
+      "#EEF2FF": [
+        "14_limitations_future.svg"
+      ],
+      "#EF4444": [
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "08_final_model.svg",
+        "13_testing_quality.svg"
+      ],
+      "#EFF6FF": [
+        "03_dataset_features.svg",
+        "08_final_model.svg",
+        "09_cluster_profiles.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "13_testing_quality.svg"
+      ],
+      "#F0FDF4": [
+        "04_pipeline_leakage.svg",
+        "05_preprocessing_comparison.svg",
+        "09_cluster_profiles.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "13_testing_quality.svg",
+        "15_conclusion.svg"
+      ],
+      "#F59E0B": [
+        "02_problem_objective.svg",
+        "10_channel_region.svg",
+        "11_tech_stack.svg",
+        "13_testing_quality.svg"
+      ],
+      "#F9FAFB": [
+        "06_elbow_method.svg",
+        "10_channel_region.svg"
+      ],
+      "#FEE2E2": [
+        "05_preprocessing_comparison.svg",
+        "14_limitations_future.svg"
+      ],
+      "#FEF2F2": [
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "05_preprocessing_comparison.svg",
+        "08_final_model.svg",
+        "13_testing_quality.svg"
+      ],
+      "#FEF3C7": [
+        "02_problem_objective.svg",
+        "11_tech_stack.svg",
+        "13_testing_quality.svg"
+      ],
+      "#FFFBEB": [
+        "10_channel_region.svg"
+      ]
+    },
+    "fonts": {
+      "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif": [
+        "01_cover.svg",
+        "02_problem_objective.svg",
+        "03_dataset_features.svg",
+        "04_pipeline_leakage.svg",
+        "08_final_model.svg",
+        "09_cluster_profiles.svg",
+        "11_tech_stack.svg",
+        "12_web_application.svg",
+        "13_testing_quality.svg",
+        "15_conclusion.svg"
+      ],
+      "Inter, system-ui, -apple-system, sans-serif": [
+        "05_preprocessing_comparison.svg",
+        "06_elbow_method.svg",
+        "07_silhouette_analysis.svg",
+        "10_channel_region.svg",
+        "14_limitations_future.svg"
+      ]
+    },
+    "sizes": {}
+  },
+  "carrier_receipt": {
+    "scope": "informational-not-a-quota",
+    "pages": 15,
+    "totals": {
+      "text_elements": 384,
+      "image_placements": 0,
+      "icons": 50,
+      "svg_geometry_elements": 195,
+      "preset_shapes": 0,
+      "page_frame_elements": 2,
+      "marker_uses": 7,
+      "inline_emphasis_runs": 33,
+      "gradient_uses": 17,
+      "filter_uses": 8,
+      "text_effects": 0
+    },
+    "pages_with": {
+      "images": 0,
+      "icons": 9,
+      "presets": 0,
+      "charts": 0,
+      "tables": 0,
+      "formulas": 0,
+      "inline_emphasis_runs": 8,
+      "gradient_uses": 15,
+      "filter_uses": 3,
+      "text_effects": 0
+    },
+    "relationship_pages": 1,
+    "geometry_elements": {
+      "circle": 17,
+      "ellipse": 0,
+      "line": 10,
+      "path": 7,
+      "polygon": 2,
+      "polyline": 1,
+      "rect": 158
+    },
+    "preset_names": {},
+    "native_objects": {
+      "chart": 0,
+      "formula_block": 0,
+      "formula_inline": 0,
+      "other": 0,
+      "table": 0
+    },
+    "image_page_max_frame_share_range": []
+  },
+  "project_issues": {
+    "template": [],
+    "animation": [],
+    "illustration": [],
+    "communication_trace": [],
+    "pptx_structure": []
+  },
+  "files": [
+    {
+      "file": "01_cover.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\01_cover.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[35]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "Reference SVG: detected 1 visible root-level <g> module(s) without explicit data-pptx-bounds (<g id=\"hero-field\">); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 3,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 2,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 2,
+        "contextual_values": {
+          "colors": [
+            "#1E40AF",
+            "#9CA3AF"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "defab42925d590eedd2e4a93cf279d83e51b49c0f750fad74c628a14161304af"
+    },
+    {
+      "file": "02_problem_objective.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\02_problem_objective.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[41]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"research-question\"> x=90.0, y=375.0..400.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate.",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 14,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 5,
+          "effects": {
+            "inline_emphasis_runs": 1,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 5,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 14,
+        "tspan_elements": 5,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#1E3A8A",
+            "#1E40AF",
+            "#78350F",
+            "#92400E",
+            "#9CA3AF",
+            "#D97706",
+            "#DBEAFE",
+            "#F59E0B",
+            "#FEF3C7"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "7cdc28989eb9738b1be2654ef7e1c976133b7dd9261925314bf5fe2cfddf6931"
+    },
+    {
+      "file": "03_dataset_features.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\03_dataset_features.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[59]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"source-info\"> x=90.0, y=285.0..310.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate.",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 27,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 7,
+          "effects": {
+            "inline_emphasis_runs": 2,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 11,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 27,
+        "tspan_elements": 2,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#1E40AF",
+            "#7F1D1D",
+            "#991B1B",
+            "#9CA3AF",
+            "#EF4444",
+            "#EFF6FF",
+            "#FEF2F2"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "03df77d70d7a63461bda218afb593ad7db16a024218e7a2cb7576e3d9742ac70"
+    },
+    {
+      "file": "04_pipeline_leakage.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\04_pipeline_leakage.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (10 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): key-points:fill None -> '#1F2937'; text[50]:fill '#1F2937' -> None; text[51]:fill '#1F2937' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 27,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 2,
+          "effects": {
+            "inline_emphasis_runs": 1,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 10,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 5
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 5
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 27,
+        "tspan_elements": 1,
+        "contextual_values": {
+          "colors": [
+            "#059669",
+            "#064E3B",
+            "#065F46",
+            "#1E3A8A",
+            "#1E40AF",
+            "#7F1D1D",
+            "#991B1B",
+            "#9CA3AF",
+            "#DBEAFE",
+            "#DCFCE7",
+            "#EF4444",
+            "#F0FDF4",
+            "#FEF2F2"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "b0114cdd0922210d3cf6a99ce2dd2da568b5ef0016044a5db83d5a326e88fe78"
+    },
+    {
+      "file": "05_preprocessing_comparison.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\05_preprocessing_comparison.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(80,180)' -> 'translate(80 180)'; g[29]:transform 'translate(680,180)' -> 'translate(680 180)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif",
+        "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g> x=25.0, y=375.0..425.0, 3 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate.",
+        "Top-level visible <g> #5 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "5 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 32,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 4,
+              "circle": 2,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, sans-serif"
+        ],
+        "text_elements": 32,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#059669",
+            "#4B5563",
+            "#9CA3AF",
+            "#D1FAE5",
+            "#DC2626",
+            "#F0FDF4",
+            "#FEE2E2",
+            "#FEF2F2"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "3887ddf08981f5474b737f2572eb3533cead4e4dbacf7ba4429feadcc40b2da3"
+    },
+    {
+      "file": "06_elbow_method.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\06_elbow_method.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (1 attribute(s)); examples: g[12]:transform 'translate(180,200)' -> 'translate(180 200)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif",
+        "Reference SVG: detected 1 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #5 has no id; object-level animation config cannot reference it",
+        "8 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 21,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 4,
+              "circle": 7,
+              "ellipse": 0,
+              "line": 3,
+              "polyline": 1,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, sans-serif"
+        ],
+        "text_elements": 21,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#047857",
+            "#059669",
+            "#4B5563",
+            "#9CA3AF",
+            "#D1D5DB",
+            "#D1FAE5",
+            "#F9FAFB"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "59f9bcb51bdd452a6a6980e271e0d674c6a8ffa40f3b3a4b7561d9a54eb9c184"
+    },
+    {
+      "file": "07_silhouette_analysis.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\07_silhouette_analysis.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(150,200)' -> 'translate(150 200)'; g[45]:transform 'translate(950,230)' -> 'translate(950 230)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif",
+        "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #5 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "10 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 29,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 17,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 1,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, sans-serif"
+        ],
+        "text_elements": 29,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#059669",
+            "#1E3A8A",
+            "#1E40AF",
+            "#4B5563",
+            "#9CA3AF",
+            "#DBEAFE"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "884845fc5f13883d4c693b665b0df2a1a788c7a4b78fe74bad4f711b8d59b7fb"
+    },
+    {
+      "file": "08_final_model.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\08_final_model.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[63]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "Reference SVG: detected 1 visible root-level <g> module(s) without explicit data-pptx-bounds (<g id=\"frozen-badge\">); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 30,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 4,
+          "effects": {
+            "inline_emphasis_runs": 5,
+            "gradient_uses": 1,
+            "filter_uses": 2,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 30,
+        "tspan_elements": 5,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#065F46",
+            "#1E3A8A",
+            "#1E40AF",
+            "#7F1D1D",
+            "#991B1B",
+            "#9CA3AF",
+            "#DCFCE7",
+            "#EF4444",
+            "#EFF6FF",
+            "#FEF2F2"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "7b644ba77846251369aea3213b4128050d9f17b36d2991e2a372ea496c97fea4"
+    },
+    {
+      "file": "09_cluster_profiles.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\09_cluster_profiles.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (20 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cluster0-values:fill None -> '#1F2937'; text[42]:fill '#1F2937' -> None; text[44]:fill '#1F2937' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (1 attribute(s)); examples: radar-visual:transform 'translate(340, 390)' -> 'translate(340 390)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 28,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 12,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 4,
+              "ellipse": 0,
+              "line": 6,
+              "polyline": 0,
+              "polygon": 2,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 28,
+        "tspan_elements": 12,
+        "contextual_values": {
+          "colors": [
+            "#047857",
+            "#1E40AF",
+            "#9CA3AF",
+            "#EFF6FF",
+            "#F0FDF4"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "0fbf26233b8e9f345f0adfaa0c64c5e12f22d6c757e61661f68c39d4f44b31b9"
+    },
+    {
+      "file": "10_channel_region.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\10_channel_region.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(80,180)' -> 'translate(80 180)'; g[32]:transform 'translate(660,180)' -> 'translate(660 180)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif",
+        "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #5 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "10 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 30,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 19,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, sans-serif"
+        ],
+        "text_elements": 30,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#047857",
+            "#059669",
+            "#1E40AF",
+            "#3B82F6",
+            "#92400E",
+            "#9CA3AF",
+            "#D1FAE5",
+            "#D97706",
+            "#DBEAFE",
+            "#EFF6FF",
+            "#F0FDF4",
+            "#F59E0B",
+            "#F9FAFB",
+            "#FFFBEB"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "51262ab35f5f5571ecbaceca1138d6e9c1b3ac5a1bbf271dfd4dc3d8bf18a476"
+    },
+    {
+      "file": "11_tech_stack.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\11_tech_stack.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[68]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "<text> (x=440, y=405; text='API: /health, /ready…') exceeds <g id=\"architecture\"> data-pptx-bounds on the horizontal axis: content (440.0, 392.2)-(787.0, 410.2), container (60.0, 160.0)-(780.0, 640.0), overflow horizontal 1.0%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈9.1 px per Latin char at 15px incl. headroom; ≈78 chars fit in 720 px",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 32,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 4,
+          "effects": {
+            "inline_emphasis_runs": 2,
+            "gradient_uses": 1,
+            "filter_uses": 3,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 7,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 2
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 2
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 32,
+        "tspan_elements": 2,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#047857",
+            "#064E3B",
+            "#065F46",
+            "#1E3A8A",
+            "#1E40AF",
+            "#78350F",
+            "#92400E",
+            "#9CA3AF",
+            "#D97706",
+            "#DCFCE7",
+            "#EFF6FF",
+            "#F0FDF4",
+            "#F59E0B",
+            "#FEF3C7"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "36275162b055cb6181e64ce88bb62a08f8d413ebfa982bbfc08a93a6bb7f1fb5"
+    },
+    {
+      "file": "12_web_application.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\12_web_application.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[72]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id=\"screen2\"> x=500.0, y=405.0..445.0, 3 lines; <g id=\"screen3\"> x=900.0, y=375.0..455.0, 5 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate.",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 33,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 2,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 3,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 23,
+              "circle": 2,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 33,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#065F46",
+            "#1E40AF",
+            "#9CA3AF",
+            "#D1D5DB",
+            "#DCFCE7",
+            "#EFF6FF",
+            "#F0FDF4"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "b4b7b59e33e936d121376afcf22de1ccda15b58a1acc900cefda31175496695e"
+    },
+    {
+      "file": "13_testing_quality.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\13_testing_quality.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): footer:fill None -> '#9CA3AF'; footer:font-size None -> '14'; text[73]:fill '#9CA3AF' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 25,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 14,
+          "effects": {
+            "inline_emphasis_runs": 1,
+            "gradient_uses": 2,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 13,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 25,
+        "tspan_elements": 1,
+        "contextual_values": {
+          "colors": [
+            "#059669",
+            "#064E3B",
+            "#065F46",
+            "#7F1D1D",
+            "#991B1B",
+            "#9CA3AF",
+            "#D1FAE5",
+            "#DCFCE7",
+            "#EF4444",
+            "#EFF6FF",
+            "#F0FDF4",
+            "#F59E0B",
+            "#FEF2F2",
+            "#FEF3C7"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "6a0379cf5f200d969da775f7b5ca4c079b5284b7c371378f4045c332ff5e97cd"
+    },
+    {
+      "file": "14_limitations_future.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\14_limitations_future.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains safely compactable page-space metadata (2 attribute(s)); examples: g[12]:transform 'translate(80,180)' -> 'translate(80 180)'; g[29]:transform 'translate(660,180)' -> 'translate(660 180)' (advisory; normalize with `python3 scripts/compact_svg_coordinates.py <svg_output> --inplace --keep-native-frames`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, sans-serif",
+        "Reference SVG: detected 2 visible root-level <g> module(s) without explicit data-pptx-bounds (<g>; <g>); every final-page/template root <g> other than a compact authored-preset atom declares its root-coordinate layout subcanvas even when it also carries native coordinates",
+        "Top-level visible <g> #5 has no id; object-level animation config cannot reference it",
+        "Top-level visible <g> #6 has no id; object-level animation config cannot reference it",
+        "10 ungrouped top-level Slide-local element(s) in svg_output (<text> #2, <text> #3, <rect> #4, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 32,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 2,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, sans-serif"
+        ],
+        "text_elements": 32,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#000000",
+            "#059669",
+            "#4338CA",
+            "#4B5563",
+            "#4F46E5",
+            "#6366F1",
+            "#9CA3AF",
+            "#D1FAE5",
+            "#DC2626",
+            "#EEF2FF",
+            "#FEE2E2"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "73b76029f81c05ceae804b268bf22ce648f75c105ede67af52c2f1fd1c3c646c"
+    },
+    {
+      "file": "15_conclusion.svg",
+      "path": "projects\\project22_kmeans_presentation_20261026\\svg_output\\15_conclusion.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (6 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:text-anchor None -> 'middle'; text[9]:text-anchor 'middle' -> None; text[10]:text-anchor 'middle' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Inter): Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "1 ungrouped top-level Slide-local element(s) in svg_output (<rect> #2); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 14,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 9,
+          "effects": {
+            "inline_emphasis_runs": 9,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 12,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        ],
+        "text_elements": 14,
+        "tspan_elements": 9,
+        "contextual_values": {
+          "colors": [
+            "#047857",
+            "#059669",
+            "#065F46",
+            "#D1FAE5",
+            "#DCFCE7",
+            "#F0FDF4"
+          ],
+          "font_families": [
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "37a9298459eb7eca4ab7fbad90b0cf5c8be5d1066346ba8fc1347892a9c455ef"
+    }
+  ]
+}
