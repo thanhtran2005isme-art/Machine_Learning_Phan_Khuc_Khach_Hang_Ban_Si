@@ -1,0 +1,3 @@
+Kính chào Thầy và các bạn. Hôm nay nhóm xin trình bày đồ án kết thúc học phần Học Máy Cơ Bản: Project 22 - Phân khúc khách hàng bán sỉ dựa trên cơ cấu chi tiêu với K-Means Clustering.
+Dữ liệu sử dụng là bộ dữ liệu chuẩn mực UCI Wholesale Customers gồm 440 khách hàng và 6 nhóm mặt hàng chi tiêu chính.
+Mô hình cuối cùng được đóng băng là D011 (log1p + StandardScaler, K=2) và đã được đóng gói hoàn chỉnh thành ứng dụng Web Full Stack có API phục vụ.

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">BÀI TOÁN</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Dữ liệu &amp; nguồn</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <rect x="80" y="150" width="262" height="168" rx="12" fill="#E9ECEF"/>
+  <rect x="80" y="150" width="262" height="5" rx="2" fill="#2E86AB"/>
+  <text x="211" y="202" font-family="Arial" font-size="44" font-weight="bold" fill="#0B3C5D" text-anchor="middle">440</text>
+  <text x="211" y="236" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Khách hàng bán sỉ</text>
+  <text x="211" y="258" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="middle">UCI Wholesale Customers</text>
+  <rect x="374" y="150" width="262" height="168" rx="12" fill="#E9ECEF"/>
+  <rect x="374" y="150" width="262" height="5" rx="2" fill="#2E86AB"/>
+  <text x="505" y="202" font-family="Arial" font-size="44" font-weight="bold" fill="#0B3C5D" text-anchor="middle">6</text>
+  <text x="505" y="236" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Chi tiêu hàng năm</text>
+  <text x="505" y="258" font-family="Arial" font-size="12" fill="#6B7280" text-anchor="middle">Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen</text>
+  <rect x="668" y="150" width="262" height="168" rx="12" fill="#E9ECEF"/>
+  <rect x="668" y="150" width="262" height="5" rx="2" fill="#2E86AB"/>
+  <text x="799" y="202" font-family="Arial" font-size="44" font-weight="bold" fill="#0B3C5D" text-anchor="middle">0</text>
+  <text x="799" y="236" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Giá trị thiếu / trùng</text>
+  <text x="799" y="258" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Dữ liệu đã được làm sạch</text>
+  <rect x="962" y="150" width="262" height="168" rx="12" fill="#E9ECEF"/>
+  <rect x="962" y="150" width="262" height="5" rx="2" fill="#2E86AB"/>
+  <text x="1093" y="202" font-family="Arial" font-size="30" font-weight="bold" fill="#0B3C5D" text-anchor="middle">2 + 3</text>
+  <text x="1093" y="236" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Nhóm Channel / Region</text>
+  <text x="1093" y="258" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Chỉ dùng profiling sau clustering</text>
+  <rect x="80" y="358" width="1120" height="250" fill="#FFFFFF"/>
+  <rect x="80" y="358" width="1120" height="42" fill="#0B3C5D"/>
+  <text x="96" y="384" font-family="Arial" font-size="17" font-weight="bold" fill="#FFFFFF" text-anchor="start">Thuộc tính</text>
+  <text x="386" y="384" font-family="Arial" font-size="17" font-weight="bold" fill="#FFFFFF" text-anchor="start">Giá trị</text>
+  <rect x="80" y="400" width="1120" height="40" fill="#FFFFFF"/>
+  <text x="96" y="424" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Số dòng / cột</text>
+  <text x="386" y="424" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">440 / 8 (Channel, Region + 6 chi tiêu)</text>
+  <rect x="80" y="440" width="1120" height="40" fill="#E9ECEF"/>
+  <text x="96" y="464" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Channel</text>
+  <text x="386" y="464" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">1: 298  ·  2: 142</text>
+  <rect x="80" y="480" width="1120" height="40" fill="#FFFFFF"/>
+  <text x="96" y="504" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Region</text>
+  <text x="386" y="504" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">1: 77  ·  2: 47  ·  3: 316</text>
+  <rect x="80" y="520" width="1120" height="40" fill="#E9ECEF"/>
+  <text x="96" y="544" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Nguồn dữ liệu</text>
+  <text x="386" y="544" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">UCI Wholesale Customers · DOI 10.24432/C5030X</text>
+  <rect x="80" y="560" width="1120" height="40" fill="#FFFFFF"/>
+  <text x="96" y="584" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Giấy phép</text>
+  <text x="386" y="584" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">CC BY 4.0</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P03</text>
+</svg>

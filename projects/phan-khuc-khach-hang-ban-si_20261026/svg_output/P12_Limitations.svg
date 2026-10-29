@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">HẠN CHẾ</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Giới hạn và giả định của mô hình</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <g>
+    <text x="80" y="140" font-family="Arial" font-size="19" font-weight="bold" fill="#0B3C5D" text-anchor="start">Không phải phân loại có nhãn</text>
+    <text x="80" y="168" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Không có nhãn sự thật ⇒ không báo accuracy / precision / recall / F1. Cụm không phải tốt hay xấu.</text>
+  </g>
+  <g>
+    <text x="80" y="208" font-family="Arial" font-size="19" font-weight="bold" fill="#0B3C5D" text-anchor="start">Không suy ra doanh / lợi nhuận</text>
+    <text x="80" y="236" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Mô hình dùng để khám phá và tạo giả thuyết cần kiểm chứng, không dự báo nhu cầu hay giá trị khách.</text>
+  </g>
+  <g>
+    <text x="80" y="276" font-family="Arial" font-size="19" font-weight="bold" fill="#0B3C5D" text-anchor="start">Không retrain và không phải OOD</text>
+    <text x="80" y="304" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Serving dùng artifact đã đóng băng; chỉ infer. Cờ outlier là mô tả phát triển, không phải xác suất ngoài phân phối.</text>
+  </g>
+  <circle cx="100" cy="340" r="5" fill="#2E86AB"/>
+  <text x="128" y="344" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">K-Means nhạy cảm với preprocessing và outlier; khoảng cách chỉ có nghĩa trong biểu diễn đã scale.</text>
+  <circle cx="100" cy="380" r="5" fill="#2E86AB"/>
+  <text x="128" y="384" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Channel / Region chỉ hậu phân cụm, không dùng làm ground truth chọn K hay kết luận nhân quả.</text>
+  <circle cx="100" cy="420" r="5" fill="#2E86AB"/>
+  <text x="128" y="424" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Profiling giới hạn bởi validation 88 mẫu; không chứng minh doanh/lợi nhuận thực tế tăng.</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P12</text>
+</svg>

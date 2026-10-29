@@ -1,0 +1,100 @@
+name: Gate 10 Feature Branch Verification
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-and-api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: ml/requirements.txt
+      - run: npm ci
+      - run: npm audit --audit-level=moderate
+      - run: npm run test:gate6
+      - run: npm install --no-save --package-lock=false @playwright/test@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - run: python -m pip install -r ml/requirements.txt
+      - name: Reproduce PCA/Ward from train+validation only (no final test)
+        run: |
+          test ! -f data/processed/test.csv
+          python -m ml.src.download_data
+          python -m ml.src.prepare_development_only
+          python -m pytest ml/tests/test_development_extension.py -q
+          python -m ml.src.verify_development_extension
+          test ! -f data/processed/test.csv
+          git diff --exit-code -- models reports/data/final_profile reports/data/development_extension
+      - run: npm run test:parity
+      - run: npm run test:e2e
+      - name: Attach screenshots for desktop/mobile visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate10-ui-ubuntu
+          path: e2e/test-results/**/*.png
+          if-no-files-found: ignore
+  windows-integration:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    env:
+      PYTHON: python
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: ml/requirements.txt
+      - run: npm ci
+      - run: npm audit --audit-level=moderate
+      - run: npm run test:gate6
+      - run: python -m pip install -r ml/requirements.txt
+      - name: Verify development-only PCA/Ward Windows and frozen files
+        run: |
+          if (Test-Path 'data/processed/test.csv') { throw 'Unexpected final test' }
+          python -m ml.src.download_data
+          python -m ml.src.prepare_development_only
+          python -m pytest ml/tests/test_development_extension.py -q
+          python -m ml.src.verify_development_extension
+          if (Test-Path 'data/processed/test.csv') { throw 'Final test was materialized' }
+          git diff --exit-code -- models reports/data/final_profile reports/data/development_extension
+      - run: npm install --no-save --package-lock=false @playwright/test@1.56.1
+      - run: npx playwright install chromium
+      - run: npm run test:parity
+      - run: npm run test:e2e
+      - name: Attach screenshots for desktop/mobile visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate10-ui-windows
+          path: e2e/test-results/**/*.png
+          if-no-files-found: ignore

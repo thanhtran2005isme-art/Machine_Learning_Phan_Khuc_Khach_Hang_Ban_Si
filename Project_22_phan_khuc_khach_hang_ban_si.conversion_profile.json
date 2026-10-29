@@ -1,0 +1,30 @@
+{
+  "schema": "ppt-master.source_to_md.profile.v1",
+  "converter": "doc_to_md.py",
+  "conversion_type": "docx",
+  "source": {
+    "path": "Project_22_phan_khuc_khach_hang_ban_si.docx",
+    "name": "Project_22_phan_khuc_khach_hang_ban_si.docx",
+    "suffix": ".docx",
+    "kind": "file",
+    "exists": true,
+    "size_bytes": 46981
+  },
+  "outputs": {
+    "markdown": "Project_22_phan_khuc_khach_hang_ban_si.md",
+    "asset_dir": "",
+    "image_manifest": "",
+    "image_count": 0
+  },
+  "markdown": {
+    "line_count": 223,
+    "char_count": 11500,
+    "heading_count": 34,
+    "table_count": 8,
+    "image_ref_count": 0,
+    "link_count": 5
+  },
+  "warnings": [
+    "Unrecognised paragraph style: Small note (Style ID: Smallnote)"
+  ]
+}

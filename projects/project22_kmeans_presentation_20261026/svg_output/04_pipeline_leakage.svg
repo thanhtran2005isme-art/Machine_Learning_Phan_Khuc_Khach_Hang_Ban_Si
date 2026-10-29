@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
+  </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="166.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">KIẾN TRÚC PIPELINE</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Quy Trình Huấn Luyện &amp; Kiểm Soát Chống Rò Rỉ Dữ Liệu</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Quy chuẩn chia tách 60/20/20 và nguyên tắc bảo vệ tập kiểm thử độc lập</text>
+  </g>
+
+  <!-- Main Slide Content -->
+  
+  <!-- Golden Rule Banner -->
+  <g id="leakage-guard">
+    <rect x="70" y="150" width="1140" height="70" rx="12" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+    <circle cx="115" cy="185" r="22" fill="#FEE2E2"/>
+    <path d="M115 172 L115 188 M115 194 L115 198" stroke="#DC2626" stroke-width="3" stroke-linecap="round"/>
+    <text x="155" y="177" font-size="15" font-weight="bold" fill="#991B1B">NGUYÊN TẮC VÀNG CHỐNG RÒ RỈ DỮ LIỆU (ANTI-DATA-LEAKAGE):</text>
+    <text x="155" y="202" font-size="14" fill="#7F1D1D">Tuyệt đối phân chia tập dữ liệu (Split) trước khi fit bất kỳ bộ biến đổi nào. Tập Test được giữ độc lập và chỉ đánh giá đúng 1 lần.</text>
+  </g>
+
+  <!-- 5-Stage Pipeline Flowchart -->
+  <g id="pipeline-flow">
+    <!-- Stage 1 -->
+    <rect x="70" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="250" width="200" height="6" rx="3" fill="#2563EB"/>
+    <text x="90" y="285" font-size="13" font-weight="bold" fill="#1E40AF">BƯỚC 1</text>
+    <text x="90" y="315" font-size="18" font-weight="bold" fill="#0F172A">Raw Data</text>
+    <text x="90" y="345" font-size="13" fill="#64748B">• 440 mẫu khách hàng</text>
+    <text x="90" y="370" font-size="13" fill="#64748B">• Kiểm tra missing (0)</text>
+    <text x="90" y="395" font-size="13" fill="#64748B">• Giữ nguyên đơn vị m.u.</text>
+    <rect x="85" y="425" width="170" height="36" rx="6" fill="#EFF6FF"/>
+    <text x="170" y="448" font-size="12" font-weight="bold" fill="#1E40AF" text-anchor="middle">Input: 440 × 8</text>
+
+    <!-- Arrow 1 -->
+    <path d="M280 365 L305 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="305,360 315,365 305,370" fill="#94A3B8"/>
+
+    <!-- Stage 2 -->
+    <rect x="315" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2"/>
+    <rect x="315" y="250" width="200" height="6" rx="3" fill="#3B82F6"/>
+    <text x="335" y="285" font-size="13" font-weight="bold" fill="#1D4ED8">BƯỚC 2</text>
+    <text x="335" y="315" font-size="18" font-weight="bold" fill="#0F172A">Split 60 / 20 / 20</text>
+    <text x="335" y="345" font-size="13" fill="#1E40AF">• Train: <tspan font-weight="bold">264 mẫu</tspan> (60%)</text>
+    <text x="335" y="370" font-size="13" fill="#059669">• Val: <tspan font-weight="bold">88 mẫu</tspan> (20%)</text>
+    <text x="335" y="395" font-size="13" fill="#DC2626">• Test: <tspan font-weight="bold">88 mẫu</tspan> (20%)</text>
+    <rect x="330" y="425" width="170" height="36" rx="6" fill="#DBEAFE"/>
+    <text x="415" y="448" font-size="12" font-weight="bold" fill="#1E40AF" text-anchor="middle">Chia tách nghiêm ngặt</text>
+
+    <!-- Arrow 2 -->
+    <path d="M525 365 L550 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="550,360 560,365 550,370" fill="#94A3B8"/>
+
+    <!-- Stage 3 -->
+    <rect x="560" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="560" y="250" width="200" height="6" rx="3" fill="#10B981"/>
+    <text x="580" y="285" font-size="13" font-weight="bold" fill="#065F46">BƯỚC 3</text>
+    <text x="580" y="315" font-size="18" font-weight="bold" fill="#0F172A">Fit Preprocessing</text>
+    <text x="580" y="345" font-size="13" fill="#334155">• <tspan font-weight="bold">CHỈ fit trên Train</tspan></text>
+    <text x="580" y="370" font-size="13" fill="#334155">• log1p(x) nén lệch phải</text>
+    <text x="580" y="395" font-size="13" fill="#334155">• StandardScaler: mean, std</text>
+    <rect x="575" y="425" width="170" height="36" rx="6" fill="#DCFCE7"/>
+    <text x="660" y="448" font-size="12" font-weight="bold" fill="#065F46" text-anchor="middle">Transform Val &amp; Test</text>
+
+    <!-- Arrow 3 -->
+    <path d="M770 365 L795 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="795,360 805,365 795,370" fill="#94A3B8"/>
+
+    <!-- Stage 4 -->
+    <rect x="805" y="250" width="200" height="230" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="805" y="250" width="200" height="6" rx="3" fill="#F59E0B"/>
+    <text x="825" y="285" font-size="13" font-weight="bold" fill="#92400E">BƯỚC 4</text>
+    <text x="825" y="315" font-size="18" font-weight="bold" fill="#0F172A">Thực Nghiệm K</text>
+    <text x="825" y="345" font-size="13" fill="#334155">• K-Means Lloyd K=2..8</text>
+    <text x="825" y="370" font-size="13" fill="#334155">• Đánh giá Elbow &amp; Sil</text>
+    <text x="825" y="395" font-size="13" fill="#334155">• 10 seed kiểm định ARI</text>
+    <rect x="820" y="425" width="170" height="36" rx="6" fill="#FEF3C7"/>
+    <text x="905" y="448" font-size="12" font-weight="bold" fill="#92400E" text-anchor="middle">Chọn D011 (K=2)</text>
+
+    <!-- Arrow 4 -->
+    <path d="M1015 365 L1040 365" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="1040,360 1050,365 1040,370" fill="#94A3B8"/>
+
+    <!-- Stage 5 -->
+    <rect x="1050" y="250" width="160" height="230" rx="12" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="2"/>
+    <rect x="1050" y="250" width="160" height="6" rx="3" fill="#8B5CF6"/>
+    <text x="1070" y="285" font-size="13" font-weight="bold" fill="#6B21A8">BƯỚC 5</text>
+    <text x="1070" y="315" font-size="18" font-weight="bold" fill="#0F172A">Đóng Băng</text>
+    <text x="1070" y="345" font-size="13" fill="#334155">• Fit lại 352 mẫu dev</text>
+    <text x="1070" y="370" font-size="13" fill="#334155">• Đánh giá Test 1 lần</text>
+    <text x="1070" y="395" font-size="13" fill="#334155">• Xuất model.joblib</text>
+    <rect x="1065" y="425" width="130" height="36" rx="6" fill="#F3E8FF"/>
+    <text x="1130" y="448" font-size="12" font-weight="bold" fill="#6B21A8" text-anchor="middle">Frozen D011</text>
+  </g>
+
+  <!-- Split Evidence Callout -->
+  <g id="split-evidence">
+    <rect x="70" y="505" width="1140" height="155" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <text x="100" y="538" font-size="15" font-weight="bold" fill="#0F172A">BẰNG CHỨNG PHÂN TẬP DỮ LIỆU &amp; TÍNH TOÀN VẸN:</text>
+    
+    <rect x="100" y="555" width="340" height="85" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="120" y="582" font-size="13" font-weight="bold" fill="#1E40AF">TẬP TRAIN (264 mẫu - 60%)</text>
+    <text x="120" y="605" font-size="12" fill="#64748B">data/processed/train.csv</text>
+    <text x="120" y="625" font-size="12" fill="#059669">Dùng học tham số scaler &amp; tìm cụm</text>
+
+    <rect x="470" y="555" width="340" height="85" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="490" y="582" font-size="13" font-weight="bold" fill="#059669">TẬP VALIDATION (88 mẫu - 20%)</text>
+    <text x="490" y="605" font-size="12" fill="#64748B">data/processed/validation.csv</text>
+    <text x="490" y="625" font-size="12" fill="#059669">Dùng so sánh chọn K tối ưu &amp; stability</text>
+
+    <rect x="840" y="555" width="340" height="85" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="860" y="582" font-size="13" font-weight="bold" fill="#DC2626">TẬP TEST (88 mẫu - 20%)</text>
+    <text x="860" y="605" font-size="12" fill="#64748B">data/processed/test.csv</text>
+    <text x="860" y="625" font-size="12" fill="#DC2626">Bảo mật tuyệt đối, chỉ mở sau đóng băng</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">04 / 15</text>
+  </g>
+</svg>

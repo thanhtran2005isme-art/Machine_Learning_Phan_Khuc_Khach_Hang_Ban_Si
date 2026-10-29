@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
+  </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="228" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="184.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">KẾT LUẬN &amp;AMP; HỎI ĐÁP</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Tổng Kết Đồ Án &amp; Phiên Trao Đổi (Q&amp;A Session)</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Khẳng định giá trị học thuật, tính ứng dụng thực tiễn và sẵn sàng giải đáp thắc mắc</text>
+  </g>
+
+  <!-- Main Slide Content -->
+  
+  <!-- Summary Cards Grid -->
+  <g id="conclusion-summary">
+    <!-- Top Big Banner -->
+    <rect x="70" y="150" width="1140" height="110" rx="14" fill="#1E293B"/>
+    <text x="100" y="190" font-size="13" font-weight="bold" fill="#60A5FA" letter-spacing="1">TỔNG KẾT ĐỒ ÁN PROJECT 22</text>
+    <text x="100" y="225" font-size="24" font-weight="bold" fill="#FFFFFF">Hoàn Thành Toàn Diện Mục Tiêu Từ Nghiên Cứu Đến Triển Khai Thực Tế</text>
+    <text x="100" y="248" font-size="14" fill="#94A3B8">Kết hợp chặt chẽ giữa học thuật chuẩn mực, kỹ thuật chống rò rỉ dữ liệu và kỹ năng công nghệ phần mềm</text>
+
+    <!-- 4 Key Takeaway Cards -->
+    <!-- Card 1 -->
+    <rect x="70" y="280" width="265" height="195" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="280" width="265" height="4" rx="2" fill="#2563EB"/>
+    <text x="95" y="315" font-size="14" font-weight="bold" fill="#1E40AF">1. CHUẨN MỰC PIPELINE</text>
+    <text x="95" y="345" font-size="15" font-weight="bold" fill="#0F172A">Chống Rò Rỉ Tuyệt Đối</text>
+    <text x="95" y="375" font-size="13" fill="#334155">• Split 60/20/20 trước khi fit</text>
+    <text x="95" y="400" font-size="13" fill="#334155">• log1p nén Skewness 92.6%</text>
+    <text x="95" y="425" font-size="13" fill="#334155">• Tập test độc lập đánh giá 1 lần</text>
+    <text x="95" y="455" font-size="12" font-weight="bold" fill="#059669">✓ Đạt chuẩn học thuật cao nhất</text>
+
+    <!-- Card 2 -->
+    <rect x="360" y="280" width="265" height="195" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="360" y="280" width="265" height="4" rx="2" fill="#10B981"/>
+    <text x="385" y="315" font-size="14" font-weight="bold" fill="#065F46">2. K-MEANS TỐI ƯU</text>
+    <text x="385" y="345" font-size="15" font-weight="bold" fill="#0F172A">K=2 Cụm Đóng Băng D011</text>
+    <text x="385" y="375" font-size="13" fill="#334155">• Silhouette Validation = 0.307</text>
+    <text x="385" y="400" font-size="13" fill="#334155">• Độ ổn định ARI 10 seed: 0.997</text>
+    <text x="385" y="425" font-size="13" fill="#334155">• Silhouette Test = 0.2389</text>
+    <text x="385" y="455" font-size="12" font-weight="bold" fill="#059669">✓ Không phụ thuộc vào seed</text>
+
+    <!-- Card 3 -->
+    <rect x="650" y="280" width="265" height="195" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="650" y="280" width="265" height="4" rx="2" fill="#F59E0B"/>
+    <text x="675" y="315" font-size="14" font-weight="bold" fill="#92400E">3. Ý NGHĨA KINH DOANH</text>
+    <text x="675" y="345" font-size="15" font-weight="bold" fill="#0F172A">2 Chân Dung Khách Hàng</text>
+    <text x="675" y="375" font-size="13" fill="#334155">• Cụm 0: Đại siêu thị (Grocery/Milk)</text>
+    <text x="675" y="400" font-size="13" fill="#334155">• Cụm 1: Horeca (Fresh/Frozen)</text>
+    <text x="675" y="425" font-size="13" fill="#334155">• Tương quan 90% với Channel thật</text>
+    <text x="675" y="455" font-size="12" font-weight="bold" fill="#059669">✓ Ứng dụng thực tiễn cao</text>
+
+    <!-- Card 4 -->
+    <rect x="940" y="280" width="270" height="195" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="940" y="280" width="270" height="4" rx="2" fill="#8B5CF6"/>
+    <text x="965" y="315" font-size="14" font-weight="bold" fill="#6B21A8">4. WEB SERVING</text>
+    <text x="965" y="345" font-size="15" font-weight="bold" fill="#0F172A">Kiến Trúc Hoàn Thiện</text>
+    <text x="965" y="375" font-size="13" fill="#334155">• Fastify API + React Client</text>
+    <text x="965" y="400" font-size="13" fill="#334155">• Model SHA-256 Checksum Guard</text>
+    <text x="965" y="425" font-size="13" fill="#334155">• 22/22 Playwright E2E Pass</text>
+    <text x="965" y="455" font-size="12" font-weight="bold" fill="#059669">✓ Đạt tiêu chuẩn Production</text>
+  </g>
+
+  <!-- Bottom QA Invite Box -->
+  <g id="qa-invite">
+    <rect x="70" y="495" width="1140" height="165" rx="14" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+    <text x="100" y="540" font-size="28" font-weight="bold" fill="#1E3A8A">XIN CHÂN THÀNH CẢM ƠN THẦY VÀ CÁC BẠN ĐÃ LẮNG NGHE!</text>
+    <text x="100" y="575" font-size="15" fill="#1E40AF">Nhóm kính mời Thầy và Hội đồng đặt câu hỏi và đóng góp ý kiến cho Đồ án Project 22.</text>
+    
+    <rect x="100" y="600" width="320" height="42" rx="8" fill="#1E40AF"/>
+    <text x="260" y="626" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">💬 PHIÊN HỎI ĐÁP &amp; THẢO LUẬN (Q&amp;A)</text>
+
+    <text x="750" y="626" font-size="13" fill="#64748B">Source Code &amp; Demo: github.com/... • Project 22 (Wholesale Segmentation)</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">15 / 15</text>
+  </g>
+</svg>

@@ -1,0 +1,71 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <g id="header" data-pptx-bounds="60 50 1160 80">
+    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Bài Toán và Mục Tiêu</text>
+    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  </g>
+  
+  <!-- Business Problem -->
+  <g id="business-problem" data-pptx-bounds="60 160 1160 120">
+    <rect x="60" y="160" width="1160" height="120" rx="12" fill="#F8F9FA"/>
+    <use data-icon="phosphor-duotone/target" x="80" y="185" width="36" height="36" fill="#2563EB"/>
+    <text x="135" y="200" font-size="18" font-weight="bold" fill="#1F2937">Business Problem</text>
+    <text x="135" y="230" font-size="20" fill="#1F2937">
+      <tspan x="135" dy="0">Nhà phân phối cần hiểu <tspan font-weight="bold" fill="#2563EB">kiểu cơ cấu chi tiêu</tspan></tspan>
+      <tspan x="135" dy="28">của khách hàng bán sỉ để hỗ trợ thiết kế danh mục và dịch vụ</tspan>
+    </text>
+  </g>
+  
+  <!-- Research Question -->
+  <g id="research-question" data-pptx-bounds="60 310 1160 100">
+    <rect x="60" y="310" width="1160" height="100" rx="12" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+    <text x="90" y="345" font-size="18" font-weight="bold" fill="#1E40AF">Research Question</text>
+    <text x="90" y="375" font-size="19" fill="#1E3A8A" font-style="italic">
+      "Sau log-transform và chuẩn hóa, K-means tạo ra các phân khúc
+    </text>
+    <text x="90" y="400" font-size="19" fill="#1E3A8A" font-style="italic">
+      ổn định và có ý nghĩa kinh doanh nào?"
+    </text>
+  </g>
+  
+  <!-- Objectives -->
+  <g id="objectives" data-pptx-bounds="60 440 560 220">
+    <text x="60" y="465" font-size="20" font-weight="bold" fill="#1F2937">Objectives</text>
+    <use data-icon="phosphor-duotone/check-circle" x="60" y="485" width="24" height="24" fill="#10B981"/>
+    <text x="95" y="505" font-size="18" fill="#1F2937">Áp dụng K-Means phân khúc theo chi tiêu</text>
+    <use data-icon="phosphor-duotone/check-circle" x="60" y="525" width="24" height="24" fill="#10B981"/>
+    <text x="95" y="545" font-size="18" fill="#1F2937">Phân tích cơ cấu chi tiêu từng phân khúc</text>
+    <use data-icon="phosphor-duotone/check-circle" x="60" y="565" width="24" height="24" fill="#10B981"/>
+    <text x="95" y="585" font-size="18" fill="#1F2937">Đóng gói model thành web app với API</text>
+  </g>
+  
+  <!-- Ethical Note -->
+  <g id="ethical-note" data-pptx-bounds="660 440 560 220">
+    <rect x="660" y="440" width="560" height="220" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <use data-icon="phosphor-duotone/warning" x="680" y="465" width="32" height="32" fill="#D97706"/>
+    <text x="730" y="490" font-size="18" font-weight="bold" fill="#92400E">Important</text>
+    <text x="680" y="525" font-size="17" fill="#78350F">
+      <tspan x="680" dy="0">Cụm CHỈ mô tả hành vi chi tiêu,</tspan>
+      <tspan x="680" dy="25">KHÔNG đánh giá giá trị con người</tspan>
+    </text>
+  </g>
+  
+  <!-- Footer -->
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
+    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
+    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">2 / 15</text>
+  </g>
+</svg>

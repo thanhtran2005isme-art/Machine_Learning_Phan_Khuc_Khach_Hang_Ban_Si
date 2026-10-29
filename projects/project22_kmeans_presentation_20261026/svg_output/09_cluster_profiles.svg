@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
+  </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="201" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="170.5" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">CHÂN DUNG PHÂN KHÚC</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Chân Dung 2 Nhóm Khách Hàng Bán Sỉ &amp; Ý Nghĩa Kinh Doanh</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Sự tương phản rõ nét giữa nhóm Đại siêu thị (Cụm 0) và nhóm Nhà hàng ẩm thực (Cụm 1)</text>
+  </g>
+
+  <!-- Main Slide Content -->
+  
+  <!-- 2 Cluster Persona Cards Side-by-Side -->
+  <g id="cluster-personas">
+    <!-- Cluster 0: Retailers -->
+    <rect x="70" y="150" width="550" height="515" rx="14" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2"/>
+    <rect x="70" y="150" width="550" height="6" rx="3" fill="#2563EB"/>
+
+    <!-- Header Badge -->
+    <rect x="95" y="175" width="340" height="36" rx="18" fill="#DBEAFE"/>
+    <circle cx="113" cy="193" r="12" fill="#2563EB"/>
+    <text x="113" y="198" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">0</text>
+    <text x="135" y="198" font-size="15" font-weight="bold" fill="#1D4ED8">CỤM 0: ĐẠI SIÊU THỊ &amp; CHUỖI BÁN LẺ</text>
+
+    <text x="95" y="240" font-size="14" fill="#64748B">Tỷ lệ: 162/352 mẫu phát triển (46.0%) • Test: 45 mẫu (51.1%)</text>
+
+    <!-- Spending Profile Table -->
+    <rect x="95" y="260" width="500" height="150" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="115" y="285" font-size="13" font-weight="bold" fill="#0F172A">CƠ CẤU CHI TIÊU TRUNG VỊ (MEDIAN EXPENDITURE):</text>
+    
+    <text x="115" y="315" font-size="13" fill="#334155">• <tspan font-weight="bold" fill="#2563EB">Grocery:</tspan> 10,750 m.u. <tspan fill="#DC2626" font-weight="bold">(Gấp 4.2 lần Cụm 1!)</tspan></text>
+    <text x="115" y="340" font-size="13" fill="#334155">• <tspan font-weight="bold" fill="#2563EB">Milk:</tspan> 6,700 m.u. <tspan fill="#DC2626" font-weight="bold">(Gấp 3.5 lần Cụm 1!)</tspan></text>
+    <text x="115" y="365" font-size="13" fill="#334155">• <tspan font-weight="bold" fill="#2563EB">Detergents_Paper:</tspan> 4,500 m.u. <tspan fill="#DC2626" font-weight="bold">(Gấp 11.8 lần Cụm 1!)</tspan></text>
+    <text x="115" y="390" font-size="13" fill="#64748B">• Fresh: 5,200 m.u. | Frozen: 950 m.u. | Delicassen: 1,250 m.u.</text>
+
+    <!-- Business Strategies Box -->
+    <rect x="95" y="425" width="500" height="220" rx="10" fill="#EFF6FF" stroke="#BFDBFE"/>
+    <text x="115" y="455" font-size="14" font-weight="bold" fill="#1E40AF">CHIẾN LƯỢC KINH DOANH &amp; TIẾP THỊ ĐỀ XUẤT:</text>
+    <text x="115" y="485" font-size="13" fill="#1E3A8A">1. <tspan font-weight="bold">Chính sách chiết khấu theo khối lượng lớn (Volume Rebate):</tspan></text>
+    <text x="130" y="505" font-size="13" fill="#334155">Áp dụng cho đơn hàng gộp Grocery + Detergents + Milk.</text>
+    <text x="115" y="535" font-size="13" fill="#1E3A8A">2. <tspan font-weight="bold">Hợp đồng cung ứng dài hạn &amp; giao hàng định kỳ:</tspan></text>
+    <text x="130" y="555" font-size="13" fill="#334155">Tối ưu hóa logistics theo container/xe tải trọng tải lớn.</text>
+    <text x="115" y="585" font-size="13" fill="#1E3A8A">3. <tspan font-weight="bold">Hạn mức tín dụng thương mại (Credit Line) cao:</tspan></text>
+    <text x="130" y="605" font-size="13" fill="#334155">Chu kỳ thanh toán 30-45 ngày cho các chuỗi bán lẻ uy tín.</text>
+
+    <!-- Cluster 1: Horeca -->
+    <rect x="660" y="150" width="550" height="515" rx="14" fill="#FFFFFF" stroke="#059669" stroke-width="2"/>
+    <rect x="660" y="150" width="550" height="6" rx="3" fill="#059669"/>
+
+    <!-- Header Badge -->
+    <rect x="685" y="175" width="370" height="36" rx="18" fill="#DCFCE7"/>
+    <circle cx="703" cy="193" r="12" fill="#059669"/>
+    <text x="703" y="198" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1</text>
+    <text x="725" y="198" font-size="15" font-weight="bold" fill="#065F46">CỤM 1: NHÀ HÀNG, KHÁCH SẠN &amp; CAFE (HORECA)</text>
+
+    <text x="685" y="240" font-size="14" fill="#64748B">Tỷ lệ: 190/352 mẫu phát triển (54.0%) • Test: 43 mẫu (48.9%)</text>
+
+    <!-- Spending Profile Table -->
+    <rect x="685" y="260" width="500" height="150" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="705" y="285" font-size="13" font-weight="bold" fill="#0F172A">CƠ CẤU CHI TIÊU TRUNG VỊ (MEDIAN EXPENDITURE):</text>
+    
+    <text x="705" y="315" font-size="13" fill="#334155">• <tspan font-weight="bold" fill="#059669">Fresh (Tươi sống):</tspan> 11,200 m.u. <tspan fill="#059669" font-weight="bold">(Gấp 2.15 lần Cụm 0!)</tspan></text>
+    <text x="705" y="340" font-size="13" fill="#334155">• <tspan font-weight="bold" fill="#059669">Frozen (Đông lạnh):</tspan> 2,800 m.u. <tspan fill="#059669" font-weight="bold">(Gấp 2.95 lần Cụm 0!)</tspan></text>
+    <text x="705" y="365" font-size="13" fill="#64748B">• Detergents_Paper: chỉ 380 m.u. (Mức tiêu thụ rất thấp)</text>
+    <text x="705" y="390" font-size="13" fill="#64748B">• Grocery: 2,550 m.u. | Milk: 1,900 m.u. | Delicassen: 850 m.u.</text>
+
+    <!-- Business Strategies Box -->
+    <rect x="685" y="425" width="500" height="220" rx="10" fill="#ECFDF5" stroke="#A7F3D0"/>
+    <text x="705" y="455" font-size="14" font-weight="bold" fill="#065F46">CHIẾN LƯỢC KINH DOANH &amp; TIẾP THỊ ĐỀ XUẤT:</text>
+    <text x="705" y="485" font-size="13" fill="#064E3B">1. <tspan font-weight="bold">Cam kết độ tươi sống &amp; chuỗi cung ứng lạnh (Cold-chain):</tspan></text>
+    <text x="720" y="505" font-size="13" fill="#334155">Kiểm soát nhiệt độ bảo quản nghiêm ngặt từ kho đến bếp.</text>
+    <text x="705" y="535" font-size="13" fill="#064E3B">2. <tspan font-weight="bold">Tần suất giao hàng hằng ngày (Daily Delivery):</tspan></text>
+    <text x="720" y="555" font-size="13" fill="#334155">Đáp ứng dung lượng kho lạnh hữu hạn của các nhà hàng.</text>
+    <text x="705" y="585" font-size="13" fill="#064E3B">3. <tspan font-weight="bold">Ứng dụng đặt hàng nhanh qua di động (Mobile Ordering):</tspan></text>
+    <text x="720" y="605" font-size="13" fill="#334155">Đặt hàng ca đêm và giao trước 6h sáng hằng ngày.</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">09 / 15</text>
+  </g>
+</svg>

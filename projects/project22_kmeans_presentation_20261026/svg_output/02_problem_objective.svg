@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
+  </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="165" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="152.5" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">TỔNG QUAN ĐỒ ÁN</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Bối Cảnh Nghiệp Vụ, Thách Thức &amp; Mục Tiêu</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Xác lập ranh giới bài toán phân khúc bán sỉ và phương pháp giải quyết khoa học</text>
+  </g>
+
+  <!-- Main Slide Content -->
+  
+  <!-- 3 Main Pillars -->
+  <g id="problem-pillars">
+    <!-- Card 1: Business Context -->
+    <rect x="70" y="160" width="360" height="485" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="160" width="360" height="6" rx="3" fill="#2563EB"/>
+    
+    <!-- Icon Circle -->
+    <circle cx="115" cy="205" r="22" fill="#DBEAFE"/>
+    <path d="M107 205 L113 211 L123 199" stroke="#1D4ED8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <text x="150" y="211" font-size="18" font-weight="bold" fill="#0F172A">Bối Cảnh B2B Bán Sỉ</text>
+
+    <text x="95" y="260" font-size="14" font-weight="bold" fill="#1E40AF">Đặc thù nhà phân phối:</text>
+    <text x="95" y="285" font-size="14" fill="#334155">• Cung ứng hàng hóa lớn cho 2 nhóm</text>
+    <text x="105" y="307" font-size="14" fill="#334155">đối tượng chính: Horeca &amp; Retail.</text>
+    <text x="95" y="340" font-size="14" font-weight="bold" fill="#1E40AF">Bài toán thực tế:</text>
+    <text x="95" y="365" font-size="14" fill="#334155">• Quy mô đơn hàng và danh mục hàng</text>
+    <text x="105" y="387" font-size="14" fill="#334155">hóa giữa các khách hàng rất phân tán.</text>
+    <text x="95" y="420" font-size="14" fill="#334155">• Thiếu cơ sở dữ liệu định lượng để xây</text>
+    <text x="105" y="442" font-size="14" fill="#334155">dựng chính sách chiết khấu &amp; tồn kho.</text>
+
+    <!-- Bottom Highlight -->
+    <rect x="90" y="525" width="320" height="100" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="105" y="555" font-size="13" font-weight="bold" fill="#1E40AF">MỤC TIÊU NGHIỆP VỤ</text>
+    <text x="105" y="580" font-size="13" fill="#1E3A8A">Tự động nhận diện nhóm khách hàng</text>
+    <text x="105" y="602" font-size="13" fill="#1E3A8A">dựa trên hành vi chi tiêu thực tế.</text>
+
+    <!-- Card 2: Technical Challenge -->
+    <rect x="460" y="160" width="360" height="485" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="460" y="160" width="360" height="6" rx="3" fill="#DC2626"/>
+    
+    <!-- Icon Circle -->
+    <circle cx="505" cy="205" r="22" fill="#FEE2E2"/>
+    <text x="505" y="212" font-size="18" font-weight="bold" fill="#DC2626" text-anchor="middle">!</text>
+    <text x="540" y="211" font-size="18" font-weight="bold" fill="#0F172A">Thách Thức Machine Learning</text>
+
+    <text x="485" y="260" font-size="14" font-weight="bold" fill="#991B1B">Độ lệch phân phối (Skewness):</text>
+    <text x="485" y="285" font-size="14" fill="#334155">• Dữ liệu chi tiêu lệch phải cực đoan,</text>
+    <text x="495" y="307" font-size="14" fill="#334155">Delicassen đạt Skewness lên tới +12.12.</text>
+    <text x="485" y="340" font-size="14" font-weight="bold" fill="#991B1B">Chênh lệch thang đo (Range):</text>
+    <text x="485" y="365" font-size="14" fill="#334155">• Fresh (tới 112,151) lấn át hoàn toàn</text>
+    <text x="495" y="387" font-size="14" fill="#334155">khoảng cách Euclidean so với biến khác.</text>
+    <text x="485" y="420" font-size="14" font-weight="bold" fill="#991B1B">Nguy cơ rò rỉ dữ liệu (Leakage):</text>
+    <text x="485" y="442" font-size="14" fill="#334155">• Tiền xử lý trên toàn bộ tập dữ liệu sẽ</text>
+    <text x="495" y="464" font-size="14" fill="#334155">làm sai lệch kết quả đánh giá mô hình.</text>
+
+    <!-- Bottom Highlight -->
+    <rect x="480" y="525" width="320" height="100" rx="10" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+    <text x="495" y="555" font-size="13" font-weight="bold" fill="#991B1B">RỦI RO CẦN TRIỆT TIÊU</text>
+    <text x="495" y="580" font-size="13" fill="#7F1D1D">Không để ngoại lệ chi phối khoảng cách,</text>
+    <text x="495" y="602" font-size="13" fill="#7F1D1D">cấm sử dụng nhãn test để chọn mô hình.</text>
+
+    <!-- Card 3: Proposed Solution -->
+    <rect x="850" y="160" width="360" height="485" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="850" y="160" width="360" height="6" rx="3" fill="#059669"/>
+    
+    <!-- Icon Circle -->
+    <circle cx="895" cy="205" r="22" fill="#D1FAE5"/>
+    <path d="M887 205 L893 211 L903 199" stroke="#059669" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <text x="930" y="211" font-size="18" font-weight="bold" fill="#0F172A">Giải Pháp Đề Xuất</text>
+
+    <text x="875" y="260" font-size="14" font-weight="bold" fill="#065F46">Chuẩn hóa &amp; Chống rò rỉ:</text>
+    <text x="875" y="285" font-size="14" fill="#334155">• Split Train/Val/Test (264/88/88) trước</text>
+    <text x="885" y="307" font-size="14" fill="#334155">khi fit bất kỳ bộ biến đổi nào.</text>
+    <text x="875" y="340" font-size="14" font-weight="bold" fill="#065F46">Pipeline Log1p + StandardScaler:</text>
+    <text x="875" y="365" font-size="14" fill="#334155">• Nén phân phối đuôi dài và đưa 6 biến</text>
+    <text x="885" y="387" font-size="14" fill="#334155">về cùng thang đo z-score chuẩn.</text>
+    <text x="875" y="420" font-size="14" font-weight="bold" fill="#065F46">Đóng gói Web Serving:</text>
+    <text x="875" y="442" font-size="14" fill="#334155">• Đóng băng Model D011, phục vụ dự</text>
+    <text x="885" y="464" font-size="14" fill="#334155">đoán thời gian thực qua REST API.</text>
+
+    <!-- Bottom Highlight -->
+    <rect x="870" y="525" width="320" height="100" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
+    <text x="885" y="555" font-size="13" font-weight="bold" fill="#065F46">KẾT QUẢ MONG ĐỢI</text>
+    <text x="885" y="580" font-size="13" fill="#064E3B">K=2 ổn định tuyệt đối (ARI=0.997),</text>
+    <text x="885" y="602" font-size="13" fill="#064E3B">phân khúc rõ nét có ý nghĩa kinh doanh.</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">02 / 15</text>
+  </g>
+</svg>

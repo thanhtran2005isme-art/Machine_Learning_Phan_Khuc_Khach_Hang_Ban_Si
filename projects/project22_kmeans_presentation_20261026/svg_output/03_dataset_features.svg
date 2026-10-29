@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
+  </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="174" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="157.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">KHÁM PHÁ DỮ LIỆU</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">Tập Dữ Liệu Khách Hàng Bán Sỉ (Wholesale Customers)</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Chi tiết 6 biến chi tiêu monetary units và nguyên tắc cô lập biến phân loại</text>
+  </g>
+
+  <!-- Main Slide Content -->
+  
+  <!-- Top Metadata Bar -->
+  <g id="dataset-meta">
+    <rect x="70" y="150" width="1140" height="60" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <text x="100" y="186" font-size="15" font-weight="bold" fill="#1E40AF">TẬP DỮ LIỆU:</text>
+    <text x="210" y="186" font-size="15" fill="#0F172A">UCI Machine Learning Repository (ID 292)</text>
+    <line x1="560" y1="165" x2="560" y2="195" stroke="#CBD5E1" stroke-width="1"/>
+    <text x="590" y="186" font-size="15" font-weight="bold" fill="#059669">QUY MÔ:</text>
+    <text x="670" y="186" font-size="15" fill="#0F172A">440 quan sát khách hàng</text>
+    <line x1="880" y1="165" x2="880" y2="195" stroke="#CBD5E1" stroke-width="1"/>
+    <text x="910" y="186" font-size="15" font-weight="bold" fill="#7C3AED">ĐẶC TRƯNG:</text>
+    <text x="1015" y="186" font-size="15" fill="#0F172A">6 biến chi tiêu + 2 phân tích</text>
+  </g>
+
+  <!-- 6 Feature Cards Grid -->
+  <g id="spending-features">
+    <!-- Row 1 -->
+    <!-- Card 1: Fresh -->
+    <rect x="70" y="225" width="360" height="185" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="225" width="360" height="4" rx="2" fill="#10B981"/>
+    <text x="95" y="258" font-size="18" font-weight="bold" fill="#0F172A">1. Fresh (Hàng tươi sống)</text>
+    <text x="95" y="285" font-size="13" fill="#64748B">Rau củ, hoa quả, thịt tươi hằng ngày</text>
+    <text x="95" y="325" font-size="13" fill="#334155">Trung bình (Mean): <tspan font-weight="bold" fill="#059669">12,000 m.u.</tspan></text>
+    <text x="95" y="350" font-size="13" fill="#334155">Trung vị (Median): <tspan font-weight="bold">8,504 m.u.</tspan></text>
+    <text x="95" y="375" font-size="13" fill="#334155">Khoảng giá trị (Range): <tspan font-weight="bold" fill="#DC2626">3 → 112,151 m.u.</tspan></text>
+    <text x="95" y="398" font-size="12" fill="#94A3B8">Skewness cực đại trong nhóm chi tiêu cao</text>
+
+    <!-- Card 2: Milk -->
+    <rect x="460" y="225" width="360" height="185" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="460" y="225" width="360" height="4" rx="2" fill="#3B82F6"/>
+    <text x="485" y="258" font-size="18" font-weight="bold" fill="#0F172A">2. Milk (Sản phẩm từ sữa)</text>
+    <text x="485" y="285" font-size="13" fill="#64748B">Sữa tươi, phô mai, bơ, sữa chua</text>
+    <text x="485" y="325" font-size="13" fill="#334155">Trung bình (Mean): <tspan font-weight="bold" fill="#2563EB">5,796 m.u.</tspan></text>
+    <text x="485" y="350" font-size="13" fill="#334155">Trung vị (Median): <tspan font-weight="bold">3,627 m.u.</tspan></text>
+    <text x="485" y="375" font-size="13" fill="#334155">Khoảng giá trị (Range): <tspan font-weight="bold" fill="#DC2626">55 → 73,498 m.u.</tspan></text>
+    <text x="485" y="398" font-size="12" fill="#94A3B8">Skewness thô: +4.28 (Đặc trưng nhóm bán lẻ)</text>
+
+    <!-- Card 3: Grocery -->
+    <rect x="850" y="225" width="360" height="185" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="850" y="225" width="360" height="4" rx="2" fill="#F59E0B"/>
+    <text x="875" y="258" font-size="18" font-weight="bold" fill="#0F172A">3. Grocery (Hàng tạp hóa)</text>
+    <text x="875" y="285" font-size="13" fill="#64748B">Gia vị, đồ đóng hộp, thực phẩm khô</text>
+    <text x="875" y="325" font-size="13" fill="#334155">Trung bình (Mean): <tspan font-weight="bold" fill="#D97706">7,951 m.u.</tspan></text>
+    <text x="875" y="350" font-size="13" fill="#334155">Trung vị (Median): <tspan font-weight="bold">4,755 m.u.</tspan></text>
+    <text x="875" y="375" font-size="13" fill="#334155">Khoảng giá trị (Range): <tspan font-weight="bold" fill="#DC2626">3 → 59,598 m.u.</tspan></text>
+    <text x="875" y="398" font-size="12" fill="#94A3B8">Tương quan mạnh với Detergents_Paper</text>
+
+    <!-- Row 2 -->
+    <!-- Card 4: Frozen -->
+    <rect x="70" y="425" width="360" height="185" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="70" y="425" width="360" height="4" rx="2" fill="#06B6D4"/>
+    <text x="95" y="458" font-size="18" font-weight="bold" fill="#0F172A">4. Frozen (Thực phẩm đông lạnh)</text>
+    <text x="95" y="485" font-size="13" fill="#64748B">Thịt, hải sản và đồ đông lạnh bảo quản lâu</text>
+    <text x="95" y="525" font-size="13" fill="#334155">Trung bình (Mean): <tspan font-weight="bold" fill="#0891B2">3,071 m.u.</tspan></text>
+    <text x="95" y="550" font-size="13" fill="#334155">Trung vị (Median): <tspan font-weight="bold">1,526 m.u.</tspan></text>
+    <text x="95" y="575" font-size="13" fill="#334155">Khoảng giá trị (Range): <tspan font-weight="bold">25 → 60,869 m.u.</tspan></text>
+    <text x="95" y="598" font-size="12" fill="#94A3B8">Skewness thô: +3.53</text>
+
+    <!-- Card 5: Detergents_Paper -->
+    <rect x="460" y="425" width="360" height="185" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="460" y="425" width="360" height="4" rx="2" fill="#8B5CF6"/>
+    <text x="485" y="458" font-size="18" font-weight="bold" fill="#0F172A">5. Detergents_Paper (Chất tẩy &amp; Giấy)</text>
+    <text x="485" y="485" font-size="13" fill="#64748B">Nước tẩy rửa, giấy vệ sinh, vật tư vệ sinh</text>
+    <text x="485" y="525" font-size="13" fill="#334155">Trung bình (Mean): <tspan font-weight="bold" fill="#7C3AED">2,881 m.u.</tspan></text>
+    <text x="485" y="550" font-size="13" fill="#334155">Trung vị (Median): <tspan font-weight="bold">816 m.u.</tspan></text>
+    <text x="485" y="575" font-size="13" fill="#334155">Khoảng giá trị (Range): <tspan font-weight="bold">3 → 40,827 m.u.</tspan></text>
+    <text x="485" y="598" font-size="12" fill="#94A3B8">Trung vị rất thấp, chi phối bởi siêu thị lớn</text>
+
+    <!-- Card 6: Delicassen -->
+    <rect x="850" y="425" width="360" height="185" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect x="850" y="425" width="360" height="4" rx="2" fill="#EC4899"/>
+    <text x="875" y="458" font-size="18" font-weight="bold" fill="#0F172A">6. Delicassen (Đồ nguội &amp; Tinh hoa)</text>
+    <text x="875" y="485" font-size="13" fill="#64748B">Thực phẩm chế biến sẵn cao cấp, jambon</text>
+    <text x="875" y="525" font-size="13" fill="#334155">Trung bình (Mean): <tspan font-weight="bold" fill="#DB2777">1,524 m.u.</tspan></text>
+    <text x="875" y="550" font-size="13" fill="#334155">Trung vị (Median): <tspan font-weight="bold">965 m.u.</tspan></text>
+    <text x="875" y="575" font-size="13" fill="#334155">Khoảng giá trị (Range): <tspan font-weight="bold" fill="#DC2626">7 → 47,943 m.u.</tspan></text>
+    <text x="875" y="598" font-size="12" font-weight="bold" fill="#DC2626">Skewness cao kỷ lục: +12.12 (Bắt buộc nén)</text>
+  </g>
+
+  <!-- Bottom Profiling Callout -->
+  <g id="profiling-variables">
+    <rect x="70" y="622" width="1140" height="42" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+    <text x="90" y="648" font-size="13" font-weight="bold" fill="#0F172A">2 Biến Phân Tích (Profiling Only):</text>
+    <text x="320" y="648" font-size="13" fill="#334155">• <tspan font-weight="bold">Channel:</tspan> Horeca (298 mẫu - 67.7%) | Retail (142 mẫu - 32.3%)</text>
+    <text x="740" y="648" font-size="13" fill="#334155">• <tspan font-weight="bold">Region:</tspan> Lisbon (77) | Oporto (47) | Other (316)</text>
+    <text x="960" y="648" font-size="12" font-weight="bold" fill="#DC2626">✗ KHÔNG DÙNG ĐỂ FIT MÔ HÌNH</text>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Đồ Án Machine Learning Phân Khúc Khách Hàng Bán Sỉ • Project 22 (UCI Wholesale Customers)</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">03 / 15</text>
+  </g>
+</svg>

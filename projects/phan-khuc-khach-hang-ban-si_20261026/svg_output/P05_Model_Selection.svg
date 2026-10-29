@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">CHỌN MÔ HÌNH</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Tại sao chọn K=2 (log1p + StandardScaler)</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <rect x="80" y="140" width="1120" height="240" fill="#FFFFFF"/>
+  <rect x="80" y="140" width="1120" height="44" fill="#0B3C5D"/>
+  <text x="96" y="166" font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="start">Tiêu chí (train/validation, 10 seed)</text>
+  <text x="420" y="166" font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="start">Raw K=2</text>
+  <text x="660" y="166" font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="start">Log1p+Scaler K=2</text>
+  <text x="900" y="166" font-family="Arial" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="start">Log1p+Scaler K=3</text>
+  <rect x="80" y="184" width="1120" height="40" fill="#FFFFFF"/>
+  <text x="96" y="208" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Silhouette validation</text>
+  <text x="420" y="208" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">0.6103</text>
+  <text x="660" y="208" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">0.3066</text>
+  <text x="900" y="208" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">0.2165</text>
+  <rect x="80" y="224" width="1120" height="40" fill="#E9ECEF"/>
+  <text x="96" y="248" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">ARI mean / min</text>
+  <text x="420" y="248" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">1.0000 / 1.0000</text>
+  <text x="660" y="248" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">0.9970 / 0.9848</text>
+  <text x="900" y="248" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">0.9078 / 0.7982</text>
+  <rect x="80" y="264" width="1120" height="40" fill="#FFFFFF"/>
+  <text x="96" y="288" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Tỷ trọng cụm nhỏ nhất (train)</text>
+  <text x="420" y="288" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">17.80%</text>
+  <text x="660" y="288" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">44.70%</text>
+  <text x="900" y="288" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">30.38%</text>
+  <rect x="80" y="304" width="1120" height="40" fill="#E9ECEF"/>
+  <text x="96" y="328" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Top 1% đóng góp inertia (train)</text>
+  <text x="420" y="328" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">25.33%</text>
+  <text x="660" y="328" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">10.06%</text>
+  <text x="900" y="328" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">10.43%</text>
+  <text x="80" y="410" font-family="Arial" font-size="17" fill="#1A1A1A" text-anchor="start">Raw K=2: silhouette cao nhưng điểm xa chi phối, cụm không cân bằng. K3 ít ổn định khi refit. K2 log+scaled cân bằng và ổn định nhất.</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P05</text>
+</svg>

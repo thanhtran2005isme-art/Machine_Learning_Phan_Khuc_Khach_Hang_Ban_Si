@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">KHUYẾN NGHỊ</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Khuyến nghị nghiệp vụ theo hai nhóm khách</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <g>
+    <rect x="80" y="150" width="560" height="330" rx="12" fill="#E9ECEF"/>
+    <rect x="80" y="150" width="560" height="6" fill="#0B3C5D"/>
+    <text x="100" y="182" font-family="Arial" font-size="19" font-weight="bold" fill="#0B3C5D" text-anchor="start">Cụm 0 — Tạp hóa / chất tẩy rửa</text>
+    <circle cx="108" cy="222" r="5" fill="#0B3C5D"/>
+    <text x="136" y="226" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Ưu tiên chăm sóc Grocery, Milk, Detergents_Paper</text>
+    <circle cx="108" cy="252" r="5" fill="#0B3C5D"/>
+    <text x="136" y="256" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Combo chương trình khuyến mãi hàng gia dụng định kỳ</text>
+    <circle cx="108" cy="282" r="5" fill="#0B3C5D"/>
+    <text x="136" y="286" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Giữ giá cạnh tranh trên nhóm chất tẩy rửa</text>
+  </g>
+  <g>
+    <rect x="670" y="150" width="530" height="330" rx="12" fill="#E9ECEF"/>
+    <rect x="670" y="150" width="530" height="6" fill="#2E86AB"/>
+    <text x="690" y="182" font-family="Arial" font-size="19" font-weight="bold" fill="#0B3C5D" text-anchor="start">Cụm 1 — Hàng tươi / đông lạnh</text>
+    <circle cx="698" cy="222" r="5" fill="#2E86AB"/>
+    <text x="726" y="226" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Chăm sát Fresh, Frozen (chuỗi lạnh, hạn sử dụng)</text>
+    <circle cx="698" cy="252" r="5" fill="#2E86AB"/>
+    <text x="726" y="256" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Ưu tiên giao hàng nhanh, bảo quản chất lượng</text>
+    <circle cx="698" cy="282" r="5" fill="#2E86AB"/>
+    <text x="726" y="286" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Theo dõi ciclo mua hàng tươi thường xuyên</text>
+  </g>
+  <text x="80" y="520" font-family="Arial" font-size="16" font-weight="bold" fill="#0B3C5D" text-anchor="start">Hành động ngay</text>
+  <text x="80" y="550" font-family="Arial" font-size="16" fill="#1A1A1A" text-anchor="start">Ánh xạ mỗi khách hiện có vào 2 cụm qua mô hình đóng băng, rồi điều chỉnh kế hoạch chăm sóc theo nhóm; kiểm chứng doanh thu sau 1-2 quý.</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P13</text>
+</svg>

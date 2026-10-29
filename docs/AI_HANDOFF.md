@@ -1,6 +1,6 @@
 # AI HANDOFF — Project 22
 
-> Cập nhật: 2026-10-08. Branch `main`. Gate 3–7 đã hoàn tất theo bằng chứng hiện có. Gate 7 GitHub CI `37789072891` SUCCESS; Gate 6 regression `37789072881` SUCCESS.
+> Cập nhật: 2026-10-26. Branch `feat/gate10-analysis-explain-export`, HEAD `20790eb`. Sửa bổ sung readiness/retry, CSV batch, lịch sử cục bộ và accessibility đã kiểm thử local; thay đổi chưa commit, CI/PR merge status chưa xác minh lại.
 
 ## Quy tắc bất biến
 
@@ -78,3 +78,35 @@
 - API 503 no longer leaks internal model-loading paths; added regression.
 - Gate9.6 matrix `docs/GATE9_6_REQUIREMENTS_MATRIX.csv` + MD = **57 PASS /16 PARTIAL /9 MISSING /6 NOT REQUIRED**, includes deferred report/slides/team evidence honestly. [Final acceptance](GATE9_6_FINAL.md).
 - Stop adding features; next manual Windows10 demonstration + real group evidence/reports, when user requests. NEVER rerun final holdout/refit D011.
+
+
+## Gate 10.1 - feature branch CI verified (not merged)
+- Experimental read-only evidence detail, seed variability, descriptive outliers, customer explanation, CSV/browser PDF print and teaching Lloyd panel. See docs/GATE10_1_ANALYSIS.md.
+- Do not claim these changes are on main until PR merged. Gate 10.1 CI 38020099636 SUCCESS: 15 native + 14 API tests; 46 Playwright desktop/mobile; build, security audit and Python-Node parity PASS at code SHA 43e808fe. PCA/Hierarchical deferred to development-only offline evidence gate.
+
+## Gate 10.2 — PCA 2D và Hierarchical Ward (feature PR #1)
+- Offline Python ml/src/development_extension.py: 352 development, frozen mean/scale, PCA(2D) và Ward K2 6D, không refit KMeans, không đọc final test.
+- CI offline 38037496861 PASS; verified analysis.json 352 điểm commit data fb7ebf11. PC1=0.44926644, PC2=0.26999868; KMeans silhouette 0.28915821, Ward 0.26262047, ARI 0.68724883, sizes KMeans 162/190 Ward 194/158.
+- Read-only API GET /api/development-extension + strict SHA/source/count/ARI validation, React dashboard toggles colors and development split, no fake points.
+- Feature branch feat/gate10-analysis-explain-export, PR #1 still not merged. Linux/Windows PR CI jobs must be checked before merge. Frozen model/selection/test and final_profile unchanged.
+- Full method + command: docs/GATE10_2_PCA_HIERARCHICAL.md.
+
+
+## 2026-10-26 — Gate 10.3 local validation hoàn tất
+- **Commit:** `PENDING` (chưa tạo commit trong phiên này).
+- **Phạm vi:** xác nhận diagnostics advisory xuyên backend/frontend/CSV/E2E; không thay đổi D011 frozen artifacts, final evaluation, selection hoặc development evidence.
+- **Thực chạy:** backend TypeScript build `EXIT_CODE=0`; frontend `tsc --noEmit && vite build` `EXIT_CODE=0`; native serving **19/19 PASS**; Vitest API **16/16 PASS**; Python ML **113 passed**; sklearn↔Node parity **1/1 PASS**; Playwright **56 passed (3.3m)** trên desktop/mobile Chromium, gồm out-of-train decision-support assertion.
+- **Integrity:** `models/model.json` SHA-256 `5057db0e...acd3b28` và `models/model.joblib` SHA-256 `f2f78748...f2c816` khớp `models/final_evaluation.json`; `git diff --check` PASS. Không có diff trong `models/`, `reports/`, `data/processed`, `package.json` hoặc `package-lock.json`.
+- **Môi trường:** Playwright runner/browser được cài tạm ngoài repo bằng `--no-save --package-lock=false`; lần chạy đầu thiếu Chromium revision 1194, sau khi cài đúng revision thì 56/56 PASS. Không chạy `npm audit fix --force`.
+- **Còn lại:** giữ nguyên `.docx` untracked không liên quan; kiểm tra CI/PR và tạo commit Conventional Commit khi sẵn sàng merge. Không rerun final holdout/refit D011.
+
+## 2026-10-26 — Bổ sung xử lý lỗi và workflow khách hàng
+- **Commit:** `PENDING`; HEAD vẫn `20790eb`, chưa commit/push thay đổi của phiên này.
+- Backend thêm `GET /api/ready`: 200 khi frozen model sẵn sàng, 503 khi không load được; `/api/health` vẫn là liveness. Frontend retry hữu hạn với lỗi mạng/5xx, có nút thử lại kết nối và tải lại evidence.
+- Metadata ID/tên/ghi chú đặt sau sáu trường chi tiêu, chỉ lưu localStorage, không gửi API; lưu tối đa 100 kết quả, hiển thị 20 gần nhất, mở lại/xóa/xuất CSV. Không có database hoặc đồng bộ giữa thiết bị.
+- CSV batch tối đa 100 dòng, kiểm tra sáu feature và gọi frozen API theo từng dòng; có kết quả/lỗi từng khách và tải CSV. Export CSV UTF-8 BOM, quoting và bảo vệ công thức spreadsheet.
+- PCA hỗ trợ keyboard selection và xóa lựa chọn khi đổi filter; giữ thứ tự sáu numeric inputs để validation/focus không bị metadata ảnh hưởng. Bổ sung regression metadata, PCA, readiness retry và batch CSV.
+- **Kết quả cuối thực chạy:** `npm run test:backend` **16/16**; `npm run test:serving` **19/19**; `npm run test:parity` **1/1**; `npm run build` PASS; `npm run test:smoke` PASS; full `npm run test:e2e -- --project=desktop-chromium --project=mobile-chromium` **64/64 PASS (2.8m)**. Targeted retry/batch **4/4 PASS**. ML 113 tests là kết quả phiên trước, không chạy lại ở lượt bổ sung này.
+- Test harness đã sửa: readiness dùng cờ phục hồi rõ ràng thay vì đếm StrictMode requests; fixture CSV dùng newline thật và mở `<details>` trước assertion.
+- **Integrity:** không có diff trong `models/`, `reports/`, `data/processed` hay package manifests/lockfile; không refit hoặc chạy lại final holdout. `.claude/` và `.docx` untracked được giữ nguyên.
+- **Tiếp theo:** (1) review/commit đúng file task, bỏ qua untracked không liên quan; (2) chạy CI Linux/Windows và kiểm tra PR trước merge; (3) nghiệm thu Windows10/browser thật. Báo cáo/slide/team evidence vẫn hoãn, không coi là đã hoàn tất.

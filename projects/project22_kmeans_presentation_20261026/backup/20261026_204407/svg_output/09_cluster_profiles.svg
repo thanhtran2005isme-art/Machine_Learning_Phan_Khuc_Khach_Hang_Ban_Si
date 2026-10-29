@@ -1,0 +1,113 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <g id="header" data-pptx-bounds="60 50 1160 80">
+    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Hồ Sơ Hai Cụm (352 Development Samples)</text>
+    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  </g>
+  
+  <!-- Radar Chart Area -->
+  <g id="radar-chart" data-pptx-bounds="60 160 560 460">
+    <rect x="60" y="160" width="560" height="460" rx="12" fill="#F8F9FA"/>
+    <text x="340" y="195" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">Spending Profile Comparison</text>
+    
+    <!-- Simple radar representation -->
+    <g id="radar-visual" transform="translate(340, 390)">
+      <!-- Background circles -->
+      <circle cx="0" cy="0" r="180" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+      <circle cx="0" cy="0" r="135" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+      <circle cx="0" cy="0" r="90" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+      <circle cx="0" cy="0" r="45" fill="none" stroke="#E5E7EB" stroke-width="1"/>
+      
+      <!-- Axes -->
+      <line x1="0" y1="0" x2="0" y2="-180" stroke="#9CA3AF" stroke-width="1"/>
+      <line x1="0" y1="0" x2="156" y2="-90" stroke="#9CA3AF" stroke-width="1"/>
+      <line x1="0" y1="0" x2="156" y2="90" stroke="#9CA3AF" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="180" stroke="#9CA3AF" stroke-width="1"/>
+      <line x1="0" y1="0" x2="-156" y2="90" stroke="#9CA3AF" stroke-width="1"/>
+      <line x1="0" y1="0" x2="-156" y2="-90" stroke="#9CA3AF" stroke-width="1"/>
+      
+      <!-- Cluster 0 polygon (scaled values) -->
+      <polygon points="0,-140 120,-70 120,70 0,140 -120,70 -120,-70" 
+               fill="#2563EB" fill-opacity="0.2" stroke="#2563EB" stroke-width="3"/>
+      
+      <!-- Cluster 1 polygon (scaled values) -->
+      <polygon points="0,-90 75,-45 75,45 0,90 -75,45 -75,-45" 
+               fill="#10B981" fill-opacity="0.2" stroke="#10B981" stroke-width="3"/>
+      
+      <!-- Labels -->
+      <text x="0" y="-200" font-size="14" fill="#1F2937" text-anchor="middle" font-weight="bold">Fresh</text>
+      <text x="175" y="-90" font-size="14" fill="#1F2937" text-anchor="start" font-weight="bold">Milk</text>
+      <text x="175" y="95" font-size="14" fill="#1F2937" text-anchor="start" font-weight="bold">Grocery</text>
+      <text x="0" y="210" font-size="14" fill="#1F2937" text-anchor="middle" font-weight="bold">Frozen</text>
+      <text x="-175" y="95" font-size="14" fill="#1F2937" text-anchor="end" font-weight="bold">Detergents</text>
+      <text x="-175" y="-90" font-size="14" fill="#1F2937" text-anchor="end" font-weight="bold">Delicassen</text>
+    </g>
+    
+    <!-- Legend -->
+    <g id="legend">
+      <rect x="90" y="230" width="20" height="20" rx="4" fill="#2563EB"/>
+      <text x="120" y="245" font-size="15" fill="#1F2937">Cluster 0 (162 khách, 46%)</text>
+      
+      <rect x="90" y="260" width="20" height="20" rx="4" fill="#10B981"/>
+      <text x="120" y="275" font-size="15" fill="#1F2937">Cluster 1 (190 khách, 54%)</text>
+    </g>
+  </g>
+  
+  <!-- Cluster 0 Details -->
+  <g id="cluster0-details" data-pptx-bounds="660 160 560 230">
+    <rect x="660" y="160" width="560" height="230" rx="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="2"/>
+    <rect x="660" y="160" width="560" height="50" rx="12" fill="#2563EB"/>
+    <text x="690" y="193" font-size="20" font-weight="bold" fill="#FFFFFF">Cluster 0 — Chi Tiêu Cao</text>
+    
+    <g id="cluster0-values" font-size="15">
+      <text x="690" y="240" fill="#1F2937">Fresh: <tspan font-weight="bold" fill="#2563EB">5,693.5 m.u.</tspan></text>
+      <text x="690" y="265" fill="#1F2937">Milk: <tspan font-weight="bold" fill="#2563EB">4,339.5 m.u.</tspan></text>
+      <text x="690" y="290" fill="#1F2937">Grocery: <tspan font-weight="bold" fill="#2563EB">4,621.5 m.u.</tspan></text>
+      
+      <text x="970" y="240" fill="#1F2937" text-anchor="end">Frozen: <tspan font-weight="bold" fill="#2563EB">1,945.5</tspan></text>
+      <text x="970" y="265" fill="#1F2937" text-anchor="end">Detergents: <tspan font-weight="bold" fill="#2563EB">1,731.5</tspan></text>
+      <text x="970" y="290" fill="#1F2937" text-anchor="end">Delicassen: <tspan font-weight="bold" fill="#2563EB">910.0</tspan></text>
+    </g>
+    
+    <text x="690" y="340" font-size="15" fill="#1E40AF" font-style="italic">
+      Pattern: Chi tiêu cao ở hầu hết nhóm hàng
+    </text>
+  </g>
+  
+  <!-- Cluster 1 Details -->
+  <g id="cluster1-details" data-pptx-bounds="660 420 560 230">
+    <rect x="660" y="420" width="560" height="230" rx="12" fill="#F0FDF4" stroke="#10B981" stroke-width="2"/>
+    <rect x="660" y="420" width="560" height="50" rx="12" fill="#10B981"/>
+    <text x="690" y="453" font-size="20" font-weight="bold" fill="#FFFFFF">Cluster 1 — Chi Tiêu Vừa Phải</text>
+    
+    <g id="cluster1-values" font-size="15">
+      <text x="690" y="500" fill="#1F2937">Fresh: <tspan font-weight="bold" fill="#10B981">3,276.0 m.u.</tspan></text>
+      <text x="690" y="525" fill="#1F2937">Milk: <tspan font-weight="bold" fill="#10B981">2,056.5 m.u.</tspan></text>
+      <text x="690" y="550" fill="#1F2937">Grocery: <tspan font-weight="bold" fill="#10B981">1,841.0 m.u.</tspan></text>
+      
+      <text x="970" y="500" fill="#1F2937" text-anchor="end">Frozen: <tspan font-weight="bold" fill="#10B981">1,051.0</tspan></text>
+      <text x="970" y="525" fill="#1F2937" text-anchor="end">Detergents: <tspan font-weight="bold" fill="#10B981">296.5</tspan></text>
+      <text x="970" y="550" fill="#1F2937" text-anchor="end">Delicassen: <tspan font-weight="bold" fill="#10B981">612.5</tspan></text>
+    </g>
+    
+    <text x="690" y="600" font-size="15" fill="#047857" font-style="italic">
+      Pattern: Chi tiêu thấp hơn, đặc biệt rõ ở Detergents_Paper
+    </text>
+  </g>
+  
+  <!-- Footer -->
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
+    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
+    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">9 / 15</text>
+  </g>
+</svg>

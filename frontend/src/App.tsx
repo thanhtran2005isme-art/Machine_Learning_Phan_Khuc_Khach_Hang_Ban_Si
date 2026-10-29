@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { FormEvent, ChangeEvent } from 'react';
+import { CustomerInsight, ExperimentReport, LloydWalkthrough } from './AnalysisExtensions';
+import { DevelopmentAnalytics, type DevelopmentExtension } from './DevelopmentAnalytics';
+import { csvText, downloadCsv, parseCsvRows, readCustomerHistory, writeCustomerHistory, type StoredCustomer } from './customerRecords';
 
 type Feature = 'Fresh' | 'Milk' | 'Grocery' | 'Frozen' | 'Detergents_Paper' | 'Delicassen';
 type Screen = 'intro' | 'segment' | 'dashboard';
@@ -22,16 +25,29 @@ type ModelInfo = {
   data_card: DataCard; model_card: ModelCard;
   status: string; k: number; preprocessing: string; training_count: number; artifact_sha256: string;
   profiles: Profile[]; reference_ranges: Record<Feature, { min: number; max: number }>;
+  diagnostic_policy: { near_boundary_relative_margin: number; high_distance_ratio_to_development_rms: number; development_rms_distance: number; note: string };
   reference_note: string; limitations: string;
+};
+type DecisionSupport = {
+  status: 'descriptive' | 'review'; priority: 'low' | 'medium' | 'high'; reason_codes: string[];
+  title: string; action: string; rationale: string;
 };
 type SegmentResult = {
   status: string; cluster_id: number; distance_to_centroid: number; distances_to_centroids: number[];
+  distance_gap: number; relative_margin: number; distance_ratio_to_development_rms: number;
+  out_of_train_range_features: Feature[];
   profile: { name: string; count: number; share: number; median_spending: Record<Feature, number> };
-  warnings: string[]; distance_space: string;
+  alternative_profile: { name: string; count: number; share: number; median_spending: Record<Feature, number> };
+  warnings: string[]; decision_support: DecisionSupport; distance_space: string;
 };
+
+type BatchRow = { id: string; name: string; note: string; values: Record<Feature, string> };
+type BatchOutcome = { id: string; name: string; cluster: number | null; status: 'ok' | 'error'; message?: string };
+
 type Experiment = {
   preprocessing: string; k: number; train_inertia: number;
-  validation_silhouette: number; ari: number; min_cluster_share: number;
+  validation_silhouette: number; validation_silhouette_std: number;
+  ari: number; ari_min: number; ari_max: number; pair_count: number; min_cluster_share: number;
 };
 type FinalProfile = {
   source_scope: 'train_plus_validation'; development_count: number; read_only: boolean; test_used: boolean;
@@ -73,14 +89,55 @@ const FIELDS: { key: Feature; label: string; description: string }[] = [
 const formatNumber = (value: number, digits = 0) =>
   new Intl.NumberFormat('vi-VN', { maximumFractionDigits: digits }).format(value);
 const formatPercent = (value: number) => formatNumber(value * 100, 1) + '%';
-async function getJson<T>(url: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(url, init);
-  const json: unknown = await response.json();
-  if (!response.ok) {
-    const error = json as { message?: string; detail?: string };
-    throw new Error(error.message || error.detail || 'Yêu cầu thất bại (HTTP ' + response.status + ')');
+const EMPTY_VALUES: Record<Feature, string> = {
+  Fresh: '', Milk: '', Grocery: '', Frozen: '', Detergents_Paper: '', Delicassen: '',
+};
+const wait = (milliseconds: number) => new Promise(resolve => window.setTimeout(resolve, milliseconds));
+function apiError(response: Response, payload: unknown): Error {
+  if (payload && typeof payload === 'object') {
+    const body = payload as { message?: unknown; detail?: unknown };
+    if (typeof body.message === 'string' && body.message.trim()) return new Error(body.message);
+    if (typeof body.detail === 'string' && body.detail.trim()) return new Error(body.detail);
   }
-  return json as T;
+  return new Error(response.status >= 500
+    ? 'Backend chưa sẵn sàng. Hãy thử lại sau ít giây.'
+    : 'Yêu cầu thất bại (HTTP ' + response.status + ').');
+}
+async function getJson<T>(url: string, init?: RequestInit): Promise<T> {
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    let response: Response;
+    try {
+      response = await fetch(url, init);
+    } catch (error) {
+      if (attempt === maxAttempts) {
+        throw new Error('Không thể kết nối tới Backend. Hãy kiểm tra Backend đang chạy rồi thử lại.');
+      }
+      await wait(350 * attempt);
+      continue;
+    }
+    const text = await response.text();
+    let json: unknown = null;
+    if (text.trim()) {
+      try { json = JSON.parse(text) as unknown; } catch {
+        if (!response.ok && response.status >= 500 && attempt < maxAttempts) {
+          await wait(350 * attempt);
+          continue;
+        }
+        throw new Error(response.ok ? 'Backend trả về dữ liệu không đúng định dạng.' : 'Backend trả về lỗi không đúng định dạng. Hãy thử lại.');
+      }
+    }
+    if (!response.ok) {
+      if (response.status >= 500 && attempt < maxAttempts) {
+        await wait(350 * attempt);
+        continue;
+      }
+      throw apiError(response, json);
+    }
+    if (json === null) throw new Error('Backend không trả về dữ liệu.');
+    return json as T;
+  }
+  throw new Error('Không thể hoàn tất yêu cầu.');
 }
 function Chart({ title, description, rows, metric }: {
   title: string; description: string; rows: Experiment[]; metric: 'train_inertia' | 'validation_silhouette' | 'ari';
@@ -103,7 +160,7 @@ function Chart({ title, description, rows, metric }: {
       </g>)}
       <polyline points={points} fill="none" stroke="#12735c" strokeWidth="3.2" strokeLinejoin="round" strokeLinecap="round" />
       {data.map((row,i) => <g key={row.k}>
-        <circle cx={x(i)} cy={y(row[metric])} r="5" fill="#12735c" stroke="white" strokeWidth="2" />
+        <circle cx={x(i)} cy={y(row[metric])} r="5" fill="#12735c" stroke="white" strokeWidth="2"><title>{'K='+row.k+' · '+formatNumber(row[metric],5)}</title></circle>
         <text x={x(i)} y="224" textAnchor="middle" fontSize="13" fill="#4b5563">K={row.k}</text>
       </g>)}
     </svg>
@@ -302,20 +359,41 @@ function DistanceChart({ profile }: { profile: FinalProfile }) {
   </section>;
 }
 
+const NAV_ICONS = {
+  intro: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1z',
+  segment: 'M4 6h16M7 6v4m10-4v4M4 14h16m-9 0v4m5-4v4M4 22h16',
+  dashboard: 'M4 20V10h4v10m4 0V4h4v16m4 0v-7h4v7',
+} as const;
+function NavIcon({screen}:{screen:Screen}) {
+  return <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d={NAV_ICONS[screen]}/>
+  </svg>;
+}
 export default function App() {
   const [screen, setScreen] = useState<Screen>('intro');
   const [info, setInfo] = useState<ModelInfo | null>(null);
   const [modelError, setModelError] = useState<string | null>(null);
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
   const [dashboardError, setDashboardError] = useState<string | null>(null);
+  const [extension, setExtension] = useState<DevelopmentExtension | null>(null);
+  const [extensionError, setExtensionError] = useState<string | null>(null);
+  const [reloadToken, setReloadToken] = useState(0);
+  const [reloading, setReloading] = useState(false);
   const [preprocessing, setPreprocessing] = useState('log1p_standardscaler');
   const [candidateK, setCandidateK] = useState<number>(2);
-  const [values, setValues] = useState<Record<Feature, string>>({
-    Fresh: '', Milk: '', Grocery: '', Frozen: '', Detergents_Paper: '', Delicassen: '',
-  });
+  const [values, setValues] = useState<Record<Feature, string>>(EMPTY_VALUES);
+  const [customerId, setCustomerId] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [customerNote, setCustomerNote] = useState('');
   const [result, setResult] = useState<SegmentResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [history, setHistory] = useState<StoredCustomer<SegmentResult>[]>(() => readCustomerHistory<SegmentResult>());
+  const [batchRows, setBatchRows] = useState<BatchRow[]>([]);
+  const [batchOutcomes, setBatchOutcomes] = useState<BatchOutcome[]>([]);
+  const [batchError, setBatchError] = useState<string | null>(null);
+  const [batchRunning, setBatchRunning] = useState(false);
   const requestVersion = useRef(0);
   const clearPendingResult = () => {
     requestVersion.current += 1;
@@ -323,20 +401,66 @@ export default function App() {
     setSubmitError(null);
     setSubmitting(false);
   };
+  const rememberResult = (spending: Record<Feature, string>, body: SegmentResult, id: string, name: string, note: string) => {
+    const entry: StoredCustomer<SegmentResult> = {
+      id: id.trim() || 'local-' + Date.now(),
+      name: name.trim() || id.trim() || 'Khách hàng không tên',
+      note: note.trim(), values: { ...spending }, result: body, createdAt: new Date().toISOString(),
+    };
+    setHistory(previous => {
+      const next = [entry, ...previous.filter(item => item.id !== entry.id)].slice(0, 100);
+      writeCustomerHistory(next);
+      return next;
+    });
+  };
+  const retryConnection = () => {
+    setReloading(true);
+    setInfo(null); setModelError(null); setDashboard(null); setDashboardError(null);
+    setExtension(null); setExtensionError(null); setReloadToken(token => token + 1);
+  };
+  const retryAnalysis = () => {
+    setDashboard(null); setDashboardError(null); setExtension(null); setExtensionError(null);
+    setReloadToken(token => token + 1);
+  };
 
   useEffect(() => {
-    getJson<ModelInfo>('/api/model-info').then(setInfo).catch(e => setModelError(String(e.message)));
-  }, []);
+    let cancelled = false;
+    setInfo(null);
+    setModelError(null);
+    getJson<{ modelReady: boolean }>('/api/ready')
+      .then(() => getJson<ModelInfo>('/api/model-info'))
+      .then(data => { if (!cancelled) { setInfo(data); setReloading(false); } })
+      .catch(error => { if (!cancelled) { setModelError(error instanceof Error ? error.message : 'Không thể kết nối tới Backend.'); setReloading(false); } });
+    return () => { cancelled = true; };
+  }, [reloadToken]);
   useEffect(() => {
     if (screen !== 'dashboard' || dashboard) return;
-    getJson<Dashboard>('/api/dashboard').then(verifyDashboard).then(setDashboard).catch(e => setDashboardError(String(e.message)));
-  }, [screen, dashboard]);
+    let cancelled = false;
+    setDashboardError(null);
+    getJson<Dashboard>('/api/dashboard').then(verifyDashboard).then(data => { if (!cancelled) setDashboard(data); })
+      .catch(error => { if (!cancelled) setDashboardError(error instanceof Error ? error.message : 'Không tải được dashboard.'); });
+    return () => { cancelled = true; };
+  }, [screen, dashboard, reloadToken]);
+  useEffect(() => {
+    if (screen !== 'dashboard' || extension || extensionError) return;
+    let cancelled = false;
+    setExtensionError(null);
+    getJson<DevelopmentExtension>('/api/development-extension').then(data => {
+      if (data.decision !== 'D011' || data.development_count !== 352 ||
+          data.read_only !== true || data.test_used !== false || data.points.length !== 352 ||
+          data.comparison.frozen_counts.join(',') !== '162,190') {
+        throw new Error('Dữ liệu PCA/Ward không khớp mô hình D011');
+      }
+      if (!cancelled) setExtension(data);
+    }).catch(error => { if (!cancelled) setExtensionError(error instanceof Error ? error.message : 'Không tải được PCA/Ward.'); });
+    return () => { cancelled = true; };
+  }, [screen, extension, extensionError, reloadToken]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     clearPendingResult();
     const version = requestVersion.current;
-    const spending: Partial<Record<Feature, number>> = {};
+    const spending: Record<Feature, number> = {} as Record<Feature, number>;
     for (const field of FIELDS) {
       const raw = values[field.key].trim();
       const parsed = Number(raw);
@@ -351,7 +475,10 @@ export default function App() {
       const body = await getJson<SegmentResult>('/api/segment', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spending),
       });
-      if (version === requestVersion.current) setResult(body);
+      if (version === requestVersion.current) {
+        setResult(body);
+        rememberResult(values, body, customerId, customerName, customerNote);
+      }
     } catch(e) {
       if (version === requestVersion.current) setSubmitError(e instanceof Error ? e.message : 'Không thể phân khúc');
     } finally {
@@ -359,31 +486,134 @@ export default function App() {
     }
   };
 
+  const parseBatchFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    setBatchError(null); setBatchOutcomes([]); setBatchRows([]);
+    if (!file) return;
+    try {
+      const rows = parseCsvRows(await file.text());
+      if (rows.length < 2) throw new Error('CSV cần có dòng tiêu đề và ít nhất một khách hàng.');
+      const headers = rows[0].map(value => value.trim().replace(/^\ufeff/, ''));
+      const getColumn = (names: string[]) => names.map(name => headers.indexOf(name)).find(index => index >= 0) ?? -1;
+      const featureColumns = FIELDS.map(field => getColumn([field.key, field.description]));
+      if (featureColumns.some(index => index < 0)) throw new Error('CSV phải có đủ 6 cột: ' + FIELDS.map(field => field.key).join(', ') + '.');
+      const idColumn = getColumn(['id', 'customer_id', 'CustomerID']);
+      const nameColumn = getColumn(['name', 'customer_name', 'CustomerName']);
+      const noteColumn = getColumn(['note', 'notes', 'Note']);
+      const parsed = rows.slice(1, 101).map((row, rowIndex) => ({
+        id: (idColumn >= 0 ? row[idColumn] : '')?.trim() || 'row-' + (rowIndex + 1),
+        name: (nameColumn >= 0 ? row[nameColumn] : '')?.trim() || 'Khách hàng dòng ' + (rowIndex + 1),
+        note: (noteColumn >= 0 ? row[noteColumn] : '')?.trim() || '',
+        values: Object.fromEntries(FIELDS.map((field, index) => [field.key, (row[featureColumns[index]] || '').trim()])) as Record<Feature, string>,
+      }));
+      if (!parsed.length) throw new Error('CSV không có dữ liệu khách hàng.');
+      setBatchRows(parsed);
+    } catch (error) {
+      setBatchError(error instanceof Error ? error.message : 'Không đọc được CSV.');
+    }
+  };
+
+  const runBatch = async () => {
+    if (!batchRows.length || batchRunning) return;
+    setBatchRunning(true); setBatchError(null); setBatchOutcomes([]);
+    const outcomes: BatchOutcome[] = [];
+    for (const row of batchRows) {
+      const spending: Record<Feature, number> = {} as Record<Feature, number>;
+      const invalid = FIELDS.find(field => {
+        const parsed = Number(row.values[field.key]);
+        if (!row.values[field.key] || !Number.isFinite(parsed) || parsed < 0) return true;
+        spending[field.key] = parsed;
+        return false;
+      });
+      if (invalid) {
+        outcomes.push({ id: row.id, name: row.name, cluster: null, status: 'error', message: 'Giá trị ' + invalid.key + ' không hợp lệ.' });
+        setBatchOutcomes([...outcomes]);
+        continue;
+      }
+      try {
+        const body = await getJson<SegmentResult>('/api/segment', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spending),
+        });
+        rememberResult(row.values, body, row.id, row.name, row.note);
+        outcomes.push({ id: row.id, name: row.name, cluster: body.cluster_id, status: 'ok' });
+      } catch (error) {
+        outcomes.push({ id: row.id, name: row.name, cluster: null, status: 'error', message: error instanceof Error ? error.message : 'Lỗi API.' });
+      }
+      setBatchOutcomes([...outcomes]);
+    }
+    setBatchRunning(false);
+  };
+
+  const restoreCustomer = (entry: StoredCustomer<SegmentResult>) => {
+    clearPendingResult();
+    setCustomerId(entry.id); setCustomerName(entry.name); setCustomerNote(entry.note);
+    setValues({ ...entry.values }); setResult(entry.result); setScreen('segment');
+  };
+
+  const exportHistory = () => downloadCsv('project22-lich-su-phan-khuc.csv', [
+    ['ID', 'Tên', 'Ghi chú', 'Thời điểm', 'Cụm', 'Hồ sơ'],
+    ...history.map(entry => [entry.id, entry.name, entry.note, entry.createdAt, entry.result.cluster_id, entry.result.profile.name]),
+  ]);
   const filledExample = (profile: Profile) => {
     clearPendingResult();
     setValues(Object.fromEntries(FIELDS.map(f => [f.key, String(profile.median_spending[f.key])])) as Record<Feature, string>);
   };
   const allRows = dashboard?.experiments.filter(row => row.preprocessing === preprocessing) || [];
   const candidate = allRows.find(row => row.k === candidateK);
+  const entered = FIELDS.filter(f => values[f.key].trim() !== '').length;
+  const currentPage = screen === 'intro' ? 'Giới thiệu' : screen === 'segment' ? 'Phân khúc khách hàng' : 'Dashboard phân tích';
 
   return <div className="app-shell">
     <header className="site-header">
-      <div className="container header-inner">
-        <div className="brand"><span className="brand-mark">K</span><div><strong>KaitoKidShop</strong><small>Phân khúc khách hàng bán sỉ</small></div></div>
+      <div className="header-inner">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">K</span>
+          <div><strong>KaitoKidShop</strong><small>Customer Intelligence</small></div>
+        </div>
+        <div className="sidebar-section-label">KHÔNG GIAN LÀM VIỆC</div>
         <nav className="nav-tabs" aria-label="Điều hướng chính">
           {([{ id: 'intro', label: 'Giới thiệu' }, { id: 'segment', label: 'Phân khúc' }, { id: 'dashboard', label: 'Dashboard' }] as const).map(tab =>
-            <button key={tab.id} className={screen === tab.id ? 'nav-active' : ''} onClick={() => setScreen(tab.id)} aria-current={screen === tab.id ? 'page' : undefined}>{tab.label}</button>)}
+            <button type="button" key={tab.id} className={screen === tab.id ? 'nav-active' : ''}
+              onClick={() => { setScreen(tab.id); window.scrollTo({top:0,behavior:'instant'}); }}
+              aria-current={screen === tab.id ? 'page' : undefined}>
+              <NavIcon screen={tab.id}/><span>{tab.label}</span>
+            </button>)}
         </nav>
+        <div className="sidebar-bottom">
+          <span className="sidebar-indicator" aria-hidden="true"/>
+          <div><strong>{info ? 'D011 · K-Means K=2' : modelError ? 'Mô hình không sẵn sàng' : 'Đang xác minh mô hình'}</strong>
+            <small>{info ? 'Artifact đã đóng băng' : 'Kiểm tra kết nối API'}</small></div>
+        </div>
       </div>
     </header>
     <main className="container main-content">
-      {modelError && <div className="notice notice-error" role="alert">Không tải được mô hình: {modelError}. Kiểm tra Backend và artifact Gate 5.</div>}
+      <div className="workspace-topbar">
+        <div><span className="workspace-overline">PROJECT 22</span><span className="workspace-divider">/</span><strong>{currentPage}</strong></div>
+        <span className="workspace-status"><span aria-hidden="true"/> {info ? 'Model D011 · Chỉ đọc' : modelError ? 'Mô hình không sẵn sàng' : 'Đang kết nối'}</span>
+      </div>
+      {modelError && <div className="notice notice-error" role="alert"><strong>Không tải được mô hình:</strong> {modelError}. Kiểm tra Backend và artifact Gate 5. <button className="btn-inline" type="button" onClick={retryConnection} disabled={reloading}>{reloading ? 'Đang thử lại…' : 'Thử lại kết nối'}</button></div>}
       {screen === 'intro' && <div className="intro">
         <section className="hero">
-          <span className="eyebrow">PROJECT 22 · MACHINE LEARNING</span>
-          <h1>Hiểu cơ cấu chi tiêu, nhận diện phân khúc khách hàng bán sỉ.</h1>
-          <p>Dựa trên dữ liệu UCI Wholesale Customers, mô hình K-Means phân nhóm theo sáu loại chi tiêu hằng năm. Kết quả giúp khám phá đặc điểm nhóm, không đánh giá giá trị của một khách hàng.</p>
-          <div className="hero-actions"><button className="btn-primary" onClick={() => setScreen('segment')}>Thử phân khúc khách hàng →</button><button className="btn-subtle" onClick={() => setScreen('dashboard')}>Xem kết quả thí nghiệm</button></div>
+          <div className="hero-copy">
+            <span className="eyebrow">PHÂN TÍCH KHÁCH HÀNG · PROJECT 22</span>
+            <h1>Hiểu cơ cấu chi tiêu, nhận diện phân khúc khách hàng bán sỉ.</h1>
+            <p>Dựa trên dữ liệu UCI Wholesale Customers, mô hình K-Means phân nhóm theo sáu loại chi tiêu hằng năm. Kết quả giúp khám phá đặc điểm nhóm, không đánh giá giá trị của một khách hàng.</p>
+            <div className="hero-actions"><button className="btn-primary" onClick={() => setScreen('segment')}>Thử phân khúc khách hàng →</button><button className="btn-subtle" onClick={() => setScreen('dashboard')}>Xem kết quả thí nghiệm</button></div>
+          </div>
+          <div className="hero-preview" aria-label="Tổng quan mô hình đã đóng băng">
+            <div className="preview-top"><span>TỔNG QUAN MÔ HÌNH</span><span className="preview-live">D011 · K2</span></div>
+            <strong>Hai phân khúc phát triển</strong>
+            <p>Phân bố dựa trên 352 khách train + validation.</p>
+            {info?.profiles?.length === 2 ? <>
+              <div className="preview-track" role="img" aria-label={'Kích thước cụm: ' + info.profiles.map(p => 'cụm '+p.cluster_id+' '+p.count+' khách').join(', ')}>
+                {info.profiles.map(p => <span key={p.cluster_id} className={'cluster-color-'+p.cluster_id} style={{width:(p.share*100)+'%'}} />)}
+              </div>
+              <div className="preview-rows">{info.profiles.map(p =>
+                <div key={p.cluster_id}><span><i className={'cluster-dot cluster-color-'+p.cluster_id}/>Cụm {p.cluster_id}</span><strong>{formatNumber(p.count)} khách</strong></div>)}</div>
+            </> : <p className="muted small-note">{modelError ? 'Không có bằng chứng mô hình.' : 'Đang tải dữ liệu từ API…'}</p>}
+            <div className="preview-footer">6 đặc trưng · log1p + StandardScaler</div>
+          </div>
         </section>
         <div className="stat-grid">
           <article className="stat"><span>Khách hàng trong bộ dữ liệu</span><strong>440</strong><small>UCI Wholesale Customers</small></article>
@@ -398,6 +628,7 @@ export default function App() {
             <div><h3>Giới hạn</h3><p>{info?.limitations || 'K-Means mô tả nhóm, không phải dự đoán doanh thu hay đánh giá khách hàng.'}</p></div>
           </div>
         </section>
+        <LloydWalkthrough/>
         {info?.data_card && <section className="content-card" aria-label="Data card">
           <div className="section-heading"><h2>Data card</h2><p>Nguồn và điều kiện nhập dữ liệu.</p></div>
           <dl className="model-facts">
@@ -411,24 +642,54 @@ export default function App() {
           <a className="source-link" href={info.data_card.source_url} target="_blank" rel="noopener noreferrer">Nguồn dữ liệu UCI ↗</a>
         </section>}
       </div>}
-      {screen === 'segment' && <section>
+      {screen === 'segment' && <>
+        <section>
         <div className="page-heading"><span className="eyebrow">01 / PHÂN KHÚC KHÁCH HÀNG</span><h1>Phân khúc khách hàng mới</h1><p>Nhập đủ sáu khoản chi tiêu hằng năm theo monetary units (m.u.) của UCI, không mặc định VND. Chỉ áp dụng khi có lịch sử chi tiêu cả năm; không quy đổi hoặc tự điền giá trị còn thiếu.</p></div>
         <div className="segment-grid">
-          <form className="content-card" onSubmit={submit} noValidate>
+          <form className="content-card" onSubmit={submit} noValidate aria-label="Nhập chi tiêu khách hàng">
             <div className="section-heading"><h2>Thông tin chi tiêu</h2><p>Sáu trường bắt buộc, mỗi giá trị là số không âm.</p></div>
-            <div className="input-grid">{FIELDS.map(f => <label className="field" key={f.key}>
-              <span>{f.label} <small>({f.description})</small></span>
-              <input inputMode="decimal" type="number" min="0" step="any" required placeholder="Nhập số tiền" value={values[f.key]}
-                onChange={event => { clearPendingResult(); setValues(prev => ({ ...prev, [f.key]: event.target.value })); }} />
-              <small>{info?.reference_ranges?.[f.key] ? 'Train quan sát: ' + formatNumber(info.reference_ranges[f.key].min) + ' – ' + formatNumber(info.reference_ranges[f.key].max) : 'Giá trị không âm'}</small>
-            </label>)}</div>
+            <div className="form-progress" aria-live="polite">
+              <div><span>Mức độ hoàn thành</span><strong>{entered}/6 trường</strong></div>
+              <div className="form-progress-track" aria-hidden="true"><span style={{width:(entered/6*100)+'%'}}/></div>
+            </div>
+            <div className="input-grid">{FIELDS.map((f,index) => {
+              const raw = values[f.key].trim();
+              const invalid = raw.length > 0 && (!Number.isFinite(Number(raw)) || Number(raw) < 0);
+              return <label className="field" key={f.key}>
+                <span><span className="field-index">{String(index+1).padStart(2,'0')}</span>{f.label} <small>({f.description})</small></span>
+                <div className="field-input">
+                  <input inputMode="decimal" type="number" min="0" step="any" required placeholder="0" value={values[f.key]}
+                    aria-invalid={invalid} aria-describedby={'help-'+f.key}
+                    onChange={event => { clearPendingResult(); setValues(prev => ({ ...prev, [f.key]: event.target.value })); }} />
+                  <span aria-hidden="true">m.u.</span>
+                </div>
+                <small id={'help-'+f.key}>{invalid ? 'Nhập số không âm, hữu hạn.' :
+                  info?.reference_ranges?.[f.key] ? 'Train quan sát: ' + formatNumber(info.reference_ranges[f.key].min) + ' – ' + formatNumber(info.reference_ranges[f.key].max) : 'Giá trị không âm'}</small>
+              </label>;
+            })}</div>
+            <div className="customer-context">
+              <div className="section-heading"><h3>Thông tin tham chiếu (tùy chọn)</h3><p>Chỉ lưu trong trình duyệt này để nhận diện kết quả; không gửi tên, ID hay ghi chú tới model API.</p></div>
+              <div className="context-grid">
+                <label className="field"><span>Mã khách hàng</span><input type="text" maxLength={80} placeholder="VD: KH-001" value={customerId} onChange={event => setCustomerId(event.target.value)} /></label>
+                <label className="field"><span>Tên hiển thị</span><input type="text" maxLength={120} placeholder="VD: Đại lý A" value={customerName} onChange={event => setCustomerName(event.target.value)} /></label>
+                <label className="field context-note"><span>Ghi chú nội bộ</span><textarea maxLength={500} rows={2} placeholder="Ghi chú tùy chọn" value={customerNote} onChange={event => setCustomerNote(event.target.value)} /></label>
+              </div>
+            </div>
             {submitError && <p className="notice notice-error" role="alert">{submitError}</p>}
-            <div className="form-footer"><button className="btn-primary" type="submit" disabled={submitting || !info}>{submitting ? 'Đang xử lý…' : 'Phân khúc khách hàng'}</button><button className="btn-subtle" type="button" onClick={() => { clearPendingResult(); setValues({ Fresh:'', Milk:'', Grocery:'', Frozen:'', Detergents_Paper:'', Delicassen:'' }); }}>Xóa dữ liệu</button></div>
+            <details className="batch-panel">
+              <summary>Nhập nhiều khách hàng từ CSV (tối đa 100 dòng)</summary>
+              <p className="muted small-note">CSV bắt buộc có sáu cột <code>Fresh, Milk, Grocery, Frozen, Detergents_Paper, Delicassen</code>. Có thể thêm <code>id</code>, <code>name</code>, <code>note</code>. Mỗi dòng vẫn được gửi qua API frozen D011, không train lại.</p>
+              <label className="file-picker">Chọn file CSV<input type="file" accept=".csv,text/csv" onChange={parseBatchFile} /></label>
+              {batchError && <p className="notice notice-error" role="alert">{batchError}</p>}
+              {batchRows.length > 0 && <div className="batch-actions"><span>{batchRows.length} dòng đã đọc</span><button className="btn-subtle" type="button" onClick={runBatch} disabled={batchRunning || !info}>{batchRunning ? 'Đang phân tích…' : 'Phân tích CSV'}</button><button className="btn-subtle" type="button" onClick={() => downloadCsv('project22-ket-qua-batch.csv', [['ID','Tên','Trạng thái','Cụm','Thông báo'], ...batchOutcomes.map(row => [row.id,row.name,row.status,row.cluster ?? '',row.message ?? ''])])} disabled={!batchOutcomes.length}>Tải kết quả batch</button></div>}
+              {batchOutcomes.length > 0 && <div className="table-scroll"><table className="data-table batch-table"><caption className="sr-only">Kết quả phân tích CSV</caption><thead><tr><th>ID</th><th>Tên</th><th>Trạng thái</th><th>Cụm</th><th>Chi tiết</th></tr></thead><tbody>{batchOutcomes.map(row => <tr key={row.id}><th scope="row">{row.id}</th><td>{row.name}</td><td>{row.status === 'ok' ? 'Đã phân tích' : 'Lỗi'}</td><td>{row.cluster ?? '—'}</td><td>{row.message ?? 'OK'}</td></tr>)}</tbody></table></div>}
+            </details>
+            <div className="form-footer"><button className="btn-primary" type="submit" disabled={submitting || !info}>{submitting ? 'Đang xử lý…' : 'Phân khúc khách hàng'}</button><button className="btn-subtle" type="button" onClick={() => { clearPendingResult(); setValues(EMPTY_VALUES); setCustomerId(''); setCustomerName(''); setCustomerNote(''); }}>Xóa dữ liệu</button></div>
             <p className="muted small-note">{info?.reference_note || 'Khoảng giá trị là thông tin tham khảo, không phải giới hạn đầu vào cứng.'}</p>
           </form>
           <div className="result-column">
             {result ? <article className="result-card" aria-live="polite">
-              <span className="eyebrow">KẾT QUẢ MÔ HÌNH THỰC</span>
+              <div className="result-heading"><span className="eyebrow">KẾT QUẢ MÔ HÌNH THỰC</span><span className="result-pill">Đã phân tích</span></div>
               <div className="result-id">Cụm {result.cluster_id}</div>
               <h2>{result.profile.name}</h2>
               <p>Khoảng cách tới tâm cụm: <strong>{formatNumber(result.distance_to_centroid, 4)}</strong></p>
@@ -438,29 +699,46 @@ export default function App() {
               <div className="divider-line" />
               <h3>Median chi tiêu của cụm</h3>
               <div className="profile-values">{FIELDS.map(f => <div key={f.key}><span>{f.label}</span><strong>{formatNumber(result.profile.median_spending[f.key])}</strong></div>)}</div>
-            </article> : <div className="empty-result"><div className="empty-icon">◎</div><h2>Chưa có kết quả phân khúc</h2><p>Nhập 6 giá trị và nhấn “Phân khúc khách hàng”. Bạn cũng có thể dùng median thực từ mô hình làm dữ liệu ví dụ:</p><div className="example-actions">{info?.profiles.map(p => <button className="btn-subtle" key={p.cluster_id} onClick={() => filledExample(p)}>Điền ví dụ cụm {p.cluster_id}</button>)}</div></div>}
+              <CustomerInsight input={values} result={result}/>
+            </article> : <div className="empty-result"><div className="empty-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="24" stroke="currentColor" strokeWidth="2"/><circle cx="23" cy="24" r="5" fill="currentColor"/><circle cx="42" cy="27" r="5" fill="currentColor" opacity=".7"/><circle cx="32" cy="43" r="5" fill="currentColor" opacity=".5"/></svg></div><h2>Chưa có kết quả phân khúc</h2><p>Nhập 6 giá trị và nhấn “Phân khúc khách hàng”. Bạn cũng có thể dùng median thực từ mô hình làm dữ liệu ví dụ:</p><div className="example-actions">{info?.profiles.map(p => <button className="btn-subtle" key={p.cluster_id} onClick={() => filledExample(p)}>Điền ví dụ cụm {p.cluster_id}</button>)}</div></div>}
           </div>
         </div>
-      </section>}
+        </section>
+        <section className="history-panel content-card" aria-label="Lịch sử phân khúc trên trình duyệt">
+          <div className="section-heading"><h2>Lịch sử khách hàng trên trình duyệt</h2><p>{history.length ? history.length + ' kết quả gần nhất được lưu cục bộ, không gửi lên server.' : 'Chưa có kết quả nào được lưu.'}</p></div>
+        {history.length > 0 && <div className="history-actions"><button className="btn-subtle" type="button" onClick={exportHistory}>Tải lịch sử CSV</button><button className="btn-subtle" type="button" onClick={() => { setHistory([]); writeCustomerHistory([]); }}>Xóa lịch sử</button></div>}
+        {history.length > 0 && <div className="table-scroll"><table className="data-table"><caption className="sr-only">Lịch sử kết quả phân khúc</caption><thead><tr><th>ID</th><th>Tên</th><th>Cụm</th><th>Thời điểm</th><th>Thao tác</th></tr></thead><tbody>{history.slice(0, 20).map(entry => <tr key={entry.id}><th scope="row">{entry.id}</th><td>{entry.name}</td><td>Cụm {entry.result.cluster_id}</td><td>{new Date(entry.createdAt).toLocaleString('vi-VN')}</td><td><button className="btn-link" type="button" onClick={() => restoreCustomer(entry)}>Mở lại</button></td></tr>)}</tbody></table></div>}
+      </section>
+      </>}
       {screen === 'dashboard' && <section>
         <div className="page-heading"><span className="eyebrow">02 / THÍ NGHIỆM & MÔ HÌNH</span><h1>Dashboard đánh giá K-Means</h1><p>Số liệu từ experiment artifacts và final evaluation đã đóng băng; không chạy lại mô hình hoặc final test.</p></div>
-        {dashboardError && <div className="notice notice-error" role="alert">{dashboardError}</div>}
+        {dashboardError && <div className="notice notice-error" role="alert">{dashboardError} <button className="btn-inline" type="button" onClick={retryAnalysis}>Thử tải lại dashboard</button></div>}
         {!dashboard && !dashboardError && <p className="muted">Đang tải dữ liệu thí nghiệm…</p>}
         {dashboard && <>
+          <nav className="dashboard-shortcuts" aria-label="Truy cập nhanh các phân tích">
+            <a href="#experiment-analysis">Thí nghiệm K=2–8</a>
+            <a href="#pca-analysis">PCA & Ward</a>
+            <a href="#cluster-profiles">Hồ sơ cụm</a>
+            <a href="#model-information">Thông số mô hình</a>
+          </nav>
           <div className="stat-grid">
             <article className="stat"><span>K đã chọn</span><strong>2</strong><small>Log1p + StandardScaler</small></article>
             <article className="stat"><span>Silhouette development</span><strong>{formatNumber(dashboard.training.silhouette, 4)}</strong><small>{dashboard.training.rows} mẫu</small></article>
             <article className="stat"><span>Silhouette final test</span><strong>{formatNumber(dashboard.final_test.silhouette, 4)}</strong><small>Đã đánh giá một lần</small></article>
             <article className="stat"><span>Final test độc lập</span><strong>{dashboard.final_test.rows}</strong><small>Khách hàng, không tham gia fit</small></article>
           </div>
-          <section className="content-card"><div className="section-heading"><h2>So sánh K=2..8</h2><p>Chọn một không gian để xem inertia; không so sánh trực tiếp trị số inertia giữa raw và scaled.</p></div>
+          <section id="experiment-analysis" className="content-card"><div className="section-heading"><h2>So sánh K=2..8</h2><p>Chọn một không gian để xem inertia; không so sánh trực tiếp trị số inertia giữa raw và scaled.</p></div>
             <div className="toggle-row"><button className={preprocessing === 'log1p_standardscaler' ? 'toggle-selected' : ''} onClick={() => setPreprocessing('log1p_standardscaler')}>Log1p + StandardScaler</button><button className={preprocessing === 'raw' ? 'toggle-selected' : ''} onClick={() => setPreprocessing('raw')}>Raw</button></div>
             <div className="charts"><Chart title="Elbow · Train inertia" description="Thấp hơn khi K tăng; dùng xem mức thay đổi trong cùng preprocessing." rows={allRows} metric="train_inertia" /><Chart title="Validation silhouette" description="Giá trị cao hơn biểu thị phân tách tốt hơn theo metric này." rows={allRows} metric="validation_silhouette" /><Chart title="ARI stability qua 10 seed" description="Độ nhất quán gán cụm giữa các lần khởi tạo." rows={allRows} metric="ari" /></div>
             <CandidateExplorer candidate={candidate} selectionK={dashboard.k} preprocessing={preprocessing}
               valueK={candidateK} onChangeK={setCandidateK}/>
+            <ExperimentReport experiments={dashboard.experiments} profile={dashboard.final_profile}/>
             <p className="muted small-note">{dashboard.metric_note}</p>
           </section>
-          <section className="content-card" aria-label="Hồ sơ phân khúc cuối">
+          {extensionError && <div className="notice notice-error" role="alert">Phân tích PCA/Ward chưa sẵn sàng: {extensionError} <button className="btn-inline" type="button" onClick={retryAnalysis}>Thử tải lại PCA/Ward</button></div>}
+          {extension && <div id="pca-analysis"><DevelopmentAnalytics data={extension}/></div>}
+          {!extension && !extensionError && <p className="muted">Đang tải bằng chứng PCA/Ward…</p>}
+          <section id="cluster-profiles" className="content-card" aria-label="Hồ sơ phân khúc cuối">
             <div className="section-heading"><h2>Hồ sơ 2 phân khúc cuối</h2>
               <p>Model D011 K=2; hậu phân cụm trên {dashboard.final_profile.development_count} khách train + validation, không sử dụng tập test.</p>
             </div>
@@ -479,7 +757,7 @@ export default function App() {
               <p>Đơn vị chi tiêu theo dữ liệu UCI Wholesale Customers; số liệu trích từ model đã đóng băng.</p></div>
             <div className="profile-grid">{dashboard.final_profile.cluster_summary.map(p => <ProfileCard key={p.cluster_id} profile={p} />)}</div>
           </section>
-          <section className="content-card"><div className="section-heading"><h2>Model card</h2><p>Trạng thái mô hình đã freeze trước final test.</p></div>
+          <section id="model-information" className="content-card"><div className="section-heading"><h2>Model card</h2><p>Trạng thái mô hình đã freeze trước final test.</p></div>
             <dl className="model-facts"><div><dt>Preprocessing</dt><dd>log1p + StandardScaler</dd></div><div><dt>Số cụm</dt><dd>2</dd></div><div><dt>Huấn luyện</dt><dd>{dashboard.final_profile.development_count} khách (train + validation)</dd></div><div><dt>Final test</dt><dd>88 khách, silhouette {formatNumber(dashboard.final_test.silhouette, 6)}</dd></div><div><dt>Artifact SHA-256</dt><dd className="hash">{dashboard.final_profile.model_sha256}</dd></div>
               <div><dt>Phạm vi profiling</dt><dd>Development 352 · Channel/Region chỉ diễn giải</dd></div>
               <div><dt>Hồ sơ kiểm chứng</dt><dd>{Object.keys(dashboard.final_profile.evidence_sha256).length} CSV đã xác minh SHA-256 tại Backend</dd></div>
@@ -490,6 +768,7 @@ export default function App() {
                 <div><dt>Số vòng lặp tối đa</dt><dd>{info.model_card.max_iter}</dd></div>
                 <div><dt>Tập chọn mô hình</dt><dd>Train / validation; không dùng final test</dd></div>
                 <div><dt>Đơn vị đầu vào</dt><dd>{info.data_card.spending_unit} / năm; không xác định VND</dd></div>
+                <div><dt>Ngưỡng rà soát</dt><dd>Margin &lt; {formatNumber(info.diagnostic_policy.near_boundary_relative_margin * 100, 0)}% hoặc khoảng cách &gt; {formatNumber(info.diagnostic_policy.high_distance_ratio_to_development_rms, 1)}× RMS development</dd></div>
               </>}
             </dl>
             {info?.model_card && <div className="interpretation-grid">

@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <g id="page-background" data-pptx-role="background">
+    <rect width="1280" height="720" fill="#F8FAFC"/>
+    <rect width="1280" height="6" fill="url(#headerGrad)"/>
+  </g>
+
+  <!-- Slide Header -->
+  <g id="header">
+    <rect x="70" y="32" width="160" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="150.0" y="49" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle" letter-spacing="1">THỰC NGHIỆM 01</text>
+    <text x="70" y="92" font-size="32" font-weight="bold" fill="#0F172A">So Sánh Tiền Xử Lý: Dữ Liệu Thô (Raw) vs Log1p + Scaler</text>
+    <text x="70" y="118" font-size="15" fill="#475569">Triệt tiêu độ lệch phải cực đoan và chuẩn hóa toàn diện không gian vector chi tiêu</text>
+  </g>
+
+  <!-- Main Slide Content -->
+  
+  <!-- Left Card: Raw Features Issues -->
+  <g id="raw-issues">
+    <rect x="70" y="150" width="520" height="515" rx="14" fill="#FFFFFF" stroke="#FECACA" stroke-width="1.5"/>
+    <rect x="70" y="150" width="520" height="6" rx="3" fill="#DC2626"/>
+
+    <!-- Header Pill -->
+    <rect x="95" y="175" width="220" height="34" rx="17" fill="#FEE2E2"/>
+    <circle cx="112" cy="192" r="11" fill="#DC2626"/>
+    <text x="112" y="197" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">X</text>
+    <text x="135" y="197" font-size="14" font-weight="bold" fill="#991B1B">DỮ LIỆU THÔ (RAW DATA)</text>
+
+    <!-- Skewness Title -->
+    <text x="95" y="240" font-size="15" font-weight="bold" fill="#0F172A">Độ lệch (Skewness) cực cao:</text>
+    <text x="95" y="260" font-size="12" fill="#64748B">reports/data/eda/train_skewness.csv</text>
+
+    <!-- Bar 1: Delicassen -->
+    <text x="95" y="295" font-size="13" fill="#334155">Delicassen:</text>
+    <rect x="185" y="282" width="230" height="18" rx="4" fill="#EF4444"/>
+    <text x="425" y="296" font-size="13" font-weight="bold" fill="#DC2626">+12.12 (Cực lệch)</text>
+
+    <!-- Bar 2: Milk -->
+    <text x="95" y="325" font-size="13" fill="#334155">Milk:</text>
+    <rect x="185" y="312" width="90" height="18" rx="4" fill="#F97316"/>
+    <text x="285" y="326" font-size="13" font-weight="bold" fill="#C2410C">+4.28</text>
+
+    <!-- Bar 3: Frozen -->
+    <text x="95" y="355" font-size="13" fill="#334155">Frozen:</text>
+    <rect x="185" y="342" width="75" height="18" rx="4" fill="#F97316"/>
+    <text x="270" y="356" font-size="13" font-weight="bold" fill="#C2410C">+3.53</text>
+
+    <!-- Bar 4: Grocery -->
+    <text x="95" y="385" font-size="13" fill="#334155">Grocery:</text>
+    <rect x="185" y="372" width="60" height="18" rx="4" fill="#FBBF24"/>
+    <text x="255" y="386" font-size="13" font-weight="bold" fill="#B45309">+2.76</text>
+
+    <!-- Scale Disparity -->
+    <text x="95" y="430" font-size="15" font-weight="bold" fill="#0F172A">Chênh lệch thang đo lớn:</text>
+    <rect x="95" y="445" width="470" height="65" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="115" y="472" font-size="13" fill="#334155">• Fresh: <tspan font-weight="bold" fill="#0F172A">3 → 112,151 m.u.</tspan> (Biên độ gấp hàng nghìn lần)</text>
+    <text x="115" y="495" font-size="13" fill="#334155">• Milk: <tspan font-weight="bold">55 → 73,498 m.u.</tspan> | Delicassen: <tspan font-weight="bold">7 → 47,943 m.u.</tspan></text>
+
+    <!-- Consequence Warning Box -->
+    <rect x="95" y="530" width="470" height="110" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.5"/>
+    <text x="115" y="560" font-size="14" font-weight="bold" fill="#991B1B">HỆ QUẢ KỸ THUẬT NGHIÊM TRỌNG:</text>
+    <text x="115" y="585" font-size="13" fill="#7F1D1D">✗ Khoảng cách Euclidean bị chi phối hoàn toàn bởi Fresh/Grocery</text>
+    <text x="115" y="608" font-size="13" fill="#7F1D1D">✗ K-Means trên Raw bị méo mó, nuốt cụm nhỏ (K&gt;=4 có cụm &lt;1%)</text>
+    <text x="115" y="628" font-size="13" fill="#7F1D1D">✗ Không phản ánh đúng cơ cấu chi tiêu tương đối</text>
+  </g>
+
+  <!-- Center Transformation Bridge -->
+  <g id="transform-bridge">
+    <rect x="605" y="280" width="70" height="180" rx="35" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+    <text x="640" y="325" font-size="11" font-weight="bold" fill="#1D4ED8" text-anchor="middle">log1p(x)</text>
+    <path d="M640 345 L640 375" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="635,375 640,385 645,375" fill="#3B82F6"/>
+    <text x="640" y="415" font-size="11" font-weight="bold" fill="#059669" text-anchor="middle">Standard</text>
+    <text x="640" y="432" font-size="11" font-weight="bold" fill="#059669" text-anchor="middle">Scaler</text>
+  </g>
+
+  <!-- Right Card: Preprocessed Solution -->
+  <g id="log1p-solution">
+    <rect x="690" y="150" width="520" height="515" rx="14" fill="#FFFFFF" stroke="#BBF7D0" stroke-width="1.5"/>
+    <rect x="690" y="150" width="520" height="6" rx="3" fill="#059669"/>
+
+    <!-- Header Pill -->
+    <rect x="715" y="175" width="280" height="34" rx="17" fill="#DCFCE7"/>
+    <circle cx="732" cy="192" r="11" fill="#059669"/>
+    <path d="M727 192 L731 196 L737 188" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <text x="752" y="197" font-size="14" font-weight="bold" fill="#065F46">LOG1P + STANDARD SCALER</text>
+
+    <!-- Skewness Reduction Title -->
+    <text x="715" y="240" font-size="15" font-weight="bold" fill="#0F172A">Triệt tiêu Skewness (Giảm đến 92.6%):</text>
+    <text x="715" y="260" font-size="12" fill="#64748B">reports/data/eda/preprocessing_comparison.csv</text>
+
+    <!-- Bar 1: Delicassen -->
+    <text x="715" y="295" font-size="13" fill="#334155">Delicassen:</text>
+    <rect x="805" y="282" width="25" height="18" rx="4" fill="#10B981"/>
+    <text x="840" y="296" font-size="13" font-weight="bold" fill="#059669">-0.90 (Giảm từ +12.12!)</text>
+
+    <!-- Bar 2: Milk -->
+    <text x="715" y="325" font-size="13" fill="#334155">Milk:</text>
+    <rect x="805" y="312" width="10" height="18" rx="4" fill="#10B981"/>
+    <text x="825" y="326" font-size="13" font-weight="bold" fill="#059669">-0.17 (Gần như đối xứng)</text>
+
+    <!-- Bar 3: Frozen -->
+    <text x="715" y="355" font-size="13" fill="#334155">Frozen:</text>
+    <rect x="805" y="342" width="15" height="18" rx="4" fill="#10B981"/>
+    <text x="830" y="356" font-size="13" font-weight="bold" fill="#059669">-0.46</text>
+
+    <!-- Bar 4: Grocery -->
+    <text x="715" y="385" font-size="13" fill="#334155">Grocery:</text>
+    <rect x="805" y="372" width="22" height="18" rx="4" fill="#10B981"/>
+    <text x="837" y="386" font-size="13" font-weight="bold" fill="#059669">-0.94</text>
+
+    <!-- Standardization Properties -->
+    <text x="715" y="430" font-size="15" font-weight="bold" fill="#0F172A">Cân bằng thang đo hoàn hảo:</text>
+    <rect x="715" y="445" width="470" height="65" rx="8" fill="#F0FDF4" stroke="#DCFCE7"/>
+    <text x="735" y="472" font-size="13" fill="#065F46">✓ Tất cả 6 đặc trưng: <tspan font-weight="bold">Mean = 0, Std = 1.0</tspan></text>
+    <text x="735" y="495" font-size="13" fill="#065F46">✓ Trọng số các biến đóng góp đồng đều vào khoảng cách phân cụm</text>
+
+    <!-- Outcome Highlights Grid -->
+    <g id="preproc-kpi">
+      <rect x="715" y="530" width="225" height="110" rx="10" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+      <text x="735" y="560" font-size="13" font-weight="bold" fill="#065F46">ĐỘ ỔN ĐỊNH SEED (K=2)</text>
+      <text x="735" y="600" font-size="32" font-weight="bold" fill="#059669">ARI: 0.997</text>
+      <text x="735" y="625" font-size="12" fill="#064E3B">100% agreement qua 10 seed</text>
+
+      <rect x="960" y="530" width="225" height="110" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+      <text x="980" y="560" font-size="13" font-weight="bold" fill="#1E40AF">SILHOUETTE VALIDATION</text>
+      <text x="980" y="600" font-size="32" font-weight="bold" fill="#2563EB">0.307</text>
+      <text x="980" y="625" font-size="12" fill="#1E3A8A">Tách cụm rõ &amp; phân phối cân bằng</text>
+    </g>
+  </g>
+
+
+  <!-- Slide Footer -->
+  <g id="footer" data-pptx-role="footer">
+    <line x1="70" y1="675" x2="1210" y2="675" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="696" font-size="13" fill="#64748B">Quyết định đóng băng D011: Lựa chọn log1p + StandardScaler cho toàn bộ hệ thống phục vụ</text>
+    <text x="1210" y="696" font-size="13" font-weight="bold" fill="#475569" text-anchor="end">05 / 15</text>
+  </g>
+</svg>

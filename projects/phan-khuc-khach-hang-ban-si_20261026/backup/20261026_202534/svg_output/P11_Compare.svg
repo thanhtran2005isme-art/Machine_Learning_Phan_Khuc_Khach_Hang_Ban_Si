@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">SO SÁNH</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">6 chi tiêu giữa hai cụm (median, đã chuẩn hóa mỗi chi tiêu)</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <rect x="290" y="170" width="8" height="16" fill="#0B3C5D"/>
+  <text x="310" y="182" font-family="Arial" font-size="15" fill="#0B3C5D" text-anchor="start">Cụm 0</text>
+  <rect x="290" y="192" width="8" height="16" fill="#2E86AB"/>
+  <text x="310" y="204" font-family="Arial" font-size="15" fill="#2E86AB" text-anchor="start">Cụm 1</text>
+  <text x="80" y="246" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="end">Fresh</text>
+  <rect x="300" y="236" width="581" height="10" fill="#0B3C5D"/>
+  <rect x="300" y="248" width="880" height="10" fill="#2E86AB"/>
+  <text x="895" y="246" font-family="Arial" font-size="13" fill="#0B3C5D" text-anchor="end">6.410,5</text>
+  <text x="1194" y="258" font-family="Arial" font-size="13" fill="#2E86AB" text-anchor="end">9.727,5</text>
+  <text x="80" y="298" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="end">Milk</text>
+  <rect x="300" y="288" width="880" height="10" fill="#0B3C5D"/>
+  <rect x="300" y="300" width="194" height="10" fill="#2E86AB"/>
+  <text x="1194" y="298" font-family="Arial" font-size="13" fill="#0B3C5D" text-anchor="end">7.226</text>
+  <text x="508" y="310" font-family="Arial" font-size="13" fill="#2E86AB" text-anchor="end">1.626</text>
+  <text x="80" y="350" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="end">Grocery</text>
+  <rect x="300" y="340" width="880" height="10" fill="#0B3C5D"/>
+  <rect x="300" y="352" width="194" height="10" fill="#2E86AB"/>
+  <text x="1194" y="350" font-family="Arial" font-size="13" fill="#0B3C5D" text-anchor="end">10.842,5</text>
+  <text x="508" y="362" font-family="Arial" font-size="13" fill="#2E86AB" text-anchor="end">2.175,5</text>
+  <text x="80" y="402" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="end">Frozen</text>
+  <rect x="300" y="392" width="466" height="10" fill="#0B3C5D"/>
+  <rect x="300" y="404" width="880" height="10" fill="#2E86AB"/>
+  <text x="780" y="402" font-family="Arial" font-size="13" fill="#0B3C5D" text-anchor="end">1.153</text>
+  <text x="1194" y="416" font-family="Arial" font-size="13" fill="#2E86AB" text-anchor="end">2.194,5</text>
+  <text x="80" y="454" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="start">Detergents_Paper</text>
+  <rect x="300" y="444" width="880" height="10" fill="#0B3C5D"/>
+  <rect x="300" y="456" width="62" height="10" fill="#2E86AB"/>
+  <text x="1194" y="454" font-family="Arial" font-size="13" fill="#0B3C5D" text-anchor="end">4.084,5</text>
+  <text x="376" y="466" font-family="Arial" font-size="13" fill="#2E86AB" text-anchor="end">279,5</text>
+  <text x="80" y="506" font-family="Arial" font-size="15" fill="#1A1A1A" text-anchor="end">Delicassen</text>
+  <rect x="300" y="496" width="880" height="10" fill="#0B3C5D"/>
+  <rect x="300" y="508" width="387" height="10" fill="#2E86AB"/>
+  <text x="1194" y="506" font-family="Arial" font-size="13" fill="#0B3C5D" text-anchor="end">1.508,5</text>
+  <text x="701" y="518" font-family="Arial" font-size="13" fill="#2E86AB" text-anchor="end">662</text>
+  <text x="80" y="560" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="start">Cụm 0 mạnh hơn trên Grocery/Milk/Detergents_Paper; Cụm 1 mạnh hơn trên Fresh/Frozen. Mỗi bar đã đượcchuẩn hóa theo chi tiêu đó (max = 100%).</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P11</text>
+</svg>

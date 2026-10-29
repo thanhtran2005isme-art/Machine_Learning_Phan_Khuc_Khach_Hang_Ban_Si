@@ -1,0 +1,108 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <filter id="softShadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <g id="header" data-pptx-bounds="60 50 1160 80">
+    <text x="60" y="90" font-size="42" font-weight="bold" fill="#1F2937">Model Cuối Cùng — D011 <tspan fill="#EF4444">(FROZEN)</tspan></text>
+    <rect x="60" y="105" width="120" height="4" rx="2" fill="url(#accentBar)"/>
+  </g>
+  
+  <!-- Frozen Badge -->
+  <g id="frozen-badge">
+    <rect x="1050" y="55" width="170" height="50" rx="25" fill="#DCFCE7" stroke="#10B981" stroke-width="3"/>
+    <text x="1135" y="87" font-size="20" font-weight="bold" fill="#065F46" text-anchor="middle">✓ FROZEN</text>
+  </g>
+  
+  <!-- Configuration Card -->
+  <g id="configuration" data-pptx-bounds="60 160 560 360">
+    <rect x="60" y="160" width="560" height="360" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="60" y="160" width="560" height="60" rx="16" fill="#EFF6FF"/>
+    <text x="90" y="200" font-size="22" font-weight="bold" fill="#1E40AF">Configuration</text>
+    
+    <g id="config-details">
+      <text x="90" y="255" font-size="16" fill="#6B7280">Preprocessing:</text>
+      <text x="350" y="255" font-size="17" font-weight="bold" fill="#1F2937">log1p + StandardScaler</text>
+      
+      <text x="90" y="290" font-size="16" fill="#6B7280">K:</text>
+      <text x="350" y="290" font-size="17" font-weight="bold" fill="#2563EB">2 clusters</text>
+      
+      <text x="90" y="325" font-size="16" fill="#6B7280">Algorithm:</text>
+      <text x="350" y="325" font-size="17" font-weight="bold" fill="#1F2937">lloyd</text>
+      
+      <text x="90" y="360" font-size="16" fill="#6B7280">n_init:</text>
+      <text x="350" y="360" font-size="17" font-weight="bold" fill="#1F2937">10</text>
+      
+      <text x="90" y="395" font-size="16" fill="#6B7280">max_iter:</text>
+      <text x="350" y="395" font-size="17" font-weight="bold" fill="#1F2937">300</text>
+      
+      <text x="90" y="430" font-size="16" fill="#6B7280">Random state:</text>
+      <text x="350" y="430" font-size="17" font-weight="bold" fill="#1F2937">42</text>
+      
+      <text x="90" y="470" font-size="16" fill="#6B7280">Decision date:</text>
+      <text x="350" y="470" font-size="17" font-weight="bold" fill="#EF4444">2026-10-08</text>
+      
+      <text x="90" y="500" font-size="14" fill="#9CA3AF" font-style="italic">(BEFORE opening test)</text>
+    </g>
+  </g>
+  
+  <!-- Rationale Card -->
+  <g id="rationale" data-pptx-bounds="660 160 560 230">
+    <rect x="660" y="160" width="560" height="230" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" filter="url(#softShadow)"/>
+    <rect x="660" y="160" width="560" height="60" rx="16" fill="#DCFCE7"/>
+    <text x="690" y="200" font-size="22" font-weight="bold" fill="#065F46">Rationale</text>
+    
+    <g id="rationale-points">
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="235" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="255" font-size="16" fill="#1F2937">Validation silhouette: <tspan font-weight="bold" fill="#10B981">0.3066</tspan></text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="270" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="290" font-size="16" fill="#1F2937">Seed ARI: <tspan font-weight="bold" fill="#10B981">0.9970</tspan> (high stability)</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="305" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="325" font-size="16" fill="#1F2937">Balanced sizes (min share 44.70%)</text>
+      
+      <use data-icon="phosphor-duotone/check-circle" x="690" y="340" width="24" height="24" fill="#10B981"/>
+      <text x="725" y="360" font-size="16" fill="#1F2937">Refit ARI: 0.8893 vs K3's 0.3343</text>
+    </g>
+  </g>
+  
+  <!-- Final Test Results -->
+  <g id="final-test" data-pptx-bounds="660 420 560 100">
+    <rect x="660" y="420" width="560" height="100" rx="16" fill="#FEF2F2" stroke="#EF4444" stroke-width="3"/>
+    <text x="690" y="455" font-size="20" font-weight="bold" fill="#991B1B">Final Test (88 samples, ONE time only)</text>
+    <text x="690" y="485" font-size="17" fill="#7F1D1D">
+      · Silhouette: <tspan font-weight="bold">0.2389</tspan>
+    </text>
+    <text x="690" y="510" font-size="17" fill="#7F1D1D">
+      · Cluster sizes: <tspan font-weight="bold">45 / 43</tspan> (balanced ✓)
+    </text>
+  </g>
+  
+  <!-- Key Takeaway -->
+  <g id="takeaway" data-pptx-bounds="60 550 1160 80">
+    <rect x="60" y="550" width="1160" height="80" rx="12" fill="#EFF6FF"/>
+    <text x="90" y="585" font-size="20" font-weight="bold" fill="#1E40AF">
+      K=2 with log1p + StandardScaler is the official frozen model
+    </text>
+    <text x="90" y="615" font-size="17" fill="#1E3A8A">
+      Stable, interpretable, and ready for production deployment
+    </text>
+  </g>
+  
+  <!-- Footer -->
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="60 680 1160 30">
+    <text x="60" y="700" font-size="14" fill="#9CA3AF">Project 22: K-Means Customer Segmentation</text>
+    <text x="1220" y="700" font-size="14" fill="#9CA3AF" text-anchor="end">8 / 15</text>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1280" height="10" fill="#0B3C5D"/>
+  <text x="80" y="40" font-family="Arial" font-size="16" font-weight="bold" fill="#14537C" text-anchor="start">CHUỖI XỬ LÝ</text>
+  <text x="80" y="72" font-family="Arial" font-size="34" font-weight="bold" fill="#0B3C5D" text-anchor="start">Tiền xử lý &amp; chia dữ liệu</text>
+  <rect x="80" y="102" width="56" height="5" fill="#2E86AB"/>
+  <text x="80" y="136" font-family="Arial" font-size="20" font-weight="bold" fill="#0B3C5D" text-anchor="start">Tiền xử lý (chỉ 6 chi tiêu)</text>
+  <text x="80" y="170" font-family="Arial" font-size="18" fill="#1A1A1A" text-anchor="start">log1p(x)  →  StandardScaler  →  K-Means</text>
+  <text x="80" y="198" font-family="Arial" font-size="16" fill="#6B7280" text-anchor="start">Channel và Region không tham gia fit; chỉ profiling sau phân cụm</text>
+  <text x="80" y="236" font-family="Arial" font-size="20" font-weight="bold" fill="#0B3C5D" text-anchor="start">Chia dữ liệu (split trước khi học preprocessing)</text>
+  <rect x="80" y="276" width="340" height="150" rx="12" fill="#E9ECEF"/>
+  <rect x="80" y="276" width="340" height="5" rx="2" fill="#2E86AB"/>
+  <text x="250" y="328" font-family="Arial" font-size="44" font-weight="bold" fill="#0B3C5D" text-anchor="middle">264</text>
+  <text x="250" y="362" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Train</text>
+  <text x="250" y="384" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">60%</text>
+  <rect x="460" y="276" width="340" height="150" rx="12" fill="#E9ECEF"/>
+  <rect x="460" y="276" width="340" height="5" rx="2" fill="#2E86AB"/>
+  <text x="630" y="328" font-family="Arial" font-size="44" font-weight="bold" fill="#0B3C5D" text-anchor="middle">88</text>
+  <text x="630" y="362" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Validation</text>
+  <text x="630" y="384" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">20%</text>
+  <rect x="840" y="276" width="340" height="150" rx="12" fill="#E9ECEF"/>
+  <rect x="840" y="276" width="340" height="5" rx="2" fill="#2E86AB"/>
+  <text x="1010" y="328" font-family="Arial" font-size="44" font-weight="bold" fill="#0B3C5D" text-anchor="middle">88</text>
+  <text x="1010" y="362" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">Test</text>
+  <text x="1010" y="384" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="middle">20%</text>
+  <text x="80" y="462" font-family="Arial" font-size="15" fill="#6B7280" text-anchor="start">Test 88 mẫu được khóa, đánh giá một lần sau khi mô hình đóng băng; không dùng để chọn K, seed hay tiền xử lý.</text>
+  <text x="1200" y="704" font-family="Arial" font-size="13" fill="#6B7280" text-anchor="end">Project 22 · P04</text>
+</svg>
